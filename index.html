@@ -164,7 +164,7 @@ header h1 { font-size: 14px; font-weight: 600; letter-spacing: .3px; }
         <div class="sc">
           <div class="sc-head">
             Backup &amp; Notes
-            <div class="sc-head-sub">Backup Now only overwrites Store 8181 section &mdash; Other Stores section is never touched</div>
+            <div class="sc-head-sub">Tap Backup Now to snapshot all credentials &bull; Copy pastes to clipboard &bull; Other Stores section never overwritten</div>
           </div>
           <div class="sc-body">
             <div class="zone-lbl" style="margin-top:0;padding-top:0;border-top:none;">2nd Store / Template Tool</div>
@@ -340,7 +340,7 @@ function checkPin() {
     document.getElementById("lock-btn").style.display = "inline-block";
     document.getElementById("settings-tab").style.display = role === "o" ? "block" : "none";
     document.getElementById("role-pill").textContent = role === "o" ? "Owner" : "Employee";
-    document.getElementById("creds-hint").textContent = "Tap any field to edit — QR updates instantly.  Tap elsewhere on a row to enlarge.";
+    document.getElementById("creds-hint").textContent = "Tap any field to edit — QR updates instantly.  Tap elsewhere on a row to enlarge.  Use Portals tab for quick links.  Settings tab to change PINs and back up.";
     if (role === "o") {
       document.getElementById("o-pin").value = pins.o;
       document.getElementById("e-pin").value = pins.e;
