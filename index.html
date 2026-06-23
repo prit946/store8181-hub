@@ -174,6 +174,7 @@ header h1 { font-size: 14px; font-weight: 600; letter-spacing: .3px; }
             <div class="btn-row">
               <button class="btn-pri" onclick="backupNow()">Backup Now</button>
               <button class="btn-sec" onclick="copyBackup()">Copy</button>
+              <button class="btn-sec" onclick="copyForOtherStore()">Copy for Other Store</button>
               <span id="copy-msg">&#10003; Done</span>
             </div>
             <textarea class="notes-ta" id="notes-s8181" style="min-height:220px;" placeholder="Tap Backup Now to fill this with all current credentials."></textarea>
@@ -499,6 +500,24 @@ function backupNow() {
   localStorage.setItem(LS, JSON.stringify({ accounts, pins, notesS8181, notesOther }));
   const m = document.getElementById("copy-msg"); m.textContent = "Backup updated";
   m.style.display = "inline"; setTimeout(() => { m.style.display = "none"; }, 2000);
+}
+
+function copyForOtherStore() {
+  const storeName = prompt("Enter store number or name (e.g. Store 8182):");
+  if (!storeName) return;
+  const header = "\n--- " + storeName + " | " + new Date().toLocaleDateString() + " ---\n";
+  const text = header + buildBackupText() + "\n--- end " + storeName + " ---\n";
+  const done = () => {
+    const m = document.getElementById("copy-msg");
+    m.textContent = "Copied — paste into Other Store Backups section";
+    m.style.display = "inline";
+    setTimeout(() => { m.style.display = "none"; m.textContent = "Done"; }, 3000);
+  };
+  navigator.clipboard?.writeText(text).then(done).catch(() => {
+    const ta = document.createElement("textarea"); ta.value = text;
+    document.body.appendChild(ta); ta.select(); document.execCommand("copy");
+    document.body.removeChild(ta); done();
+  });
 }
 
 function copyBackup() {
