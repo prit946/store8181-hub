@@ -153,6 +153,26 @@ header h1 { font-size: 14px; font-weight: 600; letter-spacing: .3px; }
       <div class="settings-stack">
 
         <div class="sc">
+          <div class="sc-head">Getting Started</div>
+          <div class="sc-body">
+            <div style="font-size:12px;color:#444;line-height:1.9;">
+              <strong style="color:#0498BC;">1. Set your PINs</strong><br>
+              Below in PIN Settings — choose a 4-digit Owner PIN and Employee PIN.<br><br>
+              <strong style="color:#0498BC;">2. Fill in your credentials</strong><br>
+              Go to the Credentials tab — tap any title, username, or password field to edit. QR codes generate automatically.<br><br>
+              <strong style="color:#0498BC;">3. Add or remove profiles</strong><br>
+              Owner login only — tap + Add Account to create new profiles, or X to delete ones you don't need.<br><br>
+              <strong style="color:#0498BC;">4. Share with employees</strong><br>
+              Send them this same URL. They log in with the Employee PIN and only see the profiles you marked as employee-visible.<br><br>
+              <strong style="color:#0498BC;">5. Back up your data</strong><br>
+              Settings → Backup Now — copies all credentials as text. Paste into Apple Notes or Google Docs to keep a safe copy.<br><br>
+              <strong style="color:#0498BC;">6. Changing passwords (every 30 days)</strong><br>
+              Log in as Owner → tap the password field → type the new password → QR updates instantly. All devices sync automatically on next login.
+            </div>
+          </div>
+        </div>
+
+        <div class="sc">
           <div class="sc-head">PIN Settings</div>
           <div class="sc-body">
             <div class="pin-field"><label>Owner PIN</label><input id="o-pin" maxlength="4" inputmode="numeric" oninput="autoSavePins()"></div>
@@ -338,7 +358,7 @@ function checkPin() {
     document.getElementById("lock-btn").style.display = "inline-block";
     document.getElementById("settings-tab").style.display = role === "o" ? "block" : "none";
     document.getElementById("role-pill").textContent = role === "o" ? "Owner" : "Employee";
-    document.getElementById("creds-hint").textContent = "Tap any field to edit — QR updates instantly.  Tap elsewhere on a row to enlarge.";
+    document.getElementById("creds-hint").textContent = "Welcome — tap any field to edit. QR codes generate automatically.  Tap anywhere else on a row to enlarge.  Visit Settings to set your PINs and back up your data.";
     if (role === "o") {
       document.getElementById("o-pin").value = pins.o;
       document.getElementById("e-pin").value = pins.e;
