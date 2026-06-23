@@ -191,12 +191,19 @@ header h1 { font-size: 14px; font-weight: 600; letter-spacing: .3px; }
             <a class="btn-teal" href="https://drive.google.com/file/d/1zeh06A_uOgt7V6GCuM3mKeLwEbcI6CVT/view" target="_blank" rel="noopener">This IS the blank template</a>
 
             <div class="zone-lbl">Store 8181 Backup</div>
+            <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:5px;padding:10px 12px;margin-bottom:12px;font-size:11px;color:#555;line-height:1.7;">
+              <strong style="color:#0498BC;">Every 30 days when passwords change:</strong><br>
+              1. Tap <strong>Backup Now</strong> to update this section with current passwords<br>
+              2. Tap <strong>Copy</strong> to copy everything to clipboard<br>
+              3. Paste into your <strong>Apple Notes or Google Docs</strong> for a safe offline copy<br>
+              4. Share updated passwords with employees by having them re-open this tool &mdash; they pull latest automatically if sync is set up, or you tell them the new password directly.
+            </div>
             <div class="btn-row">
               <button class="btn-pri" onclick="backupNow()">Backup Now</button>
               <button class="btn-sec" onclick="copyBackup()">Copy</button>
               <span id="copy-msg">&#10003; Done</span>
             </div>
-            <textarea class="notes-ta" id="notes-s8181" style="min-height:220px;" placeholder="Tap Backup Now to fill this with all current credentials."></textarea>
+            <textarea class="notes-ta" id="notes-s8181" style="min-height:180px;" placeholder="Tap Backup Now to fill this with all current credentials."></textarea>
 
             <div class="zone-lbl">Other Store Backups</div>
             <textarea class="notes-ta" id="notes-other" style="min-height:140px;" placeholder="Paste backups from other stores here. Never overwritten by Backup Now."></textarea>
