@@ -206,8 +206,16 @@ header h1 { font-size: 14px; font-weight: 600; letter-spacing: .3px; }
         <div class="sc">
           <div class="sc-head">Reset</div>
           <div class="sc-body">
-            <div style="font-size:11px;color:#888;margin-bottom:12px;">Reset all credentials to original defaults. Custom accounts will be removed.</div>
+            <div style="font-size:11px;color:#888;margin-bottom:12px;">Reset all credentials to original blank defaults. All custom accounts will be removed.</div>
             <button class="btn-danger" onclick="resetDefaults()">Reset to Defaults</button>
+          </div>
+        </div>
+
+        <div class="sc">
+          <div class="sc-head" style="background:#7f0000;color:#ffaaaa;">Start Fresh — Wipe Everything</div>
+          <div class="sc-body">
+            <div style="font-size:11px;color:#888;margin-bottom:12px;line-height:1.6;">Deletes <strong>all</strong> profiles, notes, PINs, and saved data from this device. Use this to pass the tool to someone else or start completely over. This cannot be undone.</div>
+            <button class="btn-danger" style="border-color:#c0392b;font-weight:700;" onclick="nukeEverything()">Wipe Everything &amp; Start Fresh</button>
           </div>
         </div>
 
@@ -526,6 +534,22 @@ function copyBackup() {
   navigator.clipboard?.writeText(text).then(done).catch(() => {
     const ta=document.createElement("textarea"); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); document.body.removeChild(ta); done();
   });
+}
+
+function nukeEverything() {
+  if (!confirm("This will permanently delete ALL profiles, notes, PINs, and saved data.\n\nAre you absolutely sure?")) return;
+  if (!confirm("Last chance — everything will be wiped. Tap OK to confirm.")) return;
+  localStorage.removeItem(LS);
+  accounts = JSON.parse(JSON.stringify(DEFAULT_ACCOUNTS));
+  pins = { o: "0000", e: "0000" };
+  notesS8181 = "";
+  notesOther = "";
+  // Lock back to login screen with clean state
+  lockScreen();
+  // Show confirmation
+  setTimeout(() => {
+    alert("All data wiped. Set your new PINs in Settings after logging in.");
+  }, 300);
 }
 
 function resetDefaults() {
