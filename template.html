@@ -104,7 +104,7 @@ header h1 { font-size: 14px; font-weight: 600; letter-spacing: .3px; }
 <body>
 
 <header>
-  <h1>UPS Store Access Hub</h1>
+  <h1 id="main-h1">UPS Store Access Hub</h1>
   <div class="hdr-right">
     <span id="sync-st"></span>
     <span id="flash">&#10003; Saved</span>
@@ -115,21 +115,40 @@ header h1 { font-size: 14px; font-weight: 600; letter-spacing: .3px; }
 <div id="login-screen">
   <div class="lc">
     <div class="lc-head">
-      <div class="store">UPS STORE</div>
-      <div class="sub">Select role to continue</div>
+      <div class="store" id="login-store-name">UPS STORE</div>
+      <div class="sub" id="login-store-sub">Enter your store number to continue</div>
     </div>
     <div class="lc-body">
-      <div class="step-lbl">Who are you?</div>
-      <div class="role-grid">
-        <div class="role-btn" onclick="pickRole('o',this)"><span class="ri">&#128273;</span>Owner</div>
-        <div class="role-btn" onclick="pickRole('e',this)"><span class="ri">&#128100;</span>Employee</div>
+
+      <!-- Step 1: Store number -->
+      <div id="store-select-step">
+        <div class="step-lbl">Your Store Number</div>
+        <input id="store-number-input" class="form-inp" placeholder="e.g. 2842" inputmode="numeric" maxlength="6"
+          style="font-size:22px;letter-spacing:6px;text-align:center;margin-bottom:14px;"
+          oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+        >
+        <button class="btn-pri" style="width:100%;padding:12px;" onclick="confirmStoreNumber()">Continue &#8594;</button>
+        <div id="store-err" style="font-size:11px;color:#c0392b;margin-top:8px;text-align:center;"></div>
       </div>
-      <div id="pin-wrap">
-        <div class="step-lbl">Enter PIN</div>
-        <div class="pin-dots" id="pin-dots"></div>
-        <div class="keypad" id="keypad"></div>
-        <div id="pin-err"></div>
+
+      <!-- Step 2: Role + PIN (hidden until store confirmed) -->
+      <div id="role-pin-step" style="display:none;">
+        <div class="step-lbl">Who are you?</div>
+        <div class="role-grid">
+          <div class="role-btn" onclick="pickRole('o',this)"><span class="ri">&#128273;</span>Owner</div>
+          <div class="role-btn" onclick="pickRole('e',this)"><span class="ri">&#128100;</span>Employee</div>
+        </div>
+        <div id="pin-wrap">
+          <div class="step-lbl">Enter PIN</div>
+          <div class="pin-dots" id="pin-dots"></div>
+          <div class="keypad" id="keypad"></div>
+          <div id="pin-err"></div>
+        </div>
+        <div style="text-align:center;margin-top:14px;">
+          <button onclick="resetStoreSelect()" style="background:none;border:none;color:#aaa;font-size:11px;cursor:pointer;">&#8592; Change store number</button>
+        </div>
       </div>
+
     </div>
   </div>
 </div>
@@ -244,7 +263,7 @@ header h1 { font-size: 14px; font-weight: 600; letter-spacing: .3px; }
 <script>
 const GATEWAY_URL = ""; // Paste your Apps Script URL here
 const GATEWAY_KEY = ""; // Paste your secret key here
-const LS = "ups_store_hub_v1";
+let LS = "ups_store_hub_v1"; // overwritten once store number is selected
 const DEFAULT_PINS = { o: "0000", e: "0000" };
 
 const PORTALS = [
@@ -268,6 +287,47 @@ const DEFAULT_ACCOUNTS = [
   { id:"wifi",  label:"Guest WiFi",                sub:"Update monthly",         user:"", pass:"", emp:true  },
   { id:"grev",  label:"Google Review",             sub:"Scan to leave a review", user:"", pass:"", emp:true  },
 ];
+
+// Store number selection
+let storeNumber = "";
+
+function confirmStoreNumber() {
+  const val = document.getElementById("store-number-input").value.trim();
+  if (!val || val.length < 3) {
+    document.getElementById("store-err").textContent = "Enter a valid store number (3+ digits)";
+    return;
+  }
+  storeNumber = val;
+  LS = "ups_store_" + storeNumber + "_v1";
+
+  // Load this store's saved state
+  const loaded = loadState();
+  accounts   = loaded.accounts;
+  pins       = loaded.pins;
+  notesS8181 = loaded.notesS8181;
+  notesOther = loaded.notesOther;
+
+  // Update header
+  document.getElementById("login-store-name").textContent = "UPS STORE #" + storeNumber;
+  document.getElementById("login-store-sub").textContent  = "Select your role";
+  document.getElementById("store-select-step").style.display = "none";
+  document.getElementById("role-pin-step").style.display = "block";
+  document.getElementById("store-err").textContent = "";
+  drawDots();
+}
+
+function resetStoreSelect() {
+  storeNumber = "";
+  document.getElementById("store-number-input").value = "";
+  document.getElementById("store-select-step").style.display = "block";
+  document.getElementById("role-pin-step").style.display = "none";
+  document.getElementById("login-store-name").textContent = "UPS STORE";
+  document.getElementById("login-store-sub").textContent  = "Enter your store number to continue";
+  document.querySelectorAll(".role-btn").forEach(b => b.classList.remove("sel"));
+  document.getElementById("pin-wrap").classList.remove("show");
+  document.getElementById("pin-err").textContent = "";
+  pin = ""; selR = null;
+}
 
 // QR helper using embedded QRCode.js
 function makeQR(el, text, size) {
@@ -396,6 +456,8 @@ function lockScreen() {
   document.querySelectorAll(".role-btn").forEach(b => b.classList.remove("sel"));
   document.getElementById("pin-wrap").classList.remove("show");
   document.getElementById("pin-err").textContent = ""; setSS("",false); drawDots();
+  // Return to store number screen
+  resetStoreSelect();
 }
 
 // Tabs
@@ -517,7 +579,7 @@ document.getElementById("notes-other").addEventListener("input", function() {
 });
 
 function buildBackupText() {
-  const ln = ["===========================", "STORE 8181 - CREDENTIAL BACKUP", "Generated: " + new Date().toLocaleString(), "===========================", ""];
+  const ln = ["===========================", "UPS STORE #" + storeNumber + " — CREDENTIAL BACKUP", "Generated: " + new Date().toLocaleString(), "===========================", ""];
   accounts.forEach(a => {
     ln.push("[ " + a.label + " ]" + (a.sub ? " (" + a.sub + ")" : ""));
     if (a.user) ln.push("  User: " + a.user);
@@ -554,9 +616,8 @@ function nukeEverything() {
   notesOther = "";
   // Lock back to login screen with clean state
   lockScreen();
-  // Show confirmation
   setTimeout(() => {
-    alert("All data wiped. Set your new PINs in Settings after logging in.");
+    alert("All data for Store #" + storeNumber + " has been wiped.\nSet new PINs after logging back in.");
   }, 300);
 }
 
