@@ -99,6 +99,14 @@ header h1 { font-size: 14px; font-weight: 600; letter-spacing: .3px; }
 .qm-text { font-size: 10px; color: #bbb; margin-bottom: 14px; font-family: 'Courier New',monospace; word-break: break-all; line-height: 1.5; }
 .qm-close { background: #1b2d45; color: #fff; border: none; border-radius: 5px; padding: 9px 28px; font-size: 12px; cursor: pointer; margin-top: 16px; }
 #qm-qr { display: flex; justify-content: center; }
+
+.pass-wrap { display:flex; align-items:center; flex:1; min-width:0; background:#FFEE00; border-radius:4px; padding:0 4px 0 0; }
+.pass-wrap .pass-inp { background:transparent; border-radius:4px; padding:2px 4px; flex:1; }
+.eye-btn { background:none; border:none; cursor:pointer; color:#666; font-size:11px; padding:0 4px; flex-shrink:0; font-weight:600; }
+.eye-btn:hover { color:#1b2d45; }
+.copy-field-btn { background:none; border:1px solid #c0c8d4; border-radius:3px; cursor:pointer; color:#888; font-size:9px; padding:2px 5px; flex-shrink:0; white-space:nowrap; }
+.copy-field-btn:hover { background:#f4f6f9; color:#1b2d45; border-color:#1b2d45; }
+.copy-field-btn.copied { color:#5cb85c; border-color:#5cb85c; }
 </style>
 </head>
 <body>
@@ -403,20 +411,65 @@ function buildCard(acct) {
 }
 function makeRow(label, value, field, acct) {
   const row = document.createElement("div"); row.className = "fr";
-  const lb = document.createElement("div"); lb.className = "fr-lbl"; lb.textContent = label; row.appendChild(lb);
-  const inp = document.createElement("input"); inp.type = "text";
+  const lb = document.createElement("div"); lb.className = "fr-lbl"; lb.textContent = label;
+  row.appendChild(lb);
+
+  const inp = document.createElement("input");
   inp.className = field === "pass" ? "pass-inp" : "user-inp";
-  inp.value = value || ""; inp.placeholder = field === "pass" ? "password" : "username / email";
+  inp.value = value || "";
+  inp.placeholder = field === "pass" ? "password" : "username / email";
   inp.spellcheck = false; inp.autocomplete = "off";
+  inp.type = "text";
   inp.addEventListener("click", e => e.stopPropagation());
+
+  if (field === "pass") {
+    // Wrap with show/hide toggle
+    const wrap = document.createElement("div"); wrap.className = "pass-wrap";
+    wrap.addEventListener("click", e => e.stopPropagation());
+    wrap.appendChild(inp);
+    const eye = document.createElement("button");
+    eye.className = "eye-btn"; eye.type = "button";
+    eye.textContent = "Show"; eye.title = "Show / hide password";
+    let shown = true;
+    eye.addEventListener("click", e => {
+      e.stopPropagation();
+      shown = !shown;
+      inp.type = shown ? "text" : "password";
+      eye.textContent = shown ? "Show" : "Hide";
+    });
+    wrap.appendChild(eye);
+    row.appendChild(wrap);
+  } else {
+    row.appendChild(inp);
+  }
+
+  // Copy to clipboard button
+  const cb = document.createElement("button");
+  cb.className = "copy-field-btn"; cb.type = "button"; cb.textContent = "Copy";
+  cb.addEventListener("click", e => {
+    e.stopPropagation();
+    const v = acct[field]; if (!v) return;
+    const done = () => {
+      cb.textContent = "Copied"; cb.classList.add("copied");
+      setTimeout(() => { cb.textContent = "Copy"; cb.classList.remove("copied"); }, 1500);
+    };
+    navigator.clipboard?.writeText(v).then(done).catch(() => {
+      const ta = document.createElement("textarea"); ta.value = v;
+      document.body.appendChild(ta); ta.select();
+      document.execCommand("copy"); document.body.removeChild(ta); done();
+    });
+  });
+  row.appendChild(cb);
+
   const qw = document.createElement("div"); qw.className = "fr-qr";
   makeQR(qw, value, 72);
   inp.addEventListener("input", () => { acct[field] = inp.value; saveState(); makeQR(qw, inp.value, 72); });
-  row.appendChild(inp); row.appendChild(qw);
+  row.appendChild(qw);
+
   row.addEventListener("click", e => {
-    if (e.target.tagName === "INPUT") return;
+    if (e.target.tagName === "INPUT" || e.target.tagName === "BUTTON") return;
     const v = acct[field]; if (!v) return;
-    openModal(v, acct.label + " — " + label);
+    openModal(v, acct.label + " - " + label);
   });
   return row;
 }
