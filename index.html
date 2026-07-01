@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -49,7 +49,7 @@ header small{font-size:10px;color:#7a9ab8;display:block;text-align:center;margin
 .pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid #c0c8d4;background:transparent;transition:all .12s}
 .pin-dot.on{background:#1b2d45;border-color:#1b2d45}
 .keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
-.key{height:60px;background:#fff;border:1px solid #dde0e5;border-radius:6px;font-size:20px;font-weight:600;color:#1b2d45;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .1s;user-select:none;-webkit-user-select:none}
+.key{height:60px;background:#fff;border:1px solid #dde0e5;border-radius:6px;font-size:20px;font-weight:600;color:#1b2d45;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .1s;user-select:none;-webkit-user-select:none;touch-action:manipulation}
 .key:active{background:#eaecef;transform:scale(.94)}
 .key.del{font-size:16px;color:#888}
 .key.empty{background:transparent;border:none;pointer-events:none}
@@ -171,7 +171,7 @@ hr{border:none;border-top:1px solid #dde0e5;margin:16px 0}
     <a class="tool-card" href="store-ops.html">
       <div class="tool-ico ic-orange">📦</div>
       <div class="tool-info">
-        <div class="tool-name">Store 8181 Operations</div>
+        <div class="tool-name">Royalty &amp; Inventory</div>
         <div class="tool-desc">Royalty calculator · Stamp inventory · Store supplies</div>
       </div>
       <span class="tool-badge b-navy">Monthly</span>
@@ -267,3 +267,4 @@ function $(id) { return document.getElementById(id); }
 </script>
 </body>
 </html>
+
