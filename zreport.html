@@ -10,117 +10,167 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#0f0a00;--surf:#1e1200;--surf2:#2a1a00;--border:#3d2800;
+  --bg:#0f0a00;--surf:#1e1200;--surf2:#2a1a00;--surf3:#331f00;
+  --border:#3d2800;--border2:#4a3200;
   --gold:#ffb500;--gold2:#ffd060;--brown:#301506;
   --green:#22c55e;--red:#ef4444;--blue:#4f7ef8;--purple:#a78bfa;--warn:#f59e0b;
-  --text:#f5e6c8;--text2:#8a7055;--radius:14px;
+  --text:#f5e6c8;--text2:#8a7055;--text3:#c4a882;
+  --radius:14px;
 }
-html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'SF Pro','Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:16px;overscroll-behavior:none}
-button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
-input,select{font-family:inherit}
+*{box-sizing:border-box}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:16px;overscroll-behavior:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;-webkit-appearance:none}
+input,select,textarea{font-family:inherit}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+input[type=number]{-moz-appearance:textfield}
 
-/* ── Header ── */
-.hdr{background:linear-gradient(135deg,#1a0a00 0%,#301506 100%);padding:14px 18px 12px;border-bottom:2.5px solid var(--gold);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.hdr-l h1{font-size:17px;font-weight:800;color:var(--gold);letter-spacing:.3px}
+/* ── HEADER ── */
+.hdr{background:linear-gradient(135deg,#1a0a00 0%,#301506 100%);padding:14px 18px 12px;border-bottom:2.5px solid var(--gold);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;-webkit-backdrop-filter:blur(10px)}
+.hdr-l h1{font-size:18px;font-weight:800;color:var(--gold);letter-spacing:.3px}
 .hdr-l small{font-size:10px;color:rgba(255,181,0,.6);display:block;margin-top:1px}
-.gw-pill{font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:rgba(0,0,0,.4);display:flex;align-items:center;gap:5px}
-.dot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0}
+.gw-pill{font-size:11px;font-weight:700;padding:5px 11px;border-radius:20px;background:rgba(0,0,0,.5);display:flex;align-items:center;gap:5px;min-width:64px;justify-content:center}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;transition:background .3s}
 .dot.g{background:var(--green)}.dot.r{background:var(--red)}.dot.y{background:var(--warn)}
 
-/* ── Nav ── */
-.nav{display:flex;background:var(--surf);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+/* ── NAV ── */
+.nav{display:flex;background:var(--surf);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;position:sticky;top:57px;z-index:90}
 .nav::-webkit-scrollbar{display:none}
-.nav-btn{flex:1;min-width:60px;padding:11px 4px 9px;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--text2);border-bottom:2.5px solid transparent;transition:all .15s}
-.nav-btn .ico{font-size:17px;display:block;margin-bottom:2px}
+.nav-btn{flex:1;min-width:58px;padding:11px 4px 9px;font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--text2);border-bottom:2.5px solid transparent;transition:all .15s;white-space:nowrap}
+.nav-btn .ico{font-size:16px;display:block;margin-bottom:2px}
 .nav-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
 
-/* ── Content ── */
-.content{padding:14px;max-width:560px;margin:0 auto;padding-bottom:24px}
+/* ── CONTENT ── */
+.content{padding:13px;max-width:560px;margin:0 auto;padding-bottom:28px}
 .page{display:none}.page.active{display:block}
 
-/* ── Card ── */
-.card{background:var(--surf);border:1px solid var(--border);border-radius:var(--radius);padding:15px;margin-bottom:12px}
-.card-title{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin-bottom:13px;font-weight:700}
+/* ── CARD ── */
+.card{background:var(--surf);border:1px solid var(--border);border-radius:var(--radius);padding:15px;margin-bottom:11px}
+.ctitle{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin-bottom:12px;font-weight:800}
 
-/* ── Form ── */
-.fg{margin-bottom:13px}
-.fg label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);margin-bottom:6px}
-.fg input,.fg select{width:100%;padding:13px 14px;background:var(--surf2);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-size:17px;-webkit-appearance:none;appearance:none;transition:border-color .15s}
-.fg input:focus,.fg select:focus{border-color:var(--gold);outline:none}
-.fg input[type=number]{font-variant-numeric:tabular-nums}
+/* ── FORM ── */
+.fg{margin-bottom:12px}
+.fg label{display:block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);margin-bottom:5px}
+.fg input,.fg select{width:100%;padding:13px 14px;background:var(--surf2);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-size:17px;-webkit-appearance:none;appearance:none;transition:border-color .15s;caret-color:var(--gold)}
+.fg input:focus,.fg select:focus{border-color:var(--gold);outline:none;background:var(--surf3)}
+.fg input[type=number]{font-variant-numeric:tabular-nums;letter-spacing:.5px}
+.fg input.warn-field{border-color:var(--warn)!important}
+.fg select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238a7055'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;border-radius:11px;font-size:16px;font-weight:800;letter-spacing:.2px;transition:all .12s;cursor:pointer}
-.btn-gold{background:linear-gradient(135deg,var(--gold),#e09600);color:#1a0a00}
-.btn-gold:active{transform:scale(.98);opacity:.9}
-.btn-sec{background:var(--surf2);border:1px solid var(--border);color:var(--text);font-size:14px;padding:10px 16px;width:auto;border-radius:9px}
-.btn-sm{padding:7px 13px;font-size:12px;width:auto;border-radius:8px;font-weight:700}
 
-/* ── Calendar ── */
-.cal{display:flex;gap:7px;overflow-x:auto;padding:2px 1px 8px;scrollbar-width:none}
+/* ── UPDATE ALERT ── */
+.update-alert{background:rgba(245,158,11,.1);border:1.5px solid rgba(245,158,11,.4);border-radius:10px;padding:11px 13px;margin-bottom:12px;display:none}
+.update-alert.show{display:block}
+.update-alert .ua-title{font-size:11px;font-weight:800;color:var(--warn);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.update-alert .ua-row{display:flex;justify-content:space-between;font-size:12px;color:var(--text3);padding:2px 0}
+.update-alert .ua-row span{font-weight:700;color:var(--text)}
+
+/* ── BUTTONS ── */
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;border-radius:11px;font-size:16px;font-weight:800;letter-spacing:.2px;transition:all .12s;cursor:pointer;border:none}
+.btn-gold{background:linear-gradient(135deg,var(--gold),#d48800);color:#1a0a00}
+.btn-gold:active{transform:scale(.98);filter:brightness(.92)}
+.btn-gold:disabled{opacity:.6;pointer-events:none}
+.btn-update{background:linear-gradient(135deg,var(--warn),#c97d00);color:#1a0a00}
+.btn-sec{background:var(--surf2);border:1px solid var(--border);color:var(--text);font-size:14px;padding:10px 16px;width:auto;border-radius:9px;font-weight:700}
+.btn-sm{padding:7px 13px;font-size:12px;width:auto;border-radius:8px;font-weight:800}
+.btn-danger{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:var(--red);font-size:14px}
+
+/* ── CALENDAR ── */
+.cal{display:flex;gap:6px;overflow-x:auto;padding:2px 1px 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .cal::-webkit-scrollbar{display:none}
-.cal-d{flex:0 0 46px;height:58px;border-radius:11px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:2px solid transparent;background:var(--surf2);transition:all .12s}
-.cal-d .dn{font-size:15px;font-weight:800}.cal-d .dw{font-size:9px;text-transform:uppercase;color:var(--text2);margin-top:1px}
-.cal-d.ok{background:rgba(34,197,94,.12);border-color:var(--green)}.cal-d.ok .dn{color:var(--green)}
-.cal-d.miss{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3)}.cal-d.miss .dn{color:var(--red)}
-.cal-d.sel{border-color:var(--gold)!important;background:rgba(255,181,0,.12)!important}
-.cal-d.today .dw::after{content:' •';color:var(--gold)}
+.cal-d{flex:0 0 44px;height:60px;border-radius:11px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:2px solid transparent;background:var(--surf2);transition:all .12s;position:relative;user-select:none;-webkit-user-select:none}
+.cal-d:active{transform:scale(.95)}
+.cal-d .dn{font-size:15px;font-weight:800;line-height:1}
+.cal-d .dw{font-size:9px;text-transform:uppercase;color:var(--text2);margin-top:3px;font-weight:700}
+.cal-d .chk{position:absolute;top:3px;right:4px;font-size:8px}
+.cal-d.ok{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.4)}
+.cal-d.ok .dn{color:var(--green)}
+.cal-d.ok .dw{color:rgba(34,197,94,.6)}
+.cal-d.miss{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.25)}
+.cal-d.miss .dn{color:var(--red)}
+.cal-d.sel{border-color:var(--gold)!important;background:rgba(255,181,0,.15)!important;box-shadow:0 0 0 3px rgba(255,181,0,.15)}
+.cal-d.today::after{content:'';position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--gold)}
+.cal-d.future{opacity:.3;pointer-events:none}
 
-/* ── Stats ── */
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
+/* ── STATS ── */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px}
 .stat{background:var(--surf2);border:1px solid var(--border);border-radius:11px;padding:13px}
-.stat .lbl{font-size:9px;text-transform:uppercase;letter-spacing:.8px;color:var(--text2);margin-bottom:3px;font-weight:700}
-.stat .val{font-size:21px;font-weight:800;font-variant-numeric:tabular-nums}
-.stat.s .val{color:var(--green)}.stat.t .val{color:var(--warn)}.stat.c .val{color:var(--blue)}.stat.h .val{color:var(--purple)}
+.stat .lbl{font-size:9px;text-transform:uppercase;letter-spacing:.8px;color:var(--text2);margin-bottom:3px;font-weight:800}
+.stat .val{font-size:21px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
+.stat .sub{font-size:10px;color:var(--text2);margin-top:2px}
+.stat.s .val{color:var(--green)}.stat.t .val{color:var(--warn)}
+.stat.c .val{color:var(--blue)}.stat.h .val{color:var(--purple)}
 
-/* ── Report row ── */
-.rrow{background:var(--surf2);border:1px solid var(--border);border-radius:10px;padding:12px 13px;margin-bottom:7px;display:flex;align-items:center;gap:11px}
-.rrow .dc{font-size:12px;font-weight:800;min-width:44px;color:var(--text2)}.rrow .dc small{font-size:9px;display:block;color:var(--text2);font-weight:400}
-.rrow .amts{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:1px}
-.rrow .amt{font-size:12px;font-weight:700}.rrow .amt span{color:var(--text2);font-size:9px;font-weight:400}
-.rrow .by{font-size:11px;color:var(--text2);min-width:18px;text-align:right}
+/* ── REPORT ROW ── */
+.rrow{background:var(--surf2);border:1px solid var(--border);border-radius:10px;padding:12px 13px;margin-bottom:7px;display:flex;align-items:center;gap:10px}
+.rrow .dc{font-size:12px;font-weight:800;min-width:40px;color:var(--text3)}
+.rrow .dc small{font-size:9px;display:block;color:var(--text2);font-weight:500;margin-top:1px}
+.rrow .amts{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:2px 6px}
+.rrow .amt{font-size:12px;font-weight:700;white-space:nowrap}
+.rrow .amt span{color:var(--text2);font-size:9px;font-weight:500}
+.rrow .by-badge{font-size:10px;font-weight:800;color:var(--text2);background:var(--surf3);border-radius:6px;padding:3px 6px;min-width:26px;text-align:center}
 
-/* ── Missing banner ── */
-.miss-b{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);border-radius:11px;padding:11px 13px;margin-bottom:12px}
-.miss-b .t{font-size:11px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
+/* ── MISSING BANNER ── */
+.miss-b{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.22);border-radius:11px;padding:11px 13px;margin-bottom:11px;display:none}
+.miss-b.show{display:block}
+.miss-b .t{font-size:10px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
-.chip{background:rgba(239,68,68,.15);color:var(--red);padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid rgba(239,68,68,.2)}
-.chip:active{background:rgba(239,68,68,.3)}
+.chip{background:rgba(239,68,68,.12);color:var(--red);padding:5px 10px;border-radius:20px;font-size:11px;font-weight:800;cursor:pointer;border:1px solid rgba(239,68,68,.2);transition:all .1s;user-select:none}
+.chip:active{background:rgba(239,68,68,.25);transform:scale(.96)}
 
-/* ── Month header ── */
-.mhdr{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin:14px 0 7px;font-weight:700;padding:0 1px}
+/* ── SECTION HEADER ── */
+.shdr{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin:14px 0 7px;font-weight:800;padding:0 1px}
 
-/* ── Toast ── */
-#toast{position:fixed;bottom:76px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--surf2);border:1.5px solid var(--border);border-radius:11px;padding:11px 20px;font-size:14px;font-weight:700;opacity:0;transition:all .22s;pointer-events:none;z-index:999;white-space:nowrap;box-shadow:0 8px 32px rgba(0,0,0,.6)}
+/* ── MONTH TOTAL ROW ── */
+.total-row{background:rgba(255,181,0,.07);border:1px solid rgba(255,181,0,.2);border-radius:10px;padding:11px 13px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.total-row .tl{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--gold);font-weight:800}
+.total-row .tv{font-size:16px;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums}
+.total-row .tsub{font-size:10px;color:var(--text2);margin-top:1px}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surf2);border:1.5px solid var(--border);border-radius:12px;padding:12px 20px;font-size:14px;font-weight:700;opacity:0;transition:all .22s;pointer-events:none;z-index:9999;white-space:nowrap;box-shadow:0 8px 40px rgba(0,0,0,.7);max-width:90vw;text-align:center}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 #toast.ok{border-color:var(--green);color:var(--green)}
 #toast.err{border-color:var(--red);color:var(--red)}
+#toast.info{border-color:var(--blue);color:var(--blue)}
+#toast.warn{border-color:var(--warn);color:var(--warn)}
 
-/* ── Loader ── */
-.spin{display:inline-block;width:18px;height:18px;border:2.5px solid rgba(0,0,0,.3);border-top-color:#1a0a00;border-radius:50%;animation:sp .65s linear infinite}
+/* ── LOADER ── */
+#loader{position:fixed;inset:0;background:rgba(15,10,0,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:500;gap:16px;backdrop-filter:blur(4px)}
+#loader .sp2{width:38px;height:38px;border:3px solid rgba(255,181,0,.15);border-top-color:var(--gold);border-radius:50%;animation:sp .75s linear infinite}
+#loader .lmsg{color:var(--text2);font-size:13px;font-weight:600;text-align:center;max-width:220px;line-height:1.5}
 @keyframes sp{to{transform:rotate(360deg)}}
 
-/* ── Loading overlay ── */
-#loader{position:fixed;inset:0;background:rgba(15,10,0,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:500;gap:14px}
-#loader .sp2{width:36px;height:36px;border:3px solid rgba(255,181,0,.2);border-top-color:var(--gold);border-radius:50%;animation:sp .8s linear infinite}
-#loader p{color:var(--text2);font-size:13px}
+/* ── SPINNER INLINE ── */
+.spin{display:inline-block;width:17px;height:17px;border:2.5px solid rgba(26,10,0,.4);border-top-color:#1a0a00;border-radius:50%;animation:sp .65s linear infinite;flex-shrink:0}
 
-/* ── Select arrow ── */
-.fg select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0l6 8 6-8z' fill='%238a7055'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
-
-/* ── Empty state ── */
-.empty{text-align:center;color:var(--text2);padding:32px 0;font-size:13px}
-
-/* ── Confirm modal ── */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:300;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px)}
+/* ── CONFIRM MODAL ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:400;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .overlay.show{display:flex}
-.modal{background:var(--surf);border-radius:20px 20px 0 0;padding:22px 18px 36px;width:100%;max-width:560px;border-top:1px solid var(--border)}
-.modal h3{font-size:17px;font-weight:800;margin-bottom:14px}
-.modal .mbtns{display:flex;gap:10px;margin-top:16px}
+.modal{background:var(--surf);border-radius:20px 20px 0 0;padding:22px 18px 40px;width:100%;max-width:560px;border-top:1px solid var(--border);box-shadow:0 -8px 40px rgba(0,0,0,.5)}
+.modal h3{font-size:18px;font-weight:800;margin-bottom:6px}
+.modal p{font-size:13px;color:var(--text2);margin-bottom:16px;line-height:1.5}
+.modal .existing{background:var(--surf2);border-radius:10px;padding:12px;margin-bottom:16px;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.modal .existing .ef{font-size:12px}.modal .existing .ef span{color:var(--text2);font-size:10px;display:block}
+.modal .mbts{display:flex;gap:10px}
+
+/* ── EMPTY ── */
+.empty{text-align:center;color:var(--text2);padding:28px 0;font-size:13px;font-weight:600}
+
+/* ── DIVIDER ── */
+hr{border:none;border-top:1px solid var(--border);margin:12px 0}
+
+/* ── SCROLL HINT ── */
+.scroll-hint{font-size:10px;color:var(--text2);text-align:right;margin-bottom:4px}
 </style>
 </head>
 <body>
 
-<div id="loader"><div class="sp2"></div><p id="loader-msg">Loading Z Report…</p></div>
+<!-- Loader -->
+<div id="loader">
+  <div class="sp2"></div>
+  <div class="lmsg" id="lmsg">Connecting to Gateway…</div>
+</div>
 
 <!-- Header -->
 <div class="hdr">
@@ -128,77 +178,126 @@ input,select{font-family:inherit}
     <h1>Z Report</h1>
     <small>Store 8181 · Joelton TN</small>
   </div>
-  <div class="gw-pill" id="gwPill"><span class="dot y" id="gwDot"></span><span id="gwTxt">…</span></div>
+  <div class="gw-pill" id="gwPill">
+    <span class="dot y" id="gwDot"></span>
+    <span id="gwTxt">…</span>
+  </div>
 </div>
 
 <!-- Nav -->
 <div class="nav">
   <button class="nav-btn active" data-page="submit" onclick="nav('submit')"><span class="ico">✏️</span>Submit</button>
-  <button class="nav-btn" data-page="dash" onclick="nav('dash')"><span class="ico">📊</span>Dashboard</button>
+  <button class="nav-btn" data-page="dash" onclick="nav('dash')"><span class="ico">📊</span>This Month</button>
   <button class="nav-btn" data-page="monthly" onclick="nav('monthly')"><span class="ico">📅</span>Monthly</button>
   <button class="nav-btn" data-page="yearly" onclick="nav('yearly')"><span class="ico">📈</span>Yearly</button>
 </div>
 
 <div class="content">
 
-  <!-- SUBMIT -->
+  <!-- ── SUBMIT PAGE ── -->
   <div id="page-submit" class="page active">
+
+    <!-- Calendar -->
     <div class="card">
-      <div class="card-title">Select Date</div>
+      <div class="ctitle">Select Date</div>
+      <div class="scroll-hint">← scroll for older dates</div>
       <div class="cal" id="cal"></div>
     </div>
 
-    <div class="miss-b" id="missB" style="display:none">
-      <div class="t">⚠️ Missing Entries</div>
+    <!-- Missing banner -->
+    <div class="miss-b" id="missB">
+      <div class="t">⚠️ Missing Entries (last 60 days)</div>
       <div class="chips" id="missChips"></div>
     </div>
 
+    <!-- Update warning when date has existing entry -->
+    <div class="update-alert" id="updateAlert">
+      <div class="ua-title">⚠️ This date already has an entry — submitting will overwrite it</div>
+      <div id="updateExisting"></div>
+    </div>
+
+    <!-- Form -->
     <div class="card">
-      <div class="card-title">Z Report Entry</div>
+      <div class="ctitle" id="formTitle">New Z Report Entry</div>
+
       <div class="fg">
         <label>Date</label>
-        <input type="date" id="fDate"/>
+        <input type="date" id="fDate" onchange="onDateChange()" />
       </div>
+
       <div class="fg">
         <label>Submitted By</label>
-        <select id="fEmp"></select>
+        <select id="fEmp" onchange="onEmpChange()">
+          <option value="Prit">Prit</option>
+          <option value="Jatin">Jatin</option>
+          <option value="Other">Other</option>
+        </select>
       </div>
-      <div class="row2">
-        <div class="fg"><label>Sales ($)</label><input type="number" id="fSales" inputmode="decimal" step="0.01" min="0" placeholder="0.00"/></div>
-        <div class="fg"><label>Tax ($)</label><input type="number" id="fTax" inputmode="decimal" step="0.01" min="0" placeholder="0.00"/></div>
-      </div>
-      <div class="row2">
-        <div class="fg"><label>Credit Card ($)</label><input type="number" id="fCC" inputmode="decimal" step="0.01" min="0" placeholder="0.00"/></div>
-        <div class="fg"><label>Cash ($)</label><input type="number" id="fCash" inputmode="decimal" step="0.01" min="0" placeholder="0.00"/></div>
-      </div>
-      <div class="fg"><label>Notes (optional)</label><input type="text" id="fNotes" placeholder="Any discrepancies…"/></div>
-      <button class="btn btn-gold" id="subBtn" onclick="submitReport()">Submit Z Report</button>
-    </div>
-  </div>
 
-  <!-- DASHBOARD -->
+      <!-- Other name field (hidden unless Other selected) -->
+      <div class="fg" id="otherNameWrap" style="display:none">
+        <label>Name</label>
+        <input type="text" id="fOtherName" placeholder="Employee name…" />
+      </div>
+
+      <div class="row2">
+        <div class="fg">
+          <label>Sales ($)</label>
+          <input type="number" id="fSales" inputmode="decimal" step="0.01" min="0" placeholder="0.00" />
+        </div>
+        <div class="fg">
+          <label>Tax ($)</label>
+          <input type="number" id="fTax" inputmode="decimal" step="0.01" min="0" placeholder="0.00" />
+        </div>
+      </div>
+      <div class="row2">
+        <div class="fg">
+          <label>Credit Card ($)</label>
+          <input type="number" id="fCC" inputmode="decimal" step="0.01" min="0" placeholder="0.00" />
+        </div>
+        <div class="fg">
+          <label>Cash ($)</label>
+          <input type="number" id="fCash" inputmode="decimal" step="0.01" min="0" placeholder="0.00" />
+        </div>
+      </div>
+      <div class="fg">
+        <label>Notes (optional)</label>
+        <input type="text" id="fNotes" placeholder="Any discrepancies or corrections…" />
+      </div>
+
+      <button class="btn btn-gold" id="subBtn" onclick="submitReport()">
+        Submit Z Report
+      </button>
+    </div>
+  </div><!-- /submit -->
+
+  <!-- ── THIS MONTH / DASHBOARD ── -->
   <div id="page-dash" class="page">
     <div class="stats">
-      <div class="stat s"><div class="lbl">Sales MTD</div><div class="val" id="dSales">—</div></div>
+      <div class="stat s"><div class="lbl">Sales MTD</div><div class="val" id="dSales">—</div><div class="sub" id="dDays">— days</div></div>
       <div class="stat t"><div class="lbl">Tax MTD</div><div class="val" id="dTax">—</div></div>
       <div class="stat c"><div class="lbl">CC MTD</div><div class="val" id="dCC">—</div></div>
       <div class="stat h"><div class="lbl">Cash MTD</div><div class="val" id="dCash">—</div></div>
     </div>
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <div class="card-title" style="margin:0">Recent Entries</div>
-        <button class="btn-sec btn-sm" onclick="loadDash()">↻</button>
+        <div class="ctitle" style="margin:0">All Entries This Month</div>
+        <button class="btn-sec btn-sm" onclick="refresh()">↻ Sync</button>
       </div>
       <div id="dashList"></div>
     </div>
   </div>
 
-  <!-- MONTHLY -->
+  <!-- ── MONTHLY ── -->
   <div id="page-monthly" class="page">
     <div class="card">
       <div class="row2">
-        <div class="fg" style="margin:0"><label>Month</label><select id="mMonth" onchange="loadMonthly()"></select></div>
-        <div class="fg" style="margin:0"><label>Year</label><select id="mYear" onchange="initMonthSelects()"></select></div>
+        <div class="fg" style="margin:0"><label>Month</label>
+          <select id="mMonth" onchange="loadMonthly()"></select>
+        </div>
+        <div class="fg" style="margin:0"><label>Year</label>
+          <select id="mYear" onchange="buildMonthSelect()"></select>
+        </div>
       </div>
     </div>
     <div class="stats">
@@ -210,7 +309,7 @@ input,select{font-family:inherit}
     <div id="monthList"></div>
   </div>
 
-  <!-- YEARLY -->
+  <!-- ── YEARLY ── -->
   <div id="page-yearly" class="page">
     <div class="stats" id="yearStats"></div>
     <div id="yearList"></div>
@@ -218,361 +317,658 @@ input,select{font-family:inherit}
 
 </div><!-- /content -->
 
+<!-- Confirm overwrite modal -->
+<div class="overlay" id="confirmOverlay">
+  <div class="modal">
+    <h3>⚠️ Overwrite Entry?</h3>
+    <p>This date already has a submitted Z Report. Do you want to replace it with the new values?</p>
+    <div class="existing" id="confirmExisting"></div>
+    <div class="mbts">
+      <button class="btn btn-update" id="confirmYesBtn" onclick="confirmUpdate()">Yes, Update It</button>
+      <button class="btn btn-sec" onclick="closeConfirm()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script>
-// ── Config ─────────────────────────────────────────────────────────────────
-const GW   = 'https://script.google.com/macros/s/AKfycbwUh6kuKSn4h-YrHdxBjbZHelGDtg0NmTmKXwUZrCW0nB9RUWwmBLcrCIVZIAs0gzQj/exec';
-const KEY  = 'Store8181Prit2026';
-const SID  = '1OiU8cDWGvpJFIV2h89Oq6gWwfqkyso2GDmqzsrhqwxQ';
+'use strict';
+// ── CONFIG ──────────────────────────────────────────────────────────────────
+const GW  = 'https://script.google.com/macros/s/AKfycbwUh6kuKSn4h-YrHdxBjbZHelGDtg0NmTmKXwUZrCW0nB9RUWwmBLcrCIVZIAs0gzQj/exec';
+const KEY = 'Store8181Prit2026';
+const SID = '1OiU8cDWGvpJFIV2h89Oq6gWwfqkyso2GDmqzsrhqwxQ';
 
-// Employees — update here when roster changes
-const EMPLOYEES = ['Prit','Store Employee'];
+// ── STATE ───────────────────────────────────────────────────────────────────
+let allRows   = [];   // {rowNum, date, sales, tax, cc, cash, by, notes}
+let datesMap  = {};   // date → row object (for O(1) lookup)
+let selDate   = null;
+let isEditing = false; // guard auto-refresh while form is active
+let pendingPayload = null; // held during confirm modal
+let refreshTimer  = null;
 
-// ── State ──────────────────────────────────────────────────────────────────
-let allRows   = [];  // All Raw Log rows [{date,sales,tax,cc,cash,by,notes}]
-let datesSet  = new Set();  // Dates that have entries
-let selDate   = todayStr();
+// ── UTILS ───────────────────────────────────────────────────────────────────
+const $  = id => document.getElementById(id);
+const qS = sel => document.querySelector(sel);
 
-// ── Utils ──────────────────────────────────────────────────────────────────
-function $(id){ return document.getElementById(id); }
-function todayStr(){ return new Date().toISOString().split('T')[0]; }
-function fmt(n){ return '$'+(+n||0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,','); }
-function fmtK(n){ const v=Math.abs(+n||0); return v>=1000?'$'+(v/1000).toFixed(1)+'k':'$'+v.toFixed(0); }
-function dayAbbr(d){ return ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(d+'T12:00:00').getDay()]; }
-function shortDate(d){ const[,m,dy]=d.split('-'); return `${+m}/${+dy}`; }
-function ym(d){ return d.slice(0,7); }
-function monthLabel(ymStr){
-  const[y,m]=ymStr.split('-');
-  return new Date(y,m-1,1).toLocaleString('default',{month:'long',year:'numeric'});
+// ▶ CRITICAL: local date (not UTC) — fixes timezone bug for CDT stores
+function todayLocal() {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const dy = String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${dy}`;
 }
 
-function toast(msg, type='ok'){
-  const el=$('toast');
-  el.textContent=(type==='ok'?'✅ ':'❌ ')+msg;
-  el.className=`show ${type}`;
+function fmt(n, decimals=2) {
+  const v = +n || 0;
+  return '$' + v.toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function fmtK(n) {
+  const v = Math.abs(+n || 0);
+  if (v >= 10000) return '$' + (v/1000).toFixed(1) + 'k';
+  return '$' + v.toFixed(0);
+}
+
+function dayAbbr(d) {
+  return ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(d+'T12:00:00').getDay()];
+}
+
+function shortDate(d) {
+  const [,m,dy] = d.split('-');
+  return `${+m}/${+dy}`;
+}
+
+function ymStr(d) { return d.slice(0,7); }
+
+function monthLabel(ym) {
+  const [y,m] = ym.split('-');
+  return new Date(+y, +m-1, 1).toLocaleString('default',{month:'long',year:'numeric'});
+}
+
+function monthShort(ym) {
+  const [y,m] = ym.split('-');
+  return new Date(+y, +m-1, 1).toLocaleString('default',{month:'short'});
+}
+
+// ── TOAST ───────────────────────────────────────────────────────────────────
+function toast(msg, type='ok', dur=3200) {
+  const el = $('toast');
+  el.textContent = {ok:'✅ ',err:'❌ ',warn:'⚠️ ',info:'ℹ️ '}[type] + msg;
+  el.className = `show ${type}`;
   clearTimeout(el._t);
-  el._t=setTimeout(()=>el.className='',3200);
+  el._t = setTimeout(() => el.className = '', dur);
 }
 
-function showLoader(msg='Loading…'){ $('loader').style.display='flex'; $('loader-msg').textContent=msg; }
-function hideLoader(){ $('loader').style.display='none'; }
+// ── LOADER ──────────────────────────────────────────────────────────────────
+function showLoader(msg) { $('loader').style.display='flex'; $('lmsg').textContent=msg||'Loading…'; }
+function hideLoader()    { $('loader').style.display='none'; }
 
-// ── Gateway ────────────────────────────────────────────────────────────────
-async function gw(action, params={}){
-  const res = await fetch(GW, {
-    method:'POST',
-    headers:{'Content-Type':'text/plain;charset=utf-8'},
-    body: JSON.stringify({key:KEY, action, params})
-  });
-  if(!res.ok) throw new Error(`HTTP ${res.status}`);
-  const data = await res.json();
-  if(data.error) throw new Error(data.error);
-  return data;
+// ── GATEWAY ─────────────────────────────────────────────────────────────────
+async function gw(action, params={}, timeout=15000) {
+  const ctrl = new AbortController();
+  const tid  = setTimeout(() => ctrl.abort(), timeout);
+  try {
+    const res = await fetch(GW, {
+      method: 'POST',
+      headers: {'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify({key:KEY, action, params}),
+      signal: ctrl.signal
+    });
+    clearTimeout(tid);
+    if (!res.ok) throw new Error(`Gateway HTTP ${res.status}`);
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+    return data;
+  } catch(e) {
+    clearTimeout(tid);
+    if (e.name === 'AbortError') throw new Error('Gateway timed out — check connection');
+    throw e;
+  }
 }
 
-async function ping(){
-  try{
-    const d = await gw('ping');
-    $('gwDot').className='dot g';
-    $('gwTxt').textContent='Live';
+// ── GATEWAY STATUS ──────────────────────────────────────────────────────────
+async function checkGW() {
+  try {
+    await gw('ping', {}, 8000);
+    $('gwDot').className='dot g'; $('gwTxt').textContent='Live';
     return true;
-  } catch(e){
-    $('gwDot').className='dot r';
-    $('gwTxt').textContent='Offline';
+  } catch(e) {
+    $('gwDot').className='dot r'; $('gwTxt').textContent='Offline';
     return false;
   }
 }
 
-// ── Load Sheet data ────────────────────────────────────────────────────────
-async function loadSheetData(){
-  const d = await gw('sheets.read',{ spreadsheetId:SID, range:'Raw Log!A2:G5000' });
-  const rows = (d.values||[]).filter(r=>r[0]&&/^\d{4}-\d{2}-\d{2}$/.test(r[0]));
-  allRows = rows.map(r=>({
-    date:r[0],
-    sales:parseFloat(r[1])||0,
-    tax:parseFloat(r[2])||0,
-    cc:parseFloat(r[3])||0,
-    cash:parseFloat(r[4])||0,
-    by:r[5]||'',
-    notes:r[6]||''
-  }));
-  datesSet = new Set(allRows.map(r=>r.date));
-  return allRows;
-}
-
-// ── Submit ─────────────────────────────────────────────────────────────────
-async function submitReport(){
-  const date = $('fDate').value;
-  const by   = $('fEmp').value;
-  const sales= +$('fSales').value;
-  const tax  = +$('fTax').value;
-  const cc   = +$('fCC').value;
-  const cash = +$('fCash').value;
-  const notes= $('fNotes').value.trim();
-
-  if(!date){ toast('Select a date','err'); return; }
-  if(!by){ toast('Select who is submitting','err'); return; }
-  if(!$('fSales').value||!$('fTax').value||!$('fCC').value||!$('fCash').value){
-    toast('All 4 amounts required','err'); return;
-  }
-  if([sales,tax,cc,cash].some(v=>isNaN(v)||v<0)){ toast('Invalid amount','err'); return; }
-  if(datesSet.has(date)){ toast(`${date} already submitted`,'err'); return; }
-
-  const btn=$('subBtn');
-  btn.innerHTML='<span class="spin"></span>';
-  btn.disabled=true;
-
-  try {
-    const row=[date, sales.toFixed(2), tax.toFixed(2), cc.toFixed(2), cash.toFixed(2), by, notes];
-    await gw('sheets.append',{ spreadsheetId:SID, range:'Raw Log!A:G', values:[row] });
-
-    // Update local state immediately
-    allRows.unshift({date,sales,tax,cc,cash,by,notes});
-    allRows.sort((a,b)=>b.date.localeCompare(a.date));
-    datesSet.add(date);
-
-    toast('Submitted & synced to Sheet ✓');
-
-    // Clear form
-    $('fSales').value=''; $('fTax').value=''; $('fCC').value=''; $('fCash').value=''; $('fNotes').value='';
-    selDate=null;
-    renderCal();
-    renderMissBanner();
-  } catch(e){
-    toast(e.message,'err');
-  }
-  btn.innerHTML='Submit Z Report';
-  btn.disabled=false;
-}
-
-// ── Calendar ───────────────────────────────────────────────────────────────
-function renderCal(){
-  const el=$('cal');
-  el.innerHTML='';
-  const days=[];
-  for(let i=13;i>=0;i--){
-    const d=new Date(); d.setDate(d.getDate()-i);
-    days.push(d.toISOString().split('T')[0]);
-  }
-  days.push(todayStr()); // ensure today included
-
-  [...new Set(days)].forEach(d=>{
-    const hasEntry=datesSet.has(d);
-    const isToday=d===todayStr();
-    const isSel=d===(selDate||todayStr());
-
-    const el2=document.createElement('div');
-    el2.className=['cal-d',
-      hasEntry?'ok':'miss',
-      isToday?'today':'',
-      isSel?'sel':''
-    ].filter(Boolean).join(' ');
-    el2.innerHTML=`<span class="dn">${+d.split('-')[2]}</span><span class="dw">${dayAbbr(d)}</span>`;
-    el2.onclick=()=>pickDate(d);
-    el.appendChild(el2);
+// ── LOAD SHEET DATA ─────────────────────────────────────────────────────────
+// ▶ CRITICAL: assign rowNum BEFORE filtering so blank rows don't throw off the index
+async function loadSheetData() {
+  const d = await gw('sheets.read',{
+    spreadsheetId: SID,
+    range: 'Raw Log!A2:G5000'
   });
-  el.scrollLeft=el.scrollWidth;
+  const raw = d.values || [];
+
+  allRows = [];
+  datesMap = {};
+
+  raw.forEach((r, i) => {
+    const date = (r[0]||'').trim();
+    if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return; // skip blanks/headers
+    if (datesMap[date]) return; // skip genuine duplicates (keep first/oldest)
+    const row = {
+      rowNum: i + 2, // A2 = row 2, index 0
+      date,
+      sales: parseFloat(r[1]) || 0,
+      tax:   parseFloat(r[2]) || 0,
+      cc:    parseFloat(r[3]) || 0,
+      cash:  parseFloat(r[4]) || 0,
+      by:    r[5] || '',
+      notes: r[6] || ''
+    };
+    allRows.push(row);
+    datesMap[date] = row;
+  });
+
+  // Sort newest first for display
+  allRows.sort((a,b) => b.date.localeCompare(a.date));
 }
 
-function pickDate(d){
-  selDate=d;
-  $('fDate').value=d;
-  renderCal();
+// ── EMPLOYEE HANDLING ───────────────────────────────────────────────────────
+function onEmpChange() {
+  const v = $('fEmp').value;
+  $('otherNameWrap').style.display = v==='Other' ? 'block' : 'none';
+  if (v!=='Other') $('fOtherName').value='';
 }
 
-function getMissingDays(){
-  const missing=[];
-  const today=new Date();
-  for(let i=30;i>=0;i--){
-    const d=new Date(today); d.setDate(d.getDate()-i);
-    const ds=d.toISOString().split('T')[0];
-    if(!datesSet.has(ds)) missing.push(ds);
+function getSubmitter() {
+  const v = $('fEmp').value;
+  if (v === 'Other') {
+    const name = $('fOtherName').value.trim();
+    return name || 'Other';
   }
-  return missing;
+  return v;
 }
 
-function renderMissBanner(){
-  const miss=getMissingDays();
-  const b=$('missB'), chips=$('missChips');
-  if(!miss.length){ b.style.display='none'; return; }
-  b.style.display='block';
-  chips.innerHTML=miss.slice(0,10).map(d=>
+// ── DATE CHANGE ─────────────────────────────────────────────────────────────
+function onDateChange() {
+  const d = $('fDate').value;
+  if (!d) return;
+  selDate = d;
+  renderCal();
+  checkDateForExisting(d);
+}
+
+function checkDateForExisting(date) {
+  const existing = datesMap[date];
+  const alert    = $('updateAlert');
+  const formTitle= $('formTitle');
+  const btn      = $('subBtn');
+
+  if (existing) {
+    // Show existing values
+    const existing_html = `
+      <div class="ua-row">Sales<span>${fmt(existing.sales)}</span></div>
+      <div class="ua-row">Tax<span>${fmt(existing.tax)}</span></div>
+      <div class="ua-row">CC<span>${fmt(existing.cc)}</span></div>
+      <div class="ua-row">Cash<span>${fmt(existing.cash)}</span></div>
+      <div class="ua-row">By<span>${existing.by}</span></div>
+      ${existing.notes?`<div class="ua-row">Notes<span>${existing.notes}</span></div>`:''}
+    `;
+    $('updateExisting').innerHTML = existing_html;
+    alert.classList.add('show');
+    formTitle.textContent = '✏️ Correct Existing Entry';
+    btn.innerHTML = '⚠️ Update This Entry';
+    btn.className = 'btn btn-update';
+
+    // Pre-fill form with existing values
+    $('fSales').value = existing.sales.toFixed(2);
+    $('fTax').value   = existing.tax.toFixed(2);
+    $('fCC').value    = existing.cc.toFixed(2);
+    $('fCash').value  = existing.cash.toFixed(2);
+    $('fNotes').value = existing.notes;
+    if(existing.by==='Prit'||existing.by==='Jatin'){
+      $('fEmp').value=existing.by;
+    } else {
+      $('fEmp').value='Other';
+      $('fOtherName').value=existing.by;
+    }
+    onEmpChange();
+  } else {
+    alert.classList.remove('show');
+    formTitle.textContent = 'New Z Report Entry';
+    btn.innerHTML = 'Submit Z Report';
+    btn.className = 'btn btn-gold';
+  }
+}
+
+// ── CALENDAR ─────────────────────────────────────────────────────────────────
+function renderCal() {
+  const cal   = $('cal');
+  const today = todayLocal();
+  cal.innerHTML = '';
+
+  // Show last 30 days + today
+  const days = [];
+  for (let i=29; i>=0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate()-i);
+    const y  = d.getFullYear();
+    const m  = String(d.getMonth()+1).padStart(2,'0');
+    const dy = String(d.getDate()).padStart(2,'0');
+    days.push(`${y}-${m}-${dy}`);
+  }
+
+  days.forEach(d => {
+    const hasEntry = !!datesMap[d];
+    const isToday  = d === today;
+    const isSel    = d === (selDate||today);
+    const isFuture = d > today;
+
+    const el = document.createElement('div');
+    el.className = [
+      'cal-d',
+      isFuture ? 'future' : (hasEntry ? 'ok' : 'miss'),
+      isToday  ? 'today' : '',
+      isSel    ? 'sel'   : ''
+    ].filter(Boolean).join(' ');
+
+    const [,mo,dy] = d.split('-');
+    el.innerHTML = `
+      <span class="dn">${+dy}</span>
+      <span class="dw">${dayAbbr(d)}</span>
+      ${hasEntry ? '<span class="chk">✓</span>' : ''}
+    `;
+    el.onclick = () => pickDate(d);
+    cal.appendChild(el);
+  });
+
+  // Scroll to end (most recent)
+  cal.scrollLeft = cal.scrollWidth;
+}
+
+function pickDate(d) {
+  selDate = d;
+  $('fDate').value = d;
+  isEditing = true; // mark form active
+  renderCal();
+  checkDateForExisting(d);
+}
+
+// ── MISSING BANNER ───────────────────────────────────────────────────────────
+function renderMissBanner() {
+  const today = todayLocal();
+  const missing = [];
+
+  for (let i=60; i>=1; i--) { // last 60 days, NOT including today
+    const d = new Date();
+    d.setDate(d.getDate()-i);
+    const y  = d.getFullYear();
+    const m  = String(d.getMonth()+1).padStart(2,'0');
+    const dy = String(d.getDate()).padStart(2,'0');
+    const ds = `${y}-${m}-${dy}`;
+    if (!datesMap[ds]) missing.push(ds);
+  }
+
+  const banner = $('missB');
+  const chips  = $('missChips');
+
+  if (!missing.length) {
+    banner.classList.remove('show');
+    return;
+  }
+
+  banner.classList.add('show');
+  chips.innerHTML = missing.slice(0,15).map(d =>
     `<span class="chip" onclick="pickDate('${d}')">${d}</span>`
   ).join('');
 }
 
-// ── Dashboard ──────────────────────────────────────────────────────────────
-function loadDash(){
-  const thisYM=ym(todayStr());
-  const rows=allRows.filter(r=>ym(r.date)===thisYM);
-  const tot=rows.reduce((a,r)=>({sales:a.sales+r.sales,tax:a.tax+r.tax,cc:a.cc+r.cc,cash:a.cash+r.cash}),{sales:0,tax:0,cc:0,cash:0});
+// ── SUBMIT ───────────────────────────────────────────────────────────────────
+async function submitReport() {
+  const date = $('fDate').value;
+  const by   = getSubmitter();
+  const salesV = $('fSales').value.trim();
+  const taxV   = $('fTax').value.trim();
+  const ccV    = $('fCC').value.trim();
+  const cashV  = $('fCash').value.trim();
+  const notes  = $('fNotes').value.trim();
 
-  $('dSales').textContent=fmtK(tot.sales);
-  $('dTax').textContent=fmtK(tot.tax);
-  $('dCC').textContent=fmtK(tot.cc);
-  $('dCash').textContent=fmtK(tot.cash);
+  // Validate
+  if (!date)  { toast('Select a date','err'); return; }
+  if (!by)    { toast('Select who is submitting','err'); return; }
+  if ($('fEmp').value==='Other' && !$('fOtherName').value.trim()) {
+    toast('Enter employee name','err'); return;
+  }
+  if (!salesV||!taxV||!ccV||!cashV) { toast('All 4 amounts are required','err'); return; }
+  const sales=+salesV, tax=+taxV, cc=+ccV, cash=+cashV;
+  if ([sales,tax,cc,cash].some(v=>isNaN(v)||v<0)) { toast('Invalid amount','err'); return; }
 
-  $('dashList').innerHTML=allRows.slice(0,25).map(r=>`
-    <div class="rrow">
-      <div class="dc">${shortDate(r.date)}<small>${dayAbbr(r.date)}</small></div>
-      <div class="amts">
-        <div class="amt" style="color:var(--green)">${fmt(r.sales)} <span>sales</span></div>
-        <div class="amt" style="color:var(--warn)">${fmt(r.tax)} <span>tax</span></div>
-        <div class="amt" style="color:var(--blue)">${fmt(r.cc)} <span>cc</span></div>
-        <div class="amt" style="color:var(--purple)">${fmt(r.cash)} <span>cash</span></div>
-      </div>
-      <div class="by">${r.by[0]||'?'}</div>
-    </div>`).join('')||'<div class="empty">No entries yet</div>';
+  const payload = { date, sales, tax, cc, cash, by, notes };
+
+  // If date exists → show confirm modal
+  if (datesMap[date]) {
+    pendingPayload = payload;
+    showConfirm(date);
+    return;
+  }
+
+  // New entry — append
+  await doSubmit(payload, false);
 }
 
-// ── Monthly ────────────────────────────────────────────────────────────────
-function initMonthSelects(){
-  const now=new Date();
-  const yr=+$('mYear').value||now.getFullYear();
-  const mSel=$('mMonth');
-  mSel.innerHTML='';
-  for(let m=12;m>=1;m--){
-    if(yr>now.getFullYear()) break;
-    if(yr===now.getFullYear()&&m>now.getMonth()+1) continue;
-    const ymStr=`${yr}-${String(m).padStart(2,'0')}`;
-    const opt=document.createElement('option');
-    opt.value=ymStr;
-    opt.textContent=new Date(yr,m-1,1).toLocaleString('default',{month:'long'});
-    if(m===now.getMonth()+1) opt.selected=true;
-    mSel.appendChild(opt);
+function showConfirm(date) {
+  const ex = datesMap[date];
+  $('confirmExisting').innerHTML = `
+    <div class="ef"><span>Sales</span>${fmt(ex.sales)}</div>
+    <div class="ef"><span>Tax</span>${fmt(ex.tax)}</div>
+    <div class="ef"><span>CC</span>${fmt(ex.cc)}</div>
+    <div class="ef"><span>Cash</span>${fmt(ex.cash)}</div>
+    <div class="ef"><span>By</span>${ex.by}</div>
+    <div class="ef"><span>Date</span>${date}</div>
+  `;
+  $('confirmOverlay').classList.add('show');
+}
+
+function closeConfirm() {
+  $('confirmOverlay').classList.remove('show');
+  pendingPayload = null;
+}
+
+async function confirmUpdate() {
+  closeConfirm();
+  if (!pendingPayload) return;
+  await doSubmit(pendingPayload, true);
+}
+
+async function doSubmit(payload, isUpdate) {
+  const btn = $('subBtn');
+  btn.innerHTML = '<span class="spin"></span>';
+  btn.disabled  = true;
+
+  try {
+    const row = [
+      payload.date,
+      payload.sales.toFixed(2),
+      payload.tax.toFixed(2),
+      payload.cc.toFixed(2),
+      payload.cash.toFixed(2),
+      payload.by,
+      payload.notes
+    ];
+
+    if (isUpdate && datesMap[payload.date]) {
+      // UPDATE existing row in sheet
+      const rowNum = datesMap[payload.date].rowNum;
+      await gw('sheets.update', {
+        spreadsheetId: SID,
+        range: `Raw Log!A${rowNum}:G${rowNum}`,
+        values: [row]
+      });
+      // Update local state
+      Object.assign(datesMap[payload.date], {
+        sales:payload.sales, tax:payload.tax, cc:payload.cc,
+        cash:payload.cash, by:payload.by, notes:payload.notes
+      });
+      toast('Entry updated in Sheet ✓', 'warn');
+    } else {
+      // APPEND new row
+      await gw('sheets.append', {
+        spreadsheetId: SID,
+        range: 'Raw Log!A:G',
+        values: [row]
+      });
+      // Add to local state (rowNum is approximate — reload will fix it)
+      const newRow = {...payload, rowNum: allRows.length + 2};
+      allRows.unshift(newRow);
+      allRows.sort((a,b) => b.date.localeCompare(a.date));
+      datesMap[payload.date] = newRow;
+      toast('Z Report submitted & synced ✓', 'ok');
+    }
+
+    // Reset form
+    $('fSales').value=''; $('fTax').value='';
+    $('fCC').value='';    $('fCash').value='';
+    $('fNotes').value='';
+    $('fEmp').value='Prit';
+    onEmpChange();
+    $('updateAlert').classList.remove('show');
+    $('formTitle').textContent='New Z Report Entry';
+
+    selDate = null;
+    isEditing = false;
+    renderCal();
+    renderMissBanner();
+
+  } catch(e) {
+    toast(e.message, 'err', 5000);
+  }
+
+  btn.innerHTML = datesMap[$('fDate').value] ? '⚠️ Update This Entry' : 'Submit Z Report';
+  btn.className  = datesMap[$('fDate').value] ? 'btn btn-update' : 'btn btn-gold';
+  btn.disabled  = false;
+  pendingPayload = null;
+}
+
+// ── DASHBOARD ─────────────────────────────────────────────────────────────────
+function loadDash() {
+  const thisYM = ymStr(todayLocal());
+  const rows   = allRows.filter(r => ymStr(r.date)===thisYM);
+  const tot    = sum(rows);
+
+  $('dSales').textContent = fmtK(tot.sales);
+  $('dTax').textContent   = fmtK(tot.tax);
+  $('dCC').textContent    = fmtK(tot.cc);
+  $('dCash').textContent  = fmtK(tot.cash);
+  $('dDays').textContent  = `${rows.length} day${rows.length!==1?'s':''}`;
+
+  $('dashList').innerHTML = rows.length
+    ? rows.map(rRow).join('')
+    : '<div class="empty">No entries this month</div>';
+}
+
+// ── MONTHLY ──────────────────────────────────────────────────────────────────
+function initYears() {
+  const now = new Date();
+  const yrEl = $('mYear');
+  yrEl.innerHTML = '';
+  for (let y=now.getFullYear(); y>=2026; y--) {
+    yrEl.innerHTML += `<option value="${y}"${y===now.getFullYear()?'selected':''}>${y}</option>`;
+  }
+}
+
+function buildMonthSelect() {
+  const yr  = +$('mYear').value;
+  const now = new Date();
+  const mEl = $('mMonth');
+  mEl.innerHTML='';
+  for (let m=12; m>=1; m--) {
+    if (yr===now.getFullYear() && m>now.getMonth()+1) continue;
+    const ym = `${yr}-${String(m).padStart(2,'0')}`;
+    const label = new Date(yr,m-1,1).toLocaleString('default',{month:'long'});
+    const sel = (yr===now.getFullYear() && m===now.getMonth()+1) ? 'selected' : '';
+    mEl.innerHTML += `<option value="${ym}" ${sel}>${label}</option>`;
   }
   loadMonthly();
 }
 
-function initYearSelect(){
-  const now=new Date();
-  const sel=$('mYear');
-  sel.innerHTML='';
-  for(let y=now.getFullYear();y>=2026;y--){
-    const opt=document.createElement('option');
-    opt.value=y; opt.textContent=y;
-    if(y===now.getFullYear()) opt.selected=true;
-    sel.appendChild(opt);
-  }
+function loadMonthly() {
+  const ym   = $('mMonth').value;
+  if (!ym) return;
+  const rows = allRows.filter(r=>ymStr(r.date)===ym);
+  const tot  = sum(rows);
+
+  $('mSales').textContent = fmtK(tot.sales);
+  $('mTax').textContent   = fmtK(tot.tax);
+  $('mCC').textContent    = fmtK(tot.cc);
+  $('mCash').textContent  = fmtK(tot.cash);
+
+  $('monthList').innerHTML = rows.length
+    ? rows.map(rRow).join('')
+    : '<div class="empty">No entries for this month</div>';
 }
 
-function loadMonthly(){
-  const ymStr=$('mMonth').value;
-  if(!ymStr) return;
-  const rows=allRows.filter(r=>ym(r.date)===ymStr).sort((a,b)=>b.date.localeCompare(a.date));
-  const tot=rows.reduce((a,r)=>({sales:a.sales+r.sales,tax:a.tax+r.tax,cc:a.cc+r.cc,cash:a.cash+r.cash}),{sales:0,tax:0,cc:0,cash:0});
-
-  $('mSales').textContent=fmtK(tot.sales);
-  $('mTax').textContent=fmtK(tot.tax);
-  $('mCC').textContent=fmtK(tot.cc);
-  $('mCash').textContent=fmtK(tot.cash);
-
-  $('monthList').innerHTML=rows.map(r=>`
-    <div class="rrow">
-      <div class="dc">${shortDate(r.date)}<small>${dayAbbr(r.date)}</small></div>
-      <div class="amts">
-        <div class="amt" style="color:var(--green)">${fmt(r.sales)} <span>sales</span></div>
-        <div class="amt" style="color:var(--warn)">${fmt(r.tax)} <span>tax</span></div>
-        <div class="amt" style="color:var(--blue)">${fmt(r.cc)} <span>cc</span></div>
-        <div class="amt" style="color:var(--purple)">${fmt(r.cash)} <span>cash</span></div>
-      </div>
-      <div class="by">${r.by[0]||'?'}</div>
-    </div>`).join('')||'<div class="empty">No entries for this month</div>';
-}
-
-// ── Yearly ─────────────────────────────────────────────────────────────────
-function loadYearly(){
-  const byYear={};
+// ── YEARLY ────────────────────────────────────────────────────────────────────
+function loadYearly() {
+  const byYear={}, byYM={};
   allRows.forEach(r=>{
-    const y=r.date.slice(0,4);
+    const y=r.date.slice(0,4), ym=ymStr(r.date);
     if(!byYear[y]) byYear[y]={sales:0,tax:0,cc:0,cash:0,days:0};
     byYear[y].sales+=r.sales; byYear[y].tax+=r.tax;
     byYear[y].cc+=r.cc; byYear[y].cash+=r.cash; byYear[y].days++;
+    if(!byYM[ym]) byYM[ym]={sales:0,tax:0,cc:0,cash:0,days:0,year:y};
+    byYM[ym].sales+=r.sales; byYM[ym].tax+=r.tax;
+    byYM[ym].cc+=r.cc; byYM[ym].cash+=r.cash; byYM[ym].days++;
   });
 
-  const years=Object.keys(byYear).sort((a,b)=>b-a);
-  $('yearStats').innerHTML=years.map(y=>`
-    <div class="stat">
-      <div class="lbl">${y}</div>
-      <div class="val" style="font-size:18px">${fmtK(byYear[y].sales)}</div>
-      <div style="font-size:10px;color:var(--text2);margin-top:2px">${byYear[y].days} days · ${fmt(byYear[y].cash)} cash</div>
-    </div>`).join('')||'<div class="empty" style="grid-column:span 2">No data yet</div>';
+  const years=Object.keys(byYear).sort((a,b)=>+b-+a);
+  $('yearStats').innerHTML = years.length
+    ? years.map(y=>`
+        <div class="stat">
+          <div class="lbl">${y}</div>
+          <div class="val" style="font-size:19px">${fmtK(byYear[y].sales)}</div>
+          <div class="sub">${byYear[y].days} days · ${fmtK(byYear[y].cash)} cash</div>
+        </div>`).join('')
+    : '<div class="empty" style="grid-column:span 2">No data yet</div>';
 
-  // Breakdown by month for latest year
-  if(!years.length) return;
-  const latestYear=years[0];
-  const byMonth={};
-  allRows.filter(r=>r.date.startsWith(latestYear)).forEach(r=>{
-    const m=ym(r.date);
-    if(!byMonth[m]) byMonth[m]={sales:0,tax:0,cc:0,cash:0,days:0};
-    byMonth[m].sales+=r.sales; byMonth[m].tax+=r.tax;
-    byMonth[m].cc+=r.cc; byMonth[m].cash+=r.cash; byMonth[m].days++;
-  });
+  if(!years.length) { $('yearList').innerHTML=''; return; }
 
-  $('yearList').innerHTML=`<div class="mhdr">${latestYear} by Month</div>`+
-    Object.keys(byMonth).sort((a,b)=>b.localeCompare(a)).map(m=>`
+  const latestY = years[0];
+  const months  = Object.keys(byYM).filter(ym=>byYM[ym].year===latestY).sort((a,b)=>b.localeCompare(a));
+
+  $('yearList').innerHTML = `<div class="shdr">${latestY} Month by Month</div>` +
+    months.map(ym=>`
       <div class="rrow">
-        <div class="dc">${new Date(m+'-01T12:00:00').toLocaleString('default',{month:'short'})}<small>${byMonth[m].days}d</small></div>
+        <div class="dc">${monthShort(ym)}<small>${byYM[ym].days}d</small></div>
         <div class="amts">
-          <div class="amt" style="color:var(--green)">${fmtK(byMonth[m].sales)} <span>sales</span></div>
-          <div class="amt" style="color:var(--warn)">${fmtK(byMonth[m].tax)} <span>tax</span></div>
-          <div class="amt" style="color:var(--blue)">${fmtK(byMonth[m].cc)} <span>cc</span></div>
-          <div class="amt" style="color:var(--purple)">${fmtK(byMonth[m].cash)} <span>cash</span></div>
+          <div class="amt" style="color:var(--green)">${fmtK(byYM[ym].sales)} <span>sales</span></div>
+          <div class="amt" style="color:var(--warn)">${fmtK(byYM[ym].tax)} <span>tax</span></div>
+          <div class="amt" style="color:var(--blue)">${fmtK(byYM[ym].cc)} <span>cc</span></div>
+          <div class="amt" style="color:var(--purple)">${fmtK(byYM[ym].cash)} <span>cash</span></div>
         </div>
       </div>`).join('')||'<div class="empty">No data</div>';
 }
 
-// ── Nav ────────────────────────────────────────────────────────────────────
-function nav(page){
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function sum(rows) {
+  return rows.reduce((a,r)=>({
+    sales:a.sales+r.sales, tax:a.tax+r.tax, cc:a.cc+r.cc, cash:a.cash+r.cash
+  }), {sales:0,tax:0,cc:0,cash:0});
+}
+
+function rRow(r) {
+  return `<div class="rrow">
+    <div class="dc">${shortDate(r.date)}<small>${dayAbbr(r.date)}</small></div>
+    <div class="amts">
+      <div class="amt" style="color:var(--green)">${fmt(r.sales)} <span>sales</span></div>
+      <div class="amt" style="color:var(--warn)">${fmt(r.tax)} <span>tax</span></div>
+      <div class="amt" style="color:var(--blue)">${fmt(r.cc)} <span>cc</span></div>
+      <div class="amt" style="color:var(--purple)">${fmt(r.cash)} <span>cash</span></div>
+    </div>
+    <div class="by-badge">${(r.by||'?')[0].toUpperCase()}</div>
+  </div>`;
+}
+
+// ── NAV ───────────────────────────────────────────────────────────────────────
+function nav(page) {
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   $(`page-${page}`).classList.add('active');
   document.querySelector(`[data-page="${page}"]`).classList.add('active');
-  if(page==='dash') loadDash();
-  if(page==='monthly'){ initYearSelect(); initMonthSelects(); }
-  if(page==='yearly') loadYearly();
+  if(page==='dash')    loadDash();
+  if(page==='monthly') { initYears(); buildMonthSelect(); }
+  if(page==='yearly')  loadYearly();
 }
 
-// ── Init ───────────────────────────────────────────────────────────────────
-async function init(){
-  showLoader('Connecting to gateway…');
+// ── REFRESH ───────────────────────────────────────────────────────────────────
+async function refresh() {
+  if (isEditing) return; // don't disrupt active form
+  try {
+    $('gwDot').className='dot y';
+    await loadSheetData();
+    await checkGW();
+    renderCal();
+    renderMissBanner();
+    const active = qS('.page.active');
+    if (active?.id==='page-dash')    loadDash();
+    if (active?.id==='page-monthly') loadMonthly();
+    if (active?.id==='page-yearly')  loadYearly();
+    toast('Synced from Sheet','info',2000);
+  } catch(e) {
+    toast('Sync failed: '+e.message,'err');
+  }
+}
 
-  // Populate employee dropdown
-  $('fEmp').innerHTML=EMPLOYEES.map(e=>`<option value="${e}">${e}</option>`).join('');
+// ── FORM ACTIVITY TRACKING ────────────────────────────────────────────────────
+['fSales','fTax','fCC','fCash','fNotes'].forEach(id=>{
+  const el = document.addEventListener('DOMContentLoaded',()=>{
+    const f = $(id);
+    if(f) {
+      f.addEventListener('focus', ()=>{ isEditing=true; });
+      f.addEventListener('blur',  ()=>{ 
+        // Only mark not-editing if all fields empty
+        const allEmpty = ['fSales','fTax','fCC','fCash'].every(i=>!$(i).value);
+        if(allEmpty) isEditing=false;
+      });
+    }
+  });
+});
 
-  // Set today
-  $('fDate').value=todayStr();
-  selDate=todayStr();
+// ── INIT ──────────────────────────────────────────────────────────────────────
+async function init() {
+  showLoader('Connecting to Gateway…');
 
-  // Ping gateway
-  const ok=await ping();
+  // Set today's date
+  const today = todayLocal();
+  $('fDate').value = today;
+  selDate = today;
 
-  if(!ok){
+  // Check gateway
+  $('lmsg').textContent = 'Checking gateway…';
+  const gwOk = await checkGW();
+
+  if (!gwOk) {
     hideLoader();
-    toast('Gateway offline — check connection','err');
+    toast('Gateway offline — Z Report unavailable','err',6000);
     renderCal();
     return;
   }
 
   // Load sheet data
-  $('loader-msg').textContent='Loading entries from Sheet…';
-  try{
+  $('lmsg').textContent = 'Loading entries from Sheet…';
+  try {
     await loadSheetData();
-  } catch(e){
-    toast('Could not load Sheet data: '+e.message,'err');
+  } catch(e) {
+    hideLoader();
+    toast('Could not load Sheet: '+e.message,'err',6000);
+    renderCal();
+    return;
   }
 
   hideLoader();
+
+  // Render
   renderCal();
   renderMissBanner();
+  checkDateForExisting(today);
 
-  // Refresh every 5 min
-  setInterval(async()=>{
-    await ping();
-    try{ await loadSheetData(); renderCal(); renderMissBanner(); } catch(e){}
-  }, 5*60*1000);
+  // Auto-refresh every 3 minutes (only when form not active)
+  refreshTimer = setInterval(async()=>{
+    if(!isEditing) {
+      try {
+        await loadSheetData();
+        await checkGW();
+        renderCal();
+        renderMissBanner();
+      } catch(e){}
+    }
+  }, 3*60*1000);
 }
+
+// Close confirm on backdrop tap
+$('confirmOverlay').addEventListener('click', e=>{
+  if(e.target===$('confirmOverlay')) closeConfirm();
+});
 
 init();
 </script>
