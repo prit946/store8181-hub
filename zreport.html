@@ -4,330 +4,488 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#1a0a00">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#1b2d45">
 <title>Z Report · Store 8181</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-:root{
-  --bg:#0f0a00;--surf:#1e1200;--surf2:#2a1a00;--surf3:#331f00;
-  --border:#3d2800;--border2:#4a3200;
-  --gold:#ffb500;--gold2:#ffd060;--brown:#301506;
-  --green:#22c55e;--red:#ef4444;--blue:#4f7ef8;--purple:#a78bfa;--warn:#f59e0b;
-  --text:#f5e6c8;--text2:#8a7055;--text3:#c4a882;
-  --radius:14px;
-}
-*{box-sizing:border-box}
-html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:16px;overscroll-behavior:none}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#eaecef;color:#111;font-size:14px;min-height:100vh}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;-webkit-appearance:none}
 input,select,textarea{font-family:inherit}
-input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 input[type=number]{-moz-appearance:textfield}
 
-/* ── HEADER ── */
-.hdr{background:linear-gradient(135deg,#1a0a00 0%,#301506 100%);padding:14px 18px 12px;border-bottom:2.5px solid var(--gold);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;-webkit-backdrop-filter:blur(10px)}
-.hdr-l h1{font-size:18px;font-weight:800;color:var(--gold);letter-spacing:.3px}
-.hdr-l small{font-size:10px;color:rgba(255,181,0,.6);display:block;margin-top:1px}
-.gw-pill{font-size:11px;font-weight:700;padding:5px 11px;border-radius:20px;background:rgba(0,0,0,.5);display:flex;align-items:center;gap:5px;min-width:64px;justify-content:center}
+/* ── AUTH SCREENS ── */
+.auth-hdr{background:#1b2d45;color:#fff;height:56px;display:flex;align-items:center;justify-content:center;padding:0 20px;position:sticky;top:0;z-index:100}
+.auth-hdr h1{font-size:15px;font-weight:700}
+.auth-hdr small{font-size:10px;color:#7a9ab8;display:block;text-align:center;margin-top:1px}
+.auth-hdr .hdr-back-lnk{position:absolute;left:16px;color:#7a9ab8;font-size:22px;text-decoration:none}
+.auth-wrap{max-width:480px;margin:0 auto;padding:20px 16px 40px}
+.slbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#888;margin:20px 0 10px 2px}
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.role-card{background:#fff;border:1.5px solid #dde0e5;border-radius:8px;padding:28px 16px;text-align:center;cursor:pointer;color:#111;display:block;transition:all .15s;user-select:none;touch-action:manipulation}
+.role-card:active{background:#f4f6f9;transform:scale(.97)}
+.role-card .rc-ico{font-size:36px;margin-bottom:10px}
+.role-card .rc-name{font-size:15px;font-weight:700;margin-bottom:3px}
+.role-card .rc-desc{font-size:11px;color:#888;line-height:1.4}
+.role-card.admin{border-color:#1b2d45}.role-card.admin .rc-name{color:#1b2d45}
+.role-card.guest{border-color:#0498BC}.role-card.guest .rc-name{color:#0498BC}
+.pin-wrap{max-width:340px;margin:24px auto 0}
+.pin-title{text-align:center;margin-bottom:20px}
+.pin-title h2{font-size:20px;font-weight:700;color:#1b2d45;margin-bottom:4px}
+.pin-title p{font-size:12px;color:#888}
+.pin-dots{display:flex;justify-content:center;gap:14px;margin-bottom:24px}
+.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid #c0c8d4;background:transparent;transition:all .12s}
+.pin-dot.on{background:#1b2d45;border-color:#1b2d45}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.key{height:60px;background:#fff;border:1px solid #dde0e5;border-radius:6px;font-size:20px;font-weight:600;color:#1b2d45;display:flex;align-items:center;justify-content:center;transition:all .1s;user-select:none;-webkit-user-select:none;touch-action:manipulation}
+.key:active{background:#eaecef;transform:scale(.94)}
+.key.del{font-size:16px;color:#888}
+.key.empty{background:transparent;border:none;pointer-events:none}
+.pin-error{text-align:center;font-size:12px;font-weight:700;color:#dc3545;height:18px;margin-bottom:12px}
+.back-lnk{display:flex;align-items:center;justify-content:center;color:#888;font-size:13px;font-weight:600;cursor:pointer;gap:4px;padding:10px;touch-action:manipulation}
+.back-lnk:active{color:#1b2d45}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.shake{animation:shake .35s ease}
+
+/* ── GUEST SETUP ── */
+.setup-card{background:#fff;border:1px solid #dde0e5;border-radius:8px;padding:20px;margin-bottom:12px}
+.setup-card h3{font-size:14px;font-weight:700;color:#1b2d45;margin-bottom:4px}
+.setup-card p{font-size:12px;color:#888;margin-bottom:16px;line-height:1.5}
+
+/* ── SHARED FORM INPUTS ── */
+.fg{margin-bottom:12px}
+.fg label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#888;margin-bottom:5px}
+.fg input,.fg select{width:100%;padding:10px 12px;background:#f4f6f9;border:1.5px solid #dde0e5;border-radius:5px;color:#111;font-size:15px;-webkit-appearance:none;appearance:none;transition:border-color .15s}
+.fg input:focus,.fg select:focus{border-color:#1b2d45;outline:none;background:#fff}
+
+/* ── ALL SCREENS HIDDEN BY DEFAULT ── */
+#screen-role,#screen-pin,#screen-guest-setup,#screen-guest-pin,#screen-main{display:none}
+
+/* ── MAIN APP HEADER ── */
+.hdr{background:#1b2d45;padding:0 16px;height:50px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100}
+.hdr-back{color:#7a9ab8;font-size:22px;text-decoration:none;padding:2px 4px;flex-shrink:0;display:flex;align-items:center;touch-action:manipulation}
+.hdr-info{flex:1}
+.hdr-info h1{font-size:14px;font-weight:700;color:#fff}
+.hdr-info small{font-size:10px;color:#7a9ab8;display:block;margin-top:1px}
+.gw-pill{font-size:11px;font-weight:700;padding:5px 11px;border-radius:20px;background:rgba(255,255,255,.12);display:flex;align-items:center;gap:5px;min-width:64px;justify-content:center;color:#fff;flex-shrink:0}
 .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;transition:background .3s}
-.dot.g{background:var(--green)}.dot.r{background:var(--red)}.dot.y{background:var(--warn)}
+.dot.g{background:#28a745}.dot.r{background:#dc3545}.dot.y{background:#f0ad00}
 
 /* ── NAV ── */
-.nav{display:flex;background:var(--surf);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;position:sticky;top:57px;z-index:90}
+.nav{display:flex;background:#1b2d45;border-bottom:1px solid #111e2e;overflow-x:auto;scrollbar-width:none;position:sticky;top:50px;z-index:90}
 .nav::-webkit-scrollbar{display:none}
-.nav-btn{flex:1;min-width:58px;padding:11px 4px 9px;font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--text2);border-bottom:2.5px solid transparent;transition:all .15s;white-space:nowrap}
+.nav-btn{flex:1;min-width:58px;padding:11px 4px 9px;font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#7a9ab8;border-bottom:2.5px solid transparent;transition:all .15s;white-space:nowrap;touch-action:manipulation}
 .nav-btn .ico{font-size:16px;display:block;margin-bottom:2px}
-.nav-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+.nav-btn.active{color:#fff;border-bottom-color:#0498BC}
 
 /* ── CONTENT ── */
 .content{padding:13px;max-width:560px;margin:0 auto;padding-bottom:28px}
 .page{display:none}.page.active{display:block}
 
 /* ── CARD ── */
-.card{background:var(--surf);border:1px solid var(--border);border-radius:var(--radius);padding:15px;margin-bottom:11px}
-.ctitle{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin-bottom:12px;font-weight:800}
+.card{background:#fff;border:1px solid #dde0e5;border-radius:6px;padding:15px;margin-bottom:11px}
+.ctitle{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-bottom:12px;font-weight:800}
 
-/* ── FORM ── */
-.fg{margin-bottom:12px}
-.fg label{display:block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);margin-bottom:5px}
-.fg input,.fg select{width:100%;padding:13px 14px;background:var(--surf2);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-size:17px;-webkit-appearance:none;appearance:none;transition:border-color .15s;caret-color:var(--gold)}
-.fg input:focus,.fg select:focus{border-color:var(--gold);outline:none;background:var(--surf3)}
-.fg input[type=number]{font-variant-numeric:tabular-nums;letter-spacing:.5px}
-.fg input.warn-field{border-color:var(--warn)!important}
-.fg select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238a7055'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+/* ── FORM (in main app) ── */
+.ff{margin-bottom:12px}
+.ff label{display:block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#888;margin-bottom:5px}
+.ff input,.ff select{width:100%;padding:11px 12px;background:#f4f6f9;border:1.5px solid #dde0e5;border-radius:5px;color:#111;font-size:16px;-webkit-appearance:none;appearance:none;transition:border-color .15s}
+.ff input:focus,.ff select:focus{border-color:#1b2d45;outline:none;background:#fff}
+.ff input[type=number]{font-variant-numeric:tabular-nums;letter-spacing:.5px}
+.ff select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
 /* ── UPDATE ALERT ── */
-.update-alert{background:rgba(245,158,11,.1);border:1.5px solid rgba(245,158,11,.4);border-radius:10px;padding:11px 13px;margin-bottom:12px;display:none}
+.update-alert{background:#fff8ec;border:1.5px solid #f0ad00;border-radius:6px;padding:11px 13px;margin-bottom:12px;display:none}
 .update-alert.show{display:block}
-.update-alert .ua-title{font-size:11px;font-weight:800;color:var(--warn);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
-.update-alert .ua-row{display:flex;justify-content:space-between;font-size:12px;color:var(--text3);padding:2px 0}
-.update-alert .ua-row span{font-weight:700;color:var(--text)}
+.update-alert .ua-title{font-size:11px;font-weight:800;color:#e09000;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.update-alert .ua-row{display:flex;justify-content:space-between;font-size:12px;color:#888;padding:2px 0}
+.update-alert .ua-row span{font-weight:700;color:#111}
 
 /* ── BUTTONS ── */
-.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;border-radius:11px;font-size:16px;font-weight:800;letter-spacing:.2px;transition:all .12s;cursor:pointer;border:none}
-.btn-gold{background:linear-gradient(135deg,var(--gold),#d48800);color:#1a0a00}
-.btn-gold:active{transform:scale(.98);filter:brightness(.92)}
-.btn-gold:disabled{opacity:.6;pointer-events:none}
-.btn-update{background:linear-gradient(135deg,var(--warn),#c97d00);color:#1a0a00}
-.btn-sec{background:var(--surf2);border:1px solid var(--border);color:var(--text);font-size:14px;padding:10px 16px;width:auto;border-radius:9px;font-weight:700}
-.btn-sm{padding:7px 13px;font-size:12px;width:auto;border-radius:8px;font-weight:800}
-.btn-danger{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:var(--red);font-size:14px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;border-radius:6px;font-size:14px;font-weight:800;transition:all .12s;cursor:pointer;border:none;touch-action:manipulation}
+.btn-pri{background:#1b2d45;color:#fff}
+.btn-pri:active{background:#243d5e}
+.btn-pri:disabled{opacity:.5;pointer-events:none}
+.btn-teal{background:#0498BC;color:#fff}
+.btn-teal:active{background:#0380a0}
+.btn-warn{background:#f0ad00;color:#1b2d45;font-weight:800}
+.btn-warn:active{background:#e09000}
+.btn-sec{background:#f4f6f9;border:1px solid #dde0e5;color:#2a4060;font-size:13px;padding:10px 16px;width:auto;border-radius:5px;font-weight:700}
+.btn-sm{padding:6px 12px;font-size:11px;width:auto;border-radius:4px;font-weight:700}
+.btn-danger{background:rgba(220,53,69,.08);border:1px solid rgba(220,53,69,.3);color:#dc3545;font-size:13px}
 
 /* ── CALENDAR ── */
 .cal{display:flex;gap:6px;overflow-x:auto;padding:2px 1px 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .cal::-webkit-scrollbar{display:none}
-.cal-d{flex:0 0 44px;height:60px;border-radius:11px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:2px solid transparent;background:var(--surf2);transition:all .12s;position:relative;user-select:none;-webkit-user-select:none}
+.cal-d{flex:0 0 44px;height:60px;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:2px solid #dde0e5;background:#fff;transition:all .12s;position:relative;user-select:none;-webkit-user-select:none;touch-action:manipulation}
 .cal-d:active{transform:scale(.95)}
-.cal-d .dn{font-size:15px;font-weight:800;line-height:1}
-.cal-d .dw{font-size:9px;text-transform:uppercase;color:var(--text2);margin-top:3px;font-weight:700}
-.cal-d .chk{position:absolute;top:3px;right:4px;font-size:8px}
-.cal-d.ok{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.4)}
-.cal-d.ok .dn{color:var(--green)}
-.cal-d.ok .dw{color:rgba(34,197,94,.6)}
-.cal-d.miss{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.25)}
-.cal-d.miss .dn{color:var(--red)}
-.cal-d.sel{border-color:var(--gold)!important;background:rgba(255,181,0,.15)!important;box-shadow:0 0 0 3px rgba(255,181,0,.15)}
-.cal-d.today::after{content:'';position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--gold)}
+.cal-d .dn{font-size:15px;font-weight:800;line-height:1;color:#1b2d45}
+.cal-d .dw{font-size:9px;text-transform:uppercase;color:#888;margin-top:3px;font-weight:700}
+.cal-d .chk{position:absolute;top:3px;right:4px;font-size:8px;color:#28a745}
+.cal-d.ok{background:#edfaf0;border-color:rgba(40,167,69,.35)}
+.cal-d.ok .dn{color:#28a745}
+.cal-d.ok .dw{color:rgba(40,167,69,.7)}
+.cal-d.miss{background:rgba(220,53,69,.05);border-color:rgba(220,53,69,.2)}
+.cal-d.miss .dn{color:#dc3545}
+.cal-d.sel{border-color:#1b2d45!important;background:#e8ecf2!important;box-shadow:0 0 0 3px rgba(27,45,69,.12)}
+.cal-d.today::after{content:'';position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:#0498BC}
 .cal-d.future{opacity:.3;pointer-events:none}
 
 /* ── STATS ── */
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px}
-.stat{background:var(--surf2);border:1px solid var(--border);border-radius:11px;padding:13px}
-.stat .lbl{font-size:9px;text-transform:uppercase;letter-spacing:.8px;color:var(--text2);margin-bottom:3px;font-weight:800}
-.stat .val{font-size:21px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
-.stat .sub{font-size:10px;color:var(--text2);margin-top:2px}
-.stat.s .val{color:var(--green)}.stat.t .val{color:var(--warn)}
-.stat.c .val{color:var(--blue)}.stat.h .val{color:var(--purple)}
+.stat{background:#fff;border:1px solid #dde0e5;border-radius:6px;padding:13px}
+.stat .lbl{font-size:9px;text-transform:uppercase;letter-spacing:.8px;color:#888;margin-bottom:3px;font-weight:800}
+.stat .val{font-size:21px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.5px;color:#1b2d45}
+.stat .sub{font-size:10px;color:#888;margin-top:2px}
+.stat.s .val{color:#28a745}.stat.t .val{color:#e09000}.stat.c .val{color:#0498BC}.stat.h .val{color:#7c3aed}
 
 /* ── REPORT ROW ── */
-.rrow{background:var(--surf2);border:1px solid var(--border);border-radius:10px;padding:12px 13px;margin-bottom:7px;display:flex;align-items:center;gap:10px}
-.rrow .dc{font-size:12px;font-weight:800;min-width:40px;color:var(--text3)}
-.rrow .dc small{font-size:9px;display:block;color:var(--text2);font-weight:500;margin-top:1px}
+.rrow{background:#fff;border:1px solid #dde0e5;border-radius:6px;padding:12px 13px;margin-bottom:7px;display:flex;align-items:center;gap:10px}
+.rrow .dc{font-size:12px;font-weight:800;min-width:40px;color:#1b2d45}
+.rrow .dc small{font-size:9px;display:block;color:#888;font-weight:500;margin-top:1px}
 .rrow .amts{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:2px 6px}
 .rrow .amt{font-size:12px;font-weight:700;white-space:nowrap}
-.rrow .amt span{color:var(--text2);font-size:9px;font-weight:500}
-.rrow .by-badge{font-size:10px;font-weight:800;color:var(--text2);background:var(--surf3);border-radius:6px;padding:3px 6px;min-width:26px;text-align:center}
+.rrow .amt span{color:#888;font-size:9px;font-weight:500}
+.rrow .by-badge{font-size:10px;font-weight:800;color:#888;background:#f4f6f9;border:1px solid #dde0e5;border-radius:5px;padding:3px 6px;min-width:26px;text-align:center}
 
 /* ── MISSING BANNER ── */
-.miss-b{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.22);border-radius:11px;padding:11px 13px;margin-bottom:11px;display:none}
+.miss-b{background:rgba(220,53,69,.05);border:1px solid rgba(220,53,69,.2);border-radius:6px;padding:11px 13px;margin-bottom:11px;display:none}
 .miss-b.show{display:block}
-.miss-b .t{font-size:10px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.miss-b .t{font-size:10px;font-weight:800;color:#dc3545;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
-.chip{background:rgba(239,68,68,.12);color:var(--red);padding:5px 10px;border-radius:20px;font-size:11px;font-weight:800;cursor:pointer;border:1px solid rgba(239,68,68,.2);transition:all .1s;user-select:none}
-.chip:active{background:rgba(239,68,68,.25);transform:scale(.96)}
+.chip{background:rgba(220,53,69,.08);color:#dc3545;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:800;cursor:pointer;border:1px solid rgba(220,53,69,.2);transition:all .1s;user-select:none;touch-action:manipulation}
+.chip:active{background:rgba(220,53,69,.18);transform:scale(.96)}
 
 /* ── SECTION HEADER ── */
-.shdr{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin:14px 0 7px;font-weight:800;padding:0 1px}
-
-/* ── MONTH TOTAL ROW ── */
-.total-row{background:rgba(255,181,0,.07);border:1px solid rgba(255,181,0,.2);border-radius:10px;padding:11px 13px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
-.total-row .tl{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--gold);font-weight:800}
-.total-row .tv{font-size:16px;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums}
-.total-row .tsub{font-size:10px;color:var(--text2);margin-top:1px}
+.shdr{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#888;margin:14px 0 7px;font-weight:800}
 
 /* ── TOAST ── */
-#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surf2);border:1.5px solid var(--border);border-radius:12px;padding:12px 20px;font-size:14px;font-weight:700;opacity:0;transition:all .22s;pointer-events:none;z-index:9999;white-space:nowrap;box-shadow:0 8px 40px rgba(0,0,0,.7);max-width:90vw;text-align:center}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:#fff;border:1.5px solid #dde0e5;border-radius:8px;padding:12px 20px;font-size:13px;font-weight:700;color:#111;opacity:0;transition:all .22s;pointer-events:none;z-index:9999;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.12);max-width:90vw;text-align:center}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-#toast.ok{border-color:var(--green);color:var(--green)}
-#toast.err{border-color:var(--red);color:var(--red)}
-#toast.info{border-color:var(--blue);color:var(--blue)}
-#toast.warn{border-color:var(--warn);color:var(--warn)}
+#toast.ok{border-color:#28a745;color:#28a745}
+#toast.err{border-color:#dc3545;color:#dc3545}
+#toast.info{border-color:#0498BC;color:#0498BC}
+#toast.warn{border-color:#f0ad00;color:#e09000}
 
 /* ── LOADER ── */
-#loader{position:fixed;inset:0;background:rgba(15,10,0,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:500;gap:16px;backdrop-filter:blur(4px)}
-#loader .sp2{width:38px;height:38px;border:3px solid rgba(255,181,0,.15);border-top-color:var(--gold);border-radius:50%;animation:sp .75s linear infinite}
-#loader .lmsg{color:var(--text2);font-size:13px;font-weight:600;text-align:center;max-width:220px;line-height:1.5}
+#loader{position:fixed;inset:0;background:rgba(234,236,239,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:500;gap:16px}
+#loader .sp2{width:38px;height:38px;border:3px solid #dde0e5;border-top-color:#1b2d45;border-radius:50%;animation:sp .75s linear infinite}
+#loader .lmsg{color:#888;font-size:13px;font-weight:600;text-align:center;max-width:220px;line-height:1.5}
 @keyframes sp{to{transform:rotate(360deg)}}
-
-/* ── SPINNER INLINE ── */
-.spin{display:inline-block;width:17px;height:17px;border:2.5px solid rgba(26,10,0,.4);border-top-color:#1a0a00;border-radius:50%;animation:sp .65s linear infinite;flex-shrink:0}
+.spin{display:inline-block;width:17px;height:17px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp .65s linear infinite;flex-shrink:0}
 
 /* ── CONFIRM MODAL ── */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:400;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:400;display:none;align-items:flex-end;justify-content:center}
 .overlay.show{display:flex}
-.modal{background:var(--surf);border-radius:20px 20px 0 0;padding:22px 18px 40px;width:100%;max-width:560px;border-top:1px solid var(--border);box-shadow:0 -8px 40px rgba(0,0,0,.5)}
-.modal h3{font-size:18px;font-weight:800;margin-bottom:6px}
-.modal p{font-size:13px;color:var(--text2);margin-bottom:16px;line-height:1.5}
-.modal .existing{background:var(--surf2);border-radius:10px;padding:12px;margin-bottom:16px;display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.modal .existing .ef{font-size:12px}.modal .existing .ef span{color:var(--text2);font-size:10px;display:block}
+.modal{background:#fff;border-radius:14px 14px 0 0;padding:22px 18px 40px;width:100%;max-width:560px;border-top:1px solid #dde0e5;box-shadow:0 -4px 24px rgba(0,0,0,.12)}
+.modal h3{font-size:18px;font-weight:800;color:#1b2d45;margin-bottom:6px}
+.modal p{font-size:13px;color:#888;margin-bottom:16px;line-height:1.5}
+.modal .existing{background:#f4f6f9;border:1px solid #dde0e5;border-radius:6px;padding:12px;margin-bottom:16px;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.modal .existing .ef{font-size:12px;color:#111}.modal .existing .ef span{color:#888;font-size:10px;display:block}
 .modal .mbts{display:flex;gap:10px}
 
-/* ── EMPTY ── */
-.empty{text-align:center;color:var(--text2);padding:28px 0;font-size:13px;font-weight:600}
-
 /* ── DIVIDER ── */
-hr{border:none;border-top:1px solid var(--border);margin:12px 0}
+hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
+
+/* ── EMPTY ── */
+.empty{text-align:center;color:#888;padding:28px 0;font-size:13px;font-weight:600}
 
 /* ── SCROLL HINT ── */
-.scroll-hint{font-size:10px;color:var(--text2);text-align:right;margin-bottom:4px}
+.scroll-hint{font-size:10px;color:#888;text-align:right;margin-bottom:4px}
 </style>
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
 </head>
 <body>
 
-<!-- Loader -->
-<div id="loader">
+<!-- ── LOADER ── -->
+<div id="loader" style="display:none">
   <div class="sp2"></div>
   <div class="lmsg" id="lmsg">Connecting to Gateway…</div>
 </div>
 
-<!-- Header -->
-<div class="hdr">
-  <a href="index.html" style="color:var(--gold);font-size:22px;text-decoration:none;padding:2px 8px 2px 0;flex-shrink:0">‹</a>
-  <div class="hdr-l">
-    <h1>Z Report</h1>
-    <small>Store 8181 · Joelton TN</small>
+<!-- ══════════════════════════════════════════════════════════
+     SCREEN: ROLE SELECT
+═══════════════════════════════════════════════════════════ -->
+<div id="screen-role">
+  <div class="auth-hdr">
+    <a href="index.html" class="hdr-back-lnk">‹</a>
+    <div>
+      <h1>Z Report</h1>
+      <small>Store 8181 · Joelton TN</small>
+    </div>
   </div>
-  <div class="gw-pill" id="gwPill">
-    <span class="dot y" id="gwDot"></span>
-    <span id="gwTxt">…</span>
+  <div class="auth-wrap">
+    <div class="slbl">Select Access Level</div>
+    <div class="role-grid">
+      <div class="role-card admin" onclick="startAdmin()">
+        <div class="rc-ico">🔑</div>
+        <div class="rc-name">Admin</div>
+        <div class="rc-desc">Store 8181 · Full access</div>
+      </div>
+      <div class="role-card guest" onclick="startGuest()">
+        <div class="rc-ico">🏪</div>
+        <div class="rc-name">Other Store</div>
+        <div class="rc-desc">Your own store data</div>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- Nav -->
-<div class="nav">
-  <button class="nav-btn active" data-page="submit" onclick="nav('submit')"><span class="ico">✏️</span>Submit</button>
-  <button class="nav-btn" data-page="dash" onclick="nav('dash')"><span class="ico">📊</span>This Month</button>
-  <button class="nav-btn" data-page="monthly" onclick="nav('monthly')"><span class="ico">📅</span>Monthly</button>
-  <button class="nav-btn" data-page="yearly" onclick="nav('yearly')"><span class="ico">📈</span>Yearly</button>
+<!-- ══════════════════════════════════════════════════════════
+     SCREEN: ADMIN PIN
+═══════════════════════════════════════════════════════════ -->
+<div id="screen-pin">
+  <div class="auth-hdr" style="position:relative">
+    <div>
+      <h1>Admin Access</h1>
+      <small>Z Report · Store 8181</small>
+    </div>
+  </div>
+  <div class="auth-wrap">
+    <div class="pin-wrap">
+      <div class="pin-title">
+        <h2>Enter PIN</h2>
+        <p>Admin · Store 8181</p>
+      </div>
+      <div class="pin-dots" id="pinDots">
+        <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div>
+        <div class="pin-dot" id="pd2"></div><div class="pin-dot" id="pd3"></div>
+      </div>
+      <div class="keypad">
+        <div class="key" onclick="kp(1)">1</div><div class="key" onclick="kp(2)">2</div><div class="key" onclick="kp(3)">3</div>
+        <div class="key" onclick="kp(4)">4</div><div class="key" onclick="kp(5)">5</div><div class="key" onclick="kp(6)">6</div>
+        <div class="key" onclick="kp(7)">7</div><div class="key" onclick="kp(8)">8</div><div class="key" onclick="kp(9)">9</div>
+        <div class="key empty"></div><div class="key" onclick="kp(0)">0</div><div class="key del" onclick="kpDel()">⌫</div>
+      </div>
+      <div class="pin-error" id="pinErr"></div>
+      <div class="back-lnk" onclick="showRole()">← Back</div>
+    </div>
+  </div>
 </div>
 
-<div class="content">
-
-  <!-- ── SUBMIT PAGE ── -->
-  <div id="page-submit" class="page active">
-
-    <!-- Calendar -->
-    <div class="card">
-      <div class="ctitle">Select Date</div>
-      <div class="scroll-hint">← scroll for older dates</div>
-      <div class="cal" id="cal"></div>
+<!-- ══════════════════════════════════════════════════════════
+     SCREEN: GUEST SETUP (first time)
+═══════════════════════════════════════════════════════════ -->
+<div id="screen-guest-setup">
+  <div class="auth-hdr" style="position:relative">
+    <a href="#" onclick="showRole();return false" class="hdr-back-lnk">‹</a>
+    <div>
+      <h1>Store Setup</h1>
+      <small>Connect your Z Report sheet</small>
     </div>
-
-    <!-- Missing banner -->
-    <div class="miss-b" id="missB">
-      <div class="t">⚠️ Missing Entries (last 60 days)</div>
-      <div class="chips" id="missChips"></div>
-    </div>
-
-    <!-- Update warning when date has existing entry -->
-    <div class="update-alert" id="updateAlert">
-      <div class="ua-title">⚠️ This date already has an entry — submitting will overwrite it</div>
-      <div id="updateExisting"></div>
-    </div>
-
-    <!-- Form -->
-    <div class="card">
-      <div class="ctitle" id="formTitle">New Z Report Entry</div>
-
+  </div>
+  <div class="auth-wrap">
+    <div class="setup-card">
+      <h3>Set Up Your Store</h3>
+      <p>Enter your store info to use Z Report for your own data. Your Google Sheet must be shared with the gateway account and use the same "Raw Log" tab format.</p>
       <div class="fg">
-        <label>Date</label>
-        <input type="date" id="fDate" onchange="onDateChange()" />
-      </div>
-
-      <div class="fg">
-        <label>Submitted By</label>
-        <select id="fEmp" onchange="onEmpChange()">
-          <option value="Prit">Prit</option>
-          <option value="Jatin">Jatin</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-
-      <!-- Other name field (hidden unless Other selected) -->
-      <div class="fg" id="otherNameWrap" style="display:none">
-        <label>Name</label>
-        <input type="text" id="fOtherName" placeholder="Employee name…" />
-      </div>
-
-      <div class="row2">
-        <div class="fg">
-          <label>Sales ($)</label>
-          <input type="number" id="fSales" inputmode="decimal" step="0.01" min="0" placeholder="0.00" />
-        </div>
-        <div class="fg">
-          <label>Tax ($)</label>
-          <input type="number" id="fTax" inputmode="decimal" step="0.01" min="0" placeholder="0.00" />
-        </div>
-      </div>
-      <div class="row2">
-        <div class="fg">
-          <label>Credit Card ($)</label>
-          <input type="number" id="fCC" inputmode="decimal" step="0.01" min="0" placeholder="0.00" />
-        </div>
-        <div class="fg">
-          <label>Cash ($)</label>
-          <input type="number" id="fCash" inputmode="decimal" step="0.01" min="0" placeholder="0.00" />
-        </div>
+        <label>Store Name</label>
+        <input type="text" id="gStoreName" placeholder="e.g. UPS Store 8182" autocomplete="off" />
       </div>
       <div class="fg">
-        <label>Notes (optional)</label>
-        <input type="text" id="fNotes" placeholder="Any discrepancies or corrections…" />
+        <label>Google Sheet ID</label>
+        <input type="text" id="gSheetId" placeholder="Paste Sheet ID from the URL" autocomplete="off" />
       </div>
-
-      <button class="btn btn-gold" id="subBtn" onclick="submitReport()">
-        Submit Z Report
-      </button>
-    </div>
-  </div><!-- /submit -->
-
-  <!-- ── THIS MONTH / DASHBOARD ── -->
-  <div id="page-dash" class="page">
-    <div class="stats">
-      <div class="stat s"><div class="lbl">Sales MTD</div><div class="val" id="dSales">—</div><div class="sub" id="dDays">— days</div></div>
-      <div class="stat t"><div class="lbl">Tax MTD</div><div class="val" id="dTax">—</div></div>
-      <div class="stat c"><div class="lbl">CC MTD</div><div class="val" id="dCC">—</div></div>
-      <div class="stat h"><div class="lbl">Cash MTD</div><div class="val" id="dCash">—</div></div>
-    </div>
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <div class="ctitle" style="margin:0">All Entries This Month</div>
-        <button class="btn-sec btn-sm" onclick="refresh()">↻ Sync</button>
+      <div class="fg">
+        <label>Set Your PIN (4 digits)</label>
+        <input type="number" id="gPin" placeholder="Choose a 4-digit PIN" inputmode="numeric" style="font-size:22px;letter-spacing:6px" />
       </div>
-      <div id="dashList"></div>
+      <button class="btn btn-teal" onclick="saveGuestSetup()" style="margin-top:4px">Save & Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCREEN: GUEST PIN
+═══════════════════════════════════════════════════════════ -->
+<div id="screen-guest-pin">
+  <div class="auth-hdr" style="position:relative">
+    <a href="#" onclick="showRole();return false" class="hdr-back-lnk">‹</a>
+    <div>
+      <h1 id="guestPinH1">Store Access</h1>
+      <small>Enter your PIN to continue</small>
+    </div>
+  </div>
+  <div class="auth-wrap">
+    <div class="pin-wrap">
+      <div class="pin-title">
+        <h2 id="guestPinName">Your Store</h2>
+        <p>Enter your 4-digit PIN</p>
+      </div>
+      <div class="pin-dots" id="gPinDots">
+        <div class="pin-dot" id="gd0"></div><div class="pin-dot" id="gd1"></div>
+        <div class="pin-dot" id="gd2"></div><div class="pin-dot" id="gd3"></div>
+      </div>
+      <div class="keypad">
+        <div class="key" onclick="gkp(1)">1</div><div class="key" onclick="gkp(2)">2</div><div class="key" onclick="gkp(3)">3</div>
+        <div class="key" onclick="gkp(4)">4</div><div class="key" onclick="gkp(5)">5</div><div class="key" onclick="gkp(6)">6</div>
+        <div class="key" onclick="gkp(7)">7</div><div class="key" onclick="gkp(8)">8</div><div class="key" onclick="gkp(9)">9</div>
+        <div class="key empty"></div><div class="key" onclick="gkp(0)">0</div><div class="key del" onclick="gkpDel()">⌫</div>
+      </div>
+      <div class="pin-error" id="gPinErr"></div>
+      <div class="back-lnk" onclick="showRole()">← Back</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCREEN: MAIN APP
+═══════════════════════════════════════════════════════════ -->
+<div id="screen-main">
+
+  <div class="hdr">
+    <a class="hdr-back" id="hdrBack" href="index.html">‹</a>
+    <div class="hdr-info">
+      <h1 id="storeTitle">Z Report</h1>
+      <small id="storeSub">Store 8181 · Joelton TN</small>
+    </div>
+    <div class="gw-pill" id="gwPill">
+      <span class="dot y" id="gwDot"></span>
+      <span id="gwTxt">…</span>
     </div>
   </div>
 
-  <!-- ── MONTHLY ── -->
-  <div id="page-monthly" class="page">
-    <div class="card">
-      <div class="row2">
-        <div class="fg" style="margin:0"><label>Month</label>
-          <select id="mMonth" onchange="loadMonthly()"></select>
+  <div class="nav">
+    <button class="nav-btn active" data-page="submit" onclick="nav('submit')"><span class="ico">✏️</span>Submit</button>
+    <button class="nav-btn" data-page="dash" onclick="nav('dash')"><span class="ico">📊</span>This Month</button>
+    <button class="nav-btn" data-page="monthly" onclick="nav('monthly')"><span class="ico">📅</span>Monthly</button>
+    <button class="nav-btn" data-page="yearly" onclick="nav('yearly')"><span class="ico">📈</span>Yearly</button>
+    <button class="nav-btn" id="settingsTab" data-page="settings" onclick="nav('settings')" style="display:none"><span class="ico">⚙️</span>Settings</button>
+  </div>
+
+  <div class="content">
+
+    <!-- ── SUBMIT ── -->
+    <div id="page-submit" class="page active">
+
+      <div class="card">
+        <div class="ctitle">Select Date</div>
+        <div class="scroll-hint">← scroll for older dates</div>
+        <div class="cal" id="cal"></div>
+      </div>
+
+      <div class="miss-b" id="missB">
+        <div class="t">⚠️ Missing Entries (last 60 days)</div>
+        <div class="chips" id="missChips"></div>
+      </div>
+
+      <div class="update-alert" id="updateAlert">
+        <div class="ua-title">⚠️ Date already has entry — submitting will overwrite</div>
+        <div id="updateExisting"></div>
+      </div>
+
+      <div class="card">
+        <div class="ctitle" id="formTitle">New Z Report Entry</div>
+
+        <div class="ff"><label>Date</label>
+          <input type="date" id="fDate" onchange="onDateChange()" /></div>
+
+        <div class="ff"><label>Submitted By</label>
+          <select id="fEmp" onchange="onEmpChange()">
+            <option value="Prit">Prit</option>
+            <option value="Jatin">Jatin</option>
+            <option value="Other">Other</option>
+          </select></div>
+
+        <div class="ff" id="otherNameWrap" style="display:none"><label>Name</label>
+          <input type="text" id="fOtherName" placeholder="Employee name…" /></div>
+
+        <div class="row2">
+          <div class="ff"><label>Sales ($)</label>
+            <input type="number" id="fSales" inputmode="decimal" step="0.01" min="0" placeholder="0.00" /></div>
+          <div class="ff"><label>Tax ($)</label>
+            <input type="number" id="fTax" inputmode="decimal" step="0.01" min="0" placeholder="0.00" /></div>
         </div>
-        <div class="fg" style="margin:0"><label>Year</label>
-          <select id="mYear" onchange="buildMonthSelect()"></select>
+        <div class="row2">
+          <div class="ff"><label>Credit Card ($)</label>
+            <input type="number" id="fCC" inputmode="decimal" step="0.01" min="0" placeholder="0.00" /></div>
+          <div class="ff"><label>Cash ($)</label>
+            <input type="number" id="fCash" inputmode="decimal" step="0.01" min="0" placeholder="0.00" /></div>
         </div>
+
+        <div class="ff"><label>Notes (optional)</label>
+          <input type="text" id="fNotes" placeholder="Discrepancies, corrections…" /></div>
+
+        <button class="btn btn-pri" id="subBtn" onclick="submitReport()">Submit Z Report</button>
+      </div>
+    </div><!-- /submit -->
+
+    <!-- ── THIS MONTH ── -->
+    <div id="page-dash" class="page">
+      <div class="stats">
+        <div class="stat s"><div class="lbl">Sales MTD</div><div class="val" id="dSales">—</div><div class="sub" id="dDays">— days</div></div>
+        <div class="stat t"><div class="lbl">Tax MTD</div><div class="val" id="dTax">—</div></div>
+        <div class="stat c"><div class="lbl">CC MTD</div><div class="val" id="dCC">—</div></div>
+        <div class="stat h"><div class="lbl">Cash MTD</div><div class="val" id="dCash">—</div></div>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div class="ctitle" style="margin:0">All Entries This Month</div>
+          <button class="btn-sec btn-sm" onclick="refresh()">↻ Sync</button>
+        </div>
+        <div id="dashList"></div>
       </div>
     </div>
-    <div class="stats">
-      <div class="stat s"><div class="lbl">Sales</div><div class="val" id="mSales">—</div></div>
-      <div class="stat t"><div class="lbl">Tax</div><div class="val" id="mTax">—</div></div>
-      <div class="stat c"><div class="lbl">CC</div><div class="val" id="mCC">—</div></div>
-      <div class="stat h"><div class="lbl">Cash</div><div class="val" id="mCash">—</div></div>
+
+    <!-- ── MONTHLY ── -->
+    <div id="page-monthly" class="page">
+      <div class="card">
+        <div class="row2">
+          <div class="ff" style="margin:0"><label>Month</label>
+            <select id="mMonth" onchange="loadMonthly()"></select></div>
+          <div class="ff" style="margin:0"><label>Year</label>
+            <select id="mYear" onchange="buildMonthSelect()"></select></div>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat s"><div class="lbl">Sales</div><div class="val" id="mSales">—</div></div>
+        <div class="stat t"><div class="lbl">Tax</div><div class="val" id="mTax">—</div></div>
+        <div class="stat c"><div class="lbl">CC</div><div class="val" id="mCC">—</div></div>
+        <div class="stat h"><div class="lbl">Cash</div><div class="val" id="mCash">—</div></div>
+      </div>
+      <div id="monthList"></div>
     </div>
-    <div id="monthList"></div>
-  </div>
 
-  <!-- ── YEARLY ── -->
-  <div id="page-yearly" class="page">
-    <div class="stats" id="yearStats"></div>
-    <div id="yearList"></div>
-  </div>
+    <!-- ── YEARLY ── -->
+    <div id="page-yearly" class="page">
+      <div class="stats" id="yearStats"></div>
+      <div id="yearList"></div>
+    </div>
 
-</div><!-- /content -->
+    <!-- ── SETTINGS (guest only) ── -->
+    <div id="page-settings" class="page">
+      <div class="card">
+        <div class="ctitle">Store Configuration</div>
+        <div class="ff"><label>Store Name</label>
+          <input type="text" id="sStoreName" /></div>
+        <div class="ff"><label>Google Sheet ID</label>
+          <input type="text" id="sSheetId" /></div>
+        <button class="btn btn-pri btn-sm" onclick="saveSettings()" style="width:auto;margin-bottom:4px">Save Changes</button>
 
-<!-- Confirm overwrite modal -->
+        <hr class="sec">
+        <div class="ctitle" style="margin-top:4px">Change PIN</div>
+        <div class="ff"><label>New PIN (4 digits)</label>
+          <input type="number" id="sNewPin" inputmode="numeric" placeholder="New 4-digit PIN" /></div>
+        <button class="btn btn-sec btn-sm" onclick="changeGuestPin()" style="width:auto;margin-bottom:4px">Update PIN</button>
+
+        <hr class="sec">
+        <button class="btn btn-danger" onclick="resetGuest()">Reset — Remove Store Data</button>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /screen-main -->
+
+<!-- Confirm modal -->
 <div class="overlay" id="confirmOverlay">
   <div class="modal">
     <h3>⚠️ Overwrite Entry?</h3>
-    <p>This date already has a submitted Z Report. Do you want to replace it with the new values?</p>
+    <p>This date already has a submitted Z Report. Replace with new values?</p>
     <div class="existing" id="confirmExisting"></div>
     <div class="mbts">
-      <button class="btn btn-update" id="confirmYesBtn" onclick="confirmUpdate()">Yes, Update It</button>
+      <button class="btn btn-warn" onclick="confirmUpdate()">Yes, Update It</button>
       <button class="btn btn-sec" onclick="closeConfirm()">Cancel</button>
     </div>
   </div>
@@ -337,332 +495,348 @@ hr{border:none;border-top:1px solid var(--border);margin:12px 0}
 
 <script>
 'use strict';
-// ── CONFIG ──────────────────────────────────────────────────────────────────
-const GW  = 'https://script.google.com/macros/s/AKfycbwUh6kuKSn4h-YrHdxBjbZHelGDtg0NmTmKXwUZrCW0nB9RUWwmBLcrCIVZIAs0gzQj/exec';
-const KEY = 'Store8181Prit2026';
-const SID = '1OiU8cDWGvpJFIV2h89Oq6gWwfqkyso2GDmqzsrhqwxQ';
+// ── CONFIG ────────────────────────────────────────────────────────────────────
+const ADMIN_PIN = '1997';
+const ADMIN_SK  = 's8181_admin';
+const GW        = 'https://script.google.com/macros/s/AKfycbwUh6kuKSn4h-YrHdxBjbZHelGDtg0NmTmKXwUZrCW0nB9RUWwmBLcrCIVZIAs0gzQj/exec';
+const KEY       = 'Store8181Prit2026';
+const ADMIN_SID = '1OiU8cDWGvpJFIV2h89Oq6gWwfqkyso2GDmqzsrhqwxQ';
+const GUEST_KEY = 'zr_guest_cfg';
 
-// ── STATE ───────────────────────────────────────────────────────────────────
-let allRows   = [];   // {rowNum, date, sales, tax, cc, cash, by, notes}
-let datesMap  = {};   // date → row object (for O(1) lookup)
-let selDate   = null;
-let isEditing = false; // guard auto-refresh while form is active
-let pendingPayload = null; // held during confirm modal
-let refreshTimer  = null;
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let mode       = 'admin';
+let activeSID  = ADMIN_SID;
+let allRows    = [];
+let datesMap   = {};
+let selDate    = null;
+let isEditing  = false;
+let pendingPayload = null;
+let refreshTimer   = null;
+let pinBuf = '', gPinBuf = '';
 
-// ── UTILS ───────────────────────────────────────────────────────────────────
-const $  = id => document.getElementById(id);
-const qS = sel => document.querySelector(sel);
+// ── DOM ───────────────────────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
 
-// ▶ CRITICAL: local date (not UTC) — fixes timezone bug for CDT stores
+// ── SCREEN ROUTING ────────────────────────────────────────────────────────────
+function showScreen(name) {
+  ['role','pin','guest-setup','guest-pin','main'].forEach(s => {
+    $('screen-'+s).style.display = (s===name) ? 'block' : 'none';
+  });
+}
+
+function showRole() {
+  pinBuf=''; gPinBuf='';
+  showScreen('role');
+}
+
+function startAdmin() {
+  if (sessionStorage.getItem(ADMIN_SK)==='ok') { enterAdmin(); return; }
+  pinBuf=''; renderPinDots(); $('pinErr').textContent='';
+  showScreen('pin');
+}
+
+function startGuest() {
+  const cfg = getGuestCfg();
+  if (cfg) {
+    $('guestPinH1').textContent  = cfg.storeName || 'Store Access';
+    $('guestPinName').textContent = cfg.storeName || 'Your Store';
+    gPinBuf=''; renderGPinDots(); $('gPinErr').textContent='';
+    showScreen('guest-pin');
+  } else {
+    showScreen('guest-setup');
+  }
+}
+
+// ── ADMIN PIN ─────────────────────────────────────────────────────────────────
+function kp(d) {
+  if (pinBuf.length>=4) return;
+  pinBuf+=d; renderPinDots();
+  if (pinBuf.length===4) checkAdminPin();
+}
+function kpDel() { pinBuf=pinBuf.slice(0,-1); renderPinDots(); $('pinErr').textContent=''; }
+function renderPinDots() { for(let i=0;i<4;i++) $('pd'+i).classList.toggle('on',i<pinBuf.length); }
+function checkAdminPin() {
+  if (pinBuf===ADMIN_PIN) {
+    sessionStorage.setItem(ADMIN_SK,'ok');
+    enterAdmin();
+  } else {
+    const d=$('pinDots'); d.classList.add('shake');
+    setTimeout(()=>d.classList.remove('shake'),400);
+    $('pinErr').textContent='Incorrect PIN';
+    setTimeout(()=>{ pinBuf=''; renderPinDots(); $('pinErr').textContent=''; },900);
+  }
+}
+
+function enterAdmin() {
+  mode='admin'; activeSID=ADMIN_SID;
+  $('storeTitle').textContent='Z Report';
+  $('storeSub').textContent='Store 8181 · Joelton TN';
+  $('hdrBack').href='index.html';
+  $('hdrBack').onclick=null;
+  $('settingsTab').style.display='none';
+  $('fEmp').innerHTML='<option value="Prit">Prit</option><option value="Jatin">Jatin</option><option value="Other">Other</option>';
+  showScreen('main');
+  initApp();
+}
+
+// ── GUEST PIN ─────────────────────────────────────────────────────────────────
+function gkp(d) {
+  if (gPinBuf.length>=4) return;
+  gPinBuf+=d; renderGPinDots();
+  if (gPinBuf.length===4) checkGuestPin();
+}
+function gkpDel() { gPinBuf=gPinBuf.slice(0,-1); renderGPinDots(); $('gPinErr').textContent=''; }
+function renderGPinDots() { for(let i=0;i<4;i++) $('gd'+i).classList.toggle('on',i<gPinBuf.length); }
+function checkGuestPin() {
+  const cfg=getGuestCfg();
+  if (gPinBuf===cfg.pin) { enterGuest(cfg); }
+  else {
+    const d=$('gPinDots'); d.classList.add('shake');
+    setTimeout(()=>d.classList.remove('shake'),400);
+    $('gPinErr').textContent='Incorrect PIN';
+    setTimeout(()=>{ gPinBuf=''; renderGPinDots(); $('gPinErr').textContent=''; },900);
+  }
+}
+
+function enterGuest(cfg) {
+  mode='guest'; activeSID=cfg.sheetId;
+  $('storeTitle').textContent=cfg.storeName||'Z Report';
+  $('storeSub').textContent='Guest Store Mode';
+  $('hdrBack').href='#';
+  $('hdrBack').onclick=e=>{ e.preventDefault(); showRole(); };
+  $('settingsTab').style.display='';
+  $('fEmp').innerHTML='<option value="Me">Me</option><option value="Other">Other</option>';
+  showScreen('main');
+  initApp();
+}
+
+// ── GUEST CONFIG ──────────────────────────────────────────────────────────────
+function getGuestCfg() {
+  try { return JSON.parse(localStorage.getItem(GUEST_KEY)); } catch(e) { return null; }
+}
+
+function saveGuestSetup() {
+  const name=$('gStoreName').value.trim();
+  const sid=$('gSheetId').value.trim();
+  const pin=String($('gPin').value||'').trim();
+  if (!name) { toast('Enter a store name','err'); return; }
+  if (!sid)  { toast('Enter your Sheet ID','err'); return; }
+  if (!/^\d{4}$/.test(pin)) { toast('PIN must be exactly 4 digits','err'); return; }
+  localStorage.setItem(GUEST_KEY,JSON.stringify({storeName:name,sheetId:sid,pin}));
+  enterGuest({storeName:name,sheetId:sid,pin});
+}
+
+function loadSettingsPage() {
+  const cfg=getGuestCfg()||{};
+  $('sStoreName').value=cfg.storeName||'';
+  $('sSheetId').value=cfg.sheetId||'';
+  $('sNewPin').value='';
+}
+
+function saveSettings() {
+  const cfg=getGuestCfg()||{};
+  const n=$('sStoreName').value.trim();
+  const s=$('sSheetId').value.trim();
+  if (n) cfg.storeName=n;
+  if (s) { cfg.sheetId=s; activeSID=s; }
+  localStorage.setItem(GUEST_KEY,JSON.stringify(cfg));
+  if (n) { $('storeTitle').textContent=n; }
+  toast('Settings saved','ok');
+}
+
+function changeGuestPin() {
+  const p=String($('sNewPin').value||'').trim();
+  if (!/^\d{4}$/.test(p)) { toast('PIN must be 4 digits','err'); return; }
+  const cfg=getGuestCfg()||{};
+  cfg.pin=p; localStorage.setItem(GUEST_KEY,JSON.stringify(cfg));
+  $('sNewPin').value='';
+  toast('PIN updated','ok');
+}
+
+function resetGuest() {
+  if (!confirm('Remove all guest store config from this device?')) return;
+  localStorage.removeItem(GUEST_KEY);
+  showRole();
+}
+
+// ── UTILS ─────────────────────────────────────────────────────────────────────
 function todayLocal() {
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = String(d.getMonth()+1).padStart(2,'0');
-  const dy = String(d.getDate()).padStart(2,'0');
-  return `${y}-${m}-${dy}`;
+  const d=new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
-
-function fmt(n, decimals=2) {
-  const v = +n || 0;
-  return '$' + v.toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-}
-
-function fmtK(n) {
-  const v = Math.abs(+n || 0);
-  if (v >= 10000) return '$' + (v/1000).toFixed(1) + 'k';
-  return '$' + v.toFixed(0);
-}
-
-function dayAbbr(d) {
-  return ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(d+'T12:00:00').getDay()];
-}
-
-function shortDate(d) {
-  const [,m,dy] = d.split('-');
-  return `${+m}/${+dy}`;
-}
-
+function fmt(n,dec=2) { return '$'+(+n||0).toFixed(dec).replace(/\B(?=(\d{3})+(?!\d))/g,','); }
+function fmtK(n) { const v=Math.abs(+n||0); return v>=10000?'$'+(v/1000).toFixed(1)+'k':'$'+v.toFixed(0); }
+function dayAbbr(d) { return ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(d+'T12:00:00').getDay()]; }
+function shortDate(d) { const[,m,dy]=d.split('-'); return `${+m}/${+dy}`; }
 function ymStr(d) { return d.slice(0,7); }
+function monthShort(ym) { const[y,m]=ym.split('-'); return new Date(+y,+m-1,1).toLocaleString('default',{month:'short'}); }
 
-function monthLabel(ym) {
-  const [y,m] = ym.split('-');
-  return new Date(+y, +m-1, 1).toLocaleString('default',{month:'long',year:'numeric'});
+// ── TOAST ─────────────────────────────────────────────────────────────────────
+function toast(msg,type='ok',dur=3200) {
+  const el=$('toast');
+  el.textContent={ok:'✅ ',err:'❌ ',warn:'⚠️ ',info:'ℹ️ '}[type]+msg;
+  el.className=`show ${type}`; clearTimeout(el._t);
+  el._t=setTimeout(()=>el.className='',dur);
 }
 
-function monthShort(ym) {
-  const [y,m] = ym.split('-');
-  return new Date(+y, +m-1, 1).toLocaleString('default',{month:'short'});
-}
-
-// ── TOAST ───────────────────────────────────────────────────────────────────
-function toast(msg, type='ok', dur=3200) {
-  const el = $('toast');
-  el.textContent = {ok:'✅ ',err:'❌ ',warn:'⚠️ ',info:'ℹ️ '}[type] + msg;
-  el.className = `show ${type}`;
-  clearTimeout(el._t);
-  el._t = setTimeout(() => el.className = '', dur);
-}
-
-// ── LOADER ──────────────────────────────────────────────────────────────────
+// ── LOADER ────────────────────────────────────────────────────────────────────
 function showLoader(msg) { $('loader').style.display='flex'; $('lmsg').textContent=msg||'Loading…'; }
 function hideLoader()    { $('loader').style.display='none'; }
 
-// ── GATEWAY ─────────────────────────────────────────────────────────────────
-async function gw(action, params={}, timeout=15000) {
-  const ctrl = new AbortController();
-  const tid  = setTimeout(() => ctrl.abort(), timeout);
+// ── GATEWAY ───────────────────────────────────────────────────────────────────
+async function gw(action,params={},timeout=15000) {
+  const ctrl=new AbortController();
+  const tid=setTimeout(()=>ctrl.abort(),timeout);
   try {
-    const res = await fetch(GW, {
-      method: 'POST',
-      headers: {'Content-Type':'text/plain;charset=utf-8'},
-      body: JSON.stringify({key:KEY, action, params}),
-      signal: ctrl.signal
-    });
+    const res=await fetch(GW,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({key:KEY,action,params}),signal:ctrl.signal});
     clearTimeout(tid);
-    if (!res.ok) throw new Error(`Gateway HTTP ${res.status}`);
-    const data = await res.json();
-    if (data.error) throw new Error(data.error);
+    if(!res.ok) throw new Error(`Gateway HTTP ${res.status}`);
+    const data=await res.json();
+    if(data.error) throw new Error(data.error);
     return data;
   } catch(e) {
     clearTimeout(tid);
-    if (e.name === 'AbortError') throw new Error('Gateway timed out — check connection');
+    if(e.name==='AbortError') throw new Error('Gateway timed out');
     throw e;
   }
 }
 
-// ── GATEWAY STATUS ──────────────────────────────────────────────────────────
 async function checkGW() {
   try {
-    await gw('ping', {}, 8000);
-    $('gwDot').className='dot g'; $('gwTxt').textContent='Live';
-    return true;
+    await gw('ping',{},8000);
+    $('gwDot').className='dot g'; $('gwTxt').textContent='Live'; return true;
   } catch(e) {
-    $('gwDot').className='dot r'; $('gwTxt').textContent='Offline';
-    return false;
+    $('gwDot').className='dot r'; $('gwTxt').textContent='Offline'; return false;
   }
 }
 
-// ── LOAD SHEET DATA ─────────────────────────────────────────────────────────
-// ▶ CRITICAL: assign rowNum BEFORE filtering so blank rows don't throw off the index
+// ── LOAD SHEET DATA ───────────────────────────────────────────────────────────
+// ▶ rowNum assigned BEFORE filtering so blank rows don't shift indices
 async function loadSheetData() {
-  const d = await gw('sheets.read',{
-    spreadsheetId: SID,
-    range: 'Raw Log!A2:G5000'
+  const d=await gw('sheets.read',{spreadsheetId:activeSID,range:'Raw Log!A2:G5000'});
+  const raw=d.values||[];
+  allRows=[]; datesMap={};
+  raw.forEach((r,i)=>{
+    const date=(r[0]||'').trim();
+    if(!date||!/^\d{4}-\d{2}-\d{2}$/.test(date)) return;
+    if(datesMap[date]) return;
+    const row={rowNum:i+2,date,sales:parseFloat(r[1])||0,tax:parseFloat(r[2])||0,cc:parseFloat(r[3])||0,cash:parseFloat(r[4])||0,by:r[5]||'',notes:r[6]||''};
+    allRows.push(row); datesMap[date]=row;
   });
-  const raw = d.values || [];
-
-  allRows = [];
-  datesMap = {};
-
-  raw.forEach((r, i) => {
-    const date = (r[0]||'').trim();
-    if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return; // skip blanks/headers
-    if (datesMap[date]) return; // skip genuine duplicates (keep first/oldest)
-    const row = {
-      rowNum: i + 2, // A2 = row 2, index 0
-      date,
-      sales: parseFloat(r[1]) || 0,
-      tax:   parseFloat(r[2]) || 0,
-      cc:    parseFloat(r[3]) || 0,
-      cash:  parseFloat(r[4]) || 0,
-      by:    r[5] || '',
-      notes: r[6] || ''
-    };
-    allRows.push(row);
-    datesMap[date] = row;
-  });
-
-  // Sort newest first for display
-  allRows.sort((a,b) => b.date.localeCompare(a.date));
+  allRows.sort((a,b)=>b.date.localeCompare(a.date));
 }
 
-// ── EMPLOYEE HANDLING ───────────────────────────────────────────────────────
+// ── EMPLOYEE ──────────────────────────────────────────────────────────────────
 function onEmpChange() {
-  const v = $('fEmp').value;
-  $('otherNameWrap').style.display = v==='Other' ? 'block' : 'none';
-  if (v!=='Other') $('fOtherName').value='';
+  const v=$('fEmp').value;
+  $('otherNameWrap').style.display=v==='Other'?'block':'none';
+  if(v!=='Other') $('fOtherName').value='';
 }
 
 function getSubmitter() {
-  const v = $('fEmp').value;
-  if (v === 'Other') {
-    const name = $('fOtherName').value.trim();
-    return name || 'Other';
-  }
+  const v=$('fEmp').value;
+  if(v==='Other') return $('fOtherName').value.trim()||'Other';
   return v;
 }
 
-// ── DATE CHANGE ─────────────────────────────────────────────────────────────
+// ── DATE CHANGE ───────────────────────────────────────────────────────────────
 function onDateChange() {
-  const d = $('fDate').value;
-  if (!d) return;
-  selDate = d;
-  renderCal();
-  checkDateForExisting(d);
+  const d=$('fDate').value;
+  if(!d) return;
+  selDate=d; renderCal(); checkDateForExisting(d);
 }
 
 function checkDateForExisting(date) {
-  const existing = datesMap[date];
-  const alert    = $('updateAlert');
-  const formTitle= $('formTitle');
-  const btn      = $('subBtn');
-
-  if (existing) {
-    // Show existing values
-    const existing_html = `
-      <div class="ua-row">Sales<span>${fmt(existing.sales)}</span></div>
-      <div class="ua-row">Tax<span>${fmt(existing.tax)}</span></div>
-      <div class="ua-row">CC<span>${fmt(existing.cc)}</span></div>
-      <div class="ua-row">Cash<span>${fmt(existing.cash)}</span></div>
-      <div class="ua-row">By<span>${existing.by}</span></div>
-      ${existing.notes?`<div class="ua-row">Notes<span>${existing.notes}</span></div>`:''}
+  const ex=datesMap[date];
+  const alert=$('updateAlert');
+  const btn=$('subBtn');
+  if (ex) {
+    $('updateExisting').innerHTML=`
+      <div class="ua-row">Sales<span>${fmt(ex.sales)}</span></div>
+      <div class="ua-row">Tax<span>${fmt(ex.tax)}</span></div>
+      <div class="ua-row">CC<span>${fmt(ex.cc)}</span></div>
+      <div class="ua-row">Cash<span>${fmt(ex.cash)}</span></div>
+      <div class="ua-row">By<span>${ex.by}</span></div>
+      ${ex.notes?`<div class="ua-row">Notes<span>${ex.notes}</span></div>`:''}
     `;
-    $('updateExisting').innerHTML = existing_html;
     alert.classList.add('show');
-    formTitle.textContent = '✏️ Correct Existing Entry';
-    btn.innerHTML = '⚠️ Update This Entry';
-    btn.className = 'btn btn-update';
-
-    // Pre-fill form with existing values
-    $('fSales').value = existing.sales.toFixed(2);
-    $('fTax').value   = existing.tax.toFixed(2);
-    $('fCC').value    = existing.cc.toFixed(2);
-    $('fCash').value  = existing.cash.toFixed(2);
-    $('fNotes').value = existing.notes;
-    if(existing.by==='Prit'||existing.by==='Jatin'){
-      $('fEmp').value=existing.by;
-    } else {
-      $('fEmp').value='Other';
-      $('fOtherName').value=existing.by;
-    }
+    $('formTitle').textContent='✏️ Correct Existing Entry';
+    btn.innerHTML='⚠️ Update This Entry'; btn.className='btn btn-warn';
+    $('fSales').value=ex.sales.toFixed(2); $('fTax').value=ex.tax.toFixed(2);
+    $('fCC').value=ex.cc.toFixed(2); $('fCash').value=ex.cash.toFixed(2);
+    $('fNotes').value=ex.notes;
+    const empSel=$('fEmp');
+    const opt=empSel.querySelector(`option[value="${ex.by}"]`);
+    if(opt) { empSel.value=ex.by; }
+    else { empSel.value='Other'; $('fOtherName').value=ex.by; }
     onEmpChange();
   } else {
     alert.classList.remove('show');
-    formTitle.textContent = 'New Z Report Entry';
-    btn.innerHTML = 'Submit Z Report';
-    btn.className = 'btn btn-gold';
+    $('formTitle').textContent='New Z Report Entry';
+    btn.innerHTML='Submit Z Report'; btn.className='btn btn-pri';
   }
 }
 
-// ── CALENDAR ─────────────────────────────────────────────────────────────────
+// ── CALENDAR ──────────────────────────────────────────────────────────────────
 function renderCal() {
-  const cal   = $('cal');
-  const today = todayLocal();
-  cal.innerHTML = '';
-
-  // Show last 30 days + today
-  const days = [];
-  for (let i=29; i>=0; i--) {
-    const d = new Date();
-    d.setDate(d.getDate()-i);
-    const y  = d.getFullYear();
-    const m  = String(d.getMonth()+1).padStart(2,'0');
-    const dy = String(d.getDate()).padStart(2,'0');
-    days.push(`${y}-${m}-${dy}`);
+  const cal=$('cal'), today=todayLocal();
+  cal.innerHTML='';
+  const days=[];
+  for(let i=29;i>=0;i--) {
+    const d=new Date(); d.setDate(d.getDate()-i);
+    days.push(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`);
   }
-
-  days.forEach(d => {
-    const hasEntry = !!datesMap[d];
-    const isToday  = d === today;
-    const isSel    = d === (selDate||today);
-    const isFuture = d > today;
-
-    const el = document.createElement('div');
-    el.className = [
-      'cal-d',
-      isFuture ? 'future' : (hasEntry ? 'ok' : 'miss'),
-      isToday  ? 'today' : '',
-      isSel    ? 'sel'   : ''
-    ].filter(Boolean).join(' ');
-
-    const [,mo,dy] = d.split('-');
-    el.innerHTML = `
-      <span class="dn">${+dy}</span>
-      <span class="dw">${dayAbbr(d)}</span>
-      ${hasEntry ? '<span class="chk">✓</span>' : ''}
-    `;
-    el.onclick = () => pickDate(d);
+  days.forEach(d=>{
+    const has=!!datesMap[d], isTod=d===today, isSel=d===(selDate||today), isFut=d>today;
+    const el=document.createElement('div');
+    el.className=['cal-d',isFut?'future':(has?'ok':'miss'),isTod?'today':'',isSel?'sel':''].filter(Boolean).join(' ');
+    const[,mo,dy]=d.split('-');
+    el.innerHTML=`<span class="dn">${+dy}</span><span class="dw">${dayAbbr(d)}</span>${has?'<span class="chk">✓</span>':''}`;
+    el.onclick=()=>pickDate(d);
     cal.appendChild(el);
   });
-
-  // Scroll to end (most recent)
-  cal.scrollLeft = cal.scrollWidth;
+  cal.scrollLeft=cal.scrollWidth;
 }
 
 function pickDate(d) {
-  selDate = d;
-  $('fDate').value = d;
-  isEditing = true; // mark form active
-  renderCal();
-  checkDateForExisting(d);
+  selDate=d; $('fDate').value=d; isEditing=true;
+  renderCal(); checkDateForExisting(d);
 }
 
-// ── MISSING BANNER ───────────────────────────────────────────────────────────
+// ── MISSING BANNER ────────────────────────────────────────────────────────────
 function renderMissBanner() {
-  const today = todayLocal();
-  const missing = [];
-
-  for (let i=60; i>=1; i--) { // last 60 days, NOT including today
-    const d = new Date();
-    d.setDate(d.getDate()-i);
-    const y  = d.getFullYear();
-    const m  = String(d.getMonth()+1).padStart(2,'0');
-    const dy = String(d.getDate()).padStart(2,'0');
-    const ds = `${y}-${m}-${dy}`;
-    if (!datesMap[ds]) missing.push(ds);
+  const missing=[];
+  for(let i=60;i>=1;i--) {
+    const d=new Date(); d.setDate(d.getDate()-i);
+    const ds=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    if(!datesMap[ds]) missing.push(ds);
   }
-
-  const banner = $('missB');
-  const chips  = $('missChips');
-
-  if (!missing.length) {
-    banner.classList.remove('show');
-    return;
-  }
-
+  const banner=$('missB');
+  if(!missing.length) { banner.classList.remove('show'); return; }
   banner.classList.add('show');
-  chips.innerHTML = missing.slice(0,15).map(d =>
-    `<span class="chip" onclick="pickDate('${d}')">${d}</span>`
-  ).join('');
+  $('missChips').innerHTML=missing.slice(0,15).map(d=>`<span class="chip" onclick="pickDate('${d}')">${d}</span>`).join('');
 }
 
-// ── SUBMIT ───────────────────────────────────────────────────────────────────
+// ── SUBMIT ────────────────────────────────────────────────────────────────────
 async function submitReport() {
-  const date = $('fDate').value;
-  const by   = getSubmitter();
-  const salesV = $('fSales').value.trim();
-  const taxV   = $('fTax').value.trim();
-  const ccV    = $('fCC').value.trim();
-  const cashV  = $('fCash').value.trim();
-  const notes  = $('fNotes').value.trim();
-
-  // Validate
-  if (!date)  { toast('Select a date','err'); return; }
-  if (!by)    { toast('Select who is submitting','err'); return; }
-  if ($('fEmp').value==='Other' && !$('fOtherName').value.trim()) {
-    toast('Enter employee name','err'); return;
-  }
-  if (!salesV||!taxV||!ccV||!cashV) { toast('All 4 amounts are required','err'); return; }
-  const sales=+salesV, tax=+taxV, cc=+ccV, cash=+cashV;
-  if ([sales,tax,cc,cash].some(v=>isNaN(v)||v<0)) { toast('Invalid amount','err'); return; }
-
-  const payload = { date, sales, tax, cc, cash, by, notes };
-
-  // If date exists → show confirm modal
-  if (datesMap[date]) {
-    pendingPayload = payload;
-    showConfirm(date);
-    return;
-  }
-
-  // New entry — append
-  await doSubmit(payload, false);
+  const date=$('fDate').value, by=getSubmitter();
+  const salesV=$('fSales').value.trim(), taxV=$('fTax').value.trim();
+  const ccV=$('fCC').value.trim(), cashV=$('fCash').value.trim();
+  const notes=$('fNotes').value.trim();
+  if(!date)  { toast('Select a date','err'); return; }
+  if(!by)    { toast('Select submitter','err'); return; }
+  if($('fEmp').value==='Other'&&!$('fOtherName').value.trim()) { toast('Enter employee name','err'); return; }
+  if(!salesV||!taxV||!ccV||!cashV) { toast('All 4 amounts required','err'); return; }
+  const sales=+salesV,tax=+taxV,cc=+ccV,cash=+cashV;
+  if([sales,tax,cc,cash].some(v=>isNaN(v)||v<0)) { toast('Invalid amount','err'); return; }
+  const payload={date,sales,tax,cc,cash,by,notes};
+  if(datesMap[date]) { pendingPayload=payload; showConfirm(date); return; }
+  await doSubmit(payload,false);
 }
 
 function showConfirm(date) {
-  const ex = datesMap[date];
-  $('confirmExisting').innerHTML = `
+  const ex=datesMap[date];
+  $('confirmExisting').innerHTML=`
     <div class="ef"><span>Sales</span>${fmt(ex.sales)}</div>
     <div class="ef"><span>Tax</span>${fmt(ex.tax)}</div>
     <div class="ef"><span>CC</span>${fmt(ex.cc)}</div>
@@ -673,200 +847,116 @@ function showConfirm(date) {
   $('confirmOverlay').classList.add('show');
 }
 
-function closeConfirm() {
-  $('confirmOverlay').classList.remove('show');
-  pendingPayload = null;
-}
+function closeConfirm() { $('confirmOverlay').classList.remove('show'); pendingPayload=null; }
 
 async function confirmUpdate() {
   closeConfirm();
-  if (!pendingPayload) return;
-  await doSubmit(pendingPayload, true);
+  if(pendingPayload) await doSubmit(pendingPayload,true);
 }
 
-async function doSubmit(payload, isUpdate) {
-  const btn = $('subBtn');
-  btn.innerHTML = '<span class="spin"></span>';
-  btn.disabled  = true;
-
+async function doSubmit(payload,isUpdate) {
+  const btn=$('subBtn');
+  btn.innerHTML='<span class="spin"></span>'; btn.disabled=true;
   try {
-    const row = [
-      payload.date,
-      payload.sales.toFixed(2),
-      payload.tax.toFixed(2),
-      payload.cc.toFixed(2),
-      payload.cash.toFixed(2),
-      payload.by,
-      payload.notes
-    ];
-
-    if (isUpdate && datesMap[payload.date]) {
-      // UPDATE existing row in sheet
-      const rowNum = datesMap[payload.date].rowNum;
-      await gw('sheets.update', {
-        spreadsheetId: SID,
-        range: `Raw Log!A${rowNum}:G${rowNum}`,
-        values: [row]
-      });
-      // Update local state
-      Object.assign(datesMap[payload.date], {
-        sales:payload.sales, tax:payload.tax, cc:payload.cc,
-        cash:payload.cash, by:payload.by, notes:payload.notes
-      });
-      toast('Entry updated in Sheet ✓', 'warn');
+    const row=[payload.date,payload.sales.toFixed(2),payload.tax.toFixed(2),payload.cc.toFixed(2),payload.cash.toFixed(2),payload.by,payload.notes];
+    if(isUpdate&&datesMap[payload.date]) {
+      const rowNum=datesMap[payload.date].rowNum;
+      await gw('sheets.update',{spreadsheetId:activeSID,range:`Raw Log!A${rowNum}:G${rowNum}`,values:[row]});
+      Object.assign(datesMap[payload.date],{sales:payload.sales,tax:payload.tax,cc:payload.cc,cash:payload.cash,by:payload.by,notes:payload.notes});
+      toast('Entry updated ✓','warn');
     } else {
-      // APPEND new row
-      await gw('sheets.append', {
-        spreadsheetId: SID,
-        range: 'Raw Log!A:G',
-        values: [row]
-      });
-      // Add to local state (rowNum is approximate — reload will fix it)
-      const newRow = {...payload, rowNum: allRows.length + 2};
-      allRows.unshift(newRow);
-      allRows.sort((a,b) => b.date.localeCompare(a.date));
-      datesMap[payload.date] = newRow;
-      toast('Z Report submitted & synced ✓', 'ok');
+      await gw('sheets.append',{spreadsheetId:activeSID,range:'Raw Log!A:G',values:[row]});
+      const newRow={...payload,rowNum:allRows.length+2};
+      allRows.unshift(newRow); allRows.sort((a,b)=>b.date.localeCompare(a.date));
+      datesMap[payload.date]=newRow;
+      toast('Z Report submitted ✓','ok');
     }
-
-    // Reset form
-    $('fSales').value=''; $('fTax').value='';
-    $('fCC').value='';    $('fCash').value='';
-    $('fNotes').value='';
-    $('fEmp').value='Prit';
-    onEmpChange();
+    $('fSales').value=''; $('fTax').value=''; $('fCC').value=''; $('fCash').value=''; $('fNotes').value='';
+    const firstEmp=mode==='admin'?'Prit':'Me';
+    $('fEmp').value=firstEmp; onEmpChange();
     $('updateAlert').classList.remove('show');
     $('formTitle').textContent='New Z Report Entry';
-
-    selDate = null;
-    isEditing = false;
-    renderCal();
-    renderMissBanner();
-
-  } catch(e) {
-    toast(e.message, 'err', 5000);
-  }
-
-  btn.innerHTML = datesMap[$('fDate').value] ? '⚠️ Update This Entry' : 'Submit Z Report';
-  btn.className  = datesMap[$('fDate').value] ? 'btn btn-update' : 'btn btn-gold';
-  btn.disabled  = false;
-  pendingPayload = null;
+    selDate=null; isEditing=false; renderCal(); renderMissBanner();
+  } catch(e) { toast(e.message,'err',5000); }
+  const hasEx=datesMap[$('fDate').value];
+  btn.innerHTML=hasEx?'⚠️ Update This Entry':'Submit Z Report';
+  btn.className=hasEx?'btn btn-warn':'btn btn-pri';
+  btn.disabled=false; pendingPayload=null;
 }
 
 // ── DASHBOARD ─────────────────────────────────────────────────────────────────
 function loadDash() {
-  const thisYM = ymStr(todayLocal());
-  const rows   = allRows.filter(r => ymStr(r.date)===thisYM);
-  const tot    = sum(rows);
-
-  $('dSales').textContent = fmtK(tot.sales);
-  $('dTax').textContent   = fmtK(tot.tax);
-  $('dCC').textContent    = fmtK(tot.cc);
-  $('dCash').textContent  = fmtK(tot.cash);
-  $('dDays').textContent  = `${rows.length} day${rows.length!==1?'s':''}`;
-
-  $('dashList').innerHTML = rows.length
-    ? rows.map(rRow).join('')
-    : '<div class="empty">No entries this month</div>';
+  const ym=ymStr(todayLocal());
+  const rows=allRows.filter(r=>ymStr(r.date)===ym);
+  const tot=sum(rows);
+  $('dSales').textContent=fmtK(tot.sales); $('dTax').textContent=fmtK(tot.tax);
+  $('dCC').textContent=fmtK(tot.cc); $('dCash').textContent=fmtK(tot.cash);
+  $('dDays').textContent=`${rows.length} day${rows.length!==1?'s':''}`;
+  $('dashList').innerHTML=rows.length?rows.map(rRow).join(''):'<div class="empty">No entries this month</div>';
 }
 
-// ── MONTHLY ──────────────────────────────────────────────────────────────────
+// ── MONTHLY ───────────────────────────────────────────────────────────────────
 function initYears() {
-  const now = new Date();
-  const yrEl = $('mYear');
-  yrEl.innerHTML = '';
-  for (let y=now.getFullYear(); y>=2026; y--) {
-    yrEl.innerHTML += `<option value="${y}"${y===now.getFullYear()?'selected':''}>${y}</option>`;
+  const now=new Date(), yrEl=$('mYear'); yrEl.innerHTML='';
+  for(let y=now.getFullYear();y>=2023;y--) {
+    yrEl.innerHTML+=`<option value="${y}"${y===now.getFullYear()?'selected':''}>${y}</option>`;
   }
 }
 
 function buildMonthSelect() {
-  const yr  = +$('mYear').value;
-  const now = new Date();
-  const mEl = $('mMonth');
+  const yr=+$('mYear').value, now=new Date(), mEl=$('mMonth');
   mEl.innerHTML='';
-  for (let m=12; m>=1; m--) {
-    if (yr===now.getFullYear() && m>now.getMonth()+1) continue;
-    const ym = `${yr}-${String(m).padStart(2,'0')}`;
-    const label = new Date(yr,m-1,1).toLocaleString('default',{month:'long'});
-    const sel = (yr===now.getFullYear() && m===now.getMonth()+1) ? 'selected' : '';
-    mEl.innerHTML += `<option value="${ym}" ${sel}>${label}</option>`;
+  for(let m=12;m>=1;m--) {
+    if(yr===now.getFullYear()&&m>now.getMonth()+1) continue;
+    const ym=`${yr}-${String(m).padStart(2,'0')}`;
+    const label=new Date(yr,m-1,1).toLocaleString('default',{month:'long'});
+    const sel=(yr===now.getFullYear()&&m===now.getMonth()+1)?'selected':'';
+    mEl.innerHTML+=`<option value="${ym}" ${sel}>${label}</option>`;
   }
   loadMonthly();
 }
 
 function loadMonthly() {
-  const ym   = $('mMonth').value;
-  if (!ym) return;
-  const rows = allRows.filter(r=>ymStr(r.date)===ym);
-  const tot  = sum(rows);
-
-  $('mSales').textContent = fmtK(tot.sales);
-  $('mTax').textContent   = fmtK(tot.tax);
-  $('mCC').textContent    = fmtK(tot.cc);
-  $('mCash').textContent  = fmtK(tot.cash);
-
-  $('monthList').innerHTML = rows.length
-    ? rows.map(rRow).join('')
-    : '<div class="empty">No entries for this month</div>';
+  const ym=$('mMonth').value; if(!ym) return;
+  const rows=allRows.filter(r=>ymStr(r.date)===ym);
+  const tot=sum(rows);
+  $('mSales').textContent=fmtK(tot.sales); $('mTax').textContent=fmtK(tot.tax);
+  $('mCC').textContent=fmtK(tot.cc); $('mCash').textContent=fmtK(tot.cash);
+  $('monthList').innerHTML=rows.length?rows.map(rRow).join(''):'<div class="empty">No entries for this month</div>';
 }
 
 // ── YEARLY ────────────────────────────────────────────────────────────────────
 function loadYearly() {
-  const byYear={}, byYM={};
+  const byYear={},byYM={};
   allRows.forEach(r=>{
-    const y=r.date.slice(0,4), ym=ymStr(r.date);
+    const y=r.date.slice(0,4),ym=ymStr(r.date);
     if(!byYear[y]) byYear[y]={sales:0,tax:0,cc:0,cash:0,days:0};
-    byYear[y].sales+=r.sales; byYear[y].tax+=r.tax;
-    byYear[y].cc+=r.cc; byYear[y].cash+=r.cash; byYear[y].days++;
+    byYear[y].sales+=r.sales;byYear[y].tax+=r.tax;byYear[y].cc+=r.cc;byYear[y].cash+=r.cash;byYear[y].days++;
     if(!byYM[ym]) byYM[ym]={sales:0,tax:0,cc:0,cash:0,days:0,year:y};
-    byYM[ym].sales+=r.sales; byYM[ym].tax+=r.tax;
-    byYM[ym].cc+=r.cc; byYM[ym].cash+=r.cash; byYM[ym].days++;
+    byYM[ym].sales+=r.sales;byYM[ym].tax+=r.tax;byYM[ym].cc+=r.cc;byYM[ym].cash+=r.cash;byYM[ym].days++;
   });
-
   const years=Object.keys(byYear).sort((a,b)=>+b-+a);
-  $('yearStats').innerHTML = years.length
-    ? years.map(y=>`
-        <div class="stat">
-          <div class="lbl">${y}</div>
-          <div class="val" style="font-size:19px">${fmtK(byYear[y].sales)}</div>
-          <div class="sub">${byYear[y].days} days · ${fmtK(byYear[y].cash)} cash</div>
-        </div>`).join('')
-    : '<div class="empty" style="grid-column:span 2">No data yet</div>';
-
-  if(!years.length) { $('yearList').innerHTML=''; return; }
-
-  const latestY = years[0];
-  const months  = Object.keys(byYM).filter(ym=>byYM[ym].year===latestY).sort((a,b)=>b.localeCompare(a));
-
-  $('yearList').innerHTML = `<div class="shdr">${latestY} Month by Month</div>` +
-    months.map(ym=>`
-      <div class="rrow">
-        <div class="dc">${monthShort(ym)}<small>${byYM[ym].days}d</small></div>
-        <div class="amts">
-          <div class="amt" style="color:var(--green)">${fmtK(byYM[ym].sales)} <span>sales</span></div>
-          <div class="amt" style="color:var(--warn)">${fmtK(byYM[ym].tax)} <span>tax</span></div>
-          <div class="amt" style="color:var(--blue)">${fmtK(byYM[ym].cc)} <span>cc</span></div>
-          <div class="amt" style="color:var(--purple)">${fmtK(byYM[ym].cash)} <span>cash</span></div>
-        </div>
-      </div>`).join('')||'<div class="empty">No data</div>';
+  $('yearStats').innerHTML=years.length
+    ?years.map(y=>`<div class="stat"><div class="lbl">${y}</div><div class="val" style="font-size:19px">${fmtK(byYear[y].sales)}</div><div class="sub">${byYear[y].days} days · ${fmtK(byYear[y].cash)} cash</div></div>`).join('')
+    :'<div class="empty" style="grid-column:span 2">No data yet</div>';
+  if(!years.length){$('yearList').innerHTML='';return;}
+  const latY=years[0];
+  const months=Object.keys(byYM).filter(ym=>byYM[ym].year===latY).sort((a,b)=>b.localeCompare(a));
+  $('yearList').innerHTML=`<div class="shdr">${latY} — Month by Month</div>`+
+    (months.map(ym=>`<div class="rrow"><div class="dc">${monthShort(ym)}<small>${byYM[ym].days}d</small></div><div class="amts"><div class="amt" style="color:#28a745">${fmtK(byYM[ym].sales)} <span>sales</span></div><div class="amt" style="color:#e09000">${fmtK(byYM[ym].tax)} <span>tax</span></div><div class="amt" style="color:#0498BC">${fmtK(byYM[ym].cc)} <span>cc</span></div><div class="amt" style="color:#7c3aed">${fmtK(byYM[ym].cash)} <span>cash</span></div></div></div>`).join('')||'<div class="empty">No data</div>');
 }
 
 // ── HELPERS ───────────────────────────────────────────────────────────────────
-function sum(rows) {
-  return rows.reduce((a,r)=>({
-    sales:a.sales+r.sales, tax:a.tax+r.tax, cc:a.cc+r.cc, cash:a.cash+r.cash
-  }), {sales:0,tax:0,cc:0,cash:0});
-}
+function sum(rows) { return rows.reduce((a,r)=>({sales:a.sales+r.sales,tax:a.tax+r.tax,cc:a.cc+r.cc,cash:a.cash+r.cash}),{sales:0,tax:0,cc:0,cash:0}); }
 
 function rRow(r) {
   return `<div class="rrow">
     <div class="dc">${shortDate(r.date)}<small>${dayAbbr(r.date)}</small></div>
     <div class="amts">
-      <div class="amt" style="color:var(--green)">${fmt(r.sales)} <span>sales</span></div>
-      <div class="amt" style="color:var(--warn)">${fmt(r.tax)} <span>tax</span></div>
-      <div class="amt" style="color:var(--blue)">${fmt(r.cc)} <span>cc</span></div>
-      <div class="amt" style="color:var(--purple)">${fmt(r.cash)} <span>cash</span></div>
+      <div class="amt" style="color:#28a745">${fmt(r.sales)} <span>sales</span></div>
+      <div class="amt" style="color:#e09000">${fmt(r.tax)} <span>tax</span></div>
+      <div class="amt" style="color:#0498BC">${fmt(r.cc)} <span>cc</span></div>
+      <div class="amt" style="color:#7c3aed">${fmt(r.cash)} <span>cash</span></div>
     </div>
     <div class="by-badge">${(r.by||'?')[0].toUpperCase()}</div>
   </div>`;
@@ -878,102 +968,55 @@ function nav(page) {
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   $(`page-${page}`).classList.add('active');
   document.querySelector(`[data-page="${page}"]`).classList.add('active');
-  if(page==='dash')    loadDash();
-  if(page==='monthly') { initYears(); buildMonthSelect(); }
-  if(page==='yearly')  loadYearly();
+  if(page==='dash')     loadDash();
+  if(page==='monthly')  { initYears(); buildMonthSelect(); }
+  if(page==='yearly')   loadYearly();
+  if(page==='settings') loadSettingsPage();
 }
 
 // ── REFRESH ───────────────────────────────────────────────────────────────────
 async function refresh() {
-  if (isEditing) return; // don't disrupt active form
+  if(isEditing) return;
   try {
     $('gwDot').className='dot y';
-    await loadSheetData();
-    await checkGW();
-    renderCal();
-    renderMissBanner();
-    const active = qS('.page.active');
-    if (active?.id==='page-dash')    loadDash();
-    if (active?.id==='page-monthly') loadMonthly();
-    if (active?.id==='page-yearly')  loadYearly();
-    toast('Synced from Sheet','info',2000);
-  } catch(e) {
-    toast('Sync failed: '+e.message,'err');
-  }
+    await loadSheetData(); await checkGW();
+    renderCal(); renderMissBanner();
+    const active=document.querySelector('.page.active');
+    if(active?.id==='page-dash')    loadDash();
+    if(active?.id==='page-monthly') loadMonthly();
+    if(active?.id==='page-yearly')  loadYearly();
+    toast('Synced','info',2000);
+  } catch(e) { toast('Sync failed: '+e.message,'err'); }
 }
 
-// ── FORM ACTIVITY TRACKING ────────────────────────────────────────────────────
-['fSales','fTax','fCC','fCash','fNotes'].forEach(id=>{
-  const el = document.addEventListener('DOMContentLoaded',()=>{
-    const f = $(id);
-    if(f) {
-      f.addEventListener('focus', ()=>{ isEditing=true; });
-      f.addEventListener('blur',  ()=>{ 
-        // Only mark not-editing if all fields empty
-        const allEmpty = ['fSales','fTax','fCC','fCash'].every(i=>!$(i).value);
-        if(allEmpty) isEditing=false;
-      });
-    }
-  });
-});
+// ── INIT APP (called after auth) ──────────────────────────────────────────────
+async function initApp() {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  $('page-submit').classList.add('active');
+  document.querySelector('[data-page="submit"]').classList.add('active');
+  allRows=[]; datesMap={}; selDate=null; isEditing=false;
+  if(refreshTimer) clearInterval(refreshTimer);
 
-// ── INIT ──────────────────────────────────────────────────────────────────────
-async function init() {
   showLoader('Connecting to Gateway…');
-
-  // Set today's date
-  const today = todayLocal();
-  $('fDate').value = today;
-  selDate = today;
-
-  // Check gateway
-  $('lmsg').textContent = 'Checking gateway…';
-  const gwOk = await checkGW();
-
-  if (!gwOk) {
-    hideLoader();
-    toast('Gateway offline — Z Report unavailable','err',6000);
-    renderCal();
-    return;
-  }
-
-  // Load sheet data
-  $('lmsg').textContent = 'Loading entries from Sheet…';
-  try {
-    await loadSheetData();
-  } catch(e) {
-    hideLoader();
-    toast('Could not load Sheet: '+e.message,'err',6000);
-    renderCal();
-    return;
-  }
-
+  const today=todayLocal();
+  $('fDate').value=today; selDate=today;
+  $('lmsg').textContent='Checking gateway…';
+  const gwOk=await checkGW();
+  if(!gwOk) { hideLoader(); toast('Gateway offline','err',6000); renderCal(); return; }
+  $('lmsg').textContent='Loading entries from Sheet…';
+  try { await loadSheetData(); }
+  catch(e) { hideLoader(); toast('Could not load Sheet: '+e.message,'err',6000); renderCal(); return; }
   hideLoader();
-
-  // Render
-  renderCal();
-  renderMissBanner();
-  checkDateForExisting(today);
-
-  // Auto-refresh every 3 minutes (only when form not active)
-  refreshTimer = setInterval(async()=>{
-    if(!isEditing) {
-      try {
-        await loadSheetData();
-        await checkGW();
-        renderCal();
-        renderMissBanner();
-      } catch(e){}
-    }
-  }, 3*60*1000);
+  renderCal(); renderMissBanner(); checkDateForExisting(today);
+  refreshTimer=setInterval(async()=>{ if(!isEditing) try{ await loadSheetData(); await checkGW(); renderCal(); renderMissBanner(); }catch(e){} },3*60*1000);
 }
 
-// Close confirm on backdrop tap
-$('confirmOverlay').addEventListener('click', e=>{
-  if(e.target===$('confirmOverlay')) closeConfirm();
-});
+// ── BOOT ─────────────────────────────────────────────────────────────────────
+$('confirmOverlay').addEventListener('click',e=>{ if(e.target===$('confirmOverlay')) closeConfirm(); });
 
-init();
+if(sessionStorage.getItem(ADMIN_SK)==='ok') { enterAdmin(); }
+else { showRole(); }
 </script>
 </body>
 </html>
