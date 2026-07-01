@@ -4,143 +4,114 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#1a0a00">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#1b2d45">
+<link rel="manifest" href="manifest.json">
 <title>Store 8181</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-:root{
-  --bg:#0f0a00;--surf:#1e1200;--surf2:#2a1a00;--border:#3d2800;
-  --gold:#ffb500;--text:#f5e6c8;--text2:#8a7055;--text3:#c4a882;
-  --green:#22c55e;--blue:#4f7ef8;--red:#ef4444;--purple:#a78bfa;
-}
-html,body{min-height:100%;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif;background:var(--bg);color:var(--text)}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#eaecef;color:#111;font-size:14px;min-height:100vh}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input{font-family:inherit}
 
 /* ── HEADER ── */
-.hdr{
-  background:linear-gradient(160deg,#1a0a00 0%,#301506 55%,#1a0a00 100%);
-  padding:44px 24px 36px;border-bottom:2.5px solid var(--gold);
-  text-align:center;position:relative;overflow:hidden;
-}
-.hdr::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(255,181,0,.1) 0%,transparent 65%);pointer-events:none}
-.hdr .eyebrow{font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:rgba(255,181,0,.6);margin-bottom:8px}
-.hdr h1{font-size:36px;font-weight:900;color:var(--gold);letter-spacing:-1px;line-height:1}
-.hdr .sub{font-size:13px;color:var(--text2);margin-top:7px;font-weight:500}
+header{background:#1b2d45;color:#fff;padding:0 20px;height:56px;display:flex;align-items:center;justify-content:center;position:sticky;top:0;z-index:100}
+header h1{font-size:15px;font-weight:700;letter-spacing:.3px}
+header small{font-size:10px;color:#7a9ab8;display:block;text-align:center;margin-top:1px}
 
-/* ── ROLE SELECT SCREEN ── */
-#screen-role{display:block}
-#screen-pin{display:none}
-#screen-apps{display:none}
+/* ── SCREENS ── */
+#screen-role,#screen-pin,#screen-apps{display:none}
 
-.content{padding:20px 16px 44px;max-width:480px;margin:0 auto}
+/* ── WRAP ── */
+.wrap{max-width:480px;margin:0 auto;padding:20px 16px 40px}
 
 /* ── ROLE CARDS ── */
-.role-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
-.role-card{
-  background:var(--surf);border:1.5px solid var(--border);border-radius:18px;
-  padding:24px 16px;text-align:center;cursor:pointer;text-decoration:none;
-  color:var(--text);transition:all .15s;display:block;
-}
-.role-card:active{transform:scale(.96)}
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+.role-card{background:#fff;border:1.5px solid #dde0e5;border-radius:8px;padding:28px 16px;text-align:center;cursor:pointer;text-decoration:none;color:#111;display:block;transition:all .15s}
+.role-card:active{border-color:#1b2d45;background:#f4f6f9;transform:scale(.97)}
 .role-card .rc-ico{font-size:36px;margin-bottom:10px}
-.role-card .rc-name{font-size:15px;font-weight:800;margin-bottom:4px}
-.role-card .rc-desc{font-size:11px;color:var(--text2);line-height:1.4}
-.role-card.admin{border-color:rgba(255,181,0,.3)}
-.role-card.admin:active{border-color:var(--gold);background:rgba(255,181,0,.07)}
-.role-card.guest{border-color:rgba(79,126,248,.25)}
-.role-card.guest:active{border-color:var(--blue);background:rgba(79,126,248,.07)}
+.role-card .rc-name{font-size:15px;font-weight:700;color:#1b2d45;margin-bottom:3px}
+.role-card .rc-desc{font-size:11px;color:#888;line-height:1.4}
+.role-card.admin{border-color:#1b2d45}
+.role-card.guest{border-color:#0498BC}
+.role-card.guest .rc-name{color:#0498BC}
+
+/* ── SECTION LABEL ── */
+.slbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#888;margin:20px 0 10px 2px}
+.slbl:first-of-type{margin-top:4px}
 
 /* ── PIN SCREEN ── */
-.pin-header{text-align:center;margin-bottom:24px;padding-top:8px}
-.pin-header h2{font-size:20px;font-weight:800;margin-bottom:6px}
-.pin-header p{font-size:13px;color:var(--text2)}
-
-.pin-dots{display:flex;justify-content:center;gap:14px;margin-bottom:28px}
-.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--border);transition:all .15s}
-.pin-dot.filled{background:var(--gold);border-color:var(--gold)}
-
-.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:280px;margin:0 auto 20px}
-.key{
-  height:64px;border-radius:14px;background:var(--surf);border:1.5px solid var(--border);
-  font-size:22px;font-weight:700;color:var(--text);cursor:pointer;
-  display:flex;align-items:center;justify-content:center;transition:all .12s;
-  user-select:none;-webkit-user-select:none;
-}
-.key:active{background:var(--surf2);transform:scale(.94)}
-.key.del{font-size:18px;color:var(--text2)}
+.pin-wrap{max-width:340px;margin:0 auto}
+.pin-title{text-align:center;margin-bottom:20px}
+.pin-title h2{font-size:20px;font-weight:700;color:#1b2d45;margin-bottom:4px}
+.pin-title p{font-size:12px;color:#888}
+.pin-dots{display:flex;justify-content:center;gap:14px;margin-bottom:24px}
+.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid #c0c8d4;background:transparent;transition:all .12s}
+.pin-dot.on{background:#1b2d45;border-color:#1b2d45}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.key{height:60px;background:#fff;border:1px solid #dde0e5;border-radius:6px;font-size:20px;font-weight:600;color:#1b2d45;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .1s;user-select:none;-webkit-user-select:none}
+.key:active{background:#eaecef;transform:scale(.94)}
+.key.del{font-size:16px;color:#888}
 .key.empty{background:transparent;border:none;pointer-events:none}
-
-.pin-error{text-align:center;font-size:13px;font-weight:700;color:var(--red);height:20px;margin-bottom:10px;transition:opacity .3s}
-.pin-error.hidden{opacity:0}
-
-.back-btn{
-  display:flex;align-items:center;justify-content:center;gap:6px;
-  background:var(--surf2);border:1px solid var(--border);border-radius:10px;
-  padding:11px;font-size:13px;font-weight:700;color:var(--text2);
-  cursor:pointer;max-width:280px;margin:0 auto;
-}
-.back-btn:active{background:var(--surf)}
+.pin-error{text-align:center;font-size:12px;font-weight:700;color:#dc3545;height:18px;margin-bottom:12px}
+.back-lnk{display:flex;align-items:center;justify-content:center;color:#888;font-size:13px;font-weight:600;cursor:pointer;gap:4px;padding:10px}
+.back-lnk:active{color:#1b2d45}
 
 /* ── APPS SCREEN ── */
-.apps-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-.apps-header h2{font-size:18px;font-weight:800}
-.signout{font-size:12px;font-weight:700;color:var(--text2);background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;cursor:pointer}
-.signout:active{color:var(--red)}
-
-.section-lbl{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--text2);margin:20px 0 9px 2px}
-.section-lbl:first-of-type{margin-top:0}
+.apps-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.apps-hdr h2{font-size:16px;font-weight:700;color:#1b2d45}
+.signout-btn{font-size:11px;font-weight:700;color:#888;background:#fff;border:1px solid #dde0e5;border-radius:5px;padding:6px 12px;cursor:pointer}
+.signout-btn:active{color:#dc3545;border-color:#dc3545}
 
 /* ── TOOL CARDS ── */
-.tool-card{
-  display:flex;align-items:center;gap:14px;
-  background:var(--surf);border:1.5px solid var(--border);border-radius:15px;
-  padding:15px 16px;margin-bottom:9px;text-decoration:none;color:var(--text);
-  transition:all .15s;position:relative;overflow:hidden;
-}
-.tool-card:active{transform:scale(.98);border-color:var(--gold);background:var(--surf2)}
+.tool-card{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #dde0e5;border-radius:6px;padding:14px 16px;margin-bottom:9px;text-decoration:none;color:#111;transition:all .12s}
+.tool-card:active{border-color:#1b2d45;background:#f4f6f9}
 .tool-card.soon{opacity:.4;pointer-events:none}
-.tool-ico{width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
-.ic-gold{background:rgba(255,181,0,.12);border:1px solid rgba(255,181,0,.2)}
-.ic-green{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.2)}
-.ic-blue{background:rgba(79,126,248,.12);border:1px solid rgba(79,126,248,.2)}
-.ic-purple{background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.2)}
-.ic-orange{background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.2)}
+.tool-ico{width:44px;height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.ic-navy{background:#e8ecf2;border:1px solid #c5cdd8}
+.ic-teal{background:#e0f5fb;border:1px solid #0498BC}
+.ic-green{background:#edfaf0;border:1px solid #28a745}
+.ic-orange{background:#fff3ec;border:1px solid #f97316}
+.ic-purple{background:#f3f0ff;border:1px solid #7c3aed}
 .tool-info{flex:1;min-width:0}
-.tool-name{font-size:15px;font-weight:800;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tool-desc{font-size:11px;color:var(--text2);line-height:1.4}
-.tool-badge{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;padding:3px 8px;border-radius:20px;flex-shrink:0}
-.b-gold{background:rgba(255,181,0,.15);color:var(--gold)}
-.b-green{background:rgba(34,197,94,.12);color:var(--green)}
-.b-soon{background:rgba(138,112,85,.12);color:var(--text2)}
-.tool-arrow{color:var(--text2);font-size:18px;flex-shrink:0;margin-left:2px}
+.tool-name{font-size:14px;font-weight:700;color:#1b2d45;margin-bottom:2px}
+.tool-desc{font-size:11px;color:#888;line-height:1.4}
+.tool-badge{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;padding:3px 8px;border-radius:20px;flex-shrink:0;white-space:nowrap}
+.b-navy{background:#e8ecf2;color:#1b2d45}
+.b-teal{background:#e0f5fb;color:#0498BC}
+.b-green{background:#edfaf0;color:#28a745}
+.b-soon{background:#f4f6f9;color:#aaa}
+.tool-arrow{color:#ccc;font-size:18px;flex-shrink:0}
+
+/* ── DIVIDER ── */
+hr{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 
 /* ── FOOTER ── */
-.footer{text-align:center;padding:0 0 8px;font-size:11px;color:var(--text2)}
+.footer{text-align:center;font-size:10px;color:#bbb;padding:8px 0}
 
-/* ── SHAKE ANIMATION ── */
+/* ── SHAKE ── */
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
 .shake{animation:shake .35s ease}
 </style>
-<link rel="manifest" href="manifest.json">
 </head>
 <body>
 
-<!-- Header (always visible) -->
-<div class="hdr">
-  <div class="eyebrow">The UPS Store</div>
-  <h1>Store 8181</h1>
-  <div class="sub">Joelton, TN · Heritage Travel Center</div>
-</div>
+<header>
+  <div>
+    <h1>Store 8181</h1>
+    <small>Joelton, TN · Heritage Travel Center</small>
+  </div>
+</header>
 
-<!-- ── SCREEN 1: Role Select ── -->
+<!-- Role Select -->
 <div id="screen-role">
-  <div class="content">
-    <div class="section-lbl" style="margin-top:4px">Who are you?</div>
-    <div class="role-cards">
+  <div class="wrap">
+    <div class="slbl">Who are you?</div>
+    <div class="role-grid">
       <div class="role-card admin" onclick="showPin()">
         <div class="rc-ico">🔑</div>
         <div class="rc-name">Admin</div>
-        <div class="rc-desc">Store owner & staff tools</div>
+        <div class="rc-desc">Owner & staff tools</div>
       </div>
       <a class="role-card guest" href="template.html">
         <div class="rc-ico">👤</div>
@@ -151,51 +122,41 @@ html,body{min-height:100%;font-family:-apple-system,BlinkMacSystemFont,'SF Pro D
   </div>
 </div>
 
-<!-- ── SCREEN 2: PIN Entry ── -->
+<!-- PIN Entry -->
 <div id="screen-pin">
-  <div class="content">
-    <div class="pin-header">
-      <h2>Admin Access</h2>
-      <p>Enter your PIN to continue</p>
+  <div class="wrap">
+    <div class="pin-wrap">
+      <div class="pin-title">
+        <h2>Admin Access</h2>
+        <p>Enter your PIN to continue</p>
+      </div>
+      <div class="pin-dots" id="pinDots">
+        <div class="pin-dot" id="pd0"></div>
+        <div class="pin-dot" id="pd1"></div>
+        <div class="pin-dot" id="pd2"></div>
+        <div class="pin-dot" id="pd3"></div>
+      </div>
+      <div class="keypad">
+        <div class="key" onclick="k(1)">1</div><div class="key" onclick="k(2)">2</div><div class="key" onclick="k(3)">3</div>
+        <div class="key" onclick="k(4)">4</div><div class="key" onclick="k(5)">5</div><div class="key" onclick="k(6)">6</div>
+        <div class="key" onclick="k(7)">7</div><div class="key" onclick="k(8)">8</div><div class="key" onclick="k(9)">9</div>
+        <div class="key empty"></div><div class="key" onclick="k(0)">0</div><div class="key del" onclick="del()">⌫</div>
+      </div>
+      <div class="pin-error" id="pinErr"></div>
+      <div class="back-lnk" onclick="showRole()">← Back</div>
     </div>
-
-    <div class="pin-dots" id="pinDots">
-      <div class="pin-dot" id="pd0"></div>
-      <div class="pin-dot" id="pd1"></div>
-      <div class="pin-dot" id="pd2"></div>
-      <div class="pin-dot" id="pd3"></div>
-    </div>
-
-    <div class="keypad">
-      <div class="key" onclick="k(1)">1</div>
-      <div class="key" onclick="k(2)">2</div>
-      <div class="key" onclick="k(3)">3</div>
-      <div class="key" onclick="k(4)">4</div>
-      <div class="key" onclick="k(5)">5</div>
-      <div class="key" onclick="k(6)">6</div>
-      <div class="key" onclick="k(7)">7</div>
-      <div class="key" onclick="k(8)">8</div>
-      <div class="key" onclick="k(9)">9</div>
-      <div class="key empty"></div>
-      <div class="key" onclick="k(0)">0</div>
-      <div class="key del" onclick="del()">⌫</div>
-    </div>
-
-    <div class="pin-error hidden" id="pinErr">Incorrect PIN</div>
-    <div class="back-btn" onclick="showRole()">← Back</div>
   </div>
 </div>
 
-<!-- ── SCREEN 3: Admin Apps ── -->
+<!-- Admin Apps -->
 <div id="screen-apps">
-  <div class="content">
-
-    <div class="apps-header">
+  <div class="wrap">
+    <div class="apps-hdr">
       <h2>Admin Tools</h2>
-      <div class="signout" onclick="signOut()">Sign Out</div>
+      <button class="signout-btn" onclick="signOut()">Sign Out</button>
     </div>
 
-    <div class="section-lbl">Daily Operations</div>
+    <div class="slbl" style="margin-top:0">Daily Operations</div>
 
     <a class="tool-card" href="zreport.html">
       <div class="tool-ico ic-green">📊</div>
@@ -213,33 +174,35 @@ html,body{min-height:100%;font-family:-apple-system,BlinkMacSystemFont,'SF Pro D
         <div class="tool-name">Store 8181 Operations</div>
         <div class="tool-desc">Royalty calculator · Stamp inventory · Store supplies</div>
       </div>
-      <span class="tool-badge b-gold">Monthly</span>
+      <span class="tool-badge b-navy">Monthly</span>
       <div class="tool-arrow">›</div>
     </a>
 
-    <div class="section-lbl">Access & Credentials</div>
+    <hr>
+    <div class="slbl">Access & Credentials</div>
 
     <a class="tool-card" href="credentials.html">
-      <div class="tool-ico ic-gold">🔐</div>
+      <div class="tool-ico ic-navy">🔐</div>
       <div class="tool-info">
         <div class="tool-name">Store 8181 Access Hub</div>
         <div class="tool-desc">Passwords, portals & system credentials</div>
       </div>
-      <span class="tool-badge b-gold">Secure</span>
+      <span class="tool-badge b-navy">Secure</span>
       <div class="tool-arrow">›</div>
     </a>
 
     <a class="tool-card" href="template.html">
-      <div class="tool-ico ic-blue">👤</div>
+      <div class="tool-ico ic-teal">👤</div>
       <div class="tool-info">
         <div class="tool-name">UPS Store Guest Access Hub</div>
         <div class="tool-desc">Guest & second store template</div>
       </div>
-      <span class="tool-badge b-green">Guest</span>
+      <span class="tool-badge b-teal">Guest</span>
       <div class="tool-arrow">›</div>
     </a>
 
-    <div class="section-lbl">Coming Soon</div>
+    <hr>
+    <div class="slbl">Coming Soon</div>
 
     <div class="tool-card soon">
       <div class="tool-ico ic-purple">🧠</div>
@@ -251,90 +214,56 @@ html,body{min-height:100%;font-family:-apple-system,BlinkMacSystemFont,'SF Pro D
       <div class="tool-arrow">›</div>
     </div>
 
-    <div class="footer" style="margin-top:16px">prit946.github.io/store8181-hub</div>
-
+    <div class="footer">prit946.github.io/store8181-hub</div>
   </div>
 </div>
 
 <script>
-const ADMIN_PIN = '1997';
-const SESSION_KEY = 's8181_admin';
-let pinBuffer = '';
+const PIN = '1997';
+const SK  = 's8181_admin';
+let buf   = '';
 
-// Check for existing session
-if (sessionStorage.getItem(SESSION_KEY) === 'ok') {
-  showApps();
-}
+if (sessionStorage.getItem(SK) === 'ok') { showApps(); }
+else { showRole(); }
 
-function showRole() {
-  screen('role');
-  pinBuffer = '';
-  renderDots();
-  hideErr();
-}
+function showRole() { screen('role'); buf=''; renderDots(); $('pinErr').textContent=''; }
+function showPin()  { screen('pin');  buf=''; renderDots(); $('pinErr').textContent=''; }
+function showApps() { screen('apps'); }
 
-function showPin() {
-  screen('pin');
-  pinBuffer = '';
-  renderDots();
-  hideErr();
-}
-
-function showApps() {
-  screen('apps');
-}
-
-function screen(name) {
+function screen(n) {
   ['role','pin','apps'].forEach(s => {
-    document.getElementById('screen-'+s).style.display = s===name ? 'block' : 'none';
+    document.getElementById('screen-'+s).style.display = s===n ? 'block' : 'none';
   });
 }
 
-function k(digit) {
-  if (pinBuffer.length >= 4) return;
-  pinBuffer += digit;
+function k(d) {
+  if (buf.length >= 4) return;
+  buf += d;
   renderDots();
-  if (pinBuffer.length === 4) checkPin();
+  if (buf.length === 4) check();
 }
 
-function del() {
-  pinBuffer = pinBuffer.slice(0,-1);
-  renderDots();
-  hideErr();
-}
+function del() { buf = buf.slice(0,-1); renderDots(); $('pinErr').textContent=''; }
 
 function renderDots() {
-  for (let i=0;i<4;i++) {
-    document.getElementById('pd'+i).classList.toggle('filled', i < pinBuffer.length);
-  }
+  for (let i=0;i<4;i++) document.getElementById('pd'+i).classList.toggle('on', i < buf.length);
 }
 
-function checkPin() {
-  if (pinBuffer === ADMIN_PIN) {
-    sessionStorage.setItem(SESSION_KEY, 'ok');
-    setTimeout(showApps, 120);
+function check() {
+  if (buf === PIN) {
+    sessionStorage.setItem(SK, 'ok');
+    setTimeout(showApps, 100);
   } else {
-    document.getElementById('pinDots').classList.add('shake');
-    setTimeout(()=>document.getElementById('pinDots').classList.remove('shake'), 400);
-    showErr('Incorrect PIN');
-    setTimeout(()=>{ pinBuffer=''; renderDots(); hideErr(); }, 900);
+    const dots = document.getElementById('pinDots');
+    dots.classList.add('shake');
+    setTimeout(() => dots.classList.remove('shake'), 400);
+    $('pinErr').textContent = 'Incorrect PIN';
+    setTimeout(() => { buf=''; renderDots(); $('pinErr').textContent=''; }, 900);
   }
 }
 
-function signOut() {
-  sessionStorage.removeItem(SESSION_KEY);
-  showRole();
-}
-
-function showErr(msg) {
-  const el = document.getElementById('pinErr');
-  el.textContent = msg;
-  el.classList.remove('hidden');
-}
-
-function hideErr() {
-  document.getElementById('pinErr').classList.add('hidden');
-}
+function signOut() { sessionStorage.removeItem(SK); showRole(); }
+function $(id) { return document.getElementById(id); }
 </script>
 </body>
 </html>
