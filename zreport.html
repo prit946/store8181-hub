@@ -30,6 +30,8 @@ input[type=number]{-moz-appearance:textfield}
 .role-card .rc-desc{font-size:11px;color:#888;line-height:1.4}
 .role-card.admin{border-color:#1b2d45}.role-card.admin .rc-name{color:#1b2d45}
 .role-card.guest{border-color:#0498BC}.role-card.guest .rc-name{color:#0498BC}
+.role-card.emp{border-color:#28a745}.role-card.emp .rc-name{color:#28a745}
+.role-card.owner{border-color:#7c3aed}.role-card.owner .rc-name{color:#7c3aed}
 .pin-wrap{max-width:340px;margin:24px auto 0}
 .pin-title{text-align:center;margin-bottom:20px}
 .pin-title h2{font-size:20px;font-weight:700;color:#1b2d45;margin-bottom:4px}
@@ -52,6 +54,8 @@ input[type=number]{-moz-appearance:textfield}
 .setup-card{background:#fff;border:1px solid #dde0e5;border-radius:8px;padding:20px;margin-bottom:12px}
 .setup-card h3{font-size:14px;font-weight:700;color:#1b2d45;margin-bottom:4px}
 .setup-card p{font-size:12px;color:#888;margin-bottom:16px;line-height:1.5}
+.info-box{background:#f4f6f9;border:1px solid #dde0e5;border-radius:6px;padding:10px 12px;margin-bottom:12px;font-size:11px;color:#555;line-height:1.5}
+.info-box strong{color:#1b2d45;display:block;margin-bottom:3px}
 
 /* ── SHARED FORM INPUTS ── */
 .fg{margin-bottom:12px}
@@ -60,7 +64,7 @@ input[type=number]{-moz-appearance:textfield}
 .fg input:focus,.fg select:focus{border-color:#1b2d45;outline:none;background:#fff}
 
 /* ── ALL SCREENS HIDDEN BY DEFAULT ── */
-#screen-role,#screen-pin,#screen-guest-setup,#screen-guest-pin,#screen-main{display:none}
+#screen-role,#screen-pin,#screen-guest-setup,#screen-guest-role,#screen-guest-pin,#screen-main{display:none}
 
 /* ── MAIN APP HEADER ── */
 .hdr{background:#1b2d45;padding:0 16px;height:50px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100}
@@ -68,6 +72,7 @@ input[type=number]{-moz-appearance:textfield}
 .hdr-info{flex:1}
 .hdr-info h1{font-size:14px;font-weight:700;color:#fff}
 .hdr-info small{font-size:10px;color:#7a9ab8;display:block;margin-top:1px}
+.role-pill{font-size:10px;font-weight:800;padding:4px 9px;border-radius:20px;background:rgba(255,255,255,.12);display:flex;align-items:center;gap:5px;color:#fff;flex-shrink:0;text-transform:uppercase;letter-spacing:.5px}
 .gw-pill{font-size:11px;font-weight:700;padding:5px 11px;border-radius:20px;background:rgba(255,255,255,.12);display:flex;align-items:center;gap:5px;min-width:64px;justify-content:center;color:#fff;flex-shrink:0}
 .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;transition:background .3s}
 .dot.g{background:#28a745}.dot.r{background:#dc3545}.dot.y{background:#f0ad00}
@@ -161,6 +166,11 @@ input[type=number]{-moz-appearance:textfield}
 /* ── SECTION HEADER ── */
 .shdr{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#888;margin:14px 0 7px;font-weight:800}
 
+/* ── HELP SECTION ── */
+.help-item{margin-bottom:14px}
+.help-item strong{font-size:12px;color:#1b2d45;display:block;margin-bottom:3px}
+.help-item p{font-size:11px;color:#666;line-height:1.55}
+
 /* ── TOAST ── */
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:#fff;border:1.5px solid #dde0e5;border-radius:8px;padding:12px 20px;font-size:13px;font-weight:700;color:#111;opacity:0;transition:all .22s;pointer-events:none;z-index:9999;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.12);max-width:90vw;text-align:center}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -238,6 +248,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 ═══════════════════════════════════════════════════════════ -->
 <div id="screen-pin">
   <div class="auth-hdr" style="position:relative">
+    <a href="#" onclick="showRole();return false" class="hdr-back-lnk">‹</a>
     <div>
       <h1>Admin Access</h1>
       <small>Z Report · Store 8181</small>
@@ -279,18 +290,26 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
   <div class="auth-wrap">
     <div class="setup-card">
       <h3>Set Up Your Store</h3>
-      <p>Enter your store info to use Z Report for your own data. Your Google Sheet must be shared with the gateway account and use the same "Raw Log" tab format.</p>
+      <p>Enter your store info to use Z Report for your own data. Your Google Sheet must be shared with the gateway account and use the same "Raw Log" tab format (columns: Date · Sales · Tax · CC · Cash · By · Notes).</p>
       <div class="fg">
         <label>Store Name</label>
         <input type="text" id="gStoreName" placeholder="e.g. UPS Store 8182" autocomplete="off" />
       </div>
       <div class="fg">
         <label>Google Sheet ID</label>
-        <input type="text" id="gSheetId" placeholder="Paste Sheet ID from the URL" autocomplete="off" />
+        <input type="text" id="gSheetId" placeholder="Paste Sheet ID from URL" autocomplete="off" />
       </div>
       <div class="fg">
-        <label>Set Your PIN (4 digits)</label>
-        <input type="number" id="gPin" placeholder="Choose a 4-digit PIN" inputmode="numeric" style="font-size:22px;letter-spacing:6px" />
+        <label>Owner PIN (4 digits)</label>
+        <input type="number" id="gPin" placeholder="Choose your 4-digit owner PIN" inputmode="numeric" style="font-size:22px;letter-spacing:6px" />
+      </div>
+      <div class="fg">
+        <label>Employee PIN (optional, default 0000)</label>
+        <input type="number" id="gEmpPin" placeholder="0000" inputmode="numeric" style="font-size:22px;letter-spacing:6px" />
+      </div>
+      <div class="info-box">
+        <strong>How PINs work</strong>
+        Owner PIN → full access (all tabs). Employee PIN → Submit only. Share the employee PIN with your staff.
       </div>
       <button class="btn btn-teal" onclick="saveGuestSetup()" style="margin-top:4px">Save & Continue →</button>
     </div>
@@ -298,21 +317,49 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 </div>
 
 <!-- ══════════════════════════════════════════════════════════
-     SCREEN: GUEST PIN
+     SCREEN: GUEST ROLE (returning — owner or employee)
 ═══════════════════════════════════════════════════════════ -->
-<div id="screen-guest-pin">
+<div id="screen-guest-role">
   <div class="auth-hdr" style="position:relative">
     <a href="#" onclick="showRole();return false" class="hdr-back-lnk">‹</a>
     <div>
+      <h1 id="gRoleH1">Store Access</h1>
+      <small id="gRoleSub">Select your role</small>
+    </div>
+  </div>
+  <div class="auth-wrap">
+    <div class="slbl">Who are you?</div>
+    <div class="role-grid">
+      <div class="role-card owner" onclick="startGuestAsOwner()">
+        <div class="rc-ico">👔</div>
+        <div class="rc-name">Owner</div>
+        <div class="rc-desc">Full access · all reports</div>
+      </div>
+      <div class="role-card emp" onclick="startGuestAsEmployee()">
+        <div class="rc-ico">👤</div>
+        <div class="rc-name">Employee</div>
+        <div class="rc-desc">Submit Z Report only</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCREEN: GUEST PIN (owner or employee)
+═══════════════════════════════════════════════════════════ -->
+<div id="screen-guest-pin">
+  <div class="auth-hdr" style="position:relative">
+    <a href="#" onclick="backFromGuestPin();return false" class="hdr-back-lnk">‹</a>
+    <div>
       <h1 id="guestPinH1">Store Access</h1>
-      <small>Enter your PIN to continue</small>
+      <small id="guestPinSub">Enter your PIN</small>
     </div>
   </div>
   <div class="auth-wrap">
     <div class="pin-wrap">
       <div class="pin-title">
         <h2 id="guestPinName">Your Store</h2>
-        <p>Enter your 4-digit PIN</p>
+        <p id="guestPinRole">Enter your 4-digit PIN</p>
       </div>
       <div class="pin-dots" id="gPinDots">
         <div class="pin-dot" id="gd0"></div><div class="pin-dot" id="gd1"></div>
@@ -325,7 +372,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
         <div class="key empty"></div><div class="key" onclick="gkp(0)">0</div><div class="key del" onclick="gkpDel()">⌫</div>
       </div>
       <div class="pin-error" id="gPinErr"></div>
-      <div class="back-lnk" onclick="showRole()">← Back</div>
+      <div class="back-lnk" onclick="backFromGuestPin()">← Back</div>
     </div>
   </div>
 </div>
@@ -341,6 +388,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
       <h1 id="storeTitle">Z Report</h1>
       <small id="storeSub">Store 8181 · Joelton TN</small>
     </div>
+    <span class="role-pill" id="rolePill" style="display:none"></span>
     <div class="gw-pill" id="gwPill">
       <span class="dot y" id="gwDot"></span>
       <span id="gwTxt">…</span>
@@ -349,10 +397,10 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 
   <div class="nav">
     <button class="nav-btn active" data-page="submit" onclick="nav('submit')"><span class="ico">✏️</span>Submit</button>
-    <button class="nav-btn" data-page="dash" onclick="nav('dash')"><span class="ico">📊</span>This Month</button>
-    <button class="nav-btn" data-page="monthly" onclick="nav('monthly')"><span class="ico">📅</span>Monthly</button>
-    <button class="nav-btn" data-page="yearly" onclick="nav('yearly')"><span class="ico">📈</span>Yearly</button>
-    <button class="nav-btn" id="settingsTab" data-page="settings" onclick="nav('settings')" style="display:none"><span class="ico">⚙️</span>Settings</button>
+    <button class="nav-btn nav-owner" data-page="dash" onclick="nav('dash')"><span class="ico">📊</span>This Month</button>
+    <button class="nav-btn nav-owner" data-page="monthly" onclick="nav('monthly')"><span class="ico">📅</span>Monthly</button>
+    <button class="nav-btn nav-owner" data-page="yearly" onclick="nav('yearly')"><span class="ico">📈</span>Yearly</button>
+    <button class="nav-btn nav-owner" id="settingsTab" data-page="settings" onclick="nav('settings')"><span class="ico">⚙️</span>Settings</button>
   </div>
 
   <div class="content">
@@ -454,26 +502,63 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
       <div id="yearList"></div>
     </div>
 
-    <!-- ── SETTINGS (guest only) ── -->
+    <!-- ── SETTINGS (owner / guest) ── -->
     <div id="page-settings" class="page">
+
+      <!-- How to Use -->
+      <div class="card">
+        <div class="ctitle">How to Use Z Report</div>
+        <div class="help-item">
+          <strong>Submitting a Z Report</strong>
+          <p>Tap a date on the calendar (green = done, red = missing). Fill in the numbers from the Z tape printout at closing — Sales, Tax, Credit Card, Cash. Pick the employee and tap Submit.</p>
+        </div>
+        <div class="help-item">
+          <strong>Updating an Existing Entry</strong>
+          <p>Tap a green date to select it. The form will pre-fill with existing data and the button will change to "Update." Edit the values and submit to overwrite.</p>
+        </div>
+        <div class="help-item">
+          <strong>Missing Days Banner</strong>
+          <p>Red chips below the calendar show dates with no entry in the last 60 days. Tap a chip to jump to that date and fill it in.</p>
+        </div>
+        <div class="help-item">
+          <strong>Employee Access</strong>
+          <p>Employees log in via "Other Store" → select your store → Employee → enter the employee PIN. They only see the Submit tab. The owner sets the employee PIN here in Settings.</p>
+        </div>
+        <div class="help-item">
+          <strong>Gateway Status Pill</strong>
+          <p>Green = connected to Google Sheets. Red = offline. If offline, submissions will fail — check your internet connection or try again in a moment.</p>
+        </div>
+      </div>
+
+      <!-- Store Config -->
       <div class="card">
         <div class="ctitle">Store Configuration</div>
-        <div class="ff"><label>Store Name</label>
+        <div class="fg"><label>Store Name</label>
           <input type="text" id="sStoreName" /></div>
-        <div class="ff"><label>Google Sheet ID</label>
+        <div class="fg"><label>Google Sheet ID</label>
           <input type="text" id="sSheetId" /></div>
         <button class="btn btn-pri btn-sm" onclick="saveSettings()" style="width:auto;margin-bottom:4px">Save Changes</button>
 
         <hr class="sec">
-        <div class="ctitle" style="margin-top:4px">Change PIN</div>
-        <div class="ff"><label>New PIN (4 digits)</label>
-          <input type="number" id="sNewPin" inputmode="numeric" placeholder="New 4-digit PIN" /></div>
-        <button class="btn btn-sec btn-sm" onclick="changeGuestPin()" style="width:auto;margin-bottom:4px">Update PIN</button>
+        <div class="ctitle" style="margin-top:4px">Change Owner PIN</div>
+        <div class="fg"><label>New Owner PIN (4 digits)</label>
+          <input type="number" id="sNewPin" inputmode="numeric" placeholder="New owner PIN" /></div>
+        <button class="btn btn-sec btn-sm" onclick="changeOwnerPin()" style="width:auto;margin-bottom:4px">Update Owner PIN</button>
 
         <hr class="sec">
-        <button class="btn btn-danger" onclick="resetGuest()">Reset — Remove Store Data</button>
+        <div class="ctitle" style="margin-top:4px">Employee PIN</div>
+        <div style="font-size:11px;color:#666;margin-bottom:10px">
+          Current employee PIN: <strong id="currentEmpPin">0000</strong> — share this with your staff.
+        </div>
+        <div class="fg"><label>New Employee PIN (4 digits)</label>
+          <input type="number" id="sNewEmpPin" inputmode="numeric" placeholder="New employee PIN" /></div>
+        <button class="btn btn-sec btn-sm" onclick="changeEmpPin()" style="width:auto;margin-bottom:16px">Update Employee PIN</button>
+
+        <hr class="sec">
+        <button class="btn btn-danger" onclick="resetGuest()">Reset — Remove Store Data from Device</button>
       </div>
-    </div>
+
+    </div><!-- /settings -->
 
   </div><!-- /content -->
 </div><!-- /screen-main -->
@@ -504,22 +589,23 @@ const ADMIN_SID = '1OiU8cDWGvpJFIV2h89Oq6gWwfqkyso2GDmqzsrhqwxQ';
 const GUEST_KEY = 'zr_guest_cfg';
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
-let mode       = 'admin';
-let activeSID  = ADMIN_SID;
-let allRows    = [];
-let datesMap   = {};
-let selDate    = null;
-let isEditing  = false;
+let mode          = 'admin';   // 'admin' | 'guest-owner' | 'guest-employee'
+let activeSID     = ADMIN_SID;
+let allRows       = [];
+let datesMap      = {};
+let selDate       = null;
+let isEditing     = false;
 let pendingPayload = null;
 let refreshTimer   = null;
 let pinBuf = '', gPinBuf = '';
+let guestAuthRole  = 'owner'; // role being authenticated ('owner' | 'employee')
 
 // ── DOM ───────────────────────────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
 
 // ── SCREEN ROUTING ────────────────────────────────────────────────────────────
 function showScreen(name) {
-  ['role','pin','guest-setup','guest-pin','main'].forEach(s => {
+  ['role','pin','guest-setup','guest-role','guest-pin','main'].forEach(s => {
     $('screen-'+s).style.display = (s===name) ? 'block' : 'none';
   });
 }
@@ -538,13 +624,42 @@ function startAdmin() {
 function startGuest() {
   const cfg = getGuestCfg();
   if (cfg) {
-    $('guestPinH1').textContent  = cfg.storeName || 'Store Access';
-    $('guestPinName').textContent = cfg.storeName || 'Your Store';
-    gPinBuf=''; renderGPinDots(); $('gPinErr').textContent='';
-    showScreen('guest-pin');
+    // Returning — choose owner or employee
+    $('gRoleH1').textContent  = cfg.storeName || 'Store Access';
+    $('gRoleSub').textContent = cfg.storeName || 'Select your role';
+    showScreen('guest-role');
   } else {
     showScreen('guest-setup');
   }
+}
+
+function startGuestAsOwner() {
+  const cfg = getGuestCfg();
+  if (!cfg) return;
+  guestAuthRole = 'owner';
+  $('guestPinH1').textContent  = cfg.storeName || 'Store Access';
+  $('guestPinSub').textContent = 'Enter Owner PIN';
+  $('guestPinName').textContent = cfg.storeName || 'Your Store';
+  $('guestPinRole').textContent = 'Owner · Full access';
+  gPinBuf=''; renderGPinDots(); $('gPinErr').textContent='';
+  showScreen('guest-pin');
+}
+
+function startGuestAsEmployee() {
+  const cfg = getGuestCfg();
+  if (!cfg) return;
+  guestAuthRole = 'employee';
+  $('guestPinH1').textContent  = cfg.storeName || 'Store Access';
+  $('guestPinSub').textContent = 'Enter Employee PIN';
+  $('guestPinName').textContent = cfg.storeName || 'Your Store';
+  $('guestPinRole').textContent = 'Employee · Submit only';
+  gPinBuf=''; renderGPinDots(); $('gPinErr').textContent='';
+  showScreen('guest-pin');
+}
+
+function backFromGuestPin() {
+  const cfg = getGuestCfg();
+  if (cfg) { showScreen('guest-role'); } else { showRole(); }
 }
 
 // ── ADMIN PIN ─────────────────────────────────────────────────────────────────
@@ -573,7 +688,10 @@ function enterAdmin() {
   $('storeSub').textContent='Store 8181 · Joelton TN';
   $('hdrBack').href='index.html';
   $('hdrBack').onclick=null;
+  // Admin sees data tabs, no settings tab
+  document.querySelectorAll('.nav-owner').forEach(el => el.style.display='');
   $('settingsTab').style.display='none';
+  $('rolePill').style.display='none';
   $('fEmp').innerHTML='<option value="Prit">Prit</option><option value="Jatin">Jatin</option><option value="Other">Other</option>';
   showScreen('main');
   initApp();
@@ -588,9 +706,13 @@ function gkp(d) {
 function gkpDel() { gPinBuf=gPinBuf.slice(0,-1); renderGPinDots(); $('gPinErr').textContent=''; }
 function renderGPinDots() { for(let i=0;i<4;i++) $('gd'+i).classList.toggle('on',i<gPinBuf.length); }
 function checkGuestPin() {
-  const cfg=getGuestCfg();
-  if (gPinBuf===cfg.pin) { enterGuest(cfg); }
-  else {
+  const cfg = getGuestCfg();
+  const expected = guestAuthRole === 'employee'
+    ? (cfg.empPin || '0000')
+    : cfg.pin;
+  if (gPinBuf === expected) {
+    enterGuest(cfg, guestAuthRole);
+  } else {
     const d=$('gPinDots'); d.classList.add('shake');
     setTimeout(()=>d.classList.remove('shake'),400);
     $('gPinErr').textContent='Incorrect PIN';
@@ -598,13 +720,27 @@ function checkGuestPin() {
   }
 }
 
-function enterGuest(cfg) {
-  mode='guest'; activeSID=cfg.sheetId;
-  $('storeTitle').textContent=cfg.storeName||'Z Report';
-  $('storeSub').textContent='Guest Store Mode';
+function enterGuest(cfg, role) {
+  role = role || 'owner';
+  mode = role === 'employee' ? 'guest-employee' : 'guest-owner';
+  activeSID = cfg.sheetId;
+  $('storeTitle').textContent = cfg.storeName || 'Z Report';
+  $('storeSub').textContent = role === 'employee' ? 'Employee Access' : 'Owner Access';
   $('hdrBack').href='#';
-  $('hdrBack').onclick=e=>{ e.preventDefault(); showRole(); };
-  $('settingsTab').style.display='';
+  $('hdrBack').onclick = e => { e.preventDefault(); showRole(); };
+
+  // Show role pill in header
+  $('rolePill').textContent = role === 'employee' ? 'Employee' : 'Owner';
+  $('rolePill').style.display = '';
+
+  // Employee sees Submit only; Owner sees all tabs + Settings
+  if (role === 'employee') {
+    document.querySelectorAll('.nav-owner').forEach(el => el.style.display='none');
+  } else {
+    document.querySelectorAll('.nav-owner').forEach(el => el.style.display='');
+    $('settingsTab').style.display = '';
+  }
+
   $('fEmp').innerHTML='<option value="Me">Me</option><option value="Other">Other</option>';
   showScreen('main');
   initApp();
@@ -616,41 +752,57 @@ function getGuestCfg() {
 }
 
 function saveGuestSetup() {
-  const name=$('gStoreName').value.trim();
-  const sid=$('gSheetId').value.trim();
-  const pin=String($('gPin').value||'').trim();
+  const name   = $('gStoreName').value.trim();
+  const sid    = $('gSheetId').value.trim();
+  const pin    = String($('gPin').value||'').trim();
+  const empPin = String($('gEmpPin').value||'').trim() || '0000';
   if (!name) { toast('Enter a store name','err'); return; }
   if (!sid)  { toast('Enter your Sheet ID','err'); return; }
-  if (!/^\d{4}$/.test(pin)) { toast('PIN must be exactly 4 digits','err'); return; }
-  localStorage.setItem(GUEST_KEY,JSON.stringify({storeName:name,sheetId:sid,pin}));
-  enterGuest({storeName:name,sheetId:sid,pin});
+  if (!/^\d{4}$/.test(pin)) { toast('Owner PIN must be exactly 4 digits','err'); return; }
+  if (!/^\d{4}$/.test(empPin)) { toast('Employee PIN must be 4 digits (or leave blank for 0000)','err'); return; }
+  localStorage.setItem(GUEST_KEY, JSON.stringify({storeName:name, sheetId:sid, pin, empPin}));
+  enterGuest({storeName:name, sheetId:sid, pin, empPin}, 'owner');
 }
 
 function loadSettingsPage() {
-  const cfg=getGuestCfg()||{};
-  $('sStoreName').value=cfg.storeName||'';
-  $('sSheetId').value=cfg.sheetId||'';
-  $('sNewPin').value='';
+  const cfg = getGuestCfg()||{};
+  $('sStoreName').value = cfg.storeName||'';
+  $('sSheetId').value   = cfg.sheetId||'';
+  $('sNewPin').value    = '';
+  $('sNewEmpPin').value = '';
+  $('currentEmpPin').textContent = cfg.empPin || '0000';
 }
 
 function saveSettings() {
-  const cfg=getGuestCfg()||{};
-  const n=$('sStoreName').value.trim();
-  const s=$('sSheetId').value.trim();
-  if (n) cfg.storeName=n;
-  if (s) { cfg.sheetId=s; activeSID=s; }
-  localStorage.setItem(GUEST_KEY,JSON.stringify(cfg));
-  if (n) { $('storeTitle').textContent=n; }
+  const cfg = getGuestCfg()||{};
+  const n = $('sStoreName').value.trim();
+  const s = $('sSheetId').value.trim();
+  if (n) cfg.storeName = n;
+  if (s) { cfg.sheetId = s; activeSID = s; }
+  localStorage.setItem(GUEST_KEY, JSON.stringify(cfg));
+  if (n) $('storeTitle').textContent = n;
   toast('Settings saved','ok');
 }
 
-function changeGuestPin() {
-  const p=String($('sNewPin').value||'').trim();
+function changeOwnerPin() {
+  const p = String($('sNewPin').value||'').trim();
   if (!/^\d{4}$/.test(p)) { toast('PIN must be 4 digits','err'); return; }
-  const cfg=getGuestCfg()||{};
-  cfg.pin=p; localStorage.setItem(GUEST_KEY,JSON.stringify(cfg));
-  $('sNewPin').value='';
-  toast('PIN updated','ok');
+  const cfg = getGuestCfg()||{};
+  cfg.pin = p;
+  localStorage.setItem(GUEST_KEY, JSON.stringify(cfg));
+  $('sNewPin').value = '';
+  toast('Owner PIN updated','ok');
+}
+
+function changeEmpPin() {
+  const p = String($('sNewEmpPin').value||'').trim();
+  if (!/^\d{4}$/.test(p)) { toast('Employee PIN must be 4 digits','err'); return; }
+  const cfg = getGuestCfg()||{};
+  cfg.empPin = p;
+  localStorage.setItem(GUEST_KEY, JSON.stringify(cfg));
+  $('sNewEmpPin').value = '';
+  $('currentEmpPin').textContent = p;
+  toast('Employee PIN updated — share: ' + p,'ok',5000);
 }
 
 function resetGuest() {
@@ -661,22 +813,26 @@ function resetGuest() {
 
 // ── UTILS ─────────────────────────────────────────────────────────────────────
 function todayLocal() {
-  const d=new Date();
+  const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 function fmt(n,dec=2) { return '$'+(+n||0).toFixed(dec).replace(/\B(?=(\d{3})+(?!\d))/g,','); }
 function fmtK(n) { const v=Math.abs(+n||0); return v>=10000?'$'+(v/1000).toFixed(1)+'k':'$'+v.toFixed(0); }
 function dayAbbr(d) { return ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(d+'T12:00:00').getDay()]; }
-function shortDate(d) { const[,m,dy]=d.split('-'); return `${+m}/${+dy}`; }
+function shortDate(d) {
+  // Format as "Jun 1" instead of "2026-06-01"
+  const [y,m,dy] = d.split('-').map(Number);
+  return new Date(y, m-1, dy).toLocaleDateString('en-US', {month:'short', day:'numeric'});
+}
 function ymStr(d) { return d.slice(0,7); }
 function monthShort(ym) { const[y,m]=ym.split('-'); return new Date(+y,+m-1,1).toLocaleString('default',{month:'short'}); }
 
 // ── TOAST ─────────────────────────────────────────────────────────────────────
-function toast(msg,type='ok',dur=3200) {
-  const el=$('toast');
-  el.textContent={ok:'✅ ',err:'❌ ',warn:'⚠️ ',info:'ℹ️ '}[type]+msg;
-  el.className=`show ${type}`; clearTimeout(el._t);
-  el._t=setTimeout(()=>el.className='',dur);
+function toast(msg, type='ok', dur=3200) {
+  const el = $('toast');
+  el.textContent = {ok:'✅ ',err:'❌ ',warn:'⚠️ ',info:'ℹ️ '}[type] + msg;
+  el.className = `show ${type}`; clearTimeout(el._t);
+  el._t = setTimeout(()=>el.className='', dur);
 }
 
 // ── LOADER ────────────────────────────────────────────────────────────────────
@@ -684,19 +840,19 @@ function showLoader(msg) { $('loader').style.display='flex'; $('lmsg').textConte
 function hideLoader()    { $('loader').style.display='none'; }
 
 // ── GATEWAY ───────────────────────────────────────────────────────────────────
-async function gw(action,params={},timeout=15000) {
-  const ctrl=new AbortController();
-  const tid=setTimeout(()=>ctrl.abort(),timeout);
+async function gw(action, params={}, timeout=15000) {
+  const ctrl = new AbortController();
+  const tid  = setTimeout(()=>ctrl.abort(), timeout);
   try {
-    const res=await fetch(GW,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({key:KEY,action,params}),signal:ctrl.signal});
+    const res  = await fetch(GW, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({key:KEY,action,params}), signal:ctrl.signal});
     clearTimeout(tid);
-    if(!res.ok) throw new Error(`Gateway HTTP ${res.status}`);
-    const data=await res.json();
-    if(data.error) throw new Error(data.error);
+    if (!res.ok) throw new Error(`Gateway HTTP ${res.status}`);
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
     return data;
   } catch(e) {
     clearTimeout(tid);
-    if(e.name==='AbortError') throw new Error('Gateway timed out');
+    if (e.name==='AbortError') throw new Error('Gateway timed out');
     throw e;
   }
 }
@@ -711,16 +867,15 @@ async function checkGW() {
 }
 
 // ── LOAD SHEET DATA ───────────────────────────────────────────────────────────
-// ▶ rowNum assigned BEFORE filtering so blank rows don't shift indices
 async function loadSheetData() {
-  const d=await gw('sheets.read',{spreadsheetId:activeSID,range:'Raw Log!A2:G5000'});
-  const raw=d.values||[];
+  const d = await gw('sheets.read', {spreadsheetId:activeSID, range:'Raw Log!A2:G5000'});
+  const raw = d.values||[];
   allRows=[]; datesMap={};
-  raw.forEach((r,i)=>{
-    const date=(r[0]||'').trim();
-    if(!date||!/^\d{4}-\d{2}-\d{2}$/.test(date)) return;
-    if(datesMap[date]) return;
-    const row={rowNum:i+2,date,sales:parseFloat(r[1])||0,tax:parseFloat(r[2])||0,cc:parseFloat(r[3])||0,cash:parseFloat(r[4])||0,by:r[5]||'',notes:r[6]||''};
+  raw.forEach((r,i) => {
+    const date = (r[0]||'').trim();
+    if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return;
+    if (datesMap[date]) return;
+    const row = {rowNum:i+2, date, sales:parseFloat(r[1])||0, tax:parseFloat(r[2])||0, cc:parseFloat(r[3])||0, cash:parseFloat(r[4])||0, by:r[5]||'', notes:r[6]||''};
     allRows.push(row); datesMap[date]=row;
   });
   allRows.sort((a,b)=>b.date.localeCompare(a.date));
@@ -728,28 +883,28 @@ async function loadSheetData() {
 
 // ── EMPLOYEE ──────────────────────────────────────────────────────────────────
 function onEmpChange() {
-  const v=$('fEmp').value;
-  $('otherNameWrap').style.display=v==='Other'?'block':'none';
-  if(v!=='Other') $('fOtherName').value='';
+  const v = $('fEmp').value;
+  $('otherNameWrap').style.display = v==='Other' ? 'block' : 'none';
+  if (v!=='Other') $('fOtherName').value='';
 }
 
 function getSubmitter() {
-  const v=$('fEmp').value;
-  if(v==='Other') return $('fOtherName').value.trim()||'Other';
+  const v = $('fEmp').value;
+  if (v==='Other') return $('fOtherName').value.trim()||'Other';
   return v;
 }
 
 // ── DATE CHANGE ───────────────────────────────────────────────────────────────
 function onDateChange() {
-  const d=$('fDate').value;
-  if(!d) return;
+  const d = $('fDate').value;
+  if (!d) return;
   selDate=d; renderCal(); checkDateForExisting(d);
 }
 
 function checkDateForExisting(date) {
-  const ex=datesMap[date];
-  const alert=$('updateAlert');
-  const btn=$('subBtn');
+  const ex  = datesMap[date];
+  const alert = $('updateAlert');
+  const btn   = $('subBtn');
   if (ex) {
     $('updateExisting').innerHTML=`
       <div class="ua-row">Sales<span>${fmt(ex.sales)}</span></div>
@@ -765,9 +920,9 @@ function checkDateForExisting(date) {
     $('fSales').value=ex.sales.toFixed(2); $('fTax').value=ex.tax.toFixed(2);
     $('fCC').value=ex.cc.toFixed(2); $('fCash').value=ex.cash.toFixed(2);
     $('fNotes').value=ex.notes;
-    const empSel=$('fEmp');
-    const opt=empSel.querySelector(`option[value="${ex.by}"]`);
-    if(opt) { empSel.value=ex.by; }
+    const empSel = $('fEmp');
+    const opt = empSel.querySelector(`option[value="${ex.by}"]`);
+    if (opt) { empSel.value=ex.by; }
     else { empSel.value='Other'; $('fOtherName').value=ex.by; }
     onEmpChange();
   } else {
@@ -782,11 +937,11 @@ function renderCal() {
   const cal=$('cal'), today=todayLocal();
   cal.innerHTML='';
   const days=[];
-  for(let i=29;i>=0;i--) {
+  for (let i=29;i>=0;i--) {
     const d=new Date(); d.setDate(d.getDate()-i);
     days.push(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`);
   }
-  days.forEach(d=>{
+  days.forEach(d => {
     const has=!!datesMap[d], isTod=d===today, isSel=d===(selDate||today), isFut=d>today;
     const el=document.createElement('div');
     el.className=['cal-d',isFut?'future':(has?'ok':'miss'),isTod?'today':'',isSel?'sel':''].filter(Boolean).join(' ');
@@ -806,15 +961,21 @@ function pickDate(d) {
 // ── MISSING BANNER ────────────────────────────────────────────────────────────
 function renderMissBanner() {
   const missing=[];
-  for(let i=60;i>=1;i--) {
+  for (let i=60;i>=1;i--) {
     const d=new Date(); d.setDate(d.getDate()-i);
     const ds=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-    if(!datesMap[ds]) missing.push(ds);
+    if (!datesMap[ds]) missing.push(ds);
   }
   const banner=$('missB');
-  if(!missing.length) { banner.classList.remove('show'); return; }
+  if (!missing.length) { banner.classList.remove('show'); return; }
   banner.classList.add('show');
-  $('missChips').innerHTML=missing.slice(0,15).map(d=>`<span class="chip" onclick="pickDate('${d}')">${d}</span>`).join('');
+  // Format as "Jun 1, Mon" instead of "2026-06-01"
+  $('missChips').innerHTML = missing.slice(0,20).map(d =>
+    `<span class="chip" onclick="pickDate('${d}')">${shortDate(d)}</span>`
+  ).join('');
+  if (missing.length > 20) {
+    $('missChips').innerHTML += `<span class="chip" style="opacity:.6">+${missing.length-20} more</span>`;
+  }
 }
 
 // ── SUBMIT ────────────────────────────────────────────────────────────────────
@@ -823,15 +984,15 @@ async function submitReport() {
   const salesV=$('fSales').value.trim(), taxV=$('fTax').value.trim();
   const ccV=$('fCC').value.trim(), cashV=$('fCash').value.trim();
   const notes=$('fNotes').value.trim();
-  if(!date)  { toast('Select a date','err'); return; }
-  if(!by)    { toast('Select submitter','err'); return; }
-  if($('fEmp').value==='Other'&&!$('fOtherName').value.trim()) { toast('Enter employee name','err'); return; }
-  if(!salesV||!taxV||!ccV||!cashV) { toast('All 4 amounts required','err'); return; }
-  const sales=+salesV,tax=+taxV,cc=+ccV,cash=+cashV;
-  if([sales,tax,cc,cash].some(v=>isNaN(v)||v<0)) { toast('Invalid amount','err'); return; }
-  const payload={date,sales,tax,cc,cash,by,notes};
-  if(datesMap[date]) { pendingPayload=payload; showConfirm(date); return; }
-  await doSubmit(payload,false);
+  if (!date)  { toast('Select a date','err'); return; }
+  if (!by)    { toast('Select submitter','err'); return; }
+  if ($('fEmp').value==='Other'&&!$('fOtherName').value.trim()) { toast('Enter employee name','err'); return; }
+  if (!salesV||!taxV||!ccV||!cashV) { toast('All 4 amounts required','err'); return; }
+  const sales=+salesV, tax=+taxV, cc=+ccV, cash=+cashV;
+  if ([sales,tax,cc,cash].some(v=>isNaN(v)||v<0)) { toast('Invalid amount','err'); return; }
+  const payload = {date,sales,tax,cc,cash,by,notes};
+  if (datesMap[date]) { pendingPayload=payload; showConfirm(date); return; }
+  await doSubmit(payload, false);
 }
 
 function showConfirm(date) {
@@ -851,15 +1012,15 @@ function closeConfirm() { $('confirmOverlay').classList.remove('show'); pendingP
 
 async function confirmUpdate() {
   closeConfirm();
-  if(pendingPayload) await doSubmit(pendingPayload,true);
+  if (pendingPayload) await doSubmit(pendingPayload, true);
 }
 
-async function doSubmit(payload,isUpdate) {
+async function doSubmit(payload, isUpdate) {
   const btn=$('subBtn');
   btn.innerHTML='<span class="spin"></span>'; btn.disabled=true;
   try {
-    const row=[payload.date,payload.sales.toFixed(2),payload.tax.toFixed(2),payload.cc.toFixed(2),payload.cash.toFixed(2),payload.by,payload.notes];
-    if(isUpdate&&datesMap[payload.date]) {
+    const row=[payload.date, payload.sales.toFixed(2), payload.tax.toFixed(2), payload.cc.toFixed(2), payload.cash.toFixed(2), payload.by, payload.notes];
+    if (isUpdate && datesMap[payload.date]) {
       const rowNum=datesMap[payload.date].rowNum;
       await gw('sheets.update',{spreadsheetId:activeSID,range:`Raw Log!A${rowNum}:G${rowNum}`,values:[row]});
       Object.assign(datesMap[payload.date],{sales:payload.sales,tax:payload.tax,cc:payload.cc,cash:payload.cash,by:payload.by,notes:payload.notes});
@@ -872,15 +1033,15 @@ async function doSubmit(payload,isUpdate) {
       toast('Z Report submitted ✓','ok');
     }
     $('fSales').value=''; $('fTax').value=''; $('fCC').value=''; $('fCash').value=''; $('fNotes').value='';
-    const firstEmp=mode==='admin'?'Prit':'Me';
+    const firstEmp = (mode==='admin') ? 'Prit' : 'Me';
     $('fEmp').value=firstEmp; onEmpChange();
     $('updateAlert').classList.remove('show');
     $('formTitle').textContent='New Z Report Entry';
     selDate=null; isEditing=false; renderCal(); renderMissBanner();
   } catch(e) { toast(e.message,'err',5000); }
   const hasEx=datesMap[$('fDate').value];
-  btn.innerHTML=hasEx?'⚠️ Update This Entry':'Submit Z Report';
-  btn.className=hasEx?'btn btn-warn':'btn btn-pri';
+  btn.innerHTML = hasEx ? '⚠️ Update This Entry' : 'Submit Z Report';
+  btn.className = hasEx ? 'btn btn-warn' : 'btn btn-pri';
   btn.disabled=false; pendingPayload=null;
 }
 
@@ -898,7 +1059,7 @@ function loadDash() {
 // ── MONTHLY ───────────────────────────────────────────────────────────────────
 function initYears() {
   const now=new Date(), yrEl=$('mYear'); yrEl.innerHTML='';
-  for(let y=now.getFullYear();y>=2023;y--) {
+  for (let y=now.getFullYear();y>=2023;y--) {
     yrEl.innerHTML+=`<option value="${y}"${y===now.getFullYear()?'selected':''}>${y}</option>`;
   }
 }
@@ -906,8 +1067,8 @@ function initYears() {
 function buildMonthSelect() {
   const yr=+$('mYear').value, now=new Date(), mEl=$('mMonth');
   mEl.innerHTML='';
-  for(let m=12;m>=1;m--) {
-    if(yr===now.getFullYear()&&m>now.getMonth()+1) continue;
+  for (let m=12;m>=1;m--) {
+    if (yr===now.getFullYear()&&m>now.getMonth()+1) continue;
     const ym=`${yr}-${String(m).padStart(2,'0')}`;
     const label=new Date(yr,m-1,1).toLocaleString('default',{month:'long'});
     const sel=(yr===now.getFullYear()&&m===now.getMonth()+1)?'selected':'';
@@ -917,7 +1078,7 @@ function buildMonthSelect() {
 }
 
 function loadMonthly() {
-  const ym=$('mMonth').value; if(!ym) return;
+  const ym=$('mMonth').value; if (!ym) return;
   const rows=allRows.filter(r=>ymStr(r.date)===ym);
   const tot=sum(rows);
   $('mSales').textContent=fmtK(tot.sales); $('mTax').textContent=fmtK(tot.tax);
@@ -927,19 +1088,19 @@ function loadMonthly() {
 
 // ── YEARLY ────────────────────────────────────────────────────────────────────
 function loadYearly() {
-  const byYear={},byYM={};
-  allRows.forEach(r=>{
-    const y=r.date.slice(0,4),ym=ymStr(r.date);
-    if(!byYear[y]) byYear[y]={sales:0,tax:0,cc:0,cash:0,days:0};
+  const byYear={}, byYM={};
+  allRows.forEach(r => {
+    const y=r.date.slice(0,4), ym=ymStr(r.date);
+    if (!byYear[y]) byYear[y]={sales:0,tax:0,cc:0,cash:0,days:0};
     byYear[y].sales+=r.sales;byYear[y].tax+=r.tax;byYear[y].cc+=r.cc;byYear[y].cash+=r.cash;byYear[y].days++;
-    if(!byYM[ym]) byYM[ym]={sales:0,tax:0,cc:0,cash:0,days:0,year:y};
+    if (!byYM[ym]) byYM[ym]={sales:0,tax:0,cc:0,cash:0,days:0,year:y};
     byYM[ym].sales+=r.sales;byYM[ym].tax+=r.tax;byYM[ym].cc+=r.cc;byYM[ym].cash+=r.cash;byYM[ym].days++;
   });
   const years=Object.keys(byYear).sort((a,b)=>+b-+a);
   $('yearStats').innerHTML=years.length
     ?years.map(y=>`<div class="stat"><div class="lbl">${y}</div><div class="val" style="font-size:19px">${fmtK(byYear[y].sales)}</div><div class="sub">${byYear[y].days} days · ${fmtK(byYear[y].cash)} cash</div></div>`).join('')
     :'<div class="empty" style="grid-column:span 2">No data yet</div>';
-  if(!years.length){$('yearList').innerHTML='';return;}
+  if (!years.length) { $('yearList').innerHTML=''; return; }
   const latY=years[0];
   const months=Object.keys(byYM).filter(ym=>byYM[ym].year===latY).sort((a,b)=>b.localeCompare(a));
   $('yearList').innerHTML=`<div class="shdr">${latY} — Month by Month</div>`+
@@ -968,23 +1129,23 @@ function nav(page) {
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   $(`page-${page}`).classList.add('active');
   document.querySelector(`[data-page="${page}"]`).classList.add('active');
-  if(page==='dash')     loadDash();
-  if(page==='monthly')  { initYears(); buildMonthSelect(); }
-  if(page==='yearly')   loadYearly();
-  if(page==='settings') loadSettingsPage();
+  if (page==='dash')     loadDash();
+  if (page==='monthly')  { initYears(); buildMonthSelect(); }
+  if (page==='yearly')   loadYearly();
+  if (page==='settings') loadSettingsPage();
 }
 
 // ── REFRESH ───────────────────────────────────────────────────────────────────
 async function refresh() {
-  if(isEditing) return;
+  if (isEditing) return;
   try {
     $('gwDot').className='dot y';
     await loadSheetData(); await checkGW();
     renderCal(); renderMissBanner();
     const active=document.querySelector('.page.active');
-    if(active?.id==='page-dash')    loadDash();
-    if(active?.id==='page-monthly') loadMonthly();
-    if(active?.id==='page-yearly')  loadYearly();
+    if (active?.id==='page-dash')    loadDash();
+    if (active?.id==='page-monthly') loadMonthly();
+    if (active?.id==='page-yearly')  loadYearly();
     toast('Synced','info',2000);
   } catch(e) { toast('Sync failed: '+e.message,'err'); }
 }
@@ -996,26 +1157,26 @@ async function initApp() {
   $('page-submit').classList.add('active');
   document.querySelector('[data-page="submit"]').classList.add('active');
   allRows=[]; datesMap={}; selDate=null; isEditing=false;
-  if(refreshTimer) clearInterval(refreshTimer);
+  if (refreshTimer) clearInterval(refreshTimer);
 
   showLoader('Connecting to Gateway…');
   const today=todayLocal();
   $('fDate').value=today; selDate=today;
   $('lmsg').textContent='Checking gateway…';
   const gwOk=await checkGW();
-  if(!gwOk) { hideLoader(); toast('Gateway offline','err',6000); renderCal(); return; }
+  if (!gwOk) { hideLoader(); toast('Gateway offline','err',6000); renderCal(); return; }
   $('lmsg').textContent='Loading entries from Sheet…';
   try { await loadSheetData(); }
   catch(e) { hideLoader(); toast('Could not load Sheet: '+e.message,'err',6000); renderCal(); return; }
   hideLoader();
   renderCal(); renderMissBanner(); checkDateForExisting(today);
-  refreshTimer=setInterval(async()=>{ if(!isEditing) try{ await loadSheetData(); await checkGW(); renderCal(); renderMissBanner(); }catch(e){} },3*60*1000);
+  refreshTimer=setInterval(async()=>{ if(!isEditing) try{ await loadSheetData(); await checkGW(); renderCal(); renderMissBanner(); }catch(e){} }, 3*60*1000);
 }
 
 // ── BOOT ─────────────────────────────────────────────────────────────────────
-$('confirmOverlay').addEventListener('click',e=>{ if(e.target===$('confirmOverlay')) closeConfirm(); });
+$('confirmOverlay').addEventListener('click', e=>{ if(e.target===$('confirmOverlay')) closeConfirm(); });
 
-if(sessionStorage.getItem(ADMIN_SK)==='ok') { enterAdmin(); }
+if (sessionStorage.getItem(ADMIN_SK)==='ok') { enterAdmin(); }
 else { showRole(); }
 </script>
 </body>
