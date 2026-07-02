@@ -15,9 +15,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 input{font-family:inherit}
 
 /* ── HEADER ── */
-header{background:#1b2d45;color:#fff;padding:0 20px;height:56px;display:flex;align-items:center;justify-content:center;position:sticky;top:0;z-index:100}
-header h1{font-size:15px;font-weight:700;letter-spacing:.3px}
-header small{font-size:10px;color:#7a9ab8;display:block;text-align:center;margin-top:1px}
+header{background:#1b2d45;color:#fff;padding:0 20px;height:60px;display:flex;align-items:center;justify-content:center;position:sticky;top:0;z-index:100}
+header h1{font-size:16px;font-weight:700;letter-spacing:.3px}
+header small{font-size:11px;color:#7a9ab8;display:block;text-align:center;margin-top:2px}
 
 /* ── SCREENS ── */
 #screen-role,#screen-pin,#screen-apps{display:none}
@@ -27,11 +27,11 @@ header small{font-size:10px;color:#7a9ab8;display:block;text-align:center;margin
 
 /* ── ROLE CARDS ── */
 .role-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
-.role-card{background:#fff;border:1.5px solid #dde0e5;border-radius:8px;padding:28px 16px;text-align:center;cursor:pointer;text-decoration:none;color:#111;display:block;transition:all .15s}
+.role-card{background:#fff;border:1.5px solid #dde0e5;border-radius:8px;padding:16px 12px;text-align:center;cursor:pointer;text-decoration:none;color:#111;display:block;transition:all .15s}
 .role-card:active{border-color:#1b2d45;background:#f4f6f9;transform:scale(.97)}
-.role-card .rc-ico{font-size:36px;margin-bottom:10px}
-.role-card .rc-name{font-size:15px;font-weight:700;color:#1b2d45;margin-bottom:3px}
-.role-card .rc-desc{font-size:11px;color:#888;line-height:1.4}
+.role-card .rc-ico{font-size:26px;margin-bottom:7px}
+.role-card .rc-name{font-size:13px;font-weight:700;color:#1b2d45;margin-bottom:3px}
+.role-card .rc-desc{font-size:10px;color:#888;line-height:1.4}
 .role-card.admin{border-color:#1b2d45}
 .role-card.guest{border-color:#0498BC}
 .role-card.guest .rc-name{color:#0498BC}
@@ -99,7 +99,7 @@ hr{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 
 <header>
   <div>
-    <h1>Store 8181</h1>
+    <h1>Store 8181 · Operations Hub</h1>
     <small>Joelton, TN · Heritage Travel Center</small>
   </div>
 </header>
@@ -107,7 +107,7 @@ hr{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 <!-- Role Select -->
 <div id="screen-role">
   <div class="wrap">
-    <div class="slbl">Who are you?</div>
+    <div class="slbl" style="margin-top:16px">Select Access Level</div>
     <div class="role-grid">
       <div class="role-card admin" onclick="showPin()">
         <div class="rc-ico">🔑</div>

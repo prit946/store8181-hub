@@ -23,11 +23,11 @@ input[type=number]{-moz-appearance:textfield}
 .auth-wrap{max-width:480px;margin:0 auto;padding:20px 16px 40px}
 .slbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#888;margin:20px 0 10px 2px}
 .role-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.role-card{background:#fff;border:1.5px solid #dde0e5;border-radius:8px;padding:28px 16px;text-align:center;cursor:pointer;color:#111;display:block;transition:all .15s;user-select:none;touch-action:manipulation}
+.role-card{background:#fff;border:1.5px solid #dde0e5;border-radius:8px;padding:20px 12px;text-align:center;cursor:pointer;color:#111;display:block;transition:all .15s;user-select:none;touch-action:manipulation}
 .role-card:active{background:#f4f6f9;transform:scale(.97)}
-.role-card .rc-ico{font-size:36px;margin-bottom:10px}
-.role-card .rc-name{font-size:15px;font-weight:700;margin-bottom:3px}
-.role-card .rc-desc{font-size:11px;color:#888;line-height:1.4}
+.role-card .rc-ico{font-size:28px;margin-bottom:8px}
+.role-card .rc-name{font-size:14px;font-weight:700;margin-bottom:3px}
+.role-card .rc-desc{font-size:10px;color:#888;line-height:1.4}
 .role-card.admin{border-color:#1b2d45}.role-card.admin .rc-name{color:#1b2d45}
 .role-card.guest{border-color:#0498BC}.role-card.guest .rc-name{color:#0498BC}
 .role-card.emp{border-color:#28a745}.role-card.emp .rc-name{color:#28a745}
@@ -56,12 +56,15 @@ input[type=number]{-moz-appearance:textfield}
 .setup-card p{font-size:12px;color:#888;margin-bottom:16px;line-height:1.5}
 .info-box{background:#f4f6f9;border:1px solid #dde0e5;border-radius:6px;padding:10px 12px;margin-bottom:12px;font-size:11px;color:#555;line-height:1.5}
 .info-box strong{color:#1b2d45;display:block;margin-bottom:3px}
+.info-box.teal{background:#e0f5fb;border-color:#0498BC;color:#025d74}
+.info-box.teal strong{color:#0498BC}
 
 /* ── SHARED FORM INPUTS ── */
 .fg{margin-bottom:12px}
 .fg label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#888;margin-bottom:5px}
-.fg input,.fg select{width:100%;padding:10px 12px;background:#f4f6f9;border:1.5px solid #dde0e5;border-radius:5px;color:#111;font-size:15px;-webkit-appearance:none;appearance:none;transition:border-color .15s}
-.fg input:focus,.fg select:focus{border-color:#1b2d45;outline:none;background:#fff}
+.fg input,.fg select,.fg textarea{width:100%;padding:10px 12px;background:#f4f6f9;border:1.5px solid #dde0e5;border-radius:5px;color:#111;font-size:15px;-webkit-appearance:none;appearance:none;transition:border-color .15s}
+.fg textarea{resize:vertical;min-height:80px;font-size:13px;line-height:1.5}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:#1b2d45;outline:none;background:#fff}
 
 /* ── ALL SCREENS HIDDEN BY DEFAULT ── */
 #screen-role,#screen-pin,#screen-guest-setup,#screen-guest-role,#screen-guest-pin,#screen-main{display:none}
@@ -118,8 +121,13 @@ input[type=number]{-moz-appearance:textfield}
 .btn-warn{background:#f0ad00;color:#1b2d45;font-weight:800}
 .btn-warn:active{background:#e09000}
 .btn-sec{background:#f4f6f9;border:1px solid #dde0e5;color:#2a4060;font-size:13px;padding:10px 16px;width:auto;border-radius:5px;font-weight:700}
-.btn-sm{padding:6px 12px;font-size:11px;width:auto;border-radius:4px;font-weight:700}
+.btn-sm{padding:7px 14px;font-size:11px;width:auto;border-radius:4px;font-weight:700}
 .btn-danger{background:rgba(220,53,69,.08);border:1px solid rgba(220,53,69,.3);color:#dc3545;font-size:13px}
+.btn-export{background:#e0f5fb;border:1px solid #0498BC;color:#0267a0;font-size:12px;font-weight:700;padding:9px 14px;border-radius:5px;width:100%;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:8px;cursor:pointer;touch-action:manipulation}
+.btn-export:active{background:#ccedf7}
+.btn-import{background:#edfaf0;border:1px solid #28a745;color:#1a6e31;font-size:12px;font-weight:700;padding:9px 14px;border-radius:5px;width:100%;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:8px;cursor:pointer;touch-action:manipulation}
+.btn-import:active{background:#d4f5dc}
+input[type=file]{display:none}
 
 /* ── CALENDAR ── */
 .cal{display:flex;gap:6px;overflow-x:auto;padding:2px 1px 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
@@ -171,6 +179,10 @@ input[type=number]{-moz-appearance:textfield}
 .help-item strong{font-size:12px;color:#1b2d45;display:block;margin-bottom:3px}
 .help-item p{font-size:11px;color:#666;line-height:1.55}
 
+/* ── DATA COUNT ── */
+.data-count{background:#f4f6f9;border:1px solid #dde0e5;border-radius:5px;padding:10px 12px;margin-bottom:12px;font-size:12px;color:#555;display:flex;justify-content:space-between;align-items:center}
+.data-count strong{color:#1b2d45;font-size:14px}
+
 /* ── TOAST ── */
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:#fff;border:1.5px solid #dde0e5;border-radius:8px;padding:12px 20px;font-size:13px;font-weight:700;color:#111;opacity:0;transition:all .22s;pointer-events:none;z-index:9999;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.12);max-width:90vw;text-align:center}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -212,7 +224,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 <!-- ── LOADER ── -->
 <div id="loader" style="display:none">
   <div class="sp2"></div>
-  <div class="lmsg" id="lmsg">Connecting to Gateway…</div>
+  <div class="lmsg" id="lmsg">Loading…</div>
 </div>
 
 <!-- ══════════════════════════════════════════════════════════
@@ -223,11 +235,11 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
     <a href="index.html" class="hdr-back-lnk">‹</a>
     <div>
       <h1>Z Report</h1>
-      <small>Store 8181 · Joelton TN</small>
+      <small>Select access level to continue</small>
     </div>
   </div>
   <div class="auth-wrap">
-    <div class="slbl">Select Access Level</div>
+    <div class="slbl">Who are you?</div>
     <div class="role-grid">
       <div class="role-card admin" onclick="startAdmin()">
         <div class="rc-ico">🔑</div>
@@ -237,7 +249,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
       <div class="role-card guest" onclick="startGuest()">
         <div class="rc-ico">🏪</div>
         <div class="rc-name">Other Store</div>
-        <div class="rc-desc">Your own store data</div>
+        <div class="rc-desc">Your own store · No account needed</div>
       </div>
     </div>
   </div>
@@ -277,39 +289,39 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 </div>
 
 <!-- ══════════════════════════════════════════════════════════
-     SCREEN: GUEST SETUP (first time)
+     SCREEN: GUEST SETUP (first visit)
 ═══════════════════════════════════════════════════════════ -->
 <div id="screen-guest-setup">
   <div class="auth-hdr" style="position:relative">
     <a href="#" onclick="showRole();return false" class="hdr-back-lnk">‹</a>
     <div>
-      <h1>Store Setup</h1>
-      <small>Connect your Z Report sheet</small>
+      <h1>New Store Setup</h1>
+      <small>One-time setup · stored on this device</small>
     </div>
   </div>
   <div class="auth-wrap">
     <div class="setup-card">
       <h3>Set Up Your Store</h3>
-      <p>Enter your store info to use Z Report for your own data. Your Google Sheet must be shared with the gateway account and use the same "Raw Log" tab format (columns: Date · Sales · Tax · CC · Cash · By · Notes).</p>
-      <div class="fg">
-        <label>Store Name</label>
-        <input type="text" id="gStoreName" placeholder="e.g. UPS Store 8182" autocomplete="off" />
+      <p>Your Z Report data is saved entirely on this device — no Google account, no setup required. Export a backup anytime from Settings.</p>
+      <div class="info-box teal">
+        <strong>Works standalone on any device</strong>
+        All reports save locally in your browser. Use the export feature in Settings to back up or move data to another device.
       </div>
       <div class="fg">
-        <label>Google Sheet ID</label>
-        <input type="text" id="gSheetId" placeholder="Paste Sheet ID from URL" autocomplete="off" />
+        <label>Store Name</label>
+        <input type="text" id="gStoreName" placeholder="e.g. UPS Store 9182" autocomplete="off" />
       </div>
       <div class="fg">
         <label>Owner PIN (4 digits)</label>
         <input type="number" id="gPin" placeholder="Choose your 4-digit owner PIN" inputmode="numeric" style="font-size:22px;letter-spacing:6px" />
       </div>
       <div class="fg">
-        <label>Employee PIN (optional, default 0000)</label>
+        <label>Employee PIN (optional — default 0000)</label>
         <input type="number" id="gEmpPin" placeholder="0000" inputmode="numeric" style="font-size:22px;letter-spacing:6px" />
       </div>
       <div class="info-box">
         <strong>How PINs work</strong>
-        Owner PIN → full access (all tabs). Employee PIN → Submit only. Share the employee PIN with your staff.
+        Owner PIN → full access (all tabs + Settings). Employee PIN → Submit only. Share the employee PIN with your staff. Change both anytime in Settings.
       </div>
       <button class="btn btn-teal" onclick="saveGuestSetup()" style="margin-top:4px">Save & Continue →</button>
     </div>
@@ -317,7 +329,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 </div>
 
 <!-- ══════════════════════════════════════════════════════════
-     SCREEN: GUEST ROLE (returning — owner or employee)
+     SCREEN: GUEST ROLE (returning user)
 ═══════════════════════════════════════════════════════════ -->
 <div id="screen-guest-role">
   <div class="auth-hdr" style="position:relative">
@@ -345,7 +357,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 </div>
 
 <!-- ══════════════════════════════════════════════════════════
-     SCREEN: GUEST PIN (owner or employee)
+     SCREEN: GUEST PIN
 ═══════════════════════════════════════════════════════════ -->
 <div id="screen-guest-pin">
   <div class="auth-hdr" style="position:relative">
@@ -407,7 +419,6 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 
     <!-- ── SUBMIT ── -->
     <div id="page-submit" class="page active">
-
       <div class="card">
         <div class="ctitle">Select Date</div>
         <div class="scroll-hint">← scroll for older dates</div>
@@ -471,7 +482,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
           <div class="ctitle" style="margin:0">All Entries This Month</div>
-          <button class="btn-sec btn-sm" onclick="refresh()">↻ Sync</button>
+          <button class="btn-sec btn-sm" onclick="refresh()">↻ Refresh</button>
         </div>
         <div id="dashList"></div>
       </div>
@@ -502,60 +513,109 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
       <div id="yearList"></div>
     </div>
 
-    <!-- ── SETTINGS (owner / guest) ── -->
+    <!-- ── SETTINGS ── -->
     <div id="page-settings" class="page">
 
-      <!-- How to Use -->
+      <!-- How to Use — always visible -->
       <div class="card">
         <div class="ctitle">How to Use Z Report</div>
         <div class="help-item">
           <strong>Submitting a Z Report</strong>
-          <p>Tap a date on the calendar (green = done, red = missing). Fill in the numbers from the Z tape printout at closing — Sales, Tax, Credit Card, Cash. Pick the employee and tap Submit.</p>
+          <p>Tap a date on the calendar — green means done, red means missing. Fill in Sales, Tax, Credit Card, and Cash from your Z tape at closing. Pick the employee and tap Submit.</p>
         </div>
         <div class="help-item">
-          <strong>Updating an Existing Entry</strong>
-          <p>Tap a green date to select it. The form will pre-fill with existing data and the button will change to "Update." Edit the values and submit to overwrite.</p>
+          <strong>Correcting an Entry</strong>
+          <p>Tap a green (already submitted) date. The form pre-fills with existing data and the button changes to "Update." Edit and resubmit to overwrite.</p>
         </div>
         <div class="help-item">
-          <strong>Missing Days Banner</strong>
-          <p>Red chips below the calendar show dates with no entry in the last 60 days. Tap a chip to jump to that date and fill it in.</p>
+          <strong>Missing Entries Banner</strong>
+          <p>The red chips below the calendar show dates with no entry in the last 60 days. Tap a chip to jump directly to that date.</p>
         </div>
         <div class="help-item">
           <strong>Employee Access</strong>
-          <p>Employees log in via "Other Store" → select your store → Employee → enter the employee PIN. They only see the Submit tab. The owner sets the employee PIN here in Settings.</p>
+          <p>Employees tap "Other Store," select your store, choose "Employee," and enter the employee PIN. They only see the Submit tab. Share the employee PIN from Settings → Employee PIN.</p>
         </div>
-        <div class="help-item">
-          <strong>Gateway Status Pill</strong>
-          <p>Green = connected to Google Sheets. Red = offline. If offline, submissions will fail — check your internet connection or try again in a moment.</p>
+        <div class="help-item" id="helpAdminGateway" style="display:none">
+          <strong>Gateway Status (Admin)</strong>
+          <p>The pill in the top-right shows the Google Sheets sync status. Green = live. Red = offline. If offline, check your internet and try the Sync button on the This Month tab.</p>
+        </div>
+        <div class="help-item" id="helpGuestLocal" style="display:none">
+          <strong>Your Data Is Stored Locally</strong>
+          <p>All Z reports are saved on this device — no internet required after setup. Use the Export buttons in Data Management below to back up your records or move them to another device.</p>
         </div>
       </div>
 
-      <!-- Store Config -->
-      <div class="card">
-        <div class="ctitle">Store Configuration</div>
-        <div class="fg"><label>Store Name</label>
-          <input type="text" id="sStoreName" /></div>
-        <div class="fg"><label>Google Sheet ID</label>
-          <input type="text" id="sSheetId" /></div>
-        <button class="btn btn-pri btn-sm" onclick="saveSettings()" style="width:auto;margin-bottom:4px">Save Changes</button>
-
-        <hr class="sec">
-        <div class="ctitle" style="margin-top:4px">Change Owner PIN</div>
-        <div class="fg"><label>New Owner PIN (4 digits)</label>
-          <input type="number" id="sNewPin" inputmode="numeric" placeholder="New owner PIN" /></div>
-        <button class="btn btn-sec btn-sm" onclick="changeOwnerPin()" style="width:auto;margin-bottom:4px">Update Owner PIN</button>
-
-        <hr class="sec">
-        <div class="ctitle" style="margin-top:4px">Employee PIN</div>
-        <div style="font-size:11px;color:#666;margin-bottom:10px">
-          Current employee PIN: <strong id="currentEmpPin">0000</strong> — share this with your staff.
+      <!-- Admin-only block -->
+      <div id="admin-settings-block" style="display:none">
+        <div class="card">
+          <div class="ctitle">Store 8181 Info</div>
+          <div class="info-box">
+            <strong>Employee PIN (local app)</strong>
+            The employee PIN for the Node.js app at localhost:3181 is:
+            <strong id="adminEmpPin" style="font-size:20px;letter-spacing:4px;display:inline-block;margin-top:4px">0000</strong>
+            <br><br>Share this with employees accessing the local store app. Change it in the local app's Settings tab.
+          </div>
+          <div class="info-box">
+            <strong>Sheet ID (admin sheet)</strong>
+            <span style="font-size:10px;word-break:break-all;color:#555" id="adminSheetId"></span>
+          </div>
+          <button class="btn btn-sec btn-sm" onclick="recheckGW()" style="margin-top:4px">↻ Re-check Gateway</button>
         </div>
-        <div class="fg"><label>New Employee PIN (4 digits)</label>
-          <input type="number" id="sNewEmpPin" inputmode="numeric" placeholder="New employee PIN" /></div>
-        <button class="btn btn-sec btn-sm" onclick="changeEmpPin()" style="width:auto;margin-bottom:16px">Update Employee PIN</button>
+      </div>
 
-        <hr class="sec">
-        <button class="btn btn-danger" onclick="resetGuest()">Reset — Remove Store Data from Device</button>
+      <!-- Guest-only block -->
+      <div id="guest-settings-block" style="display:none">
+
+        <div class="card">
+          <div class="ctitle">Store Configuration</div>
+          <div class="fg"><label>Store Name</label>
+            <input type="text" id="sStoreName" /></div>
+          <button class="btn btn-pri btn-sm" onclick="saveStoreName()" style="margin-bottom:4px">Save Store Name</button>
+
+          <hr class="sec">
+          <div class="ctitle" style="margin-top:4px">Owner PIN</div>
+          <div class="fg"><label>New Owner PIN (4 digits)</label>
+            <input type="number" id="sNewPin" inputmode="numeric" placeholder="New owner PIN" /></div>
+          <button class="btn btn-sec btn-sm" onclick="changeOwnerPin()" style="margin-bottom:4px">Update Owner PIN</button>
+
+          <hr class="sec">
+          <div class="ctitle" style="margin-top:4px">Employee PIN</div>
+          <div style="font-size:11px;color:#666;margin-bottom:10px">
+            Current: <strong id="currentEmpPin" style="font-size:16px;letter-spacing:3px">0000</strong> — share this with your staff.
+          </div>
+          <div class="fg"><label>New Employee PIN (4 digits)</label>
+            <input type="number" id="sNewEmpPin" inputmode="numeric" placeholder="New employee PIN" /></div>
+          <button class="btn btn-sec btn-sm" onclick="changeEmpPin()" style="margin-bottom:4px">Update Employee PIN</button>
+        </div>
+
+        <div class="card">
+          <div class="ctitle">Data Management</div>
+          <div class="data-count">
+            <span>Reports on this device</span>
+            <strong id="dataCount">0</strong>
+          </div>
+          <button class="btn-export" onclick="exportCSV()">📥 Export CSV (spreadsheet)</button>
+          <button class="btn-export" onclick="exportJSON()">💾 Export JSON Backup (full restore)</button>
+          <label class="btn-import" for="importFile">📂 Import JSON Backup</label>
+          <input type="file" id="importFile" accept=".json" onchange="importJSON(this)" />
+          <div style="font-size:10px;color:#888;line-height:1.5;margin-top:4px">
+            CSV is for spreadsheet use. JSON backup lets you restore or move to a new device. Import merges — existing dates are not overwritten.
+          </div>
+
+          <hr class="sec">
+          <button class="btn btn-danger" onclick="resetGuest()">Remove All Store Data from Device</button>
+        </div>
+
+      </div><!-- /guest-settings-block -->
+
+      <!-- Notes — always visible for both roles -->
+      <div class="card">
+        <div class="ctitle">Notes</div>
+        <div class="fg">
+          <label>General Notes</label>
+          <textarea id="notesArea" placeholder="Reminders, discrepancies, instructions for staff…" style="min-height:100px"></textarea>
+        </div>
+        <button class="btn btn-pri btn-sm" onclick="saveNotes()" style="margin-top:2px">Save Notes</button>
       </div>
 
     </div><!-- /settings -->
@@ -580,25 +640,24 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 
 <script>
 'use strict';
-// ── CONFIG ────────────────────────────────────────────────────────────────────
-const ADMIN_PIN = '1997';
-const ADMIN_SK  = 's8181_admin';
-const GW        = 'https://script.google.com/macros/s/AKfycbwUh6kuKSn4h-YrHdxBjbZHelGDtg0NmTmKXwUZrCW0nB9RUWwmBLcrCIVZIAs0gzQj/exec';
-const KEY       = 'Store8181Prit2026';
-const ADMIN_SID = '1OiU8cDWGvpJFIV2h89Oq6gWwfqkyso2GDmqzsrhqwxQ';
-const GUEST_KEY = 'zr_guest_cfg';
+// ── CONSTANTS ─────────────────────────────────────────────────────────────────
+const ADMIN_PIN  = '1997';
+const ADMIN_SK   = 's8181_admin';
+const GW_URL     = 'https://script.google.com/macros/s/AKfycbwUh6kuKSn4h-YrHdxBjbZHelGDtg0NmTmKXwUZrCW0nB9RUWwmBLcrCIVZIAs0gzQj/exec';
+const GW_KEY     = 'Store8181Prit2026';
+const ADMIN_SID  = '1OiU8cDWGvpJFIV2h89Oq6gWwfqkyso2GDmqzsrhqwxQ';
+const GUEST_CFG_KEY = 'zr_guest_cfg';
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
-let mode          = 'admin';   // 'admin' | 'guest-owner' | 'guest-employee'
-let activeSID     = ADMIN_SID;
-let allRows       = [];
-let datesMap      = {};
-let selDate       = null;
-let isEditing     = false;
+let mode           = 'admin';  // 'admin' | 'guest-owner' | 'guest-employee'
+let allRows        = [];
+let datesMap       = {};
+let selDate        = null;
+let isEditing      = false;
 let pendingPayload = null;
 let refreshTimer   = null;
 let pinBuf = '', gPinBuf = '';
-let guestAuthRole  = 'owner'; // role being authenticated ('owner' | 'employee')
+let guestAuthRole  = 'owner';
 
 // ── DOM ───────────────────────────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
@@ -624,7 +683,6 @@ function startAdmin() {
 function startGuest() {
   const cfg = getGuestCfg();
   if (cfg) {
-    // Returning — choose owner or employee
     $('gRoleH1').textContent  = cfg.storeName || 'Store Access';
     $('gRoleSub').textContent = cfg.storeName || 'Select your role';
     showScreen('guest-role');
@@ -634,8 +692,7 @@ function startGuest() {
 }
 
 function startGuestAsOwner() {
-  const cfg = getGuestCfg();
-  if (!cfg) return;
+  const cfg = getGuestCfg(); if (!cfg) return;
   guestAuthRole = 'owner';
   $('guestPinH1').textContent  = cfg.storeName || 'Store Access';
   $('guestPinSub').textContent = 'Enter Owner PIN';
@@ -646,8 +703,7 @@ function startGuestAsOwner() {
 }
 
 function startGuestAsEmployee() {
-  const cfg = getGuestCfg();
-  if (!cfg) return;
+  const cfg = getGuestCfg(); if (!cfg) return;
   guestAuthRole = 'employee';
   $('guestPinH1').textContent  = cfg.storeName || 'Store Access';
   $('guestPinSub').textContent = 'Enter Employee PIN';
@@ -662,7 +718,7 @@ function backFromGuestPin() {
   if (cfg) { showScreen('guest-role'); } else { showRole(); }
 }
 
-// ── ADMIN PIN ─────────────────────────────────────────────────────────────────
+// ── ADMIN AUTH ────────────────────────────────────────────────────────────────
 function kp(d) {
   if (pinBuf.length>=4) return;
   pinBuf+=d; renderPinDots();
@@ -670,6 +726,7 @@ function kp(d) {
 }
 function kpDel() { pinBuf=pinBuf.slice(0,-1); renderPinDots(); $('pinErr').textContent=''; }
 function renderPinDots() { for(let i=0;i<4;i++) $('pd'+i).classList.toggle('on',i<pinBuf.length); }
+
 function checkAdminPin() {
   if (pinBuf===ADMIN_PIN) {
     sessionStorage.setItem(ADMIN_SK,'ok');
@@ -683,21 +740,21 @@ function checkAdminPin() {
 }
 
 function enterAdmin() {
-  mode='admin'; activeSID=ADMIN_SID;
+  mode='admin';
   $('storeTitle').textContent='Z Report';
   $('storeSub').textContent='Store 8181 · Joelton TN';
   $('hdrBack').href='index.html';
   $('hdrBack').onclick=null;
-  // Admin sees data tabs, no settings tab
   document.querySelectorAll('.nav-owner').forEach(el => el.style.display='');
-  $('settingsTab').style.display='none';
+  $('settingsTab').style.display=''; // admin gets settings too
   $('rolePill').style.display='none';
+  $('gwPill').style.display='';
   $('fEmp').innerHTML='<option value="Prit">Prit</option><option value="Jatin">Jatin</option><option value="Other">Other</option>';
   showScreen('main');
   initApp();
 }
 
-// ── GUEST PIN ─────────────────────────────────────────────────────────────────
+// ── GUEST AUTH ────────────────────────────────────────────────────────────────
 function gkp(d) {
   if (gPinBuf.length>=4) return;
   gPinBuf+=d; renderGPinDots();
@@ -705,12 +762,11 @@ function gkp(d) {
 }
 function gkpDel() { gPinBuf=gPinBuf.slice(0,-1); renderGPinDots(); $('gPinErr').textContent=''; }
 function renderGPinDots() { for(let i=0;i<4;i++) $('gd'+i).classList.toggle('on',i<gPinBuf.length); }
+
 function checkGuestPin() {
   const cfg = getGuestCfg();
-  const expected = guestAuthRole === 'employee'
-    ? (cfg.empPin || '0000')
-    : cfg.pin;
-  if (gPinBuf === expected) {
+  const expected = guestAuthRole==='employee' ? (cfg.empPin||'0000') : cfg.pin;
+  if (gPinBuf===expected) {
     enterGuest(cfg, guestAuthRole);
   } else {
     const d=$('gPinDots'); d.classList.add('shake');
@@ -721,24 +777,26 @@ function checkGuestPin() {
 }
 
 function enterGuest(cfg, role) {
-  role = role || 'owner';
-  mode = role === 'employee' ? 'guest-employee' : 'guest-owner';
-  activeSID = cfg.sheetId;
-  $('storeTitle').textContent = cfg.storeName || 'Z Report';
-  $('storeSub').textContent = role === 'employee' ? 'Employee Access' : 'Owner Access';
+  role = role||'owner';
+  mode = role==='employee' ? 'guest-employee' : 'guest-owner';
+  $('storeTitle').textContent = cfg.storeName||'Z Report';
+  $('storeSub').textContent = role==='employee' ? 'Employee Access · Local' : 'Owner Access · Local';
   $('hdrBack').href='#';
   $('hdrBack').onclick = e => { e.preventDefault(); showRole(); };
 
-  // Show role pill in header
-  $('rolePill').textContent = role === 'employee' ? 'Employee' : 'Owner';
-  $('rolePill').style.display = '';
+  $('rolePill').textContent = role==='employee' ? 'Employee' : 'Owner';
+  $('rolePill').style.display='';
 
-  // Employee sees Submit only; Owner sees all tabs + Settings
-  if (role === 'employee') {
+  // Guest uses local storage — show "Local" in pill, no gateway calls
+  $('gwDot').className='dot g';
+  $('gwTxt').textContent='Local';
+  $('gwPill').style.display='';
+
+  if (role==='employee') {
     document.querySelectorAll('.nav-owner').forEach(el => el.style.display='none');
   } else {
     document.querySelectorAll('.nav-owner').forEach(el => el.style.display='');
-    $('settingsTab').style.display = '';
+    $('settingsTab').style.display='';
   }
 
   $('fEmp').innerHTML='<option value="Me">Me</option><option value="Other">Other</option>';
@@ -748,40 +806,143 @@ function enterGuest(cfg, role) {
 
 // ── GUEST CONFIG ──────────────────────────────────────────────────────────────
 function getGuestCfg() {
-  try { return JSON.parse(localStorage.getItem(GUEST_KEY)); } catch(e) { return null; }
+  try { return JSON.parse(localStorage.getItem(GUEST_CFG_KEY)); } catch(e) { return null; }
 }
 
 function saveGuestSetup() {
   const name   = $('gStoreName').value.trim();
-  const sid    = $('gSheetId').value.trim();
   const pin    = String($('gPin').value||'').trim();
-  const empPin = String($('gEmpPin').value||'').trim() || '0000';
+  const empPin = String($('gEmpPin').value||'').trim()||'0000';
   if (!name) { toast('Enter a store name','err'); return; }
-  if (!sid)  { toast('Enter your Sheet ID','err'); return; }
   if (!/^\d{4}$/.test(pin)) { toast('Owner PIN must be exactly 4 digits','err'); return; }
-  if (!/^\d{4}$/.test(empPin)) { toast('Employee PIN must be 4 digits (or leave blank for 0000)','err'); return; }
-  localStorage.setItem(GUEST_KEY, JSON.stringify({storeName:name, sheetId:sid, pin, empPin}));
-  enterGuest({storeName:name, sheetId:sid, pin, empPin}, 'owner');
+  if (!/^\d{4}$/.test(empPin)) { toast('Employee PIN must be 4 digits or leave blank','err'); return; }
+  const cfg = {storeName:name, pin, empPin};
+  localStorage.setItem(GUEST_CFG_KEY, JSON.stringify(cfg));
+  enterGuest(cfg, 'owner');
 }
 
+// ── GUEST LOCAL STORAGE DATA ──────────────────────────────────────────────────
+function storeKey() {
+  const cfg = getGuestCfg();
+  if (!cfg||!cfg.storeName) return 'default';
+  return cfg.storeName.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
+}
+
+function getLocalReports() {
+  try { return JSON.parse(localStorage.getItem('zr_data_'+storeKey())||'[]'); } catch(e) { return []; }
+}
+
+function saveLocalReports(arr) {
+  localStorage.setItem('zr_data_'+storeKey(), JSON.stringify(arr));
+}
+
+function loadLocalData() {
+  const reports = getLocalReports();
+  allRows=[]; datesMap={};
+  reports.forEach(r => {
+    if (!r.date||!/^\d{4}-\d{2}-\d{2}$/.test(r.date)) return;
+    if (datesMap[r.date]) return;
+    const row = {date:r.date, sales:+r.sales||0, tax:+r.tax||0, cc:+r.cc||0, cash:+r.cash||0, by:r.by||'', notes:r.notes||''};
+    allRows.push(row);
+    datesMap[r.date]=row;
+  });
+  allRows.sort((a,b)=>b.date.localeCompare(a.date));
+}
+
+// ── EXPORT / IMPORT ───────────────────────────────────────────────────────────
+function exportCSV() {
+  const reports = getLocalReports();
+  if (!reports.length) { toast('No reports to export','warn'); return; }
+  const header = ['Date','Sales','Tax','CC','Cash','Submitted By','Notes'];
+  const rows = [...reports].sort((a,b)=>a.date.localeCompare(b.date))
+    .map(r => [r.date, (+r.sales||0).toFixed(2), (+r.tax||0).toFixed(2), (+r.cc||0).toFixed(2), (+r.cash||0).toFixed(2), r.by||'', r.notes||'']);
+  const csv = [header,...rows].map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const cfg = getGuestCfg();
+  dlFile(`zreport_${(cfg&&cfg.storeName||'store').replace(/\s+/g,'_')}_${todayLocal()}.csv`, csv, 'text/csv;charset=utf-8;');
+  toast('CSV exported','ok');
+}
+
+function exportJSON() {
+  const reports = getLocalReports();
+  const cfg = getGuestCfg()||{};
+  const data = {storeName:cfg.storeName||'', exported:new Date().toISOString(), version:1, reports};
+  dlFile(`zreport_backup_${(cfg.storeName||'store').replace(/\s+/g,'_')}.json`, JSON.stringify(data,null,2), 'application/json');
+  toast('Backup exported','ok');
+}
+
+function dlFile(name, content, type) {
+  const a = document.createElement('a');
+  const url = URL.createObjectURL(new Blob([content],{type}));
+  a.href=url; a.download=name;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 5000);
+}
+
+function importJSON(input) {
+  const file = input.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!Array.isArray(data.reports)) throw new Error('Invalid backup format');
+      if (!confirm(`Import ${data.reports.length} reports from "${data.storeName||'backup'}"?\n\nExisting entries for the same dates will NOT be overwritten.`)) return;
+      const existing = getLocalReports();
+      const existDates = new Set(existing.map(r=>r.date));
+      let added = 0;
+      data.reports.forEach(r => { if (r.date&&!existDates.has(r.date)) { existing.push(r); added++; } });
+      saveLocalReports(existing);
+      loadLocalData(); renderCal(); renderMissBanner();
+      $('dataCount').textContent = getLocalReports().length;
+      toast(`Imported ${added} new entr${added===1?'y':'ies'}`,'ok');
+    } catch(err) { toast('Import failed: '+err.message,'err'); }
+    input.value='';
+  };
+  reader.readAsText(file);
+}
+
+// ── NOTES ─────────────────────────────────────────────────────────────────────
+function notesKey() {
+  return mode==='admin' ? 'zr_admin_notes' : 'zr_notes_'+storeKey();
+}
+
+function saveNotes() {
+  localStorage.setItem(notesKey(), $('notesArea').value);
+  toast('Notes saved','ok');
+}
+
+// ── SETTINGS PAGE ─────────────────────────────────────────────────────────────
 function loadSettingsPage() {
-  const cfg = getGuestCfg()||{};
-  $('sStoreName').value = cfg.storeName||'';
-  $('sSheetId').value   = cfg.sheetId||'';
-  $('sNewPin').value    = '';
-  $('sNewEmpPin').value = '';
-  $('currentEmpPin').textContent = cfg.empPin || '0000';
+  const isAdmin = mode==='admin';
+  $('admin-settings-block').style.display = isAdmin ? '' : 'none';
+  $('guest-settings-block').style.display = isAdmin ? 'none' : '';
+  $('helpAdminGateway').style.display = isAdmin ? '' : 'none';
+  $('helpGuestLocal').style.display   = isAdmin ? 'none' : '';
+
+  if (isAdmin) {
+    const empPin = localStorage.getItem('s8181_emp_pin')||'0000';
+    $('adminEmpPin').textContent = empPin;
+    $('adminSheetId').textContent = ADMIN_SID;
+  } else {
+    const cfg = getGuestCfg()||{};
+    $('sStoreName').value = cfg.storeName||'';
+    $('sNewPin').value = '';
+    $('sNewEmpPin').value = '';
+    $('currentEmpPin').textContent = cfg.empPin||'0000';
+    $('dataCount').textContent = getLocalReports().length;
+  }
+
+  $('notesArea').value = localStorage.getItem(notesKey())||'';
 }
 
-function saveSettings() {
-  const cfg = getGuestCfg()||{};
+function saveStoreName() {
   const n = $('sStoreName').value.trim();
-  const s = $('sSheetId').value.trim();
-  if (n) cfg.storeName = n;
-  if (s) { cfg.sheetId = s; activeSID = s; }
-  localStorage.setItem(GUEST_KEY, JSON.stringify(cfg));
-  if (n) $('storeTitle').textContent = n;
-  toast('Settings saved','ok');
+  if (!n) { toast('Enter a store name','err'); return; }
+  const cfg = getGuestCfg()||{};
+  cfg.storeName = n;
+  localStorage.setItem(GUEST_CFG_KEY, JSON.stringify(cfg));
+  $('storeTitle').textContent = n;
+  toast('Store name saved','ok');
 }
 
 function changeOwnerPin() {
@@ -789,8 +950,8 @@ function changeOwnerPin() {
   if (!/^\d{4}$/.test(p)) { toast('PIN must be 4 digits','err'); return; }
   const cfg = getGuestCfg()||{};
   cfg.pin = p;
-  localStorage.setItem(GUEST_KEY, JSON.stringify(cfg));
-  $('sNewPin').value = '';
+  localStorage.setItem(GUEST_CFG_KEY, JSON.stringify(cfg));
+  $('sNewPin').value='';
   toast('Owner PIN updated','ok');
 }
 
@@ -799,52 +960,26 @@ function changeEmpPin() {
   if (!/^\d{4}$/.test(p)) { toast('Employee PIN must be 4 digits','err'); return; }
   const cfg = getGuestCfg()||{};
   cfg.empPin = p;
-  localStorage.setItem(GUEST_KEY, JSON.stringify(cfg));
-  $('sNewEmpPin').value = '';
+  localStorage.setItem(GUEST_CFG_KEY, JSON.stringify(cfg));
+  $('sNewEmpPin').value='';
   $('currentEmpPin').textContent = p;
-  toast('Employee PIN updated — share: ' + p,'ok',5000);
+  toast('Employee PIN updated · Share: '+p,'ok',5000);
 }
 
 function resetGuest() {
-  if (!confirm('Remove all guest store config from this device?')) return;
-  localStorage.removeItem(GUEST_KEY);
+  if (!confirm('This will permanently remove all store config and Z report data from this device.\n\nExport a backup first if you want to keep your records.')) return;
+  const key = 'zr_data_'+storeKey();
+  localStorage.removeItem(GUEST_CFG_KEY);
+  localStorage.removeItem(key);
   showRole();
 }
 
-// ── UTILS ─────────────────────────────────────────────────────────────────────
-function todayLocal() {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-}
-function fmt(n,dec=2) { return '$'+(+n||0).toFixed(dec).replace(/\B(?=(\d{3})+(?!\d))/g,','); }
-function fmtK(n) { const v=Math.abs(+n||0); return v>=10000?'$'+(v/1000).toFixed(1)+'k':'$'+v.toFixed(0); }
-function dayAbbr(d) { return ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(d+'T12:00:00').getDay()]; }
-function shortDate(d) {
-  // Format as "Jun 1" instead of "2026-06-01"
-  const [y,m,dy] = d.split('-').map(Number);
-  return new Date(y, m-1, dy).toLocaleDateString('en-US', {month:'short', day:'numeric'});
-}
-function ymStr(d) { return d.slice(0,7); }
-function monthShort(ym) { const[y,m]=ym.split('-'); return new Date(+y,+m-1,1).toLocaleString('default',{month:'short'}); }
-
-// ── TOAST ─────────────────────────────────────────────────────────────────────
-function toast(msg, type='ok', dur=3200) {
-  const el = $('toast');
-  el.textContent = {ok:'✅ ',err:'❌ ',warn:'⚠️ ',info:'ℹ️ '}[type] + msg;
-  el.className = `show ${type}`; clearTimeout(el._t);
-  el._t = setTimeout(()=>el.className='', dur);
-}
-
-// ── LOADER ────────────────────────────────────────────────────────────────────
-function showLoader(msg) { $('loader').style.display='flex'; $('lmsg').textContent=msg||'Loading…'; }
-function hideLoader()    { $('loader').style.display='none'; }
-
-// ── GATEWAY ───────────────────────────────────────────────────────────────────
+// ── GATEWAY (admin only) ──────────────────────────────────────────────────────
 async function gw(action, params={}, timeout=15000) {
   const ctrl = new AbortController();
   const tid  = setTimeout(()=>ctrl.abort(), timeout);
   try {
-    const res  = await fetch(GW, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({key:KEY,action,params}), signal:ctrl.signal});
+    const res  = await fetch(GW_URL, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({key:GW_KEY,action,params}), signal:ctrl.signal});
     clearTimeout(tid);
     if (!res.ok) throw new Error(`Gateway HTTP ${res.status}`);
     const data = await res.json();
@@ -866,70 +1001,170 @@ async function checkGW() {
   }
 }
 
-// ── LOAD SHEET DATA ───────────────────────────────────────────────────────────
+async function recheckGW() {
+  $('gwDot').className='dot y'; $('gwTxt').textContent='…';
+  const ok = await checkGW();
+  toast(ok ? 'Gateway live' : 'Gateway offline', ok ? 'ok' : 'err');
+}
+
 async function loadSheetData() {
-  const d = await gw('sheets.read', {spreadsheetId:activeSID, range:'Raw Log!A2:G5000'});
+  const d = await gw('sheets.read',{spreadsheetId:ADMIN_SID,range:'Raw Log!A2:G5000'});
   const raw = d.values||[];
   allRows=[]; datesMap={};
   raw.forEach((r,i) => {
-    const date = (r[0]||'').trim();
-    if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return;
+    const date=(r[0]||'').trim();
+    if (!date||!/^\d{4}-\d{2}-\d{2}$/.test(date)) return;
     if (datesMap[date]) return;
-    const row = {rowNum:i+2, date, sales:parseFloat(r[1])||0, tax:parseFloat(r[2])||0, cc:parseFloat(r[3])||0, cash:parseFloat(r[4])||0, by:r[5]||'', notes:r[6]||''};
+    const row={rowNum:i+2,date,sales:parseFloat(r[1])||0,tax:parseFloat(r[2])||0,cc:parseFloat(r[3])||0,cash:parseFloat(r[4])||0,by:r[5]||'',notes:r[6]||''};
     allRows.push(row); datesMap[date]=row;
   });
   allRows.sort((a,b)=>b.date.localeCompare(a.date));
 }
 
-// ── EMPLOYEE ──────────────────────────────────────────────────────────────────
-function onEmpChange() {
-  const v = $('fEmp').value;
-  $('otherNameWrap').style.display = v==='Other' ? 'block' : 'none';
-  if (v!=='Other') $('fOtherName').value='';
-}
+// ── INIT APP ──────────────────────────────────────────────────────────────────
+async function initApp() {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  $('page-submit').classList.add('active');
+  document.querySelector('[data-page="submit"]').classList.add('active');
+  allRows=[]; datesMap={}; selDate=null; isEditing=false;
+  if (refreshTimer) clearInterval(refreshTimer);
 
-function getSubmitter() {
-  const v = $('fEmp').value;
-  if (v==='Other') return $('fOtherName').value.trim()||'Other';
-  return v;
-}
+  const today=todayLocal();
+  $('fDate').value=today; selDate=today;
 
-// ── DATE CHANGE ───────────────────────────────────────────────────────────────
-function onDateChange() {
-  const d = $('fDate').value;
-  if (!d) return;
-  selDate=d; renderCal(); checkDateForExisting(d);
-}
-
-function checkDateForExisting(date) {
-  const ex  = datesMap[date];
-  const alert = $('updateAlert');
-  const btn   = $('subBtn');
-  if (ex) {
-    $('updateExisting').innerHTML=`
-      <div class="ua-row">Sales<span>${fmt(ex.sales)}</span></div>
-      <div class="ua-row">Tax<span>${fmt(ex.tax)}</span></div>
-      <div class="ua-row">CC<span>${fmt(ex.cc)}</span></div>
-      <div class="ua-row">Cash<span>${fmt(ex.cash)}</span></div>
-      <div class="ua-row">By<span>${ex.by}</span></div>
-      ${ex.notes?`<div class="ua-row">Notes<span>${ex.notes}</span></div>`:''}
-    `;
-    alert.classList.add('show');
-    $('formTitle').textContent='✏️ Correct Existing Entry';
-    btn.innerHTML='⚠️ Update This Entry'; btn.className='btn btn-warn';
-    $('fSales').value=ex.sales.toFixed(2); $('fTax').value=ex.tax.toFixed(2);
-    $('fCC').value=ex.cc.toFixed(2); $('fCash').value=ex.cash.toFixed(2);
-    $('fNotes').value=ex.notes;
-    const empSel = $('fEmp');
-    const opt = empSel.querySelector(`option[value="${ex.by}"]`);
-    if (opt) { empSel.value=ex.by; }
-    else { empSel.value='Other'; $('fOtherName').value=ex.by; }
-    onEmpChange();
-  } else {
-    alert.classList.remove('show');
-    $('formTitle').textContent='New Z Report Entry';
-    btn.innerHTML='Submit Z Report'; btn.className='btn btn-pri';
+  if (mode!=='admin') {
+    // Guest: load from localStorage — instant, no network
+    loadLocalData();
+    renderCal(); renderMissBanner(); checkDateForExisting(today);
+    return;
   }
+
+  // Admin: gateway
+  showLoader('Connecting to Gateway…');
+  $('lmsg').textContent='Checking gateway…';
+  const gwOk = await checkGW();
+  if (!gwOk) { hideLoader(); toast('Gateway offline — check connection','err',6000); renderCal(); return; }
+  $('lmsg').textContent='Loading entries from Sheet…';
+  try { await loadSheetData(); }
+  catch(e) { hideLoader(); toast('Could not load Sheet: '+e.message,'err',6000); renderCal(); return; }
+  hideLoader();
+  renderCal(); renderMissBanner(); checkDateForExisting(today);
+  refreshTimer=setInterval(async()=>{
+    if (!isEditing) try { await loadSheetData(); await checkGW(); renderCal(); renderMissBanner(); } catch(e) {}
+  }, 3*60*1000);
+}
+
+// ── REFRESH ───────────────────────────────────────────────────────────────────
+async function refresh() {
+  if (isEditing) return;
+  if (mode!=='admin') {
+    loadLocalData();
+    renderCal(); renderMissBanner();
+    const active=document.querySelector('.page.active');
+    if (active?.id==='page-dash')    loadDash();
+    if (active?.id==='page-monthly') loadMonthly();
+    if (active?.id==='page-yearly')  loadYearly();
+    toast('Refreshed','info',1500);
+    return;
+  }
+  try {
+    $('gwDot').className='dot y';
+    await loadSheetData(); await checkGW();
+    renderCal(); renderMissBanner();
+    const active=document.querySelector('.page.active');
+    if (active?.id==='page-dash')    loadDash();
+    if (active?.id==='page-monthly') loadMonthly();
+    if (active?.id==='page-yearly')  loadYearly();
+    toast('Synced','info',2000);
+  } catch(e) { toast('Sync failed: '+e.message,'err'); }
+}
+
+// ── SUBMIT ────────────────────────────────────────────────────────────────────
+async function submitReport() {
+  const date=$('fDate').value, by=getSubmitter();
+  const salesV=$('fSales').value.trim(), taxV=$('fTax').value.trim();
+  const ccV=$('fCC').value.trim(), cashV=$('fCash').value.trim();
+  const notes=$('fNotes').value.trim();
+  if (!date)  { toast('Select a date','err'); return; }
+  if (!by)    { toast('Select submitter','err'); return; }
+  if ($('fEmp').value==='Other'&&!$('fOtherName').value.trim()) { toast('Enter employee name','err'); return; }
+  if (!salesV||!taxV||!ccV||!cashV) { toast('All 4 amounts required','err'); return; }
+  const sales=+salesV, tax=+taxV, cc=+ccV, cash=+cashV;
+  if ([sales,tax,cc,cash].some(v=>isNaN(v)||v<0)) { toast('Invalid amount','err'); return; }
+  const payload={date,sales,tax,cc,cash,by,notes};
+  if (datesMap[date]) { pendingPayload=payload; showConfirm(date); return; }
+  await doSubmit(payload,false);
+}
+
+function showConfirm(date) {
+  const ex=datesMap[date];
+  $('confirmExisting').innerHTML=`
+    <div class="ef"><span>Sales</span>${fmt(ex.sales)}</div>
+    <div class="ef"><span>Tax</span>${fmt(ex.tax)}</div>
+    <div class="ef"><span>CC</span>${fmt(ex.cc)}</div>
+    <div class="ef"><span>Cash</span>${fmt(ex.cash)}</div>
+    <div class="ef"><span>By</span>${ex.by}</div>
+    <div class="ef"><span>Date</span>${date}</div>
+  `;
+  $('confirmOverlay').classList.add('show');
+}
+
+function closeConfirm() { $('confirmOverlay').classList.remove('show'); pendingPayload=null; }
+async function confirmUpdate() { closeConfirm(); if (pendingPayload) await doSubmit(pendingPayload,true); }
+
+async function doSubmit(payload, isUpdate) {
+  const btn=$('subBtn');
+  btn.innerHTML='<span class="spin"></span>'; btn.disabled=true;
+  try {
+    if (mode!=='admin') {
+      // ── Guest: localStorage ──
+      const reports=getLocalReports();
+      if (isUpdate) {
+        const idx=reports.findIndex(r=>r.date===payload.date);
+        if (idx>=0) { reports[idx]={...payload,ts:new Date().toISOString()}; }
+        else { reports.push({...payload,ts:new Date().toISOString()}); }
+        toast('Entry updated ✓','warn');
+      } else {
+        reports.push({...payload,ts:new Date().toISOString()});
+        toast('Z Report saved ✓','ok');
+      }
+      saveLocalReports(reports);
+      if (isUpdate) {
+        Object.assign(datesMap[payload.date],{sales:payload.sales,tax:payload.tax,cc:payload.cc,cash:payload.cash,by:payload.by,notes:payload.notes});
+      } else {
+        const nr={...payload};
+        allRows.unshift(nr); allRows.sort((a,b)=>b.date.localeCompare(a.date));
+        datesMap[payload.date]=nr;
+      }
+    } else {
+      // ── Admin: GAS gateway ──
+      const row=[payload.date,payload.sales.toFixed(2),payload.tax.toFixed(2),payload.cc.toFixed(2),payload.cash.toFixed(2),payload.by,payload.notes];
+      if (isUpdate&&datesMap[payload.date]) {
+        const rowNum=datesMap[payload.date].rowNum;
+        await gw('sheets.update',{spreadsheetId:ADMIN_SID,range:`Raw Log!A${rowNum}:G${rowNum}`,values:[row]});
+        Object.assign(datesMap[payload.date],{sales:payload.sales,tax:payload.tax,cc:payload.cc,cash:payload.cash,by:payload.by,notes:payload.notes});
+        toast('Entry updated ✓','warn');
+      } else {
+        await gw('sheets.append',{spreadsheetId:ADMIN_SID,range:'Raw Log!A:G',values:[row]});
+        const nr={...payload,rowNum:allRows.length+2};
+        allRows.unshift(nr); allRows.sort((a,b)=>b.date.localeCompare(a.date));
+        datesMap[payload.date]=nr;
+        toast('Z Report submitted ✓','ok');
+      }
+    }
+
+    $('fSales').value=''; $('fTax').value=''; $('fCC').value=''; $('fCash').value=''; $('fNotes').value='';
+    $('fEmp').value=(mode==='admin')?'Prit':'Me'; onEmpChange();
+    $('updateAlert').classList.remove('show');
+    $('formTitle').textContent='New Z Report Entry';
+    selDate=null; isEditing=false; renderCal(); renderMissBanner();
+  } catch(e) { toast(e.message,'err',5000); }
+
+  const hasEx=datesMap[$('fDate').value];
+  btn.innerHTML=hasEx?'⚠️ Update This Entry':'Submit Z Report';
+  btn.className=hasEx?'btn btn-warn':'btn btn-pri';
+  btn.disabled=false; pendingPayload=null;
 }
 
 // ── CALENDAR ──────────────────────────────────────────────────────────────────
@@ -958,6 +1193,39 @@ function pickDate(d) {
   renderCal(); checkDateForExisting(d);
 }
 
+function onDateChange() {
+  const d=$('fDate').value; if (!d) return;
+  selDate=d; renderCal(); checkDateForExisting(d);
+}
+
+function checkDateForExisting(date) {
+  const ex=$('updateAlert'), btn=$('subBtn');
+  const entry=datesMap[date];
+  if (entry) {
+    $('updateExisting').innerHTML=`
+      <div class="ua-row">Sales<span>${fmt(entry.sales)}</span></div>
+      <div class="ua-row">Tax<span>${fmt(entry.tax)}</span></div>
+      <div class="ua-row">CC<span>${fmt(entry.cc)}</span></div>
+      <div class="ua-row">Cash<span>${fmt(entry.cash)}</span></div>
+      <div class="ua-row">By<span>${entry.by}</span></div>
+      ${entry.notes?`<div class="ua-row">Notes<span>${entry.notes}</span></div>`:''}
+    `;
+    ex.classList.add('show');
+    $('formTitle').textContent='✏️ Correct Existing Entry';
+    btn.innerHTML='⚠️ Update This Entry'; btn.className='btn btn-warn';
+    $('fSales').value=entry.sales.toFixed(2); $('fTax').value=entry.tax.toFixed(2);
+    $('fCC').value=entry.cc.toFixed(2); $('fCash').value=entry.cash.toFixed(2);
+    $('fNotes').value=entry.notes;
+    const empSel=$('fEmp'), opt=empSel.querySelector(`option[value="${entry.by}"]`);
+    if (opt) { empSel.value=entry.by; } else { empSel.value='Other'; $('fOtherName').value=entry.by; }
+    onEmpChange();
+  } else {
+    ex.classList.remove('show');
+    $('formTitle').textContent='New Z Report Entry';
+    btn.innerHTML='Submit Z Report'; btn.className='btn btn-pri';
+  }
+}
+
 // ── MISSING BANNER ────────────────────────────────────────────────────────────
 function renderMissBanner() {
   const missing=[];
@@ -969,87 +1237,15 @@ function renderMissBanner() {
   const banner=$('missB');
   if (!missing.length) { banner.classList.remove('show'); return; }
   banner.classList.add('show');
-  // Format as "Jun 1, Mon" instead of "2026-06-01"
-  $('missChips').innerHTML = missing.slice(0,20).map(d =>
+  $('missChips').innerHTML=missing.slice(0,20).map(d =>
     `<span class="chip" onclick="pickDate('${d}')">${shortDate(d)}</span>`
   ).join('');
-  if (missing.length > 20) {
-    $('missChips').innerHTML += `<span class="chip" style="opacity:.6">+${missing.length-20} more</span>`;
-  }
-}
-
-// ── SUBMIT ────────────────────────────────────────────────────────────────────
-async function submitReport() {
-  const date=$('fDate').value, by=getSubmitter();
-  const salesV=$('fSales').value.trim(), taxV=$('fTax').value.trim();
-  const ccV=$('fCC').value.trim(), cashV=$('fCash').value.trim();
-  const notes=$('fNotes').value.trim();
-  if (!date)  { toast('Select a date','err'); return; }
-  if (!by)    { toast('Select submitter','err'); return; }
-  if ($('fEmp').value==='Other'&&!$('fOtherName').value.trim()) { toast('Enter employee name','err'); return; }
-  if (!salesV||!taxV||!ccV||!cashV) { toast('All 4 amounts required','err'); return; }
-  const sales=+salesV, tax=+taxV, cc=+ccV, cash=+cashV;
-  if ([sales,tax,cc,cash].some(v=>isNaN(v)||v<0)) { toast('Invalid amount','err'); return; }
-  const payload = {date,sales,tax,cc,cash,by,notes};
-  if (datesMap[date]) { pendingPayload=payload; showConfirm(date); return; }
-  await doSubmit(payload, false);
-}
-
-function showConfirm(date) {
-  const ex=datesMap[date];
-  $('confirmExisting').innerHTML=`
-    <div class="ef"><span>Sales</span>${fmt(ex.sales)}</div>
-    <div class="ef"><span>Tax</span>${fmt(ex.tax)}</div>
-    <div class="ef"><span>CC</span>${fmt(ex.cc)}</div>
-    <div class="ef"><span>Cash</span>${fmt(ex.cash)}</div>
-    <div class="ef"><span>By</span>${ex.by}</div>
-    <div class="ef"><span>Date</span>${date}</div>
-  `;
-  $('confirmOverlay').classList.add('show');
-}
-
-function closeConfirm() { $('confirmOverlay').classList.remove('show'); pendingPayload=null; }
-
-async function confirmUpdate() {
-  closeConfirm();
-  if (pendingPayload) await doSubmit(pendingPayload, true);
-}
-
-async function doSubmit(payload, isUpdate) {
-  const btn=$('subBtn');
-  btn.innerHTML='<span class="spin"></span>'; btn.disabled=true;
-  try {
-    const row=[payload.date, payload.sales.toFixed(2), payload.tax.toFixed(2), payload.cc.toFixed(2), payload.cash.toFixed(2), payload.by, payload.notes];
-    if (isUpdate && datesMap[payload.date]) {
-      const rowNum=datesMap[payload.date].rowNum;
-      await gw('sheets.update',{spreadsheetId:activeSID,range:`Raw Log!A${rowNum}:G${rowNum}`,values:[row]});
-      Object.assign(datesMap[payload.date],{sales:payload.sales,tax:payload.tax,cc:payload.cc,cash:payload.cash,by:payload.by,notes:payload.notes});
-      toast('Entry updated ✓','warn');
-    } else {
-      await gw('sheets.append',{spreadsheetId:activeSID,range:'Raw Log!A:G',values:[row]});
-      const newRow={...payload,rowNum:allRows.length+2};
-      allRows.unshift(newRow); allRows.sort((a,b)=>b.date.localeCompare(a.date));
-      datesMap[payload.date]=newRow;
-      toast('Z Report submitted ✓','ok');
-    }
-    $('fSales').value=''; $('fTax').value=''; $('fCC').value=''; $('fCash').value=''; $('fNotes').value='';
-    const firstEmp = (mode==='admin') ? 'Prit' : 'Me';
-    $('fEmp').value=firstEmp; onEmpChange();
-    $('updateAlert').classList.remove('show');
-    $('formTitle').textContent='New Z Report Entry';
-    selDate=null; isEditing=false; renderCal(); renderMissBanner();
-  } catch(e) { toast(e.message,'err',5000); }
-  const hasEx=datesMap[$('fDate').value];
-  btn.innerHTML = hasEx ? '⚠️ Update This Entry' : 'Submit Z Report';
-  btn.className = hasEx ? 'btn btn-warn' : 'btn btn-pri';
-  btn.disabled=false; pendingPayload=null;
+  if (missing.length>20) $('missChips').innerHTML+=`<span class="chip" style="opacity:.6">+${missing.length-20} more</span>`;
 }
 
 // ── DASHBOARD ─────────────────────────────────────────────────────────────────
 function loadDash() {
-  const ym=ymStr(todayLocal());
-  const rows=allRows.filter(r=>ymStr(r.date)===ym);
-  const tot=sum(rows);
+  const ym=ymStr(todayLocal()), rows=allRows.filter(r=>ymStr(r.date)===ym), tot=sum(rows);
   $('dSales').textContent=fmtK(tot.sales); $('dTax').textContent=fmtK(tot.tax);
   $('dCC').textContent=fmtK(tot.cc); $('dCash').textContent=fmtK(tot.cash);
   $('dDays').textContent=`${rows.length} day${rows.length!==1?'s':''}`;
@@ -1059,9 +1255,8 @@ function loadDash() {
 // ── MONTHLY ───────────────────────────────────────────────────────────────────
 function initYears() {
   const now=new Date(), yrEl=$('mYear'); yrEl.innerHTML='';
-  for (let y=now.getFullYear();y>=2023;y--) {
+  for (let y=now.getFullYear();y>=2023;y--)
     yrEl.innerHTML+=`<option value="${y}"${y===now.getFullYear()?'selected':''}>${y}</option>`;
-  }
 }
 
 function buildMonthSelect() {
@@ -1079,8 +1274,7 @@ function buildMonthSelect() {
 
 function loadMonthly() {
   const ym=$('mMonth').value; if (!ym) return;
-  const rows=allRows.filter(r=>ymStr(r.date)===ym);
-  const tot=sum(rows);
+  const rows=allRows.filter(r=>ymStr(r.date)===ym), tot=sum(rows);
   $('mSales').textContent=fmtK(tot.sales); $('mTax').textContent=fmtK(tot.tax);
   $('mCC').textContent=fmtK(tot.cc); $('mCash').textContent=fmtK(tot.cash);
   $('monthList').innerHTML=rows.length?rows.map(rRow).join(''):'<div class="empty">No entries for this month</div>';
@@ -1107,20 +1301,16 @@ function loadYearly() {
     (months.map(ym=>`<div class="rrow"><div class="dc">${monthShort(ym)}<small>${byYM[ym].days}d</small></div><div class="amts"><div class="amt" style="color:#28a745">${fmtK(byYM[ym].sales)} <span>sales</span></div><div class="amt" style="color:#e09000">${fmtK(byYM[ym].tax)} <span>tax</span></div><div class="amt" style="color:#0498BC">${fmtK(byYM[ym].cc)} <span>cc</span></div><div class="amt" style="color:#7c3aed">${fmtK(byYM[ym].cash)} <span>cash</span></div></div></div>`).join('')||'<div class="empty">No data</div>');
 }
 
-// ── HELPERS ───────────────────────────────────────────────────────────────────
-function sum(rows) { return rows.reduce((a,r)=>({sales:a.sales+r.sales,tax:a.tax+r.tax,cc:a.cc+r.cc,cash:a.cash+r.cash}),{sales:0,tax:0,cc:0,cash:0}); }
+// ── EMPLOYEE ──────────────────────────────────────────────────────────────────
+function onEmpChange() {
+  const v=$('fEmp').value;
+  $('otherNameWrap').style.display=v==='Other'?'block':'none';
+  if (v!=='Other') $('fOtherName').value='';
+}
 
-function rRow(r) {
-  return `<div class="rrow">
-    <div class="dc">${shortDate(r.date)}<small>${dayAbbr(r.date)}</small></div>
-    <div class="amts">
-      <div class="amt" style="color:#28a745">${fmt(r.sales)} <span>sales</span></div>
-      <div class="amt" style="color:#e09000">${fmt(r.tax)} <span>tax</span></div>
-      <div class="amt" style="color:#0498BC">${fmt(r.cc)} <span>cc</span></div>
-      <div class="amt" style="color:#7c3aed">${fmt(r.cash)} <span>cash</span></div>
-    </div>
-    <div class="by-badge">${(r.by||'?')[0].toUpperCase()}</div>
-  </div>`;
+function getSubmitter() {
+  const v=$('fEmp').value;
+  return v==='Other' ? ($('fOtherName').value.trim()||'Other') : v;
 }
 
 // ── NAV ───────────────────────────────────────────────────────────────────────
@@ -1135,43 +1325,45 @@ function nav(page) {
   if (page==='settings') loadSettingsPage();
 }
 
-// ── REFRESH ───────────────────────────────────────────────────────────────────
-async function refresh() {
-  if (isEditing) return;
-  try {
-    $('gwDot').className='dot y';
-    await loadSheetData(); await checkGW();
-    renderCal(); renderMissBanner();
-    const active=document.querySelector('.page.active');
-    if (active?.id==='page-dash')    loadDash();
-    if (active?.id==='page-monthly') loadMonthly();
-    if (active?.id==='page-yearly')  loadYearly();
-    toast('Synced','info',2000);
-  } catch(e) { toast('Sync failed: '+e.message,'err'); }
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function todayLocal() {
+  const d=new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function fmt(n,dec=2) { return '$'+(+n||0).toFixed(dec).replace(/\B(?=(\d{3})+(?!\d))/g,','); }
+function fmtK(n) { const v=Math.abs(+n||0); return v>=10000?'$'+(v/1000).toFixed(1)+'k':'$'+v.toFixed(0); }
+function dayAbbr(d) { return ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(d+'T12:00:00').getDay()]; }
+function shortDate(d) {
+  const [y,m,dy]=d.split('-').map(Number);
+  return new Date(y,m-1,dy).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+}
+function ymStr(d) { return d.slice(0,7); }
+function monthShort(ym) { const[y,m]=ym.split('-'); return new Date(+y,+m-1,1).toLocaleString('default',{month:'short'}); }
+function sum(rows) { return rows.reduce((a,r)=>({sales:a.sales+r.sales,tax:a.tax+r.tax,cc:a.cc+r.cc,cash:a.cash+r.cash}),{sales:0,tax:0,cc:0,cash:0}); }
+function rRow(r) {
+  return `<div class="rrow">
+    <div class="dc">${shortDate(r.date)}<small>${dayAbbr(r.date)}</small></div>
+    <div class="amts">
+      <div class="amt" style="color:#28a745">${fmt(r.sales)} <span>sales</span></div>
+      <div class="amt" style="color:#e09000">${fmt(r.tax)} <span>tax</span></div>
+      <div class="amt" style="color:#0498BC">${fmt(r.cc)} <span>cc</span></div>
+      <div class="amt" style="color:#7c3aed">${fmt(r.cash)} <span>cash</span></div>
+    </div>
+    <div class="by-badge">${(r.by||'?')[0].toUpperCase()}</div>
+  </div>`;
 }
 
-// ── INIT APP (called after auth) ──────────────────────────────────────────────
-async function initApp() {
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  $('page-submit').classList.add('active');
-  document.querySelector('[data-page="submit"]').classList.add('active');
-  allRows=[]; datesMap={}; selDate=null; isEditing=false;
-  if (refreshTimer) clearInterval(refreshTimer);
-
-  showLoader('Connecting to Gateway…');
-  const today=todayLocal();
-  $('fDate').value=today; selDate=today;
-  $('lmsg').textContent='Checking gateway…';
-  const gwOk=await checkGW();
-  if (!gwOk) { hideLoader(); toast('Gateway offline','err',6000); renderCal(); return; }
-  $('lmsg').textContent='Loading entries from Sheet…';
-  try { await loadSheetData(); }
-  catch(e) { hideLoader(); toast('Could not load Sheet: '+e.message,'err',6000); renderCal(); return; }
-  hideLoader();
-  renderCal(); renderMissBanner(); checkDateForExisting(today);
-  refreshTimer=setInterval(async()=>{ if(!isEditing) try{ await loadSheetData(); await checkGW(); renderCal(); renderMissBanner(); }catch(e){} }, 3*60*1000);
+// ── TOAST ─────────────────────────────────────────────────────────────────────
+function toast(msg, type='ok', dur=3200) {
+  const el=$('toast');
+  el.textContent={ok:'✅ ',err:'❌ ',warn:'⚠️ ',info:'ℹ️ '}[type]+msg;
+  el.className=`show ${type}`; clearTimeout(el._t);
+  el._t=setTimeout(()=>el.className='',dur);
 }
+
+// ── LOADER ────────────────────────────────────────────────────────────────────
+function showLoader(msg) { $('loader').style.display='flex'; $('lmsg').textContent=msg||'Loading…'; }
+function hideLoader()    { $('loader').style.display='none'; }
 
 // ── BOOT ─────────────────────────────────────────────────────────────────────
 $('confirmOverlay').addEventListener('click', e=>{ if(e.target===$('confirmOverlay')) closeConfirm(); });
