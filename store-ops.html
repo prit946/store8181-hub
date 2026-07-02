@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -18,8 +18,40 @@ input[type=number]{-moz-appearance:textfield}
 /* ── HEADER ── */
 header{background:#1b2d45;color:#fff;padding:0 18px;height:50px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
 header .back{color:#7a9ab8;font-size:20px;text-decoration:none;padding:2px 6px 2px 0;flex-shrink:0}
-header h1{font-size:14px;font-weight:600;letter-spacing:.3px}
+header h1{font-size:14px;font-weight:600;letter-spacing:.3px;flex:1}
 header small{font-size:10px;color:#7a9ab8;margin-left:6px}
+.hdr-so{font-size:11px;font-weight:700;color:#7a9ab8;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:4px;padding:5px 10px;cursor:pointer;flex-shrink:0}
+.hdr-so:active{background:rgba(255,255,255,.2)}
+
+/* ── AUTH SCREENS ── */
+#screen-role,#screen-admin-pin,#screen-guest-who,#screen-guest-setup,#screen-guest-owner-pin,#screen-guest-emp-pin{display:none}
+.auth-wrap{max-width:380px;margin:0 auto;padding:28px 16px}
+.auth-title{text-align:center;margin-bottom:22px}
+.auth-title h2{font-size:18px;font-weight:700;color:#1b2d45;margin-bottom:3px}
+.auth-title p{font-size:12px;color:#888}
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.role-card{background:#fff;border:1.5px solid #dde0e5;border-radius:8px;padding:24px 14px;text-align:center;cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent}
+.role-card:active{border-color:#1b2d45;background:#f4f6f9;transform:scale(.97)}
+.role-card .rc-ico{font-size:32px;margin-bottom:8px}
+.role-card .rc-name{font-size:14px;font-weight:700;color:#1b2d45;margin-bottom:2px}
+.role-card .rc-desc{font-size:11px;color:#888}
+.role-card.teal{border-color:#0498BC}.role-card.teal .rc-name{color:#0498BC}
+.back-lnk{display:flex;align-items:center;justify-content:center;color:#888;font-size:13px;font-weight:600;cursor:pointer;gap:4px;padding:12px;margin-top:4px}
+.back-lnk:active{color:#1b2d45}
+
+/* ── PIN KEYPAD ── */
+.pin-wrap{max-width:320px;margin:0 auto}
+.pin-dots{display:flex;justify-content:center;gap:14px;margin-bottom:22px}
+.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid #c0c8d4;background:transparent;transition:all .12s}
+.pin-dot.on{background:#1b2d45;border-color:#1b2d45}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.key{height:58px;background:#fff;border:1px solid #dde0e5;border-radius:6px;font-size:20px;font-weight:600;color:#1b2d45;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .1s;user-select:none;-webkit-user-select:none;touch-action:manipulation}
+.key:active{background:#eaecef;transform:scale(.94)}
+.key.del{font-size:15px;color:#888}
+.key.empty{background:transparent;border:none;pointer-events:none}
+.pin-error{text-align:center;font-size:12px;font-weight:700;color:#dc3545;height:18px;margin-bottom:10px}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.shake{animation:shake .35s ease}
 
 /* ── NAV ── */
 .tabbar{background:#1b2d45;display:flex;border-top:1px solid #111e2e;position:sticky;top:50px;z-index:90;overflow-x:auto;scrollbar-width:none}
@@ -35,6 +67,7 @@ header small{font-size:10px;color:#7a9ab8;margin-left:6px}
 .card{background:#fff;border:1px solid #dde0e5;border-radius:6px;overflow:hidden;margin-bottom:12px}
 .card-head{background:#1b2d45;color:#0498BC;padding:10px 14px;font-size:12px;font-weight:700;letter-spacing:.3px}
 .card-head small{color:#7fc4d6;font-weight:400;font-size:10px;display:block;margin-top:1px}
+.card-head.danger{color:#ff8080}
 .card-body{padding:14px}
 
 /* ── FORM ── */
@@ -43,9 +76,11 @@ header small{font-size:10px;color:#7a9ab8;margin-left:6px}
 .fg input,.fg select{width:100%;padding:10px 12px;background:#f4f6f9;border:1.5px solid #dde0e5;border-radius:5px;color:#111;font-size:15px;-webkit-appearance:none;appearance:none;transition:border-color .15s}
 .fg input:focus,.fg select:focus{border-color:#1b2d45;outline:none;background:#fff}
 .fg input[type=number]{font-variant-numeric:tabular-nums}
+.fg input[type=password]{letter-spacing:4px}
 .fg select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.field-note{font-size:11px;color:#888;margin:-8px 0 10px 2px}
 
 /* ── BUTTONS ── */
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:11px;border-radius:5px;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:all .12s}
@@ -55,6 +90,8 @@ header small{font-size:10px;color:#7a9ab8;margin-left:6px}
 .btn-teal:active{background:#0380a0}
 .btn-sec{background:#f4f6f9;border:1px solid #dde0e5;color:#2a4060;font-size:12px;padding:8px 14px;width:auto;border-radius:5px;font-weight:700}
 .btn-sm{padding:6px 12px;font-size:11px;width:auto;border-radius:4px;font-weight:700}
+.btn-danger{background:#fff8f8;border:1px solid #f5c6cb;color:#dc3545;width:100%;padding:11px;border-radius:5px;font-size:13px;font-weight:700;cursor:pointer}
+.btn-danger:active{background:#f5c6cb}
 
 /* ── RESULT ROW ── */
 .res-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
@@ -159,27 +196,164 @@ hr{border:none;border-top:1px solid #eee;margin:12px 0}
 <body>
 
 <header>
-  <a class="back" href="index.html">‹</a>
-  <div>
-    <h1>Royalty &amp; Inventory <small>Royalty · Stamps · Inventory</small></h1>
-  </div>
+  <a class="back" href="index.html">&#x2039;</a>
+  <h1>Royalty &amp; Inventory <small id="hdrSub">Royalty &middot; Stamps &middot; Inventory</small></h1>
+  <button class="hdr-so" id="hdrSignout" onclick="signOut()" style="display:none">Sign Out</button>
 </header>
 
+<!-- ══ ROLE SELECT ══ -->
+<div id="screen-role">
+  <div class="auth-wrap">
+    <div class="auth-title">
+      <h2>Royalty &amp; Inventory</h2>
+      <p>Select your role to continue</p>
+    </div>
+    <div class="role-grid">
+      <div class="role-card" onclick="showAdminPin()">
+        <div class="rc-ico">&#x1F511;</div>
+        <div class="rc-name">Admin</div>
+        <div class="rc-desc">Store 8181 &mdash; full access</div>
+      </div>
+      <div class="role-card teal" onclick="showGuestFlow()">
+        <div class="rc-ico">&#x1F3EA;</div>
+        <div class="rc-name">Other Store</div>
+        <div class="rc-desc">Guest owner or employee</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ADMIN PIN ══ -->
+<div id="screen-admin-pin">
+  <div class="auth-wrap">
+    <div class="pin-wrap">
+      <div class="auth-title">
+        <h2>Admin Access</h2>
+        <p>Store 8181 PIN</p>
+      </div>
+      <div class="pin-dots" id="adminDots">
+        <div class="pin-dot" id="ad0"></div><div class="pin-dot" id="ad1"></div>
+        <div class="pin-dot" id="ad2"></div><div class="pin-dot" id="ad3"></div>
+      </div>
+      <div class="keypad">
+        <div class="key" onclick="ak(1)">1</div><div class="key" onclick="ak(2)">2</div><div class="key" onclick="ak(3)">3</div>
+        <div class="key" onclick="ak(4)">4</div><div class="key" onclick="ak(5)">5</div><div class="key" onclick="ak(6)">6</div>
+        <div class="key" onclick="ak(7)">7</div><div class="key" onclick="ak(8)">8</div><div class="key" onclick="ak(9)">9</div>
+        <div class="key empty"></div><div class="key" onclick="ak(0)">0</div><div class="key del" onclick="adel()">&#x232B;</div>
+      </div>
+      <div class="pin-error" id="adminPinErr"></div>
+      <div class="back-lnk" onclick="showRole()">&#x2190; Back</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ GUEST: WHO ARE YOU ══ -->
+<div id="screen-guest-who">
+  <div class="auth-wrap">
+    <div class="auth-title">
+      <h2 id="guestStoreLabel">Your Store</h2>
+      <p>Select your role</p>
+    </div>
+    <div class="role-grid">
+      <div class="role-card" onclick="showGuestOwnerPin()">
+        <div class="rc-ico">&#x1F454;</div>
+        <div class="rc-name">Owner</div>
+        <div class="rc-desc">Full access + settings</div>
+      </div>
+      <div class="role-card teal" onclick="showGuestEmpPin()">
+        <div class="rc-ico">&#x1F464;</div>
+        <div class="rc-name">Employee</div>
+        <div class="rc-desc">Royalty calculator</div>
+      </div>
+    </div>
+    <div class="back-lnk" onclick="showRole()">&#x2190; Different Store</div>
+  </div>
+</div>
+
+<!-- ══ GUEST SETUP (first time) ══ -->
+<div id="screen-guest-setup">
+  <div class="auth-wrap">
+    <div class="auth-title">
+      <h2>Store Setup</h2>
+      <p>Create your store profile</p>
+    </div>
+    <div class="fg"><label>Store Number</label><input type="text" id="gsStoreNum" inputmode="numeric" placeholder="8182" maxlength="6"></div>
+    <div class="fg"><label>Store Name</label><input type="text" id="gsStoreName" placeholder="The UPS Store #8182"></div>
+    <div class="row2">
+      <div class="fg"><label>Owner PIN (4-digit)</label><input type="password" id="gsOwnerPin" inputmode="numeric" maxlength="4" placeholder="&#x2022;&#x2022;&#x2022;&#x2022;"></div>
+      <div class="fg"><label>Employee PIN</label><input type="password" id="gsEmpPin" inputmode="numeric" maxlength="4" placeholder="0000"></div>
+    </div>
+    <div class="field-note">Employee PIN defaults to 0000 if left blank</div>
+    <button class="btn btn-pri" onclick="setupGuest()">Create Store Profile</button>
+    <div class="back-lnk" onclick="showRole()">&#x2190; Back</div>
+  </div>
+</div>
+
+<!-- ══ GUEST OWNER PIN ══ -->
+<div id="screen-guest-owner-pin">
+  <div class="auth-wrap">
+    <div class="pin-wrap">
+      <div class="auth-title">
+        <h2>Owner Access</h2>
+        <p id="gOwnerPinSub">Enter your store PIN</p>
+      </div>
+      <div class="pin-dots" id="gOwnerDots">
+        <div class="pin-dot" id="god0"></div><div class="pin-dot" id="god1"></div>
+        <div class="pin-dot" id="god2"></div><div class="pin-dot" id="god3"></div>
+      </div>
+      <div class="keypad">
+        <div class="key" onclick="gok(1)">1</div><div class="key" onclick="gok(2)">2</div><div class="key" onclick="gok(3)">3</div>
+        <div class="key" onclick="gok(4)">4</div><div class="key" onclick="gok(5)">5</div><div class="key" onclick="gok(6)">6</div>
+        <div class="key" onclick="gok(7)">7</div><div class="key" onclick="gok(8)">8</div><div class="key" onclick="gok(9)">9</div>
+        <div class="key empty"></div><div class="key" onclick="gok(0)">0</div><div class="key del" onclick="godel()">&#x232B;</div>
+      </div>
+      <div class="pin-error" id="gOwnerPinErr"></div>
+      <div class="back-lnk" onclick="showGuestWho()">&#x2190; Back</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ GUEST EMPLOYEE PIN ══ -->
+<div id="screen-guest-emp-pin">
+  <div class="auth-wrap">
+    <div class="pin-wrap">
+      <div class="auth-title">
+        <h2>Employee Access</h2>
+        <p id="gEmpPinSub">Enter your PIN</p>
+      </div>
+      <div class="pin-dots" id="gEmpDots">
+        <div class="pin-dot" id="ged0"></div><div class="pin-dot" id="ged1"></div>
+        <div class="pin-dot" id="ged2"></div><div class="pin-dot" id="ged3"></div>
+      </div>
+      <div class="keypad">
+        <div class="key" onclick="gek(1)">1</div><div class="key" onclick="gek(2)">2</div><div class="key" onclick="gek(3)">3</div>
+        <div class="key" onclick="gek(4)">4</div><div class="key" onclick="gek(5)">5</div><div class="key" onclick="gek(6)">6</div>
+        <div class="key" onclick="gek(7)">7</div><div class="key" onclick="gek(8)">8</div><div class="key" onclick="gek(9)">9</div>
+        <div class="key empty"></div><div class="key" onclick="gek(0)">0</div><div class="key del" onclick="gedel()">&#x232B;</div>
+      </div>
+      <div class="pin-error" id="gEmpPinErr"></div>
+      <div class="back-lnk" onclick="showGuestWho()">&#x2190; Back</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MAIN APP ══ -->
+<div id="screen-app" style="display:none">
+
 <div class="tabbar">
-  <button class="tab-btn active" data-page="royalty" onclick="nav('royalty')">💰 Royalty</button>
-  <button class="tab-btn" data-page="stamps" onclick="nav('stamps')">📮 Stamps</button>
-  <button class="tab-btn" data-page="inventory" onclick="nav('inventory')">📦 Inventory</button>
+  <button class="tab-btn active" data-page="royalty" onclick="nav('royalty')">&#x1F4B0; Royalty</button>
+  <button class="tab-btn" data-page="stamps" onclick="nav('stamps')">&#x1F4EE; Stamps</button>
+  <button class="tab-btn" data-page="inventory" onclick="nav('inventory')">&#x1F4E6; Inventory</button>
+  <button class="tab-btn" data-page="settings" onclick="nav('settings')">&#x2699;&#xFE0F; Settings</button>
 </div>
 
 <div class="wrap">
 
   <!-- ── ROYALTY ── -->
   <div id="page-royalty" class="page active">
-
     <div class="info-bar">
-      <strong>ℹ️ How it works:</strong> Enter your monthly gross sales. Calculator applies your royalty rate, ad fee, and tech fee to show exactly what's owed. Royalty is due by the <strong>12th of the following month</strong>.
+      <strong>&#x2139;&#xFE0F; How it works:</strong> Enter monthly gross sales. Calculator applies your royalty, ad, and tech fee rates. Royalty is due by the <strong>12th of the following month</strong>.
     </div>
-
     <div class="card">
       <div class="card-head">Monthly Sales Input</div>
       <div class="card-body">
@@ -206,38 +380,33 @@ hr{border:none;border-top:1px solid #eee;margin:12px 0}
       <div class="res-grid">
         <div class="res-box accent">
           <div class="rl">Gross Sales</div>
-          <div class="rv" id="rResSales">—</div>
-          <div class="rs" id="rResMonth">—</div>
+          <div class="rv" id="rResSales">&#x2014;</div>
+          <div class="rs" id="rResMonth">&#x2014;</div>
         </div>
         <div class="res-box warn-box">
           <div class="rl">Total Owed</div>
-          <div class="rv" id="rResTotal">—</div>
+          <div class="rv" id="rResTotal">&#x2014;</div>
           <div class="rs">Due by 12th</div>
         </div>
       </div>
-
       <div class="breakdown" id="rBreakdown"></div>
-
-      <div class="warn-bar">
-        <strong>⚠️ Stamp Reminder:</strong> Use <strong>cost basis</strong> for stamps in royalty reporting — never retail. Book of 20 = $16.40 · Coil of 100 = $82.00
+      <div class="warn-bar" id="stampRoyaltyNote">
+        <strong>&#x26A0;&#xFE0F; Stamp Reminder:</strong> Use <strong>cost basis</strong> for stamps in royalty reporting &mdash; never retail. Book of 20 = $16.40 &middot; Coil of 100 = $82.00
       </div>
-
       <div style="display:flex;gap:8px">
-        <button class="btn btn-teal" style="flex:1" onclick="saveRoyalty()">💾 Save Record</button>
-        <button class="btn btn-sec" onclick="copyRoyalty()">📋 Copy</button>
+        <button class="btn btn-teal" id="saveRoyaltyBtn" style="flex:1" onclick="saveRoyalty()">&#x1F4BE; Save Record</button>
+        <button class="btn btn-sec" onclick="copyRoyalty()">&#x1F4CB; Copy</button>
       </div>
     </div>
 
     <div id="royaltyHistory"></div>
   </div>
 
-  <!-- ── STAMPS ── -->
+  <!-- ── STAMPS (admin only) ── -->
   <div id="page-stamps" class="page">
-
     <div class="danger-bar" id="priceChangeBanner" style="display:none">
-      <strong>⚠️ July 12, 2026 Price Change Active</strong> — New USPS stamp prices are now in effect.
+      <strong>&#x26A0;&#xFE0F; July 12, 2026 Price Change Active</strong> &mdash; New USPS stamp prices are now in effect.
     </div>
-
     <div class="card">
       <div class="card-head">Current Inventory</div>
       <div class="card-body">
@@ -253,24 +422,22 @@ hr{border:none;border-top:1px solid #eee;margin:12px 0}
             <div class="sc-sub">Cost $82.00 ea</div>
           </div>
         </div>
-
         <div class="slbl">Adjust Count</div>
         <div class="adj-row">
-          <div class="adj-label">📘 Books of 20</div>
-          <div class="adj-btn" onclick="adjStamp('books',-1)">−</div>
+          <div class="adj-label">&#x1F4D8; Books of 20</div>
+          <div class="adj-btn" onclick="adjStamp('books',-1)">&#x2212;</div>
           <div class="adj-val" id="booksAdj">0</div>
           <div class="adj-btn plus" onclick="adjStamp('books',1)">+</div>
         </div>
         <div class="adj-row">
-          <div class="adj-label">📜 Coils of 100</div>
-          <div class="adj-btn" onclick="adjStamp('coils',-1)">−</div>
+          <div class="adj-label">&#x1F4DC; Coils of 100</div>
+          <div class="adj-btn" onclick="adjStamp('coils',-1)">&#x2212;</div>
           <div class="adj-val" id="coilsAdj">0</div>
           <div class="adj-btn plus" onclick="adjStamp('coils',1)">+</div>
         </div>
         <button class="btn btn-pri" onclick="saveStamps()" style="margin-top:10px">Save Inventory</button>
       </div>
     </div>
-
     <div class="res-grid">
       <div class="res-box good-box">
         <div class="rl">Cost Basis Total</div>
@@ -283,7 +450,6 @@ hr{border:none;border-top:1px solid #eee;margin:12px 0}
         <div class="rs">What you can sell for</div>
       </div>
     </div>
-
     <div class="card">
       <div class="card-head">Price Reference</div>
       <div class="card-body" style="padding:0">
@@ -294,7 +460,6 @@ hr{border:none;border-top:1px solid #eee;margin:12px 0}
         </div>
       </div>
     </div>
-
     <div class="card">
       <div class="card-head">Last Order Record</div>
       <div class="card-body">
@@ -311,13 +476,12 @@ hr{border:none;border-top:1px solid #eee;margin:12px 0}
     </div>
   </div>
 
-  <!-- ── INVENTORY ── -->
+  <!-- ── INVENTORY (admin only) ── -->
   <div id="page-inventory" class="page">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-      <div style="font-size:12px;color:#888">Store supplies & consumables</div>
+      <div style="font-size:12px;color:#888">Store supplies &amp; consumables</div>
       <button class="btn-sec btn-sm" onclick="toggleAddForm()">+ Add Item</button>
     </div>
-
     <div class="add-form" id="addForm">
       <div class="slbl" style="margin-top:0">New Item</div>
       <div class="row2">
@@ -333,31 +497,79 @@ hr{border:none;border-top:1px solid #eee;margin:12px 0}
         <button class="btn btn-sec" onclick="toggleAddForm()">Cancel</button>
       </div>
     </div>
-
     <div id="invList"></div>
     <div class="empty" id="invEmpty" style="display:none">No items yet. Tap + Add Item.</div>
   </div>
 
-</div>
+  <!-- ── SETTINGS (guest owner only) ── -->
+  <div id="page-settings" class="page">
+    <div class="card">
+      <div class="card-head">Store Profile</div>
+      <div class="card-body">
+        <div class="fg"><label>Store Name</label><input type="text" id="setStoreName" placeholder="The UPS Store #8182"></div>
+        <div class="fg"><label>Store Number</label><input type="text" id="setStoreNum" inputmode="numeric" placeholder="8182"></div>
+        <button class="btn btn-pri" onclick="saveStoreProfile()">Save Profile</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Change PINs</div>
+      <div class="card-body">
+        <div class="row2">
+          <div class="fg"><label>Owner PIN</label><input type="password" id="setOwnerPin" inputmode="numeric" maxlength="4" placeholder="New PIN"></div>
+          <div class="fg"><label>Employee PIN</label><input type="password" id="setEmpPin" inputmode="numeric" maxlength="4" placeholder="0000"></div>
+        </div>
+        <div class="field-note">Leave blank to keep current PIN</div>
+        <button class="btn btn-sec" style="width:100%" onclick="savePins()">Update PINs</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Royalty Rates</div>
+      <div class="card-body">
+        <div class="row3">
+          <div class="fg"><label>Royalty %</label><input type="number" id="setRoyaltyRate" inputmode="decimal" step="0.01" placeholder="5.00"></div>
+          <div class="fg"><label>Ad Fee %</label><input type="number" id="setAdRate" inputmode="decimal" step="0.01" placeholder="1.00"></div>
+          <div class="fg"><label>Tech Fee %</label><input type="number" id="setTechRate" inputmode="decimal" step="0.01" placeholder="0.00"></div>
+        </div>
+        <button class="btn btn-sec" style="width:100%" onclick="saveGuestRates()">Save Rates</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head danger">Danger Zone</div>
+      <div class="card-body">
+        <div class="warn-bar">Resetting clears your store profile and all saved royalty records from this device.</div>
+        <button class="btn-danger" onclick="resetGuest()">Reset Store Profile</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- .wrap -->
+</div><!-- #screen-app -->
+
 <div id="toast"></div>
 
 <script>
 'use strict';
-const K = { royalty:'s8181_royalty_history', stamps:'s8181_stamps', order:'s8181_stamp_order', inventory:'s8181_inventory', rates:'s8181_royalty_rates' };
-const STAMP = { books:{cost:16.40,retail:23.99}, coils:{cost:82.00,retail:109.99} };
+
+// ── CONSTANTS ──
+const ADMIN_PIN  = '1997';
+const ADMIN_SK   = 's8181_admin';
+const GUEST_KEY  = 's8181_ri_guest';
+const K = {royalty:'s8181_royalty_history',stamps:'s8181_stamps',order:'s8181_stamp_order',inventory:'s8181_inventory',rates:'s8181_royalty_rates'};
+const STAMP = {books:{cost:16.40,retail:23.99},coils:{cost:82.00,retail:109.99}};
 const PRICE_CHANGE = '2026-07-12';
 
-let stamps = load(K.stamps) || {books:0,coils:0};
-let inventory = load(K.inventory) || defaultInv();
-let royaltyHistory = load(K.royalty) || [];
+let currentRole = null;
+let aBuf='', goBuf='', geBuf='';
+let stamps={books:0,coils:0}, inventory=[], royaltyHistory=[];
 
-function load(k){ try{return JSON.parse(localStorage.getItem(k))}catch{return null} }
-function save(k,v){ localStorage.setItem(k,JSON.stringify(v)) }
-const $ = id => document.getElementById(id);
-const fmt = n => '$'+(+n||0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');
-const fmtP = n => (+n||0).toFixed(2)+'%';
-function todayLocal(){ const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}` }
-function monthLabel(ym){ const[y,m]=ym.split('-'); return new Date(+y,+m-1,1).toLocaleString('default',{month:'long',year:'numeric'}) }
+// ── UTILS ──
+function load(k){try{return JSON.parse(localStorage.getItem(k))}catch{return null}}
+function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
+const $=id=>document.getElementById(id);
+const fmt=n=>'$'+(+n||0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+const fmtP=n=>(+n||0).toFixed(2)+'%';
+function todayLocal(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function monthLabel(ym){const[y,m]=ym.split('-');return new Date(+y,+m-1,1).toLocaleString('default',{month:'long',year:'numeric'})}
 
 function toast(msg,type='ok',dur=2600){
   const el=$('toast');
@@ -367,51 +579,193 @@ function toast(msg,type='ok',dur=2600){
   el._t=setTimeout(()=>el.className='',dur);
 }
 
+// ── SCREENS ──
+const SCREENS=['role','admin-pin','guest-who','guest-setup','guest-owner-pin','guest-emp-pin'];
+
+function showScreen(id){
+  SCREENS.forEach(s=>{const el=$('screen-'+s);if(el)el.style.display='none';});
+  $('screen-app').style.display='none';
+  const t=document.getElementById(id==='app'?'screen-app':'screen-'+id);
+  if(t) t.style.display='block';
+  $('hdrSignout').style.display=id==='app'?'':'none';
+}
+
+function showRole(){aBuf='';goBuf='';geBuf='';renderDots('adminDots','ad',0);showScreen('role');}
+
+function showAdminPin(){aBuf='';renderDots('adminDots','ad',0);$('adminPinErr').textContent='';showScreen('admin-pin');}
+
+function showGuestFlow(){
+  const cfg=getGuestCfg();
+  if(cfg){
+    $('guestStoreLabel').textContent=cfg.storeName||'Your Store';
+    $('gOwnerPinSub').textContent=cfg.storeName||'Enter your store PIN';
+    $('gEmpPinSub').textContent=cfg.storeName||'Enter your PIN';
+    showGuestWho();
+  } else {
+    $('gsStoreNum').value='';$('gsStoreName').value='';$('gsOwnerPin').value='';$('gsEmpPin').value='';
+    showScreen('guest-setup');
+  }
+}
+
+function showGuestWho(){goBuf='';geBuf='';showScreen('guest-who');}
+function showGuestOwnerPin(){goBuf='';renderDots('gOwnerDots','god',0);$('gOwnerPinErr').textContent='';showScreen('guest-owner-pin');}
+function showGuestEmpPin(){geBuf='';renderDots('gEmpDots','ged',0);$('gEmpPinErr').textContent='';showScreen('guest-emp-pin');}
+
+// ── DOT RENDER ──
+function renderDots(cid,pfx,len){for(let i=0;i<4;i++){const el=$(pfx+i);if(el)el.classList.toggle('on',i<len);}}
+
+// ── ADMIN PIN KEYPAD ──
+function ak(d){if(aBuf.length>=4)return;aBuf+=d;renderDots('adminDots','ad',aBuf.length);if(aBuf.length===4)checkAdmin();}
+function adel(){aBuf=aBuf.slice(0,-1);renderDots('adminDots','ad',aBuf.length);$('adminPinErr').textContent='';}
+function checkAdmin(){
+  if(aBuf===ADMIN_PIN){sessionStorage.setItem(ADMIN_SK,'ok');enterAdmin();}
+  else{
+    const el=$('adminDots');el.classList.add('shake');setTimeout(()=>el.classList.remove('shake'),400);
+    $('adminPinErr').textContent='Incorrect PIN';
+    setTimeout(()=>{aBuf='';renderDots('adminDots','ad',0);$('adminPinErr').textContent='';},900);
+  }
+}
+
+// ── GUEST OWNER PIN ──
+function gok(d){if(goBuf.length>=4)return;goBuf+=d;renderDots('gOwnerDots','god',goBuf.length);if(goBuf.length===4)checkGuestOwner();}
+function godel(){goBuf=goBuf.slice(0,-1);renderDots('gOwnerDots','god',goBuf.length);$('gOwnerPinErr').textContent='';}
+function checkGuestOwner(){
+  const cfg=getGuestCfg();
+  if(goBuf===(cfg?.ownerPin||'')){enterGuestOwner();}
+  else{
+    const el=$('gOwnerDots');el.classList.add('shake');setTimeout(()=>el.classList.remove('shake'),400);
+    $('gOwnerPinErr').textContent='Incorrect PIN';
+    setTimeout(()=>{goBuf='';renderDots('gOwnerDots','god',0);$('gOwnerPinErr').textContent='';},900);
+  }
+}
+
+// ── GUEST EMP PIN ──
+function gek(d){if(geBuf.length>=4)return;geBuf+=d;renderDots('gEmpDots','ged',geBuf.length);if(geBuf.length===4)checkGuestEmp();}
+function gedel(){geBuf=geBuf.slice(0,-1);renderDots('gEmpDots','ged',geBuf.length);$('gEmpPinErr').textContent='';}
+function checkGuestEmp(){
+  const cfg=getGuestCfg();
+  if(geBuf===(cfg?.empPin||'0000')){enterGuestEmp();}
+  else{
+    const el=$('gEmpDots');el.classList.add('shake');setTimeout(()=>el.classList.remove('shake'),400);
+    $('gEmpPinErr').textContent='Incorrect PIN';
+    setTimeout(()=>{geBuf='';renderDots('gEmpDots','ged',0);$('gEmpPinErr').textContent='';},900);
+  }
+}
+
+// ── GUEST CONFIG ──
+function getGuestCfg(){try{return JSON.parse(localStorage.getItem(GUEST_KEY));}catch(e){return null;}}
+function saveGuestCfg(cfg){localStorage.setItem(GUEST_KEY,JSON.stringify(cfg));}
+
+function setupGuest(){
+  const sn=$('gsStoreNum').value.trim();
+  const nm=$('gsStoreName').value.trim();
+  const op=$('gsOwnerPin').value.trim();
+  const ep=$('gsEmpPin').value.trim()||'0000';
+  if(!sn){toast('Enter store number','err');return;}
+  if(!nm){toast('Enter store name','err');return;}
+  if(!op||op.length<4){toast('Owner PIN must be 4 digits','err');return;}
+  saveGuestCfg({storeNum:sn,storeName:nm,ownerPin:op,empPin:ep,rates:{royalty:5,ad:1,tech:0},history:[]});
+  enterGuestOwner();
+}
+
+// ── ENTER ROLES ──
+function enterAdmin(){
+  currentRole='admin';
+  $('hdrSub').textContent='Royalty \xb7 Stamps \xb7 Inventory';
+  stamps=load(K.stamps)||{books:0,coils:0};
+  inventory=load(K.inventory)||defaultInv();
+  royaltyHistory=load(K.royalty)||[];
+  showTabs(['royalty','stamps','inventory']);
+  $('saveRoyaltyBtn').style.display='';
+  const sn=$('stampRoyaltyNote');if(sn)sn.style.display='';
+  initDatePickers();loadRates();renderHistory();renderStamps();loadOrder();renderInventory();
+  showScreen('app');
+}
+
+function enterGuestOwner(){
+  currentRole='guest-owner';
+  const cfg=getGuestCfg();
+  $('hdrSub').textContent=cfg?.storeName||'Guest Store';
+  $('rRoyaltyRate').value=cfg?.rates?.royalty??5;
+  $('rAdRate').value=cfg?.rates?.ad??1;
+  $('rTechRate').value=cfg?.rates?.tech??0;
+  showTabs(['royalty','settings']);
+  $('saveRoyaltyBtn').style.display='';
+  const sn=$('stampRoyaltyNote');if(sn)sn.style.display='none';
+  loadGuestSettings();initDatePickers();renderHistory();
+  showScreen('app');
+}
+
+function enterGuestEmp(){
+  currentRole='guest-emp';
+  const cfg=getGuestCfg();
+  $('hdrSub').textContent=cfg?.storeName||'Guest Store';
+  $('rRoyaltyRate').value=cfg?.rates?.royalty??5;
+  $('rAdRate').value=cfg?.rates?.ad??1;
+  $('rTechRate').value=cfg?.rates?.tech??0;
+  showTabs(['royalty']);
+  $('saveRoyaltyBtn').style.display='none';
+  const sn=$('stampRoyaltyNote');if(sn)sn.style.display='none';
+  $('royaltyHistory').innerHTML='';
+  initDatePickers();
+  showScreen('app');
+}
+
+function showTabs(tabs){
+  document.querySelectorAll('.tab-btn').forEach(b=>{b.style.display=tabs.includes(b.dataset.page)?'':'none';});
+  nav(tabs[0]);
+}
+
+function signOut(){sessionStorage.removeItem(ADMIN_SK);currentRole=null;showRole();}
+
+// ── APP NAV ──
 function nav(page){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  $(`page-${page}`).classList.add('active');
-  document.querySelector(`[data-page="${page}"]`).classList.add('active');
+  $('page-'+page).classList.add('active');
+  const btn=document.querySelector('[data-page="'+page+'"]');
+  if(btn)btn.classList.add('active');
 }
 
 // ── ROYALTY ──
 function initDatePickers(){
   const now=new Date();
-  const yr=$('rYear'), mo=$('rMonth');
+  const yr=$('rYear'),mo=$('rMonth');
   yr.innerHTML='';
-  for(let y=now.getFullYear();y>=2026;y--) yr.innerHTML+=`<option value="${y}" ${y===now.getFullYear()?'selected':''}>${y}</option>`;
+  for(let y=now.getFullYear();y>=2023;y--) yr.innerHTML+=`<option value="${y}"${y===now.getFullYear()?' selected':''}>${y}</option>`;
   mo.innerHTML='';
   ['January','February','March','April','May','June','July','August','September','October','November','December'].forEach((m,i)=>{
-    mo.innerHTML+=`<option value="${i+1}" ${i===now.getMonth()?'selected':''}>${m}</option>`;
+    mo.innerHTML+=`<option value="${i+1}"${i===now.getMonth()?' selected':''}>${m}</option>`;
   });
 }
 
 function loadRates(){
-  const r=load(K.rates);
-  if(!r) return;
-  if(r.royalty!==undefined) $('rRoyaltyRate').value=r.royalty;
-  if(r.ad!==undefined) $('rAdRate').value=r.ad;
-  if(r.tech!==undefined) $('rTechRate').value=r.tech;
+  if(currentRole!=='admin')return;
+  const r=load(K.rates);if(!r)return;
+  if(r.royalty!==undefined)$('rRoyaltyRate').value=r.royalty;
+  if(r.ad!==undefined)$('rAdRate').value=r.ad;
+  if(r.tech!==undefined)$('rTechRate').value=r.tech;
 }
 
 function saveRates(){
+  if(currentRole!=='admin')return;
   save(K.rates,{royalty:$('rRoyaltyRate').value,ad:$('rAdRate').value,tech:$('rTechRate').value});
 }
 
 function calcRoyalty(){
   const sales=parseFloat($('rSales').value)||0;
   if(sales<=0){$('royaltyResults').style.display='none';return;}
-  const rr=parseFloat($('rRoyaltyRate').value)||5, ar=parseFloat($('rAdRate').value)||1, tr=parseFloat($('rTechRate').value)||0;
-  const royalty=sales*(rr/100), adFee=sales*(ar/100), techFee=sales*(tr/100), total=royalty+adFee+techFee;
-  const mo=+$('rMonth').value, yr=+$('rYear').value;
+  const rr=parseFloat($('rRoyaltyRate').value)||5,ar=parseFloat($('rAdRate').value)||1,tr=parseFloat($('rTechRate').value)||0;
+  const royalty=sales*(rr/100),adFee=sales*(ar/100),techFee=sales*(tr/100),total=royalty+adFee+techFee;
+  const mo=+$('rMonth').value,yr=+$('rYear').value;
   const ym=`${yr}-${String(mo).padStart(2,'0')}`;
   $('rResSales').textContent=fmt(sales);
   $('rResTotal').textContent=fmt(total);
   $('rResMonth').textContent=monthLabel(ym);
   const rows=[['Gross Sales',fmt(sales)]];
   rows.push([`Royalty Fee (${fmtP(rr)})`,`−${fmt(royalty)}`]);
-  if(adFee>0) rows.push([`Ad Fee (${fmtP(ar)})`,`−${fmt(adFee)}`]);
-  if(techFee>0) rows.push([`Tech Fee (${fmtP(tr)})`,`−${fmt(techFee)}`]);
+  if(adFee>0)rows.push([`Ad Fee (${fmtP(ar)})`,`−${fmt(adFee)}`]);
+  if(techFee>0)rows.push([`Tech Fee (${fmtP(tr)})`,`−${fmt(techFee)}`]);
   $('rBreakdown').innerHTML=rows.map(([l,v])=>`<div class="brow"><span class="bl">${l}</span><span class="bv">${v}</span></div>`).join('')
     +`<div class="brow total"><span class="bl">Total Due to UPS</span><span class="bv">${fmt(total)}</span></div>`;
   $('royaltyResults').style.display='block';
@@ -419,17 +773,25 @@ function calcRoyalty(){
 }
 
 function saveRoyalty(){
-  if(!window._pr) return;
-  royaltyHistory=royaltyHistory.filter(h=>h.ym!==window._pr.ym);
-  royaltyHistory.unshift({...window._pr,savedAt:new Date().toISOString()});
-  royaltyHistory=royaltyHistory.slice(0,24);
-  save(K.royalty,royaltyHistory);
+  if(!window._pr)return;
+  if(currentRole==='admin'){
+    royaltyHistory=royaltyHistory.filter(h=>h.ym!==window._pr.ym);
+    royaltyHistory.unshift({...window._pr,savedAt:new Date().toISOString()});
+    royaltyHistory=royaltyHistory.slice(0,24);
+    save(K.royalty,royaltyHistory);
+  } else if(currentRole==='guest-owner'){
+    const cfg=getGuestCfg()||{};
+    cfg.history=(cfg.history||[]).filter(h=>h.ym!==window._pr.ym);
+    cfg.history.unshift({...window._pr,savedAt:new Date().toISOString()});
+    cfg.history=cfg.history.slice(0,24);
+    saveGuestCfg(cfg);
+  }
   renderHistory();
   toast('Record saved');
 }
 
 function copyRoyalty(){
-  if(!window._pr) return;
+  if(!window._pr)return;
   const r=window._pr;
   const txt=`${monthLabel(r.ym)} — Sales: ${fmt(r.sales)} | Royalty: ${fmt(r.royalty)} | Ad Fee: ${fmt(r.adFee)} | Total Owed: ${fmt(r.total)}`;
   navigator.clipboard.writeText(txt).then(()=>toast('Copied to clipboard','info')).catch(()=>toast('Copy failed','err'));
@@ -437,13 +799,13 @@ function copyRoyalty(){
 
 function renderHistory(){
   const el=$('royaltyHistory');
-  if(!royaltyHistory.length){el.innerHTML='';return;}
-  el.innerHTML=`<div class="slbl">Saved Records</div>`+
-    royaltyHistory.map(h=>`
-      <div class="hist-row">
-        <div><div class="hr-month">${monthLabel(h.ym)}</div><div class="hr-sub">${fmt(h.sales)} sales · ${fmtP(h.rr)} royalty rate</div></div>
-        <div><div class="hr-amt">${fmt(h.total)}</div><div class="hr-label">owed</div></div>
-      </div>`).join('');
+  let hist=currentRole==='admin'?royaltyHistory:(getGuestCfg()?.history||[]);
+  if(!hist.length){el.innerHTML='';return;}
+  el.innerHTML='<div class="slbl">Saved Records</div>'+
+    hist.map(h=>`<div class="hist-row">
+      <div><div class="hr-month">${monthLabel(h.ym)}</div><div class="hr-sub">${fmt(h.sales)} sales \xb7 ${fmtP(h.rr)} royalty rate</div></div>
+      <div><div class="hr-amt">${fmt(h.total)}</div><div class="hr-label">owed</div></div>
+    </div>`).join('');
 }
 
 // ── STAMPS ──
@@ -453,10 +815,8 @@ function renderStamps(){
   $('coilsCount').textContent=stamps.coils;
   $('booksAdj').textContent=stamps.books;
   $('coilsAdj').textContent=stamps.coils;
-  const bc=$('sc-books');
-  bc.className='stamp-card '+(stamps.books===0?'low':stamps.books<3?'warn-s':'ok');
-  const cc=$('sc-coils');
-  cc.className='stamp-card '+(stamps.coils===0?'low':stamps.coils<2?'warn-s':'ok');
+  $('sc-books').className='stamp-card '+(stamps.books===0?'low':stamps.books<3?'warn-s':'ok');
+  $('sc-coils').className='stamp-card '+(stamps.coils===0?'low':stamps.coils<2?'warn-s':'ok');
   const cost=stamps.books*STAMP.books.cost+stamps.coils*STAMP.coils.cost;
   const retail=stamps.books*STAMP.books.retail+stamps.coils*STAMP.coils.retail;
   $('stampTotalCost').textContent=fmt(cost);
@@ -465,17 +825,16 @@ function renderStamps(){
 
 function adjStamp(type,delta){
   stamps[type]=Math.max(0,(stamps[type]||0)+delta);
-  $(`${type}Count`).textContent=stamps[type];
-  $(`${type}Adj`).textContent=stamps[type];
-  const el=$(`sc-${type}`);
-  el.className='stamp-card '+(stamps[type]===0?'low':stamps[type]<(type==='books'?3:2)?'warn-s':'ok');
+  $(type+'Count').textContent=stamps[type];
+  $(type+'Adj').textContent=stamps[type];
+  $('sc-'+type).className='stamp-card '+(stamps[type]===0?'low':stamps[type]<(type==='books'?3:2)?'warn-s':'ok');
   const cost=stamps.books*STAMP.books.cost+stamps.coils*STAMP.coils.cost;
   const retail=stamps.books*STAMP.books.retail+stamps.coils*STAMP.coils.retail;
   $('stampTotalCost').textContent=fmt(cost);
   $('stampTotalRetail').textContent=fmt(retail);
 }
 
-function saveStamps(){ save(K.stamps,stamps); toast('Stamp inventory saved'); }
+function saveStamps(){save(K.stamps,stamps);toast('Stamp inventory saved');}
 
 function saveOrder(){
   const order={date:$('lastOrderDate').value,supplier:$('lastOrderSupplier').value.trim(),books:+$('lastOrderBooks').value||0,coils:+$('lastOrderCoils').value||0};
@@ -485,8 +844,7 @@ function saveOrder(){
 }
 
 function loadOrder(){
-  const o=load(K.order);
-  if(!o) return;
+  const o=load(K.order);if(!o)return;
   $('lastOrderDate').value=o.date||'';
   $('lastOrderSupplier').value=o.supplier||'';
   $('lastOrderBooks').value=o.books||'';
@@ -505,33 +863,29 @@ function defaultInv(){
 }
 
 function renderInventory(){
-  const list=$('invList'), empty=$('invEmpty');
-  const low=inventory.filter(i=>i.count<=i.low&&i.count<i.low);
+  const list=$('invList'),empty=$('invEmpty');
+  const low=inventory.filter(i=>i.count<i.low);
   if(!inventory.length){list.innerHTML='';empty.style.display='block';return;}
   empty.style.display='none';
-  list.innerHTML=(low.length?`<div class="danger-bar"><strong>⚠️ Low Stock:</strong> ${low.map(i=>i.name).join(', ')}</div>`:'')
-    +inventory.map(i=>{
-      const cls=i.count===0?'low-item':i.count<=i.low?'warn-item':'';
-      return `<div class="inv-item ${cls}">
-        <div class="ii-info"><div class="ii-name">${i.name}</div><div class="ii-meta">${i.unit} · alert at ${i.low}</div></div>
-        <div class="ii-adj">
-          <button class="ii-btn" onclick="adjInv(${i.id},-1)">−</button>
-          <div class="ii-count">${i.count}</div>
-          <button class="ii-btn plus" onclick="adjInv(${i.id},1)">+</button>
-        </div>
-      </div>`;
-    }).join('');
+  list.innerHTML=(low.length?`<div class="danger-bar"><strong>&#x26A0;&#xFE0F; Low Stock:</strong> ${low.map(i=>i.name).join(', ')}</div>`:'')+
+    inventory.map(i=>`<div class="inv-item ${i.count===0?'low-item':i.count<=i.low?'warn-item':''}">
+      <div class="ii-info"><div class="ii-name">${i.name}</div><div class="ii-meta">${i.unit} \xb7 alert at ${i.low}</div></div>
+      <div class="ii-adj">
+        <button class="ii-btn" onclick="adjInv(${i.id},-1)">−</button>
+        <div class="ii-count">${i.count}</div>
+        <button class="ii-btn plus" onclick="adjInv(${i.id},1)">+</button>
+      </div>
+    </div>`).join('');
 }
 
 function adjInv(id,delta){
-  const item=inventory.find(i=>i.id===id);
-  if(!item) return;
+  const item=inventory.find(i=>i.id===id);if(!item)return;
   item.count=Math.max(0,item.count+delta);
   save(K.inventory,inventory);
   renderInventory();
 }
 
-function toggleAddForm(){ $('addForm').classList.toggle('show'); }
+function toggleAddForm(){$('addForm').classList.toggle('show');}
 
 function addItem(){
   const name=$('newItemName').value.trim();
@@ -547,14 +901,56 @@ function addItem(){
   toast('Item added');
 }
 
-// ── INIT ──
-initDatePickers();
-loadRates();
-renderHistory();
-renderStamps();
-loadOrder();
-renderInventory();
+// ── GUEST SETTINGS ──
+function loadGuestSettings(){
+  const cfg=getGuestCfg();if(!cfg)return;
+  $('setStoreName').value=cfg.storeName||'';
+  $('setStoreNum').value=cfg.storeNum||'';
+  $('setRoyaltyRate').value=cfg.rates?.royalty??5;
+  $('setAdRate').value=cfg.rates?.ad??1;
+  $('setTechRate').value=cfg.rates?.tech??0;
+}
+
+function saveStoreProfile(){
+  const cfg=getGuestCfg()||{};
+  cfg.storeName=$('setStoreName').value.trim();
+  cfg.storeNum=$('setStoreNum').value.trim();
+  saveGuestCfg(cfg);
+  $('hdrSub').textContent=cfg.storeName||'Guest Store';
+  toast('Profile saved');
+}
+
+function savePins(){
+  const op=$('setOwnerPin').value.trim();
+  const ep=$('setEmpPin').value.trim();
+  if(!op&&!ep){toast('Enter at least one PIN','err');return;}
+  const cfg=getGuestCfg()||{};
+  if(op&&op.length===4)cfg.ownerPin=op;
+  if(ep&&ep.length===4)cfg.empPin=ep;
+  saveGuestCfg(cfg);
+  $('setOwnerPin').value='';$('setEmpPin').value='';
+  toast('PINs updated');
+}
+
+function saveGuestRates(){
+  const cfg=getGuestCfg()||{};
+  cfg.rates={royalty:parseFloat($('setRoyaltyRate').value)||5,ad:parseFloat($('setAdRate').value)||1,tech:parseFloat($('setTechRate').value)||0};
+  saveGuestCfg(cfg);
+  $('rRoyaltyRate').value=cfg.rates.royalty;
+  $('rAdRate').value=cfg.rates.ad;
+  $('rTechRate').value=cfg.rates.tech;
+  toast('Rates updated');
+}
+
+function resetGuest(){
+  if(!confirm('Reset store profile? All saved royalty records will be lost.'))return;
+  localStorage.removeItem(GUEST_KEY);
+  signOut();
+}
+
+// ── BOOT ──
+if(sessionStorage.getItem(ADMIN_SK)==='ok'){enterAdmin();}
+else{showRole();}
 </script>
 </body>
 </html>
-
