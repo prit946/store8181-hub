@@ -14,9 +14,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 input,select,textarea{font-family:inherit}
 input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 input[type=number]{-moz-appearance:textfield}
-
-/* ── AUTH SCREENS ── */
-.auth-hdr{background:#1b2d45;color:#fff;height:56px;display:flex;align-items:center;justify-content:center;padding:0 20px;position:sticky;top:0;z-index:100}
+.auth-hdr{background:#1b2d45;color:#fff;height:56px;display:flex;align-items:center;justify-content:center;padding:0 20px;position:sticky;top:0;z-index:100;position:relative}
 .auth-hdr h1{font-size:15px;font-weight:700}
 .auth-hdr small{font-size:10px;color:#7a9ab8;display:block;text-align:center;margin-top:1px}
 .auth-hdr .hdr-back-lnk{position:absolute;left:16px;color:#7a9ab8;font-size:22px;text-decoration:none}
@@ -46,30 +44,24 @@ input[type=number]{-moz-appearance:textfield}
 .key.empty{background:transparent;border:none;pointer-events:none}
 .pin-error{text-align:center;font-size:12px;font-weight:700;color:#dc3545;height:18px;margin-bottom:12px}
 .back-lnk{display:flex;align-items:center;justify-content:center;color:#888;font-size:13px;font-weight:600;cursor:pointer;gap:4px;padding:10px;touch-action:manipulation}
-.back-lnk:active{color:#1b2d45}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
 .shake{animation:shake .35s ease}
-
-/* ── GUEST SETUP ── */
 .setup-card{background:#fff;border:1px solid #dde0e5;border-radius:8px;padding:20px;margin-bottom:12px}
 .setup-card h3{font-size:14px;font-weight:700;color:#1b2d45;margin-bottom:4px}
-.setup-card p{font-size:12px;color:#888;margin-bottom:16px;line-height:1.5}
-.info-box{background:#f4f6f9;border:1px solid #dde0e5;border-radius:6px;padding:10px 12px;margin-bottom:12px;font-size:11px;color:#555;line-height:1.5}
-.info-box strong{color:#1b2d45;display:block;margin-bottom:3px}
+.setup-card p{font-size:12px;color:#888;margin-bottom:14px;line-height:1.5}
+.info-box{background:#f4f6f9;border:1px solid #dde0e5;border-radius:6px;padding:10px 12px;margin-bottom:12px;font-size:11px;color:#555;line-height:1.6}
+.info-box strong{color:#1b2d45;display:block;margin-bottom:2px}
 .info-box.teal{background:#e0f5fb;border-color:#0498BC;color:#025d74}
 .info-box.teal strong{color:#0498BC}
-
-/* ── SHARED FORM INPUTS ── */
+.info-box.green{background:#edfaf0;border-color:#28a745;color:#1a6e31}
+.info-box.green strong{color:#28a745}
 .fg{margin-bottom:12px}
 .fg label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#888;margin-bottom:5px}
 .fg input,.fg select,.fg textarea{width:100%;padding:10px 12px;background:#f4f6f9;border:1.5px solid #dde0e5;border-radius:5px;color:#111;font-size:15px;-webkit-appearance:none;appearance:none;transition:border-color .15s}
 .fg textarea{resize:vertical;min-height:80px;font-size:13px;line-height:1.5}
 .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:#1b2d45;outline:none;background:#fff}
-
-/* ── ALL SCREENS HIDDEN BY DEFAULT ── */
-#screen-role,#screen-pin,#screen-guest-setup,#screen-guest-role,#screen-guest-pin,#screen-main{display:none}
-
-/* ── MAIN APP HEADER ── */
+.opt-lbl{font-size:9px;font-weight:600;color:#0498BC;margin-left:5px;text-transform:uppercase;letter-spacing:.5px}
+#screen-role,#screen-pin,#screen-guest-setup,#screen-emp-join,#screen-guest-role,#screen-guest-pin,#screen-main{display:none}
 .hdr{background:#1b2d45;padding:0 16px;height:50px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100}
 .hdr-back{color:#7a9ab8;font-size:22px;text-decoration:none;padding:2px 4px;flex-shrink:0;display:flex;align-items:center;touch-action:manipulation}
 .hdr-info{flex:1}
@@ -79,23 +71,15 @@ input[type=number]{-moz-appearance:textfield}
 .gw-pill{font-size:11px;font-weight:700;padding:5px 11px;border-radius:20px;background:rgba(255,255,255,.12);display:flex;align-items:center;gap:5px;min-width:64px;justify-content:center;color:#fff;flex-shrink:0}
 .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;transition:background .3s}
 .dot.g{background:#28a745}.dot.r{background:#dc3545}.dot.y{background:#f0ad00}
-
-/* ── NAV ── */
 .nav{display:flex;background:#1b2d45;border-bottom:1px solid #111e2e;overflow-x:auto;scrollbar-width:none;position:sticky;top:50px;z-index:90}
 .nav::-webkit-scrollbar{display:none}
 .nav-btn{flex:1;min-width:58px;padding:11px 4px 9px;font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#7a9ab8;border-bottom:2.5px solid transparent;transition:all .15s;white-space:nowrap;touch-action:manipulation}
 .nav-btn .ico{font-size:16px;display:block;margin-bottom:2px}
 .nav-btn.active{color:#fff;border-bottom-color:#0498BC}
-
-/* ── CONTENT ── */
 .content{padding:13px;max-width:560px;margin:0 auto;padding-bottom:28px}
 .page{display:none}.page.active{display:block}
-
-/* ── CARD ── */
 .card{background:#fff;border:1px solid #dde0e5;border-radius:6px;padding:15px;margin-bottom:11px}
 .ctitle{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-bottom:12px;font-weight:800}
-
-/* ── FORM (in main app) ── */
 .ff{margin-bottom:12px}
 .ff label{display:block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#888;margin-bottom:5px}
 .ff input,.ff select{width:100%;padding:11px 12px;background:#f4f6f9;border:1.5px solid #dde0e5;border-radius:5px;color:#111;font-size:16px;-webkit-appearance:none;appearance:none;transition:border-color .15s}
@@ -103,33 +87,25 @@ input[type=number]{-moz-appearance:textfield}
 .ff input[type=number]{font-variant-numeric:tabular-nums;letter-spacing:.5px}
 .ff select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-
-/* ── UPDATE ALERT ── */
 .update-alert{background:#fff8ec;border:1.5px solid #f0ad00;border-radius:6px;padding:11px 13px;margin-bottom:12px;display:none}
 .update-alert.show{display:block}
 .update-alert .ua-title{font-size:11px;font-weight:800;color:#e09000;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
 .update-alert .ua-row{display:flex;justify-content:space-between;font-size:12px;color:#888;padding:2px 0}
 .update-alert .ua-row span{font-weight:700;color:#111}
-
-/* ── BUTTONS ── */
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;border-radius:6px;font-size:14px;font-weight:800;transition:all .12s;cursor:pointer;border:none;touch-action:manipulation}
-.btn-pri{background:#1b2d45;color:#fff}
-.btn-pri:active{background:#243d5e}
-.btn-pri:disabled{opacity:.5;pointer-events:none}
-.btn-teal{background:#0498BC;color:#fff}
-.btn-teal:active{background:#0380a0}
-.btn-warn{background:#f0ad00;color:#1b2d45;font-weight:800}
-.btn-warn:active{background:#e09000}
+.btn-pri{background:#1b2d45;color:#fff}.btn-pri:active{background:#243d5e}.btn-pri:disabled{opacity:.5;pointer-events:none}
+.btn-teal{background:#0498BC;color:#fff}.btn-teal:active{background:#0380a0}
+.btn-warn{background:#f0ad00;color:#1b2d45;font-weight:800}.btn-warn:active{background:#e09000}
 .btn-sec{background:#f4f6f9;border:1px solid #dde0e5;color:#2a4060;font-size:13px;padding:10px 16px;width:auto;border-radius:5px;font-weight:700}
 .btn-sm{padding:7px 14px;font-size:11px;width:auto;border-radius:4px;font-weight:700}
 .btn-danger{background:rgba(220,53,69,.08);border:1px solid rgba(220,53,69,.3);color:#dc3545;font-size:13px}
-.btn-export{background:#e0f5fb;border:1px solid #0498BC;color:#0267a0;font-size:12px;font-weight:700;padding:9px 14px;border-radius:5px;width:100%;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:8px;cursor:pointer;touch-action:manipulation}
-.btn-export:active{background:#ccedf7}
-.btn-import{background:#edfaf0;border:1px solid #28a745;color:#1a6e31;font-size:12px;font-weight:700;padding:9px 14px;border-radius:5px;width:100%;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:8px;cursor:pointer;touch-action:manipulation}
-.btn-import:active{background:#d4f5dc}
+.btn-copy{background:#e0f5fb;border:1px solid #0498BC;color:#0267a0;font-size:12px;font-weight:700;padding:9px 14px;border-radius:5px;width:100%;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:8px;cursor:pointer;touch-action:manipulation}
+.btn-copy:active{background:#ccedf7}
+.btn-export{background:#edfaf0;border:1px solid #28a745;color:#1a6e31;font-size:12px;font-weight:700;padding:9px 14px;border-radius:5px;width:100%;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:8px;cursor:pointer;touch-action:manipulation}
+.btn-export:active{background:#d4f5dc}
+.btn-import{background:#f3f0ff;border:1px solid #7c3aed;color:#5b21b6;font-size:12px;font-weight:700;padding:9px 14px;border-radius:5px;width:100%;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:8px;cursor:pointer;touch-action:manipulation}
+.btn-import:active{background:#ede9fe}
 input[type=file]{display:none}
-
-/* ── CALENDAR ── */
 .cal{display:flex;gap:6px;overflow-x:auto;padding:2px 1px 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .cal::-webkit-scrollbar{display:none}
 .cal-d{flex:0 0 44px;height:60px;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:2px solid #dde0e5;background:#fff;transition:all .12s;position:relative;user-select:none;-webkit-user-select:none;touch-action:manipulation}
@@ -137,24 +113,17 @@ input[type=file]{display:none}
 .cal-d .dn{font-size:15px;font-weight:800;line-height:1;color:#1b2d45}
 .cal-d .dw{font-size:9px;text-transform:uppercase;color:#888;margin-top:3px;font-weight:700}
 .cal-d .chk{position:absolute;top:3px;right:4px;font-size:8px;color:#28a745}
-.cal-d.ok{background:#edfaf0;border-color:rgba(40,167,69,.35)}
-.cal-d.ok .dn{color:#28a745}
-.cal-d.ok .dw{color:rgba(40,167,69,.7)}
-.cal-d.miss{background:rgba(220,53,69,.05);border-color:rgba(220,53,69,.2)}
-.cal-d.miss .dn{color:#dc3545}
+.cal-d.ok{background:#edfaf0;border-color:rgba(40,167,69,.35)}.cal-d.ok .dn{color:#28a745}.cal-d.ok .dw{color:rgba(40,167,69,.7)}
+.cal-d.miss{background:rgba(220,53,69,.05);border-color:rgba(220,53,69,.2)}.cal-d.miss .dn{color:#dc3545}
 .cal-d.sel{border-color:#1b2d45!important;background:#e8ecf2!important;box-shadow:0 0 0 3px rgba(27,45,69,.12)}
 .cal-d.today::after{content:'';position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:#0498BC}
 .cal-d.future{opacity:.3;pointer-events:none}
-
-/* ── STATS ── */
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px}
 .stat{background:#fff;border:1px solid #dde0e5;border-radius:6px;padding:13px}
 .stat .lbl{font-size:9px;text-transform:uppercase;letter-spacing:.8px;color:#888;margin-bottom:3px;font-weight:800}
 .stat .val{font-size:21px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.5px;color:#1b2d45}
 .stat .sub{font-size:10px;color:#888;margin-top:2px}
 .stat.s .val{color:#28a745}.stat.t .val{color:#e09000}.stat.c .val{color:#0498BC}.stat.h .val{color:#7c3aed}
-
-/* ── REPORT ROW ── */
 .rrow{background:#fff;border:1px solid #dde0e5;border-radius:6px;padding:12px 13px;margin-bottom:7px;display:flex;align-items:center;gap:10px}
 .rrow .dc{font-size:12px;font-weight:800;min-width:40px;color:#1b2d45}
 .rrow .dc small{font-size:9px;display:block;color:#888;font-weight:500;margin-top:1px}
@@ -162,43 +131,33 @@ input[type=file]{display:none}
 .rrow .amt{font-size:12px;font-weight:700;white-space:nowrap}
 .rrow .amt span{color:#888;font-size:9px;font-weight:500}
 .rrow .by-badge{font-size:10px;font-weight:800;color:#888;background:#f4f6f9;border:1px solid #dde0e5;border-radius:5px;padding:3px 6px;min-width:26px;text-align:center}
-
-/* ── MISSING BANNER ── */
 .miss-b{background:rgba(220,53,69,.05);border:1px solid rgba(220,53,69,.2);border-radius:6px;padding:11px 13px;margin-bottom:11px;display:none}
 .miss-b.show{display:block}
 .miss-b .t{font-size:10px;font-weight:800;color:#dc3545;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{background:rgba(220,53,69,.08);color:#dc3545;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:800;cursor:pointer;border:1px solid rgba(220,53,69,.2);transition:all .1s;user-select:none;touch-action:manipulation}
 .chip:active{background:rgba(220,53,69,.18);transform:scale(.96)}
-
-/* ── SECTION HEADER ── */
 .shdr{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#888;margin:14px 0 7px;font-weight:800}
-
-/* ── HELP SECTION ── */
 .help-item{margin-bottom:14px}
 .help-item strong{font-size:12px;color:#1b2d45;display:block;margin-bottom:3px}
 .help-item p{font-size:11px;color:#666;line-height:1.55}
-
-/* ── DATA COUNT ── */
-.data-count{background:#f4f6f9;border:1px solid #dde0e5;border-radius:5px;padding:10px 12px;margin-bottom:12px;font-size:12px;color:#555;display:flex;justify-content:space-between;align-items:center}
-.data-count strong{color:#1b2d45;font-size:14px}
-
-/* ── TOAST ── */
+.profile-row{display:flex;align-items:center;justify-content:space-between;background:#f4f6f9;border:1px solid #dde0e5;border-radius:5px;padding:10px 12px;margin-bottom:7px}
+.profile-row .pname{font-size:12px;font-weight:700;color:#1b2d45}
+.profile-row .pinfo{font-size:10px;color:#888;margin-top:1px}
+.profile-row .pdel{font-size:11px;font-weight:700;color:#dc3545;cursor:pointer;padding:4px 8px;border:1px solid rgba(220,53,69,.3);border-radius:4px;background:rgba(220,53,69,.06)}
+.profile-row .pdel:active{background:rgba(220,53,69,.14)}
+.join-code-box{background:#1b2d45;border-radius:6px;padding:12px;font-size:10px;color:#7a9ab8;word-break:break-all;line-height:1.5;margin-bottom:10px;font-family:monospace}
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:#fff;border:1.5px solid #dde0e5;border-radius:8px;padding:12px 20px;font-size:13px;font-weight:700;color:#111;opacity:0;transition:all .22s;pointer-events:none;z-index:9999;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.12);max-width:90vw;text-align:center}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 #toast.ok{border-color:#28a745;color:#28a745}
 #toast.err{border-color:#dc3545;color:#dc3545}
 #toast.info{border-color:#0498BC;color:#0498BC}
 #toast.warn{border-color:#f0ad00;color:#e09000}
-
-/* ── LOADER ── */
 #loader{position:fixed;inset:0;background:rgba(234,236,239,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:500;gap:16px}
 #loader .sp2{width:38px;height:38px;border:3px solid #dde0e5;border-top-color:#1b2d45;border-radius:50%;animation:sp .75s linear infinite}
 #loader .lmsg{color:#888;font-size:13px;font-weight:600;text-align:center;max-width:220px;line-height:1.5}
 @keyframes sp{to{transform:rotate(360deg)}}
 .spin{display:inline-block;width:17px;height:17px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp .65s linear infinite;flex-shrink:0}
-
-/* ── CONFIRM MODAL ── */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:400;display:none;align-items:flex-end;justify-content:center}
 .overlay.show{display:flex}
 .modal{background:#fff;border-radius:14px 14px 0 0;padding:22px 18px 40px;width:100%;max-width:560px;border-top:1px solid #dde0e5;box-shadow:0 -4px 24px rgba(0,0,0,.12)}
@@ -207,36 +166,24 @@ input[type=file]{display:none}
 .modal .existing{background:#f4f6f9;border:1px solid #dde0e5;border-radius:6px;padding:12px;margin-bottom:16px;display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .modal .existing .ef{font-size:12px;color:#111}.modal .existing .ef span{color:#888;font-size:10px;display:block}
 .modal .mbts{display:flex;gap:10px}
-
-/* ── DIVIDER ── */
 hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
-
-/* ── EMPTY ── */
 .empty{text-align:center;color:#888;padding:28px 0;font-size:13px;font-weight:600}
-
-/* ── SCROLL HINT ── */
 .scroll-hint{font-size:10px;color:#888;text-align:right;margin-bottom:4px}
 </style>
 <link rel="manifest" href="manifest.json">
 </head>
 <body>
 
-<!-- ── LOADER ── -->
 <div id="loader" style="display:none">
   <div class="sp2"></div>
   <div class="lmsg" id="lmsg">Loading…</div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     SCREEN: ROLE SELECT
-═══════════════════════════════════════════════════════════ -->
+<!-- ROLE SELECT -->
 <div id="screen-role">
   <div class="auth-hdr">
     <a href="index.html" class="hdr-back-lnk">‹</a>
-    <div>
-      <h1>Z Report</h1>
-      <small>Select access level to continue</small>
-    </div>
+    <div><h1>Z Report</h1><small>Select access level to continue</small></div>
   </div>
   <div class="auth-wrap">
     <div class="slbl">Who are you?</div>
@@ -249,29 +196,21 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
       <div class="role-card guest" onclick="startGuest()">
         <div class="rc-ico">🏪</div>
         <div class="rc-name">Other Store</div>
-        <div class="rc-desc">Your own store · No account needed</div>
+        <div class="rc-desc">Your store · Cloud or local</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     SCREEN: ADMIN PIN
-═══════════════════════════════════════════════════════════ -->
+<!-- ADMIN PIN -->
 <div id="screen-pin">
-  <div class="auth-hdr" style="position:relative">
+  <div class="auth-hdr">
     <a href="#" onclick="showRole();return false" class="hdr-back-lnk">‹</a>
-    <div>
-      <h1>Admin Access</h1>
-      <small>Z Report · Store 8181</small>
-    </div>
+    <div><h1>Admin Access</h1><small>Z Report · Store 8181</small></div>
   </div>
   <div class="auth-wrap">
     <div class="pin-wrap">
-      <div class="pin-title">
-        <h2>Enter PIN</h2>
-        <p>Admin · Store 8181</p>
-      </div>
+      <div class="pin-title"><h2>Enter PIN</h2><p>Admin · Store 8181</p></div>
       <div class="pin-dots" id="pinDots">
         <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div>
         <div class="pin-dot" id="pd2"></div><div class="pin-dot" id="pd3"></div>
@@ -288,56 +227,78 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     SCREEN: GUEST SETUP (first visit)
-═══════════════════════════════════════════════════════════ -->
+<!-- GUEST SETUP (first visit) -->
 <div id="screen-guest-setup">
-  <div class="auth-hdr" style="position:relative">
+  <div class="auth-hdr">
     <a href="#" onclick="showRole();return false" class="hdr-back-lnk">‹</a>
-    <div>
-      <h1>New Store Setup</h1>
-      <small>One-time setup · stored on this device</small>
-    </div>
+    <div><h1>New Store Setup</h1><small>One-time setup · data owned by you</small></div>
   </div>
   <div class="auth-wrap">
     <div class="setup-card">
       <h3>Set Up Your Store</h3>
-      <p>Your Z Report data is saved entirely on this device — no Google account, no setup required. Export a backup anytime from Settings.</p>
-      <div class="info-box teal">
-        <strong>Works standalone on any device</strong>
-        All reports save locally in your browser. Use the export feature in Settings to back up or move data to another device.
-      </div>
+      <p>Your data can sync across all devices using a free Firebase database — or stay local to this device only if you skip the Firebase step.</p>
+
       <div class="fg">
         <label>Store Name</label>
-        <input type="text" id="gStoreName" placeholder="e.g. UPS Store 9182" autocomplete="off" />
+        <input type="text" id="gStoreName" placeholder="e.g. UPS Store 9182" autocomplete="off"/>
       </div>
+
+      <div class="fg">
+        <label>Firebase Database URL <span class="opt-lbl">Optional — enables multi-device sync</span></label>
+        <input type="url" id="gFbUrl" placeholder="https://your-project-default-rtdb.firebaseio.com" autocomplete="off"/>
+      </div>
+      <div class="info-box teal">
+        <strong>Free multi-device sync — 5 min setup</strong>
+        1. Go to <strong>console.firebase.google.com</strong> → Sign in → Create project → Continue → Continue<br>
+        2. Click <strong>Realtime Database</strong> → Create Database → Start in test mode → Enable<br>
+        3. Copy the database URL shown and paste it above<br>
+        4. In Firebase Console → Realtime Database → Rules → publish this: <code style="font-size:10px">{"rules":{".read":true,".write":true}}</code>
+      </div>
+
       <div class="fg">
         <label>Owner PIN (4 digits)</label>
-        <input type="number" id="gPin" placeholder="Choose your 4-digit owner PIN" inputmode="numeric" style="font-size:22px;letter-spacing:6px" />
+        <input type="number" id="gPin" placeholder="Choose a 4-digit owner PIN" inputmode="numeric" style="font-size:22px;letter-spacing:6px"/>
       </div>
       <div class="fg">
-        <label>Employee PIN (optional — default 0000)</label>
-        <input type="number" id="gEmpPin" placeholder="0000" inputmode="numeric" style="font-size:22px;letter-spacing:6px" />
+        <label>Employee PIN <span class="opt-lbl">default 0000</span></label>
+        <input type="number" id="gEmpPin" placeholder="0000" inputmode="numeric" style="font-size:22px;letter-spacing:6px"/>
       </div>
       <div class="info-box">
         <strong>How PINs work</strong>
-        Owner PIN → full access (all tabs + Settings). Employee PIN → Submit only. Share the employee PIN with your staff. Change both anytime in Settings.
+        Owner PIN → full access + Settings. Employee PIN → Submit only. After setup, Settings shows an Employee Join Link to send to staff — they just click it and enter the PIN.
       </div>
       <button class="btn btn-teal" onclick="saveGuestSetup()" style="margin-top:4px">Save & Continue →</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     SCREEN: GUEST ROLE (returning user)
-═══════════════════════════════════════════════════════════ -->
-<div id="screen-guest-role">
-  <div class="auth-hdr" style="position:relative">
+<!-- EMPLOYEE JOIN (clicked a join link) -->
+<div id="screen-emp-join">
+  <div class="auth-hdr">
     <a href="#" onclick="showRole();return false" class="hdr-back-lnk">‹</a>
-    <div>
-      <h1 id="gRoleH1">Store Access</h1>
-      <small id="gRoleSub">Select your role</small>
+    <div><h1 id="joinH1">Join Store</h1><small>Employee access</small></div>
+  </div>
+  <div class="auth-wrap">
+    <div class="setup-card">
+      <h3 id="joinStoreName">Joining your store</h3>
+      <p id="joinDesc">Your owner shared this link. Enter the employee PIN to continue.</p>
+      <div class="info-box green">
+        <strong id="joinSyncStatus">Checking sync mode…</strong>
+      </div>
+      <div class="fg">
+        <label>Employee PIN</label>
+        <input type="number" id="joinPin" placeholder="Enter employee PIN" inputmode="numeric" style="font-size:22px;letter-spacing:6px"/>
+      </div>
+      <button class="btn btn-teal" onclick="confirmJoin()">Connect →</button>
     </div>
+  </div>
+</div>
+
+<!-- GUEST ROLE (returning) -->
+<div id="screen-guest-role">
+  <div class="auth-hdr">
+    <a href="#" onclick="showRole();return false" class="hdr-back-lnk">‹</a>
+    <div><h1 id="gRoleH1">Store Access</h1><small id="gRoleSub">Select your role</small></div>
   </div>
   <div class="auth-wrap">
     <div class="slbl">Who are you?</div>
@@ -356,16 +317,11 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     SCREEN: GUEST PIN
-═══════════════════════════════════════════════════════════ -->
+<!-- GUEST PIN -->
 <div id="screen-guest-pin">
-  <div class="auth-hdr" style="position:relative">
+  <div class="auth-hdr">
     <a href="#" onclick="backFromGuestPin();return false" class="hdr-back-lnk">‹</a>
-    <div>
-      <h1 id="guestPinH1">Store Access</h1>
-      <small id="guestPinSub">Enter your PIN</small>
-    </div>
+    <div><h1 id="guestPinH1">Store Access</h1><small id="guestPinSub">Enter your PIN</small></div>
   </div>
   <div class="auth-wrap">
     <div class="pin-wrap">
@@ -389,11 +345,8 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     SCREEN: MAIN APP
-═══════════════════════════════════════════════════════════ -->
+<!-- MAIN APP -->
 <div id="screen-main">
-
   <div class="hdr">
     <a class="hdr-back" id="hdrBack" href="index.html">‹</a>
     <div class="hdr-info">
@@ -401,10 +354,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
       <small id="storeSub">Store 8181 · Joelton TN</small>
     </div>
     <span class="role-pill" id="rolePill" style="display:none"></span>
-    <div class="gw-pill" id="gwPill">
-      <span class="dot y" id="gwDot"></span>
-      <span id="gwTxt">…</span>
-    </div>
+    <div class="gw-pill" id="gwPill"><span class="dot y" id="gwDot"></span><span id="gwTxt">…</span></div>
   </div>
 
   <div class="nav">
@@ -417,61 +367,46 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 
   <div class="content">
 
-    <!-- ── SUBMIT ── -->
+    <!-- SUBMIT -->
     <div id="page-submit" class="page active">
       <div class="card">
         <div class="ctitle">Select Date</div>
         <div class="scroll-hint">← scroll for older dates</div>
         <div class="cal" id="cal"></div>
       </div>
-
       <div class="miss-b" id="missB">
         <div class="t">⚠️ Missing Entries (last 60 days)</div>
         <div class="chips" id="missChips"></div>
       </div>
-
       <div class="update-alert" id="updateAlert">
         <div class="ua-title">⚠️ Date already has entry — submitting will overwrite</div>
         <div id="updateExisting"></div>
       </div>
-
       <div class="card">
         <div class="ctitle" id="formTitle">New Z Report Entry</div>
-
         <div class="ff"><label>Date</label>
-          <input type="date" id="fDate" onchange="onDateChange()" /></div>
-
+          <input type="date" id="fDate" onchange="onDateChange()"/></div>
         <div class="ff"><label>Submitted By</label>
           <select id="fEmp" onchange="onEmpChange()">
-            <option value="Prit">Prit</option>
-            <option value="Jatin">Jatin</option>
-            <option value="Other">Other</option>
+            <option value="Prit">Prit</option><option value="Jatin">Jatin</option><option value="Other">Other</option>
           </select></div>
-
         <div class="ff" id="otherNameWrap" style="display:none"><label>Name</label>
-          <input type="text" id="fOtherName" placeholder="Employee name…" /></div>
-
+          <input type="text" id="fOtherName" placeholder="Employee name…"/></div>
         <div class="row2">
-          <div class="ff"><label>Sales ($)</label>
-            <input type="number" id="fSales" inputmode="decimal" step="0.01" min="0" placeholder="0.00" /></div>
-          <div class="ff"><label>Tax ($)</label>
-            <input type="number" id="fTax" inputmode="decimal" step="0.01" min="0" placeholder="0.00" /></div>
+          <div class="ff"><label>Sales ($)</label><input type="number" id="fSales" inputmode="decimal" step="0.01" min="0" placeholder="0.00"/></div>
+          <div class="ff"><label>Tax ($)</label><input type="number" id="fTax" inputmode="decimal" step="0.01" min="0" placeholder="0.00"/></div>
         </div>
         <div class="row2">
-          <div class="ff"><label>Credit Card ($)</label>
-            <input type="number" id="fCC" inputmode="decimal" step="0.01" min="0" placeholder="0.00" /></div>
-          <div class="ff"><label>Cash ($)</label>
-            <input type="number" id="fCash" inputmode="decimal" step="0.01" min="0" placeholder="0.00" /></div>
+          <div class="ff"><label>Credit Card ($)</label><input type="number" id="fCC" inputmode="decimal" step="0.01" min="0" placeholder="0.00"/></div>
+          <div class="ff"><label>Cash ($)</label><input type="number" id="fCash" inputmode="decimal" step="0.01" min="0" placeholder="0.00"/></div>
         </div>
-
         <div class="ff"><label>Notes (optional)</label>
-          <input type="text" id="fNotes" placeholder="Discrepancies, corrections…" /></div>
-
+          <input type="text" id="fNotes" placeholder="Discrepancies, corrections…"/></div>
         <button class="btn btn-pri" id="subBtn" onclick="submitReport()">Submit Z Report</button>
       </div>
-    </div><!-- /submit -->
+    </div>
 
-    <!-- ── THIS MONTH ── -->
+    <!-- THIS MONTH -->
     <div id="page-dash" class="page">
       <div class="stats">
         <div class="stat s"><div class="lbl">Sales MTD</div><div class="val" id="dSales">—</div><div class="sub" id="dDays">— days</div></div>
@@ -488,14 +423,12 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
       </div>
     </div>
 
-    <!-- ── MONTHLY ── -->
+    <!-- MONTHLY -->
     <div id="page-monthly" class="page">
       <div class="card">
         <div class="row2">
-          <div class="ff" style="margin:0"><label>Month</label>
-            <select id="mMonth" onchange="loadMonthly()"></select></div>
-          <div class="ff" style="margin:0"><label>Year</label>
-            <select id="mYear" onchange="buildMonthSelect()"></select></div>
+          <div class="ff" style="margin:0"><label>Month</label><select id="mMonth" onchange="loadMonthly()"></select></div>
+          <div class="ff" style="margin:0"><label>Year</label><select id="mYear" onchange="buildMonthSelect()"></select></div>
         </div>
       </div>
       <div class="stats">
@@ -507,123 +440,116 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
       <div id="monthList"></div>
     </div>
 
-    <!-- ── YEARLY ── -->
+    <!-- YEARLY -->
     <div id="page-yearly" class="page">
       <div class="stats" id="yearStats"></div>
       <div id="yearList"></div>
     </div>
 
-    <!-- ── SETTINGS ── -->
+    <!-- SETTINGS -->
     <div id="page-settings" class="page">
 
-      <!-- How to Use — always visible -->
+      <!-- How to Use -->
       <div class="card">
         <div class="ctitle">How to Use Z Report</div>
         <div class="help-item">
           <strong>Submitting a Z Report</strong>
-          <p>Tap a date on the calendar — green means done, red means missing. Fill in Sales, Tax, Credit Card, and Cash from your Z tape at closing. Pick the employee and tap Submit.</p>
+          <p>Tap a date on the calendar — green = done, red = missing. Fill in Sales, Tax, CC, Cash from the Z tape at closing. Pick the employee name and tap Submit.</p>
         </div>
         <div class="help-item">
           <strong>Correcting an Entry</strong>
-          <p>Tap a green (already submitted) date. The form pre-fills with existing data and the button changes to "Update." Edit and resubmit to overwrite.</p>
+          <p>Tap any green (already submitted) date. The form pre-fills with existing data. Edit and submit to overwrite.</p>
         </div>
         <div class="help-item">
           <strong>Missing Entries Banner</strong>
-          <p>The red chips below the calendar show dates with no entry in the last 60 days. Tap a chip to jump directly to that date.</p>
+          <p>Red chips below the calendar show dates with no entry in the last 60 days. Tap any chip to jump to that date.</p>
         </div>
-        <div class="help-item">
-          <strong>Employee Access</strong>
-          <p>Employees tap "Other Store," select your store, choose "Employee," and enter the employee PIN. They only see the Submit tab. Share the employee PIN from Settings → Employee PIN.</p>
+        <div class="help-item" id="helpMultiDevice" style="display:none">
+          <strong>Multi-Device Sync (Cloud Mode)</strong>
+          <p>Your store uses Firebase — any device with the employee join link submits to the same shared database. Owner and employees all see the same data in real time. Use the Refresh button to pull latest.</p>
         </div>
-        <div class="help-item" id="helpAdminGateway" style="display:none">
-          <strong>Gateway Status (Admin)</strong>
-          <p>The pill in the top-right shows the Google Sheets sync status. Green = live. Red = offline. If offline, check your internet and try the Sync button on the This Month tab.</p>
-        </div>
-        <div class="help-item" id="helpGuestLocal" style="display:none">
-          <strong>Your Data Is Stored Locally</strong>
-          <p>All Z reports are saved on this device — no internet required after setup. Use the Export buttons in Data Management below to back up your records or move them to another device.</p>
+        <div class="help-item" id="helpLocalOnly" style="display:none">
+          <strong>Local Mode — Single Device Only</strong>
+          <p>No Firebase URL was provided. All data stays on this device. To enable multi-device sync, go to Store Configuration below and add a Firebase URL. See the setup guide for how to get one free in 5 minutes.</p>
         </div>
       </div>
 
-      <!-- Admin-only block -->
+      <!-- Admin block -->
       <div id="admin-settings-block" style="display:none">
         <div class="card">
           <div class="ctitle">Store 8181 Info</div>
           <div class="info-box">
-            <strong>Employee PIN (local app)</strong>
-            The employee PIN for the Node.js app at localhost:3181 is:
-            <strong id="adminEmpPin" style="font-size:20px;letter-spacing:4px;display:inline-block;margin-top:4px">0000</strong>
-            <br><br>Share this with employees accessing the local store app. Change it in the local app's Settings tab.
+            <strong>Local App Employee PIN (localhost:3181)</strong>
+            Current: <strong id="adminEmpPin" style="font-size:18px;letter-spacing:4px;display:inline-block;margin-top:3px">0000</strong><br>
+            Change this in the local app's Settings tab. Share with employees who use the local Node.js app.
           </div>
-          <div class="info-box">
-            <strong>Sheet ID (admin sheet)</strong>
-            <span style="font-size:10px;word-break:break-all;color:#555" id="adminSheetId"></span>
-          </div>
-          <button class="btn btn-sec btn-sm" onclick="recheckGW()" style="margin-top:4px">↻ Re-check Gateway</button>
+          <button class="btn-sec btn-sm" onclick="recheckGW()" style="margin-top:4px">↻ Re-check Gateway</button>
+        </div>
+        <div class="card">
+          <div class="ctitle">Manage Guest Profiles on This Device</div>
+          <div id="guestProfilesList"><div class="empty" style="padding:12px 0">No guest profiles stored on this device</div></div>
         </div>
       </div>
 
-      <!-- Guest-only block -->
+      <!-- Guest owner block -->
       <div id="guest-settings-block" style="display:none">
 
         <div class="card">
+          <div class="ctitle">Employee Access</div>
+          <p style="font-size:12px;color:#666;margin-bottom:10px;line-height:1.5">Send this link to your employees. They click it, enter the employee PIN, and they're connected to your store on their own device.</p>
+          <div class="join-code-box" id="joinCodeBox" style="font-size:9px">Generating…</div>
+          <button class="btn-copy" onclick="copyJoinLink()">📋 Copy Employee Join Link</button>
+          <div style="font-size:10px;color:#888;margin-bottom:4px">
+            Current employee PIN: <strong id="currentEmpPin" style="font-size:14px;letter-spacing:3px">0000</strong>
+          </div>
+        </div>
+
+        <div class="card">
           <div class="ctitle">Store Configuration</div>
-          <div class="fg"><label>Store Name</label>
-            <input type="text" id="sStoreName" /></div>
-          <button class="btn btn-pri btn-sm" onclick="saveStoreName()" style="margin-bottom:4px">Save Store Name</button>
+          <div class="fg"><label>Store Name</label><input type="text" id="sStoreName"/></div>
+          <div class="fg"><label>Firebase Database URL <span class="opt-lbl">for multi-device sync</span></label>
+            <input type="url" id="sFbUrl" placeholder="https://your-project-default-rtdb.firebaseio.com"/></div>
+          <button class="btn btn-pri btn-sm" onclick="saveStoreConfig()" style="margin-bottom:4px">Save Configuration</button>
 
           <hr class="sec">
-          <div class="ctitle" style="margin-top:4px">Owner PIN</div>
+          <div class="ctitle" style="margin-top:4px">Change Owner PIN</div>
           <div class="fg"><label>New Owner PIN (4 digits)</label>
-            <input type="number" id="sNewPin" inputmode="numeric" placeholder="New owner PIN" /></div>
+            <input type="number" id="sNewPin" inputmode="numeric" placeholder="New PIN"/></div>
           <button class="btn btn-sec btn-sm" onclick="changeOwnerPin()" style="margin-bottom:4px">Update Owner PIN</button>
 
           <hr class="sec">
-          <div class="ctitle" style="margin-top:4px">Employee PIN</div>
-          <div style="font-size:11px;color:#666;margin-bottom:10px">
-            Current: <strong id="currentEmpPin" style="font-size:16px;letter-spacing:3px">0000</strong> — share this with your staff.
-          </div>
+          <div class="ctitle" style="margin-top:4px">Change Employee PIN</div>
           <div class="fg"><label>New Employee PIN (4 digits)</label>
-            <input type="number" id="sNewEmpPin" inputmode="numeric" placeholder="New employee PIN" /></div>
+            <input type="number" id="sNewEmpPin" inputmode="numeric" placeholder="New PIN"/></div>
           <button class="btn btn-sec btn-sm" onclick="changeEmpPin()" style="margin-bottom:4px">Update Employee PIN</button>
         </div>
 
         <div class="card">
-          <div class="ctitle">Data Management</div>
-          <div class="data-count">
-            <span>Reports on this device</span>
-            <strong id="dataCount">0</strong>
-          </div>
-          <button class="btn-export" onclick="exportCSV()">📥 Export CSV (spreadsheet)</button>
-          <button class="btn-export" onclick="exportJSON()">💾 Export JSON Backup (full restore)</button>
-          <label class="btn-import" for="importFile">📂 Import JSON Backup</label>
-          <input type="file" id="importFile" accept=".json" onchange="importJSON(this)" />
-          <div style="font-size:10px;color:#888;line-height:1.5;margin-top:4px">
-            CSV is for spreadsheet use. JSON backup lets you restore or move to a new device. Import merges — existing dates are not overwritten.
-          </div>
-
+          <div class="ctitle">Data Backup</div>
+          <button class="btn-export" onclick="exportCSV()">📊 Export CSV</button>
+          <button class="btn-export" onclick="exportJSON()">💾 Export JSON Backup</button>
+          <label class="btn-import" for="importFile">📂 Import JSON Backup (merge)</label>
+          <input type="file" id="importFile" accept=".json" onchange="importJSON(this)"/>
+          <p style="font-size:10px;color:#888;margin-top:4px;line-height:1.5">Export JSON is a full backup you can import on any device. Import merges — existing dates are not overwritten.</p>
           <hr class="sec">
-          <button class="btn btn-danger" onclick="resetGuest()">Remove All Store Data from Device</button>
+          <button class="btn btn-danger" onclick="resetGuest()">Remove Store Data from This Device</button>
         </div>
 
-      </div><!-- /guest-settings-block -->
+      </div>
 
-      <!-- Notes — always visible for both roles -->
+      <!-- Notes (both roles) -->
       <div class="card">
         <div class="ctitle">Notes</div>
         <div class="fg">
-          <label>General Notes</label>
-          <textarea id="notesArea" placeholder="Reminders, discrepancies, instructions for staff…" style="min-height:100px"></textarea>
+          <textarea id="notesArea" placeholder="Reminders, discrepancies, instructions for staff…" style="min-height:90px"></textarea>
         </div>
         <button class="btn btn-pri btn-sm" onclick="saveNotes()" style="margin-top:2px">Save Notes</button>
       </div>
 
     </div><!-- /settings -->
-
   </div><!-- /content -->
 </div><!-- /screen-main -->
 
-<!-- Confirm modal -->
 <div class="overlay" id="confirmOverlay">
   <div class="modal">
     <h3>⚠️ Overwrite Entry?</h3>
@@ -640,736 +566,659 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 
 <script>
 'use strict';
-// ── CONSTANTS ─────────────────────────────────────────────────────────────────
 const ADMIN_PIN  = '1997';
 const ADMIN_SK   = 's8181_admin';
 const GW_URL     = 'https://script.google.com/macros/s/AKfycbwUh6kuKSn4h-YrHdxBjbZHelGDtg0NmTmKXwUZrCW0nB9RUWwmBLcrCIVZIAs0gzQj/exec';
 const GW_KEY     = 'Store8181Prit2026';
 const ADMIN_SID  = '1OiU8cDWGvpJFIV2h89Oq6gWwfqkyso2GDmqzsrhqwxQ';
-const GUEST_CFG_KEY = 'zr_guest_cfg';
+const GUEST_KEY  = 'zr_guest_cfg';
 
-// ── STATE ─────────────────────────────────────────────────────────────────────
-let mode           = 'admin';  // 'admin' | 'guest-owner' | 'guest-employee'
-let allRows        = [];
-let datesMap       = {};
-let selDate        = null;
-let isEditing      = false;
-let pendingPayload = null;
-let refreshTimer   = null;
-let pinBuf = '', gPinBuf = '';
-let guestAuthRole  = 'owner';
+let mode='admin', allRows=[], datesMap={}, selDate=null, isEditing=false;
+let pendingPayload=null, refreshTimer=null;
+let pinBuf='', gPinBuf='', guestAuthRole='owner';
+let joinData=null; // set when opened via join link
 
-// ── DOM ───────────────────────────────────────────────────────────────────────
-const $ = id => document.getElementById(id);
+const $=id=>document.getElementById(id);
 
-// ── SCREEN ROUTING ────────────────────────────────────────────────────────────
-function showScreen(name) {
-  ['role','pin','guest-setup','guest-role','guest-pin','main'].forEach(s => {
-    $('screen-'+s).style.display = (s===name) ? 'block' : 'none';
+// ── SCREEN ───────────────────────────────────────────────────────────────────
+function showScreen(n){
+  ['role','pin','guest-setup','emp-join','guest-role','guest-pin','main'].forEach(s=>{
+    $('screen-'+s).style.display=s===n?'block':'none';
   });
 }
+function showRole(){ pinBuf='';gPinBuf=''; showScreen('role'); }
 
-function showRole() {
-  pinBuf=''; gPinBuf='';
-  showScreen('role');
+// ── ADMIN ────────────────────────────────────────────────────────────────────
+function startAdmin(){
+  if(sessionStorage.getItem(ADMIN_SK)==='ok'){enterAdmin();return;}
+  pinBuf='';renderPinDots();$('pinErr').textContent='';showScreen('pin');
 }
-
-function startAdmin() {
-  if (sessionStorage.getItem(ADMIN_SK)==='ok') { enterAdmin(); return; }
-  pinBuf=''; renderPinDots(); $('pinErr').textContent='';
-  showScreen('pin');
-}
-
-function startGuest() {
-  const cfg = getGuestCfg();
-  if (cfg) {
-    $('gRoleH1').textContent  = cfg.storeName || 'Store Access';
-    $('gRoleSub').textContent = cfg.storeName || 'Select your role';
-    showScreen('guest-role');
-  } else {
-    showScreen('guest-setup');
-  }
-}
-
-function startGuestAsOwner() {
-  const cfg = getGuestCfg(); if (!cfg) return;
-  guestAuthRole = 'owner';
-  $('guestPinH1').textContent  = cfg.storeName || 'Store Access';
-  $('guestPinSub').textContent = 'Enter Owner PIN';
-  $('guestPinName').textContent = cfg.storeName || 'Your Store';
-  $('guestPinRole').textContent = 'Owner · Full access';
-  gPinBuf=''; renderGPinDots(); $('gPinErr').textContent='';
-  showScreen('guest-pin');
-}
-
-function startGuestAsEmployee() {
-  const cfg = getGuestCfg(); if (!cfg) return;
-  guestAuthRole = 'employee';
-  $('guestPinH1').textContent  = cfg.storeName || 'Store Access';
-  $('guestPinSub').textContent = 'Enter Employee PIN';
-  $('guestPinName').textContent = cfg.storeName || 'Your Store';
-  $('guestPinRole').textContent = 'Employee · Submit only';
-  gPinBuf=''; renderGPinDots(); $('gPinErr').textContent='';
-  showScreen('guest-pin');
-}
-
-function backFromGuestPin() {
-  const cfg = getGuestCfg();
-  if (cfg) { showScreen('guest-role'); } else { showRole(); }
-}
-
-// ── ADMIN AUTH ────────────────────────────────────────────────────────────────
-function kp(d) {
-  if (pinBuf.length>=4) return;
-  pinBuf+=d; renderPinDots();
-  if (pinBuf.length===4) checkAdminPin();
-}
-function kpDel() { pinBuf=pinBuf.slice(0,-1); renderPinDots(); $('pinErr').textContent=''; }
-function renderPinDots() { for(let i=0;i<4;i++) $('pd'+i).classList.toggle('on',i<pinBuf.length); }
-
-function checkAdminPin() {
-  if (pinBuf===ADMIN_PIN) {
-    sessionStorage.setItem(ADMIN_SK,'ok');
-    enterAdmin();
-  } else {
-    const d=$('pinDots'); d.classList.add('shake');
-    setTimeout(()=>d.classList.remove('shake'),400);
+function kp(d){if(pinBuf.length>=4)return;pinBuf+=d;renderPinDots();if(pinBuf.length===4)checkAdminPin();}
+function kpDel(){pinBuf=pinBuf.slice(0,-1);renderPinDots();$('pinErr').textContent='';}
+function renderPinDots(){for(let i=0;i<4;i++)$('pd'+i).classList.toggle('on',i<pinBuf.length);}
+function checkAdminPin(){
+  if(pinBuf===ADMIN_PIN){sessionStorage.setItem(ADMIN_SK,'ok');enterAdmin();}
+  else{
+    const d=$('pinDots');d.classList.add('shake');setTimeout(()=>d.classList.remove('shake'),400);
     $('pinErr').textContent='Incorrect PIN';
-    setTimeout(()=>{ pinBuf=''; renderPinDots(); $('pinErr').textContent=''; },900);
+    setTimeout(()=>{pinBuf='';renderPinDots();$('pinErr').textContent='';},900);
   }
 }
-
-function enterAdmin() {
+function enterAdmin(){
   mode='admin';
-  $('storeTitle').textContent='Z Report';
-  $('storeSub').textContent='Store 8181 · Joelton TN';
-  $('hdrBack').href='index.html';
-  $('hdrBack').onclick=null;
-  document.querySelectorAll('.nav-owner').forEach(el => el.style.display='');
-  $('settingsTab').style.display=''; // admin gets settings too
-  $('rolePill').style.display='none';
+  $('storeTitle').textContent='Z Report';$('storeSub').textContent='Store 8181 · Joelton TN';
+  $('hdrBack').href='index.html';$('hdrBack').onclick=null;
+  document.querySelectorAll('.nav-owner').forEach(el=>el.style.display='');
+  $('settingsTab').style.display='';$('rolePill').style.display='none';
   $('gwPill').style.display='';
   $('fEmp').innerHTML='<option value="Prit">Prit</option><option value="Jatin">Jatin</option><option value="Other">Other</option>';
-  showScreen('main');
-  initApp();
+  showScreen('main');initApp();
 }
 
 // ── GUEST AUTH ────────────────────────────────────────────────────────────────
-function gkp(d) {
-  if (gPinBuf.length>=4) return;
-  gPinBuf+=d; renderGPinDots();
-  if (gPinBuf.length===4) checkGuestPin();
+function startGuest(){
+  const cfg=getGuestCfg();
+  if(cfg){
+    $('gRoleH1').textContent=cfg.storeName||'Store Access';
+    $('gRoleSub').textContent=cfg.storeName||'Select your role';
+    showScreen('guest-role');
+  } else { showScreen('guest-setup'); }
 }
-function gkpDel() { gPinBuf=gPinBuf.slice(0,-1); renderGPinDots(); $('gPinErr').textContent=''; }
-function renderGPinDots() { for(let i=0;i<4;i++) $('gd'+i).classList.toggle('on',i<gPinBuf.length); }
-
-function checkGuestPin() {
-  const cfg = getGuestCfg();
-  const expected = guestAuthRole==='employee' ? (cfg.empPin||'0000') : cfg.pin;
-  if (gPinBuf===expected) {
-    enterGuest(cfg, guestAuthRole);
-  } else {
-    const d=$('gPinDots'); d.classList.add('shake');
-    setTimeout(()=>d.classList.remove('shake'),400);
+function startGuestAsOwner(){
+  const cfg=getGuestCfg();if(!cfg)return;
+  guestAuthRole='owner';
+  $('guestPinH1').textContent=cfg.storeName||'Store Access';
+  $('guestPinSub').textContent='Enter Owner PIN';
+  $('guestPinName').textContent=cfg.storeName||'Your Store';
+  $('guestPinRole').textContent='Owner · Full access';
+  gPinBuf='';renderGPinDots();$('gPinErr').textContent='';showScreen('guest-pin');
+}
+function startGuestAsEmployee(){
+  const cfg=getGuestCfg();if(!cfg)return;
+  guestAuthRole='employee';
+  $('guestPinH1').textContent=cfg.storeName||'Store Access';
+  $('guestPinSub').textContent='Enter Employee PIN';
+  $('guestPinName').textContent=cfg.storeName||'Your Store';
+  $('guestPinRole').textContent='Employee · Submit only';
+  gPinBuf='';renderGPinDots();$('gPinErr').textContent='';showScreen('guest-pin');
+}
+function backFromGuestPin(){
+  const cfg=getGuestCfg();
+  if(cfg){showScreen('guest-role');}else{showRole();}
+}
+function gkp(d){if(gPinBuf.length>=4)return;gPinBuf+=d;renderGPinDots();if(gPinBuf.length===4)checkGuestPin();}
+function gkpDel(){gPinBuf=gPinBuf.slice(0,-1);renderGPinDots();$('gPinErr').textContent='';}
+function renderGPinDots(){for(let i=0;i<4;i++)$('gd'+i).classList.toggle('on',i<gPinBuf.length);}
+function checkGuestPin(){
+  const cfg=getGuestCfg();
+  const exp=guestAuthRole==='employee'?(cfg.empPin||'0000'):cfg.pin;
+  if(gPinBuf===exp){enterGuest(cfg,guestAuthRole);}
+  else{
+    const d=$('gPinDots');d.classList.add('shake');setTimeout(()=>d.classList.remove('shake'),400);
     $('gPinErr').textContent='Incorrect PIN';
-    setTimeout(()=>{ gPinBuf=''; renderGPinDots(); $('gPinErr').textContent=''; },900);
+    setTimeout(()=>{gPinBuf='';renderGPinDots();$('gPinErr').textContent='';},900);
   }
 }
 
-function enterGuest(cfg, role) {
-  role = role||'owner';
-  mode = role==='employee' ? 'guest-employee' : 'guest-owner';
-  $('storeTitle').textContent = cfg.storeName||'Z Report';
-  $('storeSub').textContent = role==='employee' ? 'Employee Access · Local' : 'Owner Access · Local';
-  $('hdrBack').href='#';
-  $('hdrBack').onclick = e => { e.preventDefault(); showRole(); };
-
-  $('rolePill').textContent = role==='employee' ? 'Employee' : 'Owner';
-  $('rolePill').style.display='';
-
-  // Guest uses local storage — show "Local" in pill, no gateway calls
-  $('gwDot').className='dot g';
-  $('gwTxt').textContent='Local';
+function enterGuest(cfg,role){
+  role=role||'owner';
+  mode=role==='employee'?'guest-employee':'guest-owner';
+  $('storeTitle').textContent=cfg.storeName||'Z Report';
+  $('storeSub').textContent=cfg.fbUrl?'Cloud sync · '+role:'Local · '+role;
+  $('hdrBack').href='#';$('hdrBack').onclick=e=>{e.preventDefault();showRole();};
+  $('rolePill').textContent=role==='employee'?'Employee':'Owner';$('rolePill').style.display='';
+  $('gwDot').className=cfg.fbUrl?'dot y':'dot g';
+  $('gwTxt').textContent=cfg.fbUrl?'…':'Local';
   $('gwPill').style.display='';
-
-  if (role==='employee') {
-    document.querySelectorAll('.nav-owner').forEach(el => el.style.display='none');
+  if(role==='employee'){
+    document.querySelectorAll('.nav-owner').forEach(el=>el.style.display='none');
   } else {
-    document.querySelectorAll('.nav-owner').forEach(el => el.style.display='');
+    document.querySelectorAll('.nav-owner').forEach(el=>el.style.display='');
     $('settingsTab').style.display='';
   }
-
   $('fEmp').innerHTML='<option value="Me">Me</option><option value="Other">Other</option>';
-  showScreen('main');
-  initApp();
+  showScreen('main');initApp();
 }
 
-// ── GUEST CONFIG ──────────────────────────────────────────────────────────────
-function getGuestCfg() {
-  try { return JSON.parse(localStorage.getItem(GUEST_CFG_KEY)); } catch(e) { return null; }
+// ── GUEST SETUP ───────────────────────────────────────────────────────────────
+function getGuestCfg(){try{return JSON.parse(localStorage.getItem(GUEST_KEY));}catch(e){return null;}}
+
+function saveGuestSetup(){
+  const name=$('gStoreName').value.trim();
+  const fbUrl=$('gFbUrl').value.trim().replace(/\/+$/,'');
+  const pin=String($('gPin').value||'').trim();
+  const empPin=String($('gEmpPin').value||'').trim()||'0000';
+  if(!name){toast('Enter a store name','err');return;}
+  if(!/^\d{4}$/.test(pin)){toast('Owner PIN must be exactly 4 digits','err');return;}
+  if(!/^\d{4}$/.test(empPin)){toast('Employee PIN must be 4 digits','err');return;}
+  const cfg={storeName:name,fbUrl,pin,empPin};
+  localStorage.setItem(GUEST_KEY,JSON.stringify(cfg));
+  enterGuest(cfg,'owner');
 }
 
-function saveGuestSetup() {
-  const name   = $('gStoreName').value.trim();
-  const pin    = String($('gPin').value||'').trim();
-  const empPin = String($('gEmpPin').value||'').trim()||'0000';
-  if (!name) { toast('Enter a store name','err'); return; }
-  if (!/^\d{4}$/.test(pin)) { toast('Owner PIN must be exactly 4 digits','err'); return; }
-  if (!/^\d{4}$/.test(empPin)) { toast('Employee PIN must be 4 digits or leave blank','err'); return; }
-  const cfg = {storeName:name, pin, empPin};
-  localStorage.setItem(GUEST_CFG_KEY, JSON.stringify(cfg));
-  enterGuest(cfg, 'owner');
+// ── JOIN LINK ─────────────────────────────────────────────────────────────────
+function buildJoinLink(){
+  const cfg=getGuestCfg();if(!cfg)return '';
+  const data={storeName:cfg.storeName,fbUrl:cfg.fbUrl||''};
+  const encoded=btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+  return location.href.split('?')[0]+'?join='+encoded;
 }
 
-// ── GUEST LOCAL STORAGE DATA ──────────────────────────────────────────────────
-function storeKey() {
-  const cfg = getGuestCfg();
-  if (!cfg||!cfg.storeName) return 'default';
+function checkJoinParam(){
+  const p=new URLSearchParams(location.search).get('join');
+  if(!p)return false;
+  try{
+    joinData=JSON.parse(decodeURIComponent(escape(atob(p))));
+    $('joinH1').textContent=joinData.storeName||'Join Store';
+    $('joinStoreName').textContent='Joining: '+joinData.storeName;
+    $('joinDesc').textContent='Your owner shared this link. Enter the employee PIN to connect.';
+    $('joinSyncStatus').textContent=joinData.fbUrl
+      ? '✓ Cloud sync enabled — all devices share the same data'
+      : 'Local mode — data stays on this device';
+    $('joinSyncStatus').parentElement.className='info-box '+(joinData.fbUrl?'teal':'green');
+    showScreen('emp-join');
+    return true;
+  }catch(e){return false;}
+}
+
+function confirmJoin(){
+  const pin=String($('joinPin').value||'').trim();
+  if(!pin){toast('Enter employee PIN','err');return;}
+  const cfg={
+    storeName:joinData.storeName,
+    fbUrl:joinData.fbUrl||'',
+    pin:'',  // employee doesn't know owner PIN
+    empPin:pin
+  };
+  // Check against existing cfg if on same device
+  const existing=getGuestCfg();
+  if(existing&&existing.storeName===joinData.storeName){
+    if(existing.empPin!==pin&&existing.pin!==pin){
+      toast('Incorrect employee PIN','err');return;
+    }
+    enterGuest(existing,'employee');
+  } else {
+    // New device — save cfg with empty owner PIN
+    localStorage.setItem(GUEST_KEY,JSON.stringify(cfg));
+    enterGuest(cfg,'employee');
+  }
+}
+
+// ── FIREBASE DATA ─────────────────────────────────────────────────────────────
+function fbDateKey(date){return date.replace(/-/g,'_');}
+function fbDateFromKey(key){return key.replace(/_/g,'-');}
+
+async function fbLoad(){
+  const cfg=getGuestCfg();if(!cfg||!cfg.fbUrl)return;
+  const res=await fetch(cfg.fbUrl+'/reports.json');
+  if(!res.ok)throw new Error('Firebase read failed ('+res.status+')');
+  const data=await res.json();
+  allRows=[];datesMap={};
+  if(data){
+    Object.entries(data).forEach(([k,r])=>{
+      const date=fbDateFromKey(k);
+      if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return;
+      const row={date,sales:+r.sales||0,tax:+r.tax||0,cc:+r.cc||0,cash:+r.cash||0,by:r.by||'',notes:r.notes||''};
+      allRows.push(row);datesMap[date]=row;
+    });
+  }
+  allRows.sort((a,b)=>b.date.localeCompare(a.date));
+  // Cache locally
+  localStorage.setItem('zr_cache_'+storeKey(),JSON.stringify(allRows));
+}
+
+async function fbSave(date,payload,isUpdate){
+  const cfg=getGuestCfg();if(!cfg||!cfg.fbUrl)throw new Error('No Firebase URL');
+  const url=cfg.fbUrl+'/reports/'+fbDateKey(date)+'.json';
+  const res=await fetch(url,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+  if(!res.ok)throw new Error('Firebase write failed ('+res.status+')');
+}
+
+async function fbDeleteStore(){
+  const cfg=getGuestCfg();if(!cfg||!cfg.fbUrl)return;
+  await fetch(cfg.fbUrl+'/reports.json',{method:'DELETE'});
+}
+
+// ── LOCAL DATA ────────────────────────────────────────────────────────────────
+function storeKey(){
+  const cfg=getGuestCfg();if(!cfg||!cfg.storeName)return 'default';
   return cfg.storeName.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
 }
+function getLocalReports(){try{return JSON.parse(localStorage.getItem('zr_data_'+storeKey())||'[]');}catch(e){return[];}}
+function saveLocalReports(arr){localStorage.setItem('zr_data_'+storeKey(),JSON.stringify(arr));}
 
-function getLocalReports() {
-  try { return JSON.parse(localStorage.getItem('zr_data_'+storeKey())||'[]'); } catch(e) { return []; }
-}
-
-function saveLocalReports(arr) {
-  localStorage.setItem('zr_data_'+storeKey(), JSON.stringify(arr));
-}
-
-function loadLocalData() {
-  const reports = getLocalReports();
-  allRows=[]; datesMap={};
-  reports.forEach(r => {
-    if (!r.date||!/^\d{4}-\d{2}-\d{2}$/.test(r.date)) return;
-    if (datesMap[r.date]) return;
-    const row = {date:r.date, sales:+r.sales||0, tax:+r.tax||0, cc:+r.cc||0, cash:+r.cash||0, by:r.by||'', notes:r.notes||''};
-    allRows.push(row);
-    datesMap[r.date]=row;
+function loadLocalData(){
+  // Use local data (or cached Firebase data)
+  const cache=localStorage.getItem('zr_cache_'+storeKey());
+  const src=cache?JSON.parse(cache):getLocalReports();
+  allRows=[];datesMap={};
+  src.forEach(r=>{
+    if(!r.date||!/^\d{4}-\d{2}-\d{2}$/.test(r.date))return;
+    if(datesMap[r.date])return;
+    const row={date:r.date,sales:+r.sales||0,tax:+r.tax||0,cc:+r.cc||0,cash:+r.cash||0,by:r.by||'',notes:r.notes||''};
+    allRows.push(row);datesMap[r.date]=row;
   });
   allRows.sort((a,b)=>b.date.localeCompare(a.date));
 }
 
 // ── EXPORT / IMPORT ───────────────────────────────────────────────────────────
-function exportCSV() {
-  const reports = getLocalReports();
-  if (!reports.length) { toast('No reports to export','warn'); return; }
-  const header = ['Date','Sales','Tax','CC','Cash','Submitted By','Notes'];
-  const rows = [...reports].sort((a,b)=>a.date.localeCompare(b.date))
-    .map(r => [r.date, (+r.sales||0).toFixed(2), (+r.tax||0).toFixed(2), (+r.cc||0).toFixed(2), (+r.cash||0).toFixed(2), r.by||'', r.notes||'']);
-  const csv = [header,...rows].map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
-  const cfg = getGuestCfg();
-  dlFile(`zreport_${(cfg&&cfg.storeName||'store').replace(/\s+/g,'_')}_${todayLocal()}.csv`, csv, 'text/csv;charset=utf-8;');
+function exportCSV(){
+  const rows=[...allRows].sort((a,b)=>a.date.localeCompare(b.date));
+  if(!rows.length){toast('No data to export','warn');return;}
+  const hdr=['Date','Sales','Tax','CC','Cash','By','Notes'];
+  const csv=[hdr,...rows.map(r=>[r.date,(+r.sales||0).toFixed(2),(+r.tax||0).toFixed(2),(+r.cc||0).toFixed(2),(+r.cash||0).toFixed(2),r.by||'',r.notes||''])].map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
+  dlFile('zreport_'+(getGuestCfg()?.storeName||'store').replace(/\s+/g,'_')+'_'+todayLocal()+'.csv',csv,'text/csv');
   toast('CSV exported','ok');
 }
-
-function exportJSON() {
-  const reports = getLocalReports();
-  const cfg = getGuestCfg()||{};
-  const data = {storeName:cfg.storeName||'', exported:new Date().toISOString(), version:1, reports};
-  dlFile(`zreport_backup_${(cfg.storeName||'store').replace(/\s+/g,'_')}.json`, JSON.stringify(data,null,2), 'application/json');
+function exportJSON(){
+  const cfg=getGuestCfg()||{};
+  dlFile('zreport_backup_'+(cfg.storeName||'store').replace(/\s+/g,'_')+'.json',JSON.stringify({storeName:cfg.storeName,exported:new Date().toISOString(),version:1,reports:allRows},null,2),'application/json');
   toast('Backup exported','ok');
 }
-
-function dlFile(name, content, type) {
-  const a = document.createElement('a');
-  const url = URL.createObjectURL(new Blob([content],{type}));
-  a.href=url; a.download=name;
-  document.body.appendChild(a); a.click();
-  document.body.removeChild(a);
-  setTimeout(()=>URL.revokeObjectURL(url), 5000);
+function dlFile(name,content,type){
+  const a=document.createElement('a'),url=URL.createObjectURL(new Blob([content],{type}));
+  a.href=url;a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url),5000);
 }
-
-function importJSON(input) {
-  const file = input.files[0]; if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      const data = JSON.parse(e.target.result);
-      if (!Array.isArray(data.reports)) throw new Error('Invalid backup format');
-      if (!confirm(`Import ${data.reports.length} reports from "${data.storeName||'backup'}"?\n\nExisting entries for the same dates will NOT be overwritten.`)) return;
-      const existing = getLocalReports();
-      const existDates = new Set(existing.map(r=>r.date));
-      let added = 0;
-      data.reports.forEach(r => { if (r.date&&!existDates.has(r.date)) { existing.push(r); added++; } });
-      saveLocalReports(existing);
-      loadLocalData(); renderCal(); renderMissBanner();
-      $('dataCount').textContent = getLocalReports().length;
-      toast(`Imported ${added} new entr${added===1?'y':'ies'}`,'ok');
-    } catch(err) { toast('Import failed: '+err.message,'err'); }
+function importJSON(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=async e=>{
+    try{
+      const data=JSON.parse(e.target.result);
+      if(!Array.isArray(data.reports))throw new Error('Invalid backup format');
+      if(!confirm('Import '+data.reports.length+' reports from "'+data.storeName+'"?\nExisting dates will not be overwritten.'))return;
+      const existDates=new Set(allRows.map(r=>r.date));let added=0;
+      const cfg=getGuestCfg();
+      for(const r of data.reports){
+        if(!r.date||existDates.has(r.date))continue;
+        added++;
+        if(cfg&&cfg.fbUrl){await fbSave(r.date,r,false);}
+        else{const reports=getLocalReports();reports.push(r);saveLocalReports(reports);}
+      }
+      await refreshData();
+      toast('Imported '+added+' entr'+(added===1?'y':'ies'),'ok');
+    }catch(err){toast('Import failed: '+err.message,'err');}
     input.value='';
   };
   reader.readAsText(file);
 }
 
 // ── NOTES ─────────────────────────────────────────────────────────────────────
-function notesKey() {
-  return mode==='admin' ? 'zr_admin_notes' : 'zr_notes_'+storeKey();
-}
-
-function saveNotes() {
-  localStorage.setItem(notesKey(), $('notesArea').value);
-  toast('Notes saved','ok');
-}
+function notesKey(){return mode==='admin'?'zr_admin_notes':'zr_notes_'+storeKey();}
+function saveNotes(){localStorage.setItem(notesKey(),$('notesArea').value);toast('Notes saved','ok');}
 
 // ── SETTINGS PAGE ─────────────────────────────────────────────────────────────
-function loadSettingsPage() {
-  const isAdmin = mode==='admin';
-  $('admin-settings-block').style.display = isAdmin ? '' : 'none';
-  $('guest-settings-block').style.display = isAdmin ? 'none' : '';
-  $('helpAdminGateway').style.display = isAdmin ? '' : 'none';
-  $('helpGuestLocal').style.display   = isAdmin ? 'none' : '';
+function loadSettingsPage(){
+  const isAdmin=mode==='admin';
+  $('admin-settings-block').style.display=isAdmin?'':'none';
+  $('guest-settings-block').style.display=isAdmin?'none':'';
 
-  if (isAdmin) {
-    const empPin = localStorage.getItem('s8181_emp_pin')||'0000';
-    $('adminEmpPin').textContent = empPin;
-    $('adminSheetId').textContent = ADMIN_SID;
+  if(isAdmin){
+    $('adminEmpPin').textContent=localStorage.getItem('s8181_emp_pin')||'0000';
+    renderGuestProfiles();
+    $('helpMultiDevice').style.display='none';$('helpLocalOnly').style.display='none';
   } else {
-    const cfg = getGuestCfg()||{};
-    $('sStoreName').value = cfg.storeName||'';
-    $('sNewPin').value = '';
-    $('sNewEmpPin').value = '';
-    $('currentEmpPin').textContent = cfg.empPin||'0000';
-    $('dataCount').textContent = getLocalReports().length;
+    const cfg=getGuestCfg()||{};
+    $('sStoreName').value=cfg.storeName||'';
+    $('sFbUrl').value=cfg.fbUrl||'';
+    $('currentEmpPin').textContent=cfg.empPin||'0000';
+    $('helpMultiDevice').style.display=cfg.fbUrl?'':'none';
+    $('helpLocalOnly').style.display=cfg.fbUrl?'none':'';
+    const link=buildJoinLink();
+    $('joinCodeBox').textContent=link;
   }
-
-  $('notesArea').value = localStorage.getItem(notesKey())||'';
+  $('notesArea').value=localStorage.getItem(notesKey())||'';
 }
 
-function saveStoreName() {
-  const n = $('sStoreName').value.trim();
-  if (!n) { toast('Enter a store name','err'); return; }
-  const cfg = getGuestCfg()||{};
-  cfg.storeName = n;
-  localStorage.setItem(GUEST_CFG_KEY, JSON.stringify(cfg));
-  $('storeTitle').textContent = n;
-  toast('Store name saved','ok');
+function renderGuestProfiles(){
+  const profiles=[];
+  for(let i=0;i<localStorage.length;i++){
+    const key=localStorage.key(i);
+    if(!key.startsWith('zr_data_')&&!key.startsWith('zr_cache_'))continue;
+    if(key.startsWith('zr_cache_'))continue;
+    const slug=key.replace('zr_data_','');
+    const count=JSON.parse(localStorage.getItem(key)||'[]').length;
+    profiles.push({slug,count,dataKey:key});
+  }
+  // Also check if there's a guest cfg
+  const cfg=getGuestCfg();
+  if(cfg){const slug=storeKey();if(!profiles.find(p=>p.slug===slug))profiles.push({slug,count:0,dataKey:'zr_data_'+slug});}
+  $('guestProfilesList').innerHTML=profiles.length
+    ?profiles.map(p=>`<div class="profile-row">
+        <div><div class="pname">${p.slug.replace(/_/g,' ')}</div><div class="pinfo">${p.count} reports on this device</div></div>
+        <span class="pdel" onclick="adminDeleteProfile('${p.dataKey}','${p.slug}')">Delete</span>
+      </div>`).join('')
+    :'<div class="empty" style="padding:12px 0">No guest profiles on this device</div>';
 }
 
-function changeOwnerPin() {
-  const p = String($('sNewPin').value||'').trim();
-  if (!/^\d{4}$/.test(p)) { toast('PIN must be 4 digits','err'); return; }
-  const cfg = getGuestCfg()||{};
-  cfg.pin = p;
-  localStorage.setItem(GUEST_CFG_KEY, JSON.stringify(cfg));
-  $('sNewPin').value='';
-  toast('Owner PIN updated','ok');
+function adminDeleteProfile(dataKey,slug){
+  if(!confirm('Delete all local data for "'+slug.replace(/_/g,' ')+'"?'))return;
+  localStorage.removeItem(dataKey);
+  localStorage.removeItem('zr_cache_'+slug);
+  localStorage.removeItem('zr_notes_'+slug);
+  const cfg=getGuestCfg();
+  if(cfg&&storeKey()===slug)localStorage.removeItem(GUEST_KEY);
+  renderGuestProfiles();
+  toast('Profile deleted','ok');
 }
 
-function changeEmpPin() {
-  const p = String($('sNewEmpPin').value||'').trim();
-  if (!/^\d{4}$/.test(p)) { toast('Employee PIN must be 4 digits','err'); return; }
-  const cfg = getGuestCfg()||{};
-  cfg.empPin = p;
-  localStorage.setItem(GUEST_CFG_KEY, JSON.stringify(cfg));
-  $('sNewEmpPin').value='';
-  $('currentEmpPin').textContent = p;
-  toast('Employee PIN updated · Share: '+p,'ok',5000);
+function copyJoinLink(){
+  const link=buildJoinLink();
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(link).then(()=>toast('Join link copied!','ok')).catch(()=>fallbackCopy(link));
+  } else {fallbackCopy(link);}
+}
+function fallbackCopy(text){
+  const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+  toast('Join link copied!','ok');
 }
 
-function resetGuest() {
-  if (!confirm('This will permanently remove all store config and Z report data from this device.\n\nExport a backup first if you want to keep your records.')) return;
-  const key = 'zr_data_'+storeKey();
-  localStorage.removeItem(GUEST_CFG_KEY);
-  localStorage.removeItem(key);
+function saveStoreConfig(){
+  const n=$('sStoreName').value.trim();
+  const fb=$('sFbUrl').value.trim().replace(/\/+$/,'');
+  if(!n){toast('Enter a store name','err');return;}
+  const cfg=getGuestCfg()||{};
+  cfg.storeName=n;cfg.fbUrl=fb;
+  localStorage.setItem(GUEST_KEY,JSON.stringify(cfg));
+  $('storeTitle').textContent=n;
+  $('storeSub').textContent=fb?'Cloud sync · owner':'Local · owner';
+  $('gwDot').className=fb?'dot y':'dot g';$('gwTxt').textContent=fb?'…':'Local';
+  if(fb){initApp();}else{toast('Config saved','ok');}
+}
+function changeOwnerPin(){
+  const p=String($('sNewPin').value||'').trim();
+  if(!/^\d{4}$/.test(p)){toast('PIN must be 4 digits','err');return;}
+  const cfg=getGuestCfg()||{};cfg.pin=p;
+  localStorage.setItem(GUEST_KEY,JSON.stringify(cfg));$('sNewPin').value='';toast('Owner PIN updated','ok');
+}
+function changeEmpPin(){
+  const p=String($('sNewEmpPin').value||'').trim();
+  if(!/^\d{4}$/.test(p)){toast('Employee PIN must be 4 digits','err');return;}
+  const cfg=getGuestCfg()||{};cfg.empPin=p;
+  localStorage.setItem(GUEST_KEY,JSON.stringify(cfg));
+  $('sNewEmpPin').value='';$('currentEmpPin').textContent=p;
+  toast('Employee PIN updated · New join link generated','ok',5000);
+  loadSettingsPage();
+}
+function resetGuest(){
+  if(!confirm('Remove all store config and local data from this device?'))return;
+  const sk=storeKey();
+  localStorage.removeItem(GUEST_KEY);localStorage.removeItem('zr_data_'+sk);
+  localStorage.removeItem('zr_cache_'+sk);localStorage.removeItem('zr_notes_'+sk);
   showRole();
 }
 
-// ── GATEWAY (admin only) ──────────────────────────────────────────────────────
-async function gw(action, params={}, timeout=15000) {
-  const ctrl = new AbortController();
-  const tid  = setTimeout(()=>ctrl.abort(), timeout);
-  try {
-    const res  = await fetch(GW_URL, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({key:GW_KEY,action,params}), signal:ctrl.signal});
-    clearTimeout(tid);
-    if (!res.ok) throw new Error(`Gateway HTTP ${res.status}`);
-    const data = await res.json();
-    if (data.error) throw new Error(data.error);
-    return data;
-  } catch(e) {
-    clearTimeout(tid);
-    if (e.name==='AbortError') throw new Error('Gateway timed out');
-    throw e;
-  }
+// ── GATEWAY (admin) ───────────────────────────────────────────────────────────
+async function gw(action,params={},timeout=15000){
+  const ctrl=new AbortController(),tid=setTimeout(()=>ctrl.abort(),timeout);
+  try{
+    const res=await fetch(GW_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({key:GW_KEY,action,params}),signal:ctrl.signal});
+    clearTimeout(tid);if(!res.ok)throw new Error('Gateway HTTP '+res.status);
+    const data=await res.json();if(data.error)throw new Error(data.error);return data;
+  }catch(e){clearTimeout(tid);if(e.name==='AbortError')throw new Error('Gateway timed out');throw e;}
 }
-
-async function checkGW() {
-  try {
-    await gw('ping',{},8000);
-    $('gwDot').className='dot g'; $('gwTxt').textContent='Live'; return true;
-  } catch(e) {
-    $('gwDot').className='dot r'; $('gwTxt').textContent='Offline'; return false;
-  }
+async function checkGW(){
+  try{await gw('ping',{},8000);$('gwDot').className='dot g';$('gwTxt').textContent='Live';return true;}
+  catch(e){$('gwDot').className='dot r';$('gwTxt').textContent='Offline';return false;}
 }
-
-async function recheckGW() {
-  $('gwDot').className='dot y'; $('gwTxt').textContent='…';
-  const ok = await checkGW();
-  toast(ok ? 'Gateway live' : 'Gateway offline', ok ? 'ok' : 'err');
-}
-
-async function loadSheetData() {
-  const d = await gw('sheets.read',{spreadsheetId:ADMIN_SID,range:'Raw Log!A2:G5000'});
-  const raw = d.values||[];
-  allRows=[]; datesMap={};
-  raw.forEach((r,i) => {
-    const date=(r[0]||'').trim();
-    if (!date||!/^\d{4}-\d{2}-\d{2}$/.test(date)) return;
-    if (datesMap[date]) return;
+async function recheckGW(){$('gwDot').className='dot y';$('gwTxt').textContent='…';const ok=await checkGW();toast(ok?'Gateway live':'Gateway offline',ok?'ok':'err');}
+async function loadSheetData(){
+  const d=await gw('sheets.read',{spreadsheetId:ADMIN_SID,range:'Raw Log!A2:G5000'});
+  const raw=d.values||[];allRows=[];datesMap={};
+  raw.forEach((r,i)=>{
+    const date=(r[0]||'').trim();if(!date||!/^\d{4}-\d{2}-\d{2}$/.test(date))return;if(datesMap[date])return;
     const row={rowNum:i+2,date,sales:parseFloat(r[1])||0,tax:parseFloat(r[2])||0,cc:parseFloat(r[3])||0,cash:parseFloat(r[4])||0,by:r[5]||'',notes:r[6]||''};
-    allRows.push(row); datesMap[date]=row;
+    allRows.push(row);datesMap[date]=row;
   });
   allRows.sort((a,b)=>b.date.localeCompare(a.date));
 }
 
 // ── INIT APP ──────────────────────────────────────────────────────────────────
-async function initApp() {
+async function initApp(){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  $('page-submit').classList.add('active');
-  document.querySelector('[data-page="submit"]').classList.add('active');
-  allRows=[]; datesMap={}; selDate=null; isEditing=false;
-  if (refreshTimer) clearInterval(refreshTimer);
+  $('page-submit').classList.add('active');document.querySelector('[data-page="submit"]').classList.add('active');
+  allRows=[];datesMap={};selDate=null;isEditing=false;
+  if(refreshTimer)clearInterval(refreshTimer);
+  const today=todayLocal();$('fDate').value=today;selDate=today;
 
-  const today=todayLocal();
-  $('fDate').value=today; selDate=today;
-
-  if (mode!=='admin') {
-    // Guest: load from localStorage — instant, no network
-    loadLocalData();
-    renderCal(); renderMissBanner(); checkDateForExisting(today);
+  if(mode!=='admin'){
+    const cfg=getGuestCfg();
+    if(cfg&&cfg.fbUrl){
+      showLoader('Syncing with cloud…');
+      try{
+        await fbLoad();
+        $('gwDot').className='dot g';$('gwTxt').textContent='Cloud';
+        hideLoader();
+      }catch(e){
+        hideLoader();$('gwDot').className='dot r';$('gwTxt').textContent='Error';
+        loadLocalData(); // fallback to cache
+        toast('Cloud error — showing cached data. Check Firebase URL in Settings.','warn',6000);
+      }
+    } else {
+      loadLocalData();
+    }
+    renderCal();renderMissBanner();checkDateForExisting(today);
+    if(cfg&&cfg.fbUrl){
+      refreshTimer=setInterval(async()=>{if(!isEditing)try{await fbLoad();renderCal();renderMissBanner();}catch(e){}},3*60*1000);
+    }
     return;
   }
 
-  // Admin: gateway
-  showLoader('Connecting to Gateway…');
-  $('lmsg').textContent='Checking gateway…';
-  const gwOk = await checkGW();
-  if (!gwOk) { hideLoader(); toast('Gateway offline — check connection','err',6000); renderCal(); return; }
-  $('lmsg').textContent='Loading entries from Sheet…';
-  try { await loadSheetData(); }
-  catch(e) { hideLoader(); toast('Could not load Sheet: '+e.message,'err',6000); renderCal(); return; }
-  hideLoader();
-  renderCal(); renderMissBanner(); checkDateForExisting(today);
-  refreshTimer=setInterval(async()=>{
-    if (!isEditing) try { await loadSheetData(); await checkGW(); renderCal(); renderMissBanner(); } catch(e) {}
-  }, 3*60*1000);
+  // Admin: GAS gateway
+  showLoader('Connecting to Gateway…');$('lmsg').textContent='Checking gateway…';
+  const gwOk=await checkGW();
+  if(!gwOk){hideLoader();toast('Gateway offline','err',6000);renderCal();return;}
+  $('lmsg').textContent='Loading Sheet…';
+  try{await loadSheetData();}catch(e){hideLoader();toast('Sheet load failed: '+e.message,'err',6000);renderCal();return;}
+  hideLoader();renderCal();renderMissBanner();checkDateForExisting(today);
+  refreshTimer=setInterval(async()=>{if(!isEditing)try{await loadSheetData();await checkGW();renderCal();renderMissBanner();}catch(e){}},3*60*1000);
 }
 
-// ── REFRESH ───────────────────────────────────────────────────────────────────
-async function refresh() {
-  if (isEditing) return;
-  if (mode!=='admin') {
-    loadLocalData();
-    renderCal(); renderMissBanner();
-    const active=document.querySelector('.page.active');
-    if (active?.id==='page-dash')    loadDash();
-    if (active?.id==='page-monthly') loadMonthly();
-    if (active?.id==='page-yearly')  loadYearly();
-    toast('Refreshed','info',1500);
-    return;
+async function refreshData(){
+  if(mode!=='admin'){
+    const cfg=getGuestCfg();
+    if(cfg&&cfg.fbUrl){try{await fbLoad();}catch(e){loadLocalData();}}else{loadLocalData();}
+  } else {
+    try{await loadSheetData();}catch(e){}
   }
-  try {
-    $('gwDot').className='dot y';
-    await loadSheetData(); await checkGW();
-    renderCal(); renderMissBanner();
-    const active=document.querySelector('.page.active');
-    if (active?.id==='page-dash')    loadDash();
-    if (active?.id==='page-monthly') loadMonthly();
-    if (active?.id==='page-yearly')  loadYearly();
-    toast('Synced','info',2000);
-  } catch(e) { toast('Sync failed: '+e.message,'err'); }
+}
+
+async function refresh(){
+  if(isEditing)return;
+  try{
+    if(mode!=='admin'){const cfg=getGuestCfg();if(cfg&&cfg.fbUrl){$('gwDot').className='dot y';await fbLoad();$('gwDot').className='dot g';$('gwTxt').textContent='Cloud';}else{loadLocalData();}}
+    else{$('gwDot').className='dot y';await loadSheetData();await checkGW();}
+    renderCal();renderMissBanner();
+    const ac=document.querySelector('.page.active');
+    if(ac?.id==='page-dash')loadDash();if(ac?.id==='page-monthly')loadMonthly();if(ac?.id==='page-yearly')loadYearly();
+    toast('Refreshed','info',2000);
+  }catch(e){toast('Refresh failed: '+e.message,'err');}
 }
 
 // ── SUBMIT ────────────────────────────────────────────────────────────────────
-async function submitReport() {
-  const date=$('fDate').value, by=getSubmitter();
-  const salesV=$('fSales').value.trim(), taxV=$('fTax').value.trim();
-  const ccV=$('fCC').value.trim(), cashV=$('fCash').value.trim();
+async function submitReport(){
+  const date=$('fDate').value,by=getSubmitter();
+  const salesV=$('fSales').value.trim(),taxV=$('fTax').value.trim(),ccV=$('fCC').value.trim(),cashV=$('fCash').value.trim();
   const notes=$('fNotes').value.trim();
-  if (!date)  { toast('Select a date','err'); return; }
-  if (!by)    { toast('Select submitter','err'); return; }
-  if ($('fEmp').value==='Other'&&!$('fOtherName').value.trim()) { toast('Enter employee name','err'); return; }
-  if (!salesV||!taxV||!ccV||!cashV) { toast('All 4 amounts required','err'); return; }
-  const sales=+salesV, tax=+taxV, cc=+ccV, cash=+cashV;
-  if ([sales,tax,cc,cash].some(v=>isNaN(v)||v<0)) { toast('Invalid amount','err'); return; }
+  if(!date){toast('Select a date','err');return;}
+  if(!by){toast('Select submitter','err');return;}
+  if($('fEmp').value==='Other'&&!$('fOtherName').value.trim()){toast('Enter employee name','err');return;}
+  if(!salesV||!taxV||!ccV||!cashV){toast('All 4 amounts required','err');return;}
+  const sales=+salesV,tax=+taxV,cc=+ccV,cash=+cashV;
+  if([sales,tax,cc,cash].some(v=>isNaN(v)||v<0)){toast('Invalid amount','err');return;}
   const payload={date,sales,tax,cc,cash,by,notes};
-  if (datesMap[date]) { pendingPayload=payload; showConfirm(date); return; }
+  if(datesMap[date]){pendingPayload=payload;showConfirm(date);return;}
   await doSubmit(payload,false);
 }
-
-function showConfirm(date) {
+function showConfirm(date){
   const ex=datesMap[date];
-  $('confirmExisting').innerHTML=`
-    <div class="ef"><span>Sales</span>${fmt(ex.sales)}</div>
-    <div class="ef"><span>Tax</span>${fmt(ex.tax)}</div>
-    <div class="ef"><span>CC</span>${fmt(ex.cc)}</div>
-    <div class="ef"><span>Cash</span>${fmt(ex.cash)}</div>
-    <div class="ef"><span>By</span>${ex.by}</div>
-    <div class="ef"><span>Date</span>${date}</div>
-  `;
+  $('confirmExisting').innerHTML=`<div class="ef"><span>Sales</span>${fmt(ex.sales)}</div><div class="ef"><span>Tax</span>${fmt(ex.tax)}</div><div class="ef"><span>CC</span>${fmt(ex.cc)}</div><div class="ef"><span>Cash</span>${fmt(ex.cash)}</div><div class="ef"><span>By</span>${ex.by}</div><div class="ef"><span>Date</span>${date}</div>`;
   $('confirmOverlay').classList.add('show');
 }
+function closeConfirm(){$('confirmOverlay').classList.remove('show');pendingPayload=null;}
+async function confirmUpdate(){closeConfirm();if(pendingPayload)await doSubmit(pendingPayload,true);}
 
-function closeConfirm() { $('confirmOverlay').classList.remove('show'); pendingPayload=null; }
-async function confirmUpdate() { closeConfirm(); if (pendingPayload) await doSubmit(pendingPayload,true); }
-
-async function doSubmit(payload, isUpdate) {
-  const btn=$('subBtn');
-  btn.innerHTML='<span class="spin"></span>'; btn.disabled=true;
-  try {
-    if (mode!=='admin') {
-      // ── Guest: localStorage ──
-      const reports=getLocalReports();
-      if (isUpdate) {
+async function doSubmit(payload,isUpdate){
+  const btn=$('subBtn');btn.innerHTML='<span class="spin"></span>';btn.disabled=true;
+  try{
+    const ts=new Date().toISOString();
+    const reportData={...payload,ts};
+    if(mode!=='admin'){
+      const cfg=getGuestCfg();
+      if(cfg&&cfg.fbUrl){
+        await fbSave(payload.date,reportData,isUpdate);
+        // Update local cache
+        const cached=JSON.parse(localStorage.getItem('zr_cache_'+storeKey())||'[]');
+        const idx=cached.findIndex(r=>r.date===payload.date);
+        if(idx>=0)cached[idx]={...reportData};else cached.push({...reportData});
+        localStorage.setItem('zr_cache_'+storeKey(),JSON.stringify(cached));
+      } else {
+        const reports=getLocalReports();
         const idx=reports.findIndex(r=>r.date===payload.date);
-        if (idx>=0) { reports[idx]={...payload,ts:new Date().toISOString()}; }
-        else { reports.push({...payload,ts:new Date().toISOString()}); }
-        toast('Entry updated ✓','warn');
-      } else {
-        reports.push({...payload,ts:new Date().toISOString()});
-        toast('Z Report saved ✓','ok');
+        if(idx>=0)reports[idx]={...reportData};else reports.push({...reportData});
+        saveLocalReports(reports);
       }
-      saveLocalReports(reports);
-      if (isUpdate) {
-        Object.assign(datesMap[payload.date],{sales:payload.sales,tax:payload.tax,cc:payload.cc,cash:payload.cash,by:payload.by,notes:payload.notes});
-      } else {
-        const nr={...payload};
-        allRows.unshift(nr); allRows.sort((a,b)=>b.date.localeCompare(a.date));
-        datesMap[payload.date]=nr;
-      }
+      toast(isUpdate?'Entry updated ✓':'Z Report saved ✓',isUpdate?'warn':'ok');
+      if(isUpdate){Object.assign(datesMap[payload.date],{sales:payload.sales,tax:payload.tax,cc:payload.cc,cash:payload.cash,by:payload.by,notes:payload.notes});}
+      else{const nr={...payload};allRows.unshift(nr);allRows.sort((a,b)=>b.date.localeCompare(a.date));datesMap[payload.date]=nr;}
     } else {
-      // ── Admin: GAS gateway ──
       const row=[payload.date,payload.sales.toFixed(2),payload.tax.toFixed(2),payload.cc.toFixed(2),payload.cash.toFixed(2),payload.by,payload.notes];
-      if (isUpdate&&datesMap[payload.date]) {
-        const rowNum=datesMap[payload.date].rowNum;
-        await gw('sheets.update',{spreadsheetId:ADMIN_SID,range:`Raw Log!A${rowNum}:G${rowNum}`,values:[row]});
+      if(isUpdate&&datesMap[payload.date]){
+        await gw('sheets.update',{spreadsheetId:ADMIN_SID,range:`Raw Log!A${datesMap[payload.date].rowNum}:G${datesMap[payload.date].rowNum}`,values:[row]});
         Object.assign(datesMap[payload.date],{sales:payload.sales,tax:payload.tax,cc:payload.cc,cash:payload.cash,by:payload.by,notes:payload.notes});
         toast('Entry updated ✓','warn');
       } else {
         await gw('sheets.append',{spreadsheetId:ADMIN_SID,range:'Raw Log!A:G',values:[row]});
-        const nr={...payload,rowNum:allRows.length+2};
-        allRows.unshift(nr); allRows.sort((a,b)=>b.date.localeCompare(a.date));
-        datesMap[payload.date]=nr;
+        const nr={...payload,rowNum:allRows.length+2};allRows.unshift(nr);allRows.sort((a,b)=>b.date.localeCompare(a.date));datesMap[payload.date]=nr;
         toast('Z Report submitted ✓','ok');
       }
     }
-
-    $('fSales').value=''; $('fTax').value=''; $('fCC').value=''; $('fCash').value=''; $('fNotes').value='';
-    $('fEmp').value=(mode==='admin')?'Prit':'Me'; onEmpChange();
-    $('updateAlert').classList.remove('show');
-    $('formTitle').textContent='New Z Report Entry';
-    selDate=null; isEditing=false; renderCal(); renderMissBanner();
-  } catch(e) { toast(e.message,'err',5000); }
-
+    $('fSales').value='';$('fTax').value='';$('fCC').value='';$('fCash').value='';$('fNotes').value='';
+    $('fEmp').value=mode==='admin'?'Prit':'Me';onEmpChange();
+    $('updateAlert').classList.remove('show');$('formTitle').textContent='New Z Report Entry';
+    selDate=null;isEditing=false;renderCal();renderMissBanner();
+  }catch(e){toast(e.message,'err',6000);}
   const hasEx=datesMap[$('fDate').value];
   btn.innerHTML=hasEx?'⚠️ Update This Entry':'Submit Z Report';
-  btn.className=hasEx?'btn btn-warn':'btn btn-pri';
-  btn.disabled=false; pendingPayload=null;
+  btn.className=hasEx?'btn btn-warn':'btn btn-pri';btn.disabled=false;pendingPayload=null;
 }
 
 // ── CALENDAR ──────────────────────────────────────────────────────────────────
-function renderCal() {
-  const cal=$('cal'), today=todayLocal();
-  cal.innerHTML='';
+function renderCal(){
+  const cal=$('cal'),today=todayLocal();cal.innerHTML='';
   const days=[];
-  for (let i=29;i>=0;i--) {
-    const d=new Date(); d.setDate(d.getDate()-i);
-    days.push(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`);
-  }
-  days.forEach(d => {
-    const has=!!datesMap[d], isTod=d===today, isSel=d===(selDate||today), isFut=d>today;
+  for(let i=29;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);days.push(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`);}
+  days.forEach(d=>{
+    const has=!!datesMap[d],isTod=d===today,isSel=d===(selDate||today),isFut=d>today;
     const el=document.createElement('div');
     el.className=['cal-d',isFut?'future':(has?'ok':'miss'),isTod?'today':'',isSel?'sel':''].filter(Boolean).join(' ');
     const[,mo,dy]=d.split('-');
     el.innerHTML=`<span class="dn">${+dy}</span><span class="dw">${dayAbbr(d)}</span>${has?'<span class="chk">✓</span>':''}`;
-    el.onclick=()=>pickDate(d);
-    cal.appendChild(el);
+    el.onclick=()=>pickDate(d);cal.appendChild(el);
   });
   cal.scrollLeft=cal.scrollWidth;
 }
-
-function pickDate(d) {
-  selDate=d; $('fDate').value=d; isEditing=true;
-  renderCal(); checkDateForExisting(d);
-}
-
-function onDateChange() {
-  const d=$('fDate').value; if (!d) return;
-  selDate=d; renderCal(); checkDateForExisting(d);
-}
-
-function checkDateForExisting(date) {
-  const ex=$('updateAlert'), btn=$('subBtn');
-  const entry=datesMap[date];
-  if (entry) {
-    $('updateExisting').innerHTML=`
-      <div class="ua-row">Sales<span>${fmt(entry.sales)}</span></div>
-      <div class="ua-row">Tax<span>${fmt(entry.tax)}</span></div>
-      <div class="ua-row">CC<span>${fmt(entry.cc)}</span></div>
-      <div class="ua-row">Cash<span>${fmt(entry.cash)}</span></div>
-      <div class="ua-row">By<span>${entry.by}</span></div>
-      ${entry.notes?`<div class="ua-row">Notes<span>${entry.notes}</span></div>`:''}
-    `;
-    ex.classList.add('show');
-    $('formTitle').textContent='✏️ Correct Existing Entry';
-    btn.innerHTML='⚠️ Update This Entry'; btn.className='btn btn-warn';
-    $('fSales').value=entry.sales.toFixed(2); $('fTax').value=entry.tax.toFixed(2);
-    $('fCC').value=entry.cc.toFixed(2); $('fCash').value=entry.cash.toFixed(2);
-    $('fNotes').value=entry.notes;
-    const empSel=$('fEmp'), opt=empSel.querySelector(`option[value="${entry.by}"]`);
-    if (opt) { empSel.value=entry.by; } else { empSel.value='Other'; $('fOtherName').value=entry.by; }
-    onEmpChange();
+function pickDate(d){selDate=d;$('fDate').value=d;isEditing=true;renderCal();checkDateForExisting(d);}
+function onDateChange(){const d=$('fDate').value;if(!d)return;selDate=d;renderCal();checkDateForExisting(d);}
+function checkDateForExisting(date){
+  const entry=datesMap[date],btn=$('subBtn');
+  if(entry){
+    $('updateExisting').innerHTML=`<div class="ua-row">Sales<span>${fmt(entry.sales)}</span></div><div class="ua-row">Tax<span>${fmt(entry.tax)}</span></div><div class="ua-row">CC<span>${fmt(entry.cc)}</span></div><div class="ua-row">Cash<span>${fmt(entry.cash)}</span></div><div class="ua-row">By<span>${entry.by}</span></div>${entry.notes?`<div class="ua-row">Notes<span>${entry.notes}</span></div>`:''}`;
+    $('updateAlert').classList.add('show');$('formTitle').textContent='✏️ Correct Existing Entry';
+    btn.innerHTML='⚠️ Update This Entry';btn.className='btn btn-warn';
+    $('fSales').value=entry.sales.toFixed(2);$('fTax').value=entry.tax.toFixed(2);$('fCC').value=entry.cc.toFixed(2);$('fCash').value=entry.cash.toFixed(2);$('fNotes').value=entry.notes;
+    const empSel=$('fEmp'),opt=empSel.querySelector(`option[value="${entry.by}"]`);
+    if(opt){empSel.value=entry.by;}else{empSel.value='Other';$('fOtherName').value=entry.by;}onEmpChange();
   } else {
-    ex.classList.remove('show');
-    $('formTitle').textContent='New Z Report Entry';
-    btn.innerHTML='Submit Z Report'; btn.className='btn btn-pri';
+    $('updateAlert').classList.remove('show');$('formTitle').textContent='New Z Report Entry';
+    btn.innerHTML='Submit Z Report';btn.className='btn btn-pri';
   }
 }
-
-// ── MISSING BANNER ────────────────────────────────────────────────────────────
-function renderMissBanner() {
+function renderMissBanner(){
   const missing=[];
-  for (let i=60;i>=1;i--) {
-    const d=new Date(); d.setDate(d.getDate()-i);
-    const ds=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-    if (!datesMap[ds]) missing.push(ds);
-  }
+  for(let i=60;i>=1;i--){const d=new Date();d.setDate(d.getDate()-i);const ds=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;if(!datesMap[ds])missing.push(ds);}
   const banner=$('missB');
-  if (!missing.length) { banner.classList.remove('show'); return; }
+  if(!missing.length){banner.classList.remove('show');return;}
   banner.classList.add('show');
-  $('missChips').innerHTML=missing.slice(0,20).map(d =>
-    `<span class="chip" onclick="pickDate('${d}')">${shortDate(d)}</span>`
-  ).join('');
-  if (missing.length>20) $('missChips').innerHTML+=`<span class="chip" style="opacity:.6">+${missing.length-20} more</span>`;
+  $('missChips').innerHTML=missing.slice(0,20).map(d=>`<span class="chip" onclick="pickDate('${d}')">${shortDate(d)}</span>`).join('');
+  if(missing.length>20)$('missChips').innerHTML+=`<span class="chip" style="opacity:.6">+${missing.length-20} more</span>`;
 }
 
 // ── DASHBOARD ─────────────────────────────────────────────────────────────────
-function loadDash() {
-  const ym=ymStr(todayLocal()), rows=allRows.filter(r=>ymStr(r.date)===ym), tot=sum(rows);
-  $('dSales').textContent=fmtK(tot.sales); $('dTax').textContent=fmtK(tot.tax);
-  $('dCC').textContent=fmtK(tot.cc); $('dCash').textContent=fmtK(tot.cash);
-  $('dDays').textContent=`${rows.length} day${rows.length!==1?'s':''}`;
+function loadDash(){
+  const ym=ymStr(todayLocal()),rows=allRows.filter(r=>ymStr(r.date)===ym),tot=sum(rows);
+  $('dSales').textContent=fmtK(tot.sales);$('dTax').textContent=fmtK(tot.tax);$('dCC').textContent=fmtK(tot.cc);$('dCash').textContent=fmtK(tot.cash);
+  $('dDays').textContent=rows.length+' day'+(rows.length!==1?'s':'');
   $('dashList').innerHTML=rows.length?rows.map(rRow).join(''):'<div class="empty">No entries this month</div>';
 }
-
-// ── MONTHLY ───────────────────────────────────────────────────────────────────
-function initYears() {
-  const now=new Date(), yrEl=$('mYear'); yrEl.innerHTML='';
-  for (let y=now.getFullYear();y>=2023;y--)
-    yrEl.innerHTML+=`<option value="${y}"${y===now.getFullYear()?'selected':''}>${y}</option>`;
-}
-
-function buildMonthSelect() {
-  const yr=+$('mYear').value, now=new Date(), mEl=$('mMonth');
-  mEl.innerHTML='';
-  for (let m=12;m>=1;m--) {
-    if (yr===now.getFullYear()&&m>now.getMonth()+1) continue;
-    const ym=`${yr}-${String(m).padStart(2,'0')}`;
-    const label=new Date(yr,m-1,1).toLocaleString('default',{month:'long'});
-    const sel=(yr===now.getFullYear()&&m===now.getMonth()+1)?'selected':'';
+function initYears(){const now=new Date(),yrEl=$('mYear');yrEl.innerHTML='';for(let y=now.getFullYear();y>=2023;y--)yrEl.innerHTML+=`<option value="${y}"${y===now.getFullYear()?'selected':''}>${y}</option>`;}
+function buildMonthSelect(){
+  const yr=+$('mYear').value,now=new Date(),mEl=$('mMonth');mEl.innerHTML='';
+  for(let m=12;m>=1;m--){
+    if(yr===now.getFullYear()&&m>now.getMonth()+1)continue;
+    const ym=`${yr}-${String(m).padStart(2,'0')}`,label=new Date(yr,m-1,1).toLocaleString('default',{month:'long'}),sel=(yr===now.getFullYear()&&m===now.getMonth()+1)?'selected':'';
     mEl.innerHTML+=`<option value="${ym}" ${sel}>${label}</option>`;
   }
   loadMonthly();
 }
-
-function loadMonthly() {
-  const ym=$('mMonth').value; if (!ym) return;
-  const rows=allRows.filter(r=>ymStr(r.date)===ym), tot=sum(rows);
-  $('mSales').textContent=fmtK(tot.sales); $('mTax').textContent=fmtK(tot.tax);
-  $('mCC').textContent=fmtK(tot.cc); $('mCash').textContent=fmtK(tot.cash);
-  $('monthList').innerHTML=rows.length?rows.map(rRow).join(''):'<div class="empty">No entries for this month</div>';
+function loadMonthly(){
+  const ym=$('mMonth').value;if(!ym)return;
+  const rows=allRows.filter(r=>ymStr(r.date)===ym),tot=sum(rows);
+  $('mSales').textContent=fmtK(tot.sales);$('mTax').textContent=fmtK(tot.tax);$('mCC').textContent=fmtK(tot.cc);$('mCash').textContent=fmtK(tot.cash);
+  $('monthList').innerHTML=rows.length?rows.map(rRow).join(''):'<div class="empty">No entries</div>';
 }
-
-// ── YEARLY ────────────────────────────────────────────────────────────────────
-function loadYearly() {
-  const byYear={}, byYM={};
-  allRows.forEach(r => {
-    const y=r.date.slice(0,4), ym=ymStr(r.date);
-    if (!byYear[y]) byYear[y]={sales:0,tax:0,cc:0,cash:0,days:0};
+function loadYearly(){
+  const byYear={},byYM={};
+  allRows.forEach(r=>{
+    const y=r.date.slice(0,4),ym=ymStr(r.date);
+    if(!byYear[y])byYear[y]={sales:0,tax:0,cc:0,cash:0,days:0};
     byYear[y].sales+=r.sales;byYear[y].tax+=r.tax;byYear[y].cc+=r.cc;byYear[y].cash+=r.cash;byYear[y].days++;
-    if (!byYM[ym]) byYM[ym]={sales:0,tax:0,cc:0,cash:0,days:0,year:y};
+    if(!byYM[ym])byYM[ym]={sales:0,tax:0,cc:0,cash:0,days:0,year:y};
     byYM[ym].sales+=r.sales;byYM[ym].tax+=r.tax;byYM[ym].cc+=r.cc;byYM[ym].cash+=r.cash;byYM[ym].days++;
   });
   const years=Object.keys(byYear).sort((a,b)=>+b-+a);
-  $('yearStats').innerHTML=years.length
-    ?years.map(y=>`<div class="stat"><div class="lbl">${y}</div><div class="val" style="font-size:19px">${fmtK(byYear[y].sales)}</div><div class="sub">${byYear[y].days} days · ${fmtK(byYear[y].cash)} cash</div></div>`).join('')
-    :'<div class="empty" style="grid-column:span 2">No data yet</div>';
-  if (!years.length) { $('yearList').innerHTML=''; return; }
-  const latY=years[0];
-  const months=Object.keys(byYM).filter(ym=>byYM[ym].year===latY).sort((a,b)=>b.localeCompare(a));
-  $('yearList').innerHTML=`<div class="shdr">${latY} — Month by Month</div>`+
-    (months.map(ym=>`<div class="rrow"><div class="dc">${monthShort(ym)}<small>${byYM[ym].days}d</small></div><div class="amts"><div class="amt" style="color:#28a745">${fmtK(byYM[ym].sales)} <span>sales</span></div><div class="amt" style="color:#e09000">${fmtK(byYM[ym].tax)} <span>tax</span></div><div class="amt" style="color:#0498BC">${fmtK(byYM[ym].cc)} <span>cc</span></div><div class="amt" style="color:#7c3aed">${fmtK(byYM[ym].cash)} <span>cash</span></div></div></div>`).join('')||'<div class="empty">No data</div>');
-}
-
-// ── EMPLOYEE ──────────────────────────────────────────────────────────────────
-function onEmpChange() {
-  const v=$('fEmp').value;
-  $('otherNameWrap').style.display=v==='Other'?'block':'none';
-  if (v!=='Other') $('fOtherName').value='';
-}
-
-function getSubmitter() {
-  const v=$('fEmp').value;
-  return v==='Other' ? ($('fOtherName').value.trim()||'Other') : v;
+  $('yearStats').innerHTML=years.length?years.map(y=>`<div class="stat"><div class="lbl">${y}</div><div class="val" style="font-size:19px">${fmtK(byYear[y].sales)}</div><div class="sub">${byYear[y].days} days · ${fmtK(byYear[y].cash)} cash</div></div>`).join(''):'<div class="empty" style="grid-column:span 2">No data yet</div>';
+  if(!years.length){$('yearList').innerHTML='';return;}
+  const latY=years[0],months=Object.keys(byYM).filter(ym=>byYM[ym].year===latY).sort((a,b)=>b.localeCompare(a));
+  $('yearList').innerHTML=`<div class="shdr">${latY} — Month by Month</div>`+(months.map(ym=>`<div class="rrow"><div class="dc">${monthShort(ym)}<small>${byYM[ym].days}d</small></div><div class="amts"><div class="amt" style="color:#28a745">${fmtK(byYM[ym].sales)} <span>sales</span></div><div class="amt" style="color:#e09000">${fmtK(byYM[ym].tax)} <span>tax</span></div><div class="amt" style="color:#0498BC">${fmtK(byYM[ym].cc)} <span>cc</span></div><div class="amt" style="color:#7c3aed">${fmtK(byYM[ym].cash)} <span>cash</span></div></div></div>`).join('')||'<div class="empty">No data</div>');
 }
 
 // ── NAV ───────────────────────────────────────────────────────────────────────
-function nav(page) {
+function nav(page){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  $(`page-${page}`).classList.add('active');
-  document.querySelector(`[data-page="${page}"]`).classList.add('active');
-  if (page==='dash')     loadDash();
-  if (page==='monthly')  { initYears(); buildMonthSelect(); }
-  if (page==='yearly')   loadYearly();
-  if (page==='settings') loadSettingsPage();
+  $(`page-${page}`).classList.add('active');document.querySelector(`[data-page="${page}"]`).classList.add('active');
+  if(page==='dash')loadDash();
+  if(page==='monthly'){initYears();buildMonthSelect();}
+  if(page==='yearly')loadYearly();
+  if(page==='settings')loadSettingsPage();
 }
 
 // ── HELPERS ───────────────────────────────────────────────────────────────────
-function todayLocal() {
-  const d=new Date();
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-}
-function fmt(n,dec=2) { return '$'+(+n||0).toFixed(dec).replace(/\B(?=(\d{3})+(?!\d))/g,','); }
-function fmtK(n) { const v=Math.abs(+n||0); return v>=10000?'$'+(v/1000).toFixed(1)+'k':'$'+v.toFixed(0); }
-function dayAbbr(d) { return ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(d+'T12:00:00').getDay()]; }
-function shortDate(d) {
-  const [y,m,dy]=d.split('-').map(Number);
-  return new Date(y,m-1,dy).toLocaleDateString('en-US',{month:'short',day:'numeric'});
-}
-function ymStr(d) { return d.slice(0,7); }
-function monthShort(ym) { const[y,m]=ym.split('-'); return new Date(+y,+m-1,1).toLocaleString('default',{month:'short'}); }
-function sum(rows) { return rows.reduce((a,r)=>({sales:a.sales+r.sales,tax:a.tax+r.tax,cc:a.cc+r.cc,cash:a.cash+r.cash}),{sales:0,tax:0,cc:0,cash:0}); }
-function rRow(r) {
-  return `<div class="rrow">
-    <div class="dc">${shortDate(r.date)}<small>${dayAbbr(r.date)}</small></div>
-    <div class="amts">
-      <div class="amt" style="color:#28a745">${fmt(r.sales)} <span>sales</span></div>
-      <div class="amt" style="color:#e09000">${fmt(r.tax)} <span>tax</span></div>
-      <div class="amt" style="color:#0498BC">${fmt(r.cc)} <span>cc</span></div>
-      <div class="amt" style="color:#7c3aed">${fmt(r.cash)} <span>cash</span></div>
-    </div>
-    <div class="by-badge">${(r.by||'?')[0].toUpperCase()}</div>
-  </div>`;
-}
-
-// ── TOAST ─────────────────────────────────────────────────────────────────────
-function toast(msg, type='ok', dur=3200) {
-  const el=$('toast');
-  el.textContent={ok:'✅ ',err:'❌ ',warn:'⚠️ ',info:'ℹ️ '}[type]+msg;
-  el.className=`show ${type}`; clearTimeout(el._t);
-  el._t=setTimeout(()=>el.className='',dur);
-}
-
-// ── LOADER ────────────────────────────────────────────────────────────────────
-function showLoader(msg) { $('loader').style.display='flex'; $('lmsg').textContent=msg||'Loading…'; }
-function hideLoader()    { $('loader').style.display='none'; }
+function onEmpChange(){const v=$('fEmp').value;$('otherNameWrap').style.display=v==='Other'?'block':'none';if(v!=='Other')$('fOtherName').value='';}
+function getSubmitter(){const v=$('fEmp').value;return v==='Other'?($('fOtherName').value.trim()||'Other'):v;}
+function todayLocal(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function fmt(n,dec=2){return '$'+(+n||0).toFixed(dec).replace(/\B(?=(\d{3})+(?!\d))/g,',');}
+function fmtK(n){const v=Math.abs(+n||0);return v>=10000?'$'+(v/1000).toFixed(1)+'k':'$'+v.toFixed(0);}
+function dayAbbr(d){return['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(d+'T12:00:00').getDay()];}
+function shortDate(d){const[y,m,dy]=d.split('-').map(Number);return new Date(y,m-1,dy).toLocaleDateString('en-US',{month:'short',day:'numeric'});}
+function ymStr(d){return d.slice(0,7);}
+function monthShort(ym){const[y,m]=ym.split('-');return new Date(+y,+m-1,1).toLocaleString('default',{month:'short'});}
+function sum(rows){return rows.reduce((a,r)=>({sales:a.sales+r.sales,tax:a.tax+r.tax,cc:a.cc+r.cc,cash:a.cash+r.cash}),{sales:0,tax:0,cc:0,cash:0});}
+function rRow(r){return`<div class="rrow"><div class="dc">${shortDate(r.date)}<small>${dayAbbr(r.date)}</small></div><div class="amts"><div class="amt" style="color:#28a745">${fmt(r.sales)} <span>sales</span></div><div class="amt" style="color:#e09000">${fmt(r.tax)} <span>tax</span></div><div class="amt" style="color:#0498BC">${fmt(r.cc)} <span>cc</span></div><div class="amt" style="color:#7c3aed">${fmt(r.cash)} <span>cash</span></div></div><div class="by-badge">${(r.by||'?')[0].toUpperCase()}</div></div>`;}
+function toast(msg,type='ok',dur=3200){const el=$('toast');el.textContent={ok:'✅ ',err:'❌ ',warn:'⚠️ ',info:'ℹ️ '}[type]+msg;el.className=`show ${type}`;clearTimeout(el._t);el._t=setTimeout(()=>el.className='',dur);}
+function showLoader(msg){$('loader').style.display='flex';$('lmsg').textContent=msg||'Loading…';}
+function hideLoader(){$('loader').style.display='none';}
 
 // ── BOOT ─────────────────────────────────────────────────────────────────────
-$('confirmOverlay').addEventListener('click', e=>{ if(e.target===$('confirmOverlay')) closeConfirm(); });
-
-if (sessionStorage.getItem(ADMIN_SK)==='ok') { enterAdmin(); }
-else { showRole(); }
+$('confirmOverlay').addEventListener('click',e=>{if(e.target===$('confirmOverlay'))closeConfirm();});
+if(!checkJoinParam()){
+  if(sessionStorage.getItem(ADMIN_SK)==='ok'){enterAdmin();}
+  else{showRole();}
+}
 </script>
 </body>
 </html>
