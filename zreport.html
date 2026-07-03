@@ -236,25 +236,12 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
   <div class="auth-wrap">
     <div class="setup-card">
       <h3>Set Up Your Store</h3>
-      <p>Your data can sync across all devices using a free Firebase database — or stay local to this device only if you skip the Firebase step.</p>
+      <p>One-time setup — takes 30 seconds. All data is saved on this device. No accounts, no internet required.</p>
 
       <div class="fg">
         <label>Store Name</label>
         <input type="text" id="gStoreName" placeholder="e.g. UPS Store 9182" autocomplete="off"/>
       </div>
-
-      <div class="fg">
-        <label>Firebase Database URL <span class="opt-lbl">Optional — enables multi-device sync</span></label>
-        <input type="url" id="gFbUrl" placeholder="https://your-project-default-rtdb.firebaseio.com" autocomplete="off"/>
-      </div>
-      <div class="info-box teal">
-        <strong>Free multi-device sync — 5 min setup</strong>
-        1. Go to <strong>console.firebase.google.com</strong> → Sign in → Create project → Continue → Continue<br>
-        2. Click <strong>Realtime Database</strong> → Create Database → Start in test mode → Enable<br>
-        3. Copy the database URL shown and paste it above<br>
-        4. In Firebase Console → Realtime Database → Rules → publish this: <code style="font-size:10px">{"rules":{".read":true,".write":true}}</code>
-      </div>
-
       <div class="fg">
         <label>Owner PIN (4 digits)</label>
         <input type="number" id="gPin" placeholder="Choose a 4-digit owner PIN" inputmode="numeric" style="font-size:22px;letter-spacing:6px"/>
@@ -265,7 +252,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
       </div>
       <div class="info-box">
         <strong>How PINs work</strong>
-        Owner PIN → full access + Settings. Employee PIN → Submit only. After setup, Settings shows an Employee Join Link to send to staff — they just click it and enter the PIN.
+        Owner PIN → full access + Settings. Employee PIN → Submit only. After setup, Settings shows an Employee Join Link — send it to staff so their device auto-configures with no manual setup.
       </div>
       <button class="btn btn-teal" onclick="saveGuestSetup()" style="margin-top:4px">Save & Continue →</button>
     </div>
@@ -283,7 +270,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
       <h3 id="joinStoreName">Joining your store</h3>
       <p id="joinDesc">Your owner shared this link. Enter the employee PIN to continue.</p>
       <div class="info-box green">
-        <strong id="joinSyncStatus">Checking sync mode…</strong>
+        <strong id="joinSyncStatus">Data saved on this device — no cloud required</strong>
       </div>
       <div class="fg">
         <label>Employee PIN</label>
@@ -464,13 +451,21 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
           <strong>Missing Entries Banner</strong>
           <p>Red chips below the calendar show dates with no entry in the last 60 days. Tap any chip to jump to that date.</p>
         </div>
-        <div class="help-item" id="helpMultiDevice" style="display:none">
-          <strong>Multi-Device Sync (Cloud Mode)</strong>
-          <p>Your store uses Firebase — any device with the employee join link submits to the same shared database. Owner and employees all see the same data in real time. Use the Refresh button to pull latest.</p>
+        <div class="help-item">
+          <strong>How Your Data Works</strong>
+          <p>All Z report data is saved directly on <strong>this device</strong> (browser local storage). No account, no internet, no server — it just works. This is the same technology that saves your phone's app preferences and it is very reliable for store operations.</p>
         </div>
-        <div class="help-item" id="helpLocalOnly" style="display:none">
-          <strong>Local Mode — Single Device Only</strong>
-          <p>No Firebase URL was provided. All data stays on this device. To enable multi-device sync, go to Store Configuration below and add a Firebase URL. See the setup guide for how to get one free in 5 minutes.</p>
+        <div class="help-item">
+          <strong>One Device Per Store (Recommended)</strong>
+          <p>The cleanest setup is one designated device — a store tablet or the register computer — that everyone uses to submit Z reports. All history stays in one place, nothing gets out of sync.</p>
+        </div>
+        <div class="help-item">
+          <strong>Employee Join Link</strong>
+          <p>The Employee Join Link in Settings configures a second device automatically. The employee just clicks the link and enters their PIN — the store name is pre-filled. Useful for a backup device, but note that each device stores its own reports independently.</p>
+        </div>
+        <div class="help-item">
+          <strong>Back Up Your Data (Important)</strong>
+          <p>Browser storage can be cleared if someone taps "Clear Site Data" or reinstalls the browser. Export a JSON backup from Settings → Data Backup every month or whenever you have a lot of entries you can't afford to lose. Save it to Google Drive, email it to yourself, or paste the CSV into a spreadsheet.</p>
         </div>
       </div>
 
@@ -507,9 +502,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
         <div class="card">
           <div class="ctitle">Store Configuration</div>
           <div class="fg"><label>Store Name</label><input type="text" id="sStoreName"/></div>
-          <div class="fg"><label>Firebase Database URL <span class="opt-lbl">for multi-device sync</span></label>
-            <input type="url" id="sFbUrl" placeholder="https://your-project-default-rtdb.firebaseio.com"/></div>
-          <button class="btn btn-pri btn-sm" onclick="saveStoreConfig()" style="margin-bottom:4px">Save Configuration</button>
+          <button class="btn btn-pri btn-sm" onclick="saveStoreConfig()" style="margin-bottom:4px">Save Store Name</button>
 
           <hr class="sec">
           <div class="ctitle" style="margin-top:4px">Change Owner PIN</div>
@@ -664,11 +657,11 @@ function enterGuest(cfg,role){
   role=role||'owner';
   mode=role==='employee'?'guest-employee':'guest-owner';
   $('storeTitle').textContent=cfg.storeName||'Z Report';
-  $('storeSub').textContent=cfg.fbUrl?'Cloud sync · '+role:'Local · '+role;
+  $('storeSub').textContent='Local · '+role;
   $('hdrBack').href='#';$('hdrBack').onclick=e=>{e.preventDefault();showRole();};
   $('rolePill').textContent=role==='employee'?'Employee':'Owner';$('rolePill').style.display='';
-  $('gwDot').className=cfg.fbUrl?'dot y':'dot g';
-  $('gwTxt').textContent=cfg.fbUrl?'…':'Local';
+  $('gwDot').className='dot g';
+  $('gwTxt').textContent='Local';
   $('gwPill').style.display='';
   if(role==='employee'){
     document.querySelectorAll('.nav-owner').forEach(el=>el.style.display='none');
@@ -685,13 +678,12 @@ function getGuestCfg(){try{return JSON.parse(localStorage.getItem(GUEST_KEY));}c
 
 function saveGuestSetup(){
   const name=$('gStoreName').value.trim();
-  const fbUrl=$('gFbUrl').value.trim().replace(/\/+$/,'');
   const pin=String($('gPin').value||'').trim();
   const empPin=String($('gEmpPin').value||'').trim()||'0000';
   if(!name){toast('Enter a store name','err');return;}
   if(!/^\d{4}$/.test(pin)){toast('Owner PIN must be exactly 4 digits','err');return;}
   if(!/^\d{4}$/.test(empPin)){toast('Employee PIN must be 4 digits','err');return;}
-  const cfg={storeName:name,fbUrl,pin,empPin};
+  const cfg={storeName:name,pin,empPin};
   localStorage.setItem(GUEST_KEY,JSON.stringify(cfg));
   enterGuest(cfg,'owner');
 }
@@ -699,8 +691,7 @@ function saveGuestSetup(){
 // ── JOIN LINK ─────────────────────────────────────────────────────────────────
 function buildJoinLink(){
   const cfg=getGuestCfg();if(!cfg)return '';
-  const data={storeName:cfg.storeName,fbUrl:cfg.fbUrl||''};
-  const encoded=btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+  const encoded=btoa(unescape(encodeURIComponent(JSON.stringify({storeName:cfg.storeName}))));
   return location.href.split('?')[0]+'?join='+encoded;
 }
 
@@ -711,11 +702,8 @@ function checkJoinParam(){
     joinData=JSON.parse(decodeURIComponent(escape(atob(p))));
     $('joinH1').textContent=joinData.storeName||'Join Store';
     $('joinStoreName').textContent='Joining: '+joinData.storeName;
-    $('joinDesc').textContent='Your owner shared this link. Enter the employee PIN to connect.';
-    $('joinSyncStatus').textContent=joinData.fbUrl
-      ? '✓ Cloud sync enabled — all devices share the same data'
-      : 'Local mode — data stays on this device';
-    $('joinSyncStatus').parentElement.className='info-box '+(joinData.fbUrl?'teal':'green');
+    $('joinDesc').textContent='Your owner shared this link. Enter the employee PIN to continue.';
+    $('joinSyncStatus').textContent='Data saved on this device — no cloud required';
     showScreen('emp-join');
     return true;
   }catch(e){return false;}
@@ -724,59 +712,17 @@ function checkJoinParam(){
 function confirmJoin(){
   const pin=String($('joinPin').value||'').trim();
   if(!pin){toast('Enter employee PIN','err');return;}
-  const cfg={
-    storeName:joinData.storeName,
-    fbUrl:joinData.fbUrl||'',
-    pin:'',  // employee doesn't know owner PIN
-    empPin:pin
-  };
-  // Check against existing cfg if on same device
+  // Check against existing cfg if already set up on this device
   const existing=getGuestCfg();
   if(existing&&existing.storeName===joinData.storeName){
-    if(existing.empPin!==pin&&existing.pin!==pin){
-      toast('Incorrect employee PIN','err');return;
-    }
+    if(existing.empPin!==pin&&existing.pin!==pin){toast('Incorrect employee PIN','err');return;}
     enterGuest(existing,'employee');
   } else {
-    // New device — save cfg with empty owner PIN
+    // New device — save minimal cfg (no owner PIN)
+    const cfg={storeName:joinData.storeName,pin:'',empPin:pin};
     localStorage.setItem(GUEST_KEY,JSON.stringify(cfg));
     enterGuest(cfg,'employee');
   }
-}
-
-// ── FIREBASE DATA ─────────────────────────────────────────────────────────────
-function fbDateKey(date){return date.replace(/-/g,'_');}
-function fbDateFromKey(key){return key.replace(/_/g,'-');}
-
-async function fbLoad(){
-  const cfg=getGuestCfg();if(!cfg||!cfg.fbUrl)return;
-  const res=await fetch(cfg.fbUrl+'/reports.json');
-  if(!res.ok)throw new Error('Firebase read failed ('+res.status+')');
-  const data=await res.json();
-  allRows=[];datesMap={};
-  if(data){
-    Object.entries(data).forEach(([k,r])=>{
-      const date=fbDateFromKey(k);
-      if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return;
-      const row={date,sales:+r.sales||0,tax:+r.tax||0,cc:+r.cc||0,cash:+r.cash||0,by:r.by||'',notes:r.notes||''};
-      allRows.push(row);datesMap[date]=row;
-    });
-  }
-  allRows.sort((a,b)=>b.date.localeCompare(a.date));
-  // Cache locally
-  localStorage.setItem('zr_cache_'+storeKey(),JSON.stringify(allRows));
-}
-
-async function fbSave(date,payload,isUpdate){
-  const cfg=getGuestCfg();if(!cfg||!cfg.fbUrl)throw new Error('No Firebase URL');
-  const url=cfg.fbUrl+'/reports/'+fbDateKey(date)+'.json';
-  const res=await fetch(url,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-  if(!res.ok)throw new Error('Firebase write failed ('+res.status+')');
-}
-
-async function fbDeleteStore(){
-  const cfg=getGuestCfg();if(!cfg||!cfg.fbUrl)return;
-  await fetch(cfg.fbUrl+'/reports.json',{method:'DELETE'});
 }
 
 // ── LOCAL DATA ────────────────────────────────────────────────────────────────
@@ -788,13 +734,9 @@ function getLocalReports(){try{return JSON.parse(localStorage.getItem('zr_data_'
 function saveLocalReports(arr){localStorage.setItem('zr_data_'+storeKey(),JSON.stringify(arr));}
 
 function loadLocalData(){
-  // Use local data (or cached Firebase data)
-  const cache=localStorage.getItem('zr_cache_'+storeKey());
-  const src=cache?JSON.parse(cache):getLocalReports();
   allRows=[];datesMap={};
-  src.forEach(r=>{
-    if(!r.date||!/^\d{4}-\d{2}-\d{2}$/.test(r.date))return;
-    if(datesMap[r.date])return;
+  getLocalReports().forEach(r=>{
+    if(!r.date||!/^\d{4}-\d{2}-\d{2}$/.test(r.date)||datesMap[r.date])return;
     const row={date:r.date,sales:+r.sales||0,tax:+r.tax||0,cc:+r.cc||0,cash:+r.cash||0,by:r.by||'',notes:r.notes||''};
     allRows.push(row);datesMap[r.date]=row;
   });
@@ -829,12 +771,10 @@ function importJSON(input){
       if(!Array.isArray(data.reports))throw new Error('Invalid backup format');
       if(!confirm('Import '+data.reports.length+' reports from "'+data.storeName+'"?\nExisting dates will not be overwritten.'))return;
       const existDates=new Set(allRows.map(r=>r.date));let added=0;
-      const cfg=getGuestCfg();
       for(const r of data.reports){
         if(!r.date||existDates.has(r.date))continue;
         added++;
-        if(cfg&&cfg.fbUrl){await fbSave(r.date,r,false);}
-        else{const reports=getLocalReports();reports.push(r);saveLocalReports(reports);}
+        const reports=getLocalReports();reports.push(r);saveLocalReports(reports);
       }
       await refreshData();
       toast('Imported '+added+' entr'+(added===1?'y':'ies'),'ok');
@@ -861,12 +801,8 @@ function loadSettingsPage(){
   } else {
     const cfg=getGuestCfg()||{};
     $('sStoreName').value=cfg.storeName||'';
-    $('sFbUrl').value=cfg.fbUrl||'';
     $('currentEmpPin').textContent=cfg.empPin||'0000';
-    $('helpMultiDevice').style.display=cfg.fbUrl?'':'none';
-    $('helpLocalOnly').style.display=cfg.fbUrl?'none':'';
-    const link=buildJoinLink();
-    $('joinCodeBox').textContent=link;
+    $('joinCodeBox').textContent=buildJoinLink();
   }
   $('notesArea').value=localStorage.getItem(notesKey())||'';
 }
@@ -895,7 +831,6 @@ function renderGuestProfiles(){
 function adminDeleteProfile(dataKey,slug){
   if(!confirm('Delete all local data for "'+slug.replace(/_/g,' ')+'"?'))return;
   localStorage.removeItem(dataKey);
-  localStorage.removeItem('zr_cache_'+slug);
   localStorage.removeItem('zr_notes_'+slug);
   const cfg=getGuestCfg();
   if(cfg&&storeKey()===slug)localStorage.removeItem(GUEST_KEY);
@@ -917,15 +852,12 @@ function fallbackCopy(text){
 
 function saveStoreConfig(){
   const n=$('sStoreName').value.trim();
-  const fb=$('sFbUrl').value.trim().replace(/\/+$/,'');
   if(!n){toast('Enter a store name','err');return;}
   const cfg=getGuestCfg()||{};
-  cfg.storeName=n;cfg.fbUrl=fb;
+  cfg.storeName=n;
   localStorage.setItem(GUEST_KEY,JSON.stringify(cfg));
   $('storeTitle').textContent=n;
-  $('storeSub').textContent=fb?'Cloud sync · owner':'Local · owner';
-  $('gwDot').className=fb?'dot y':'dot g';$('gwTxt').textContent=fb?'…':'Local';
-  if(fb){initApp();}else{toast('Config saved','ok');}
+  toast('Store name saved','ok');
 }
 function changeOwnerPin(){
   const p=String($('sNewPin').value||'').trim();
@@ -946,7 +878,7 @@ function resetGuest(){
   if(!confirm('Remove all store config and local data from this device?'))return;
   const sk=storeKey();
   localStorage.removeItem(GUEST_KEY);localStorage.removeItem('zr_data_'+sk);
-  localStorage.removeItem('zr_cache_'+sk);localStorage.removeItem('zr_notes_'+sk);
+  localStorage.removeItem('zr_notes_'+sk);
   showRole();
 }
 
@@ -985,25 +917,8 @@ async function initApp(){
   const today=todayLocal();$('fDate').value=today;selDate=today;
 
   if(mode!=='admin'){
-    const cfg=getGuestCfg();
-    if(cfg&&cfg.fbUrl){
-      showLoader('Syncing with cloud…');
-      try{
-        await fbLoad();
-        $('gwDot').className='dot g';$('gwTxt').textContent='Cloud';
-        hideLoader();
-      }catch(e){
-        hideLoader();$('gwDot').className='dot r';$('gwTxt').textContent='Error';
-        loadLocalData(); // fallback to cache
-        toast('Cloud error — showing cached data. Check Firebase URL in Settings.','warn',6000);
-      }
-    } else {
-      loadLocalData();
-    }
+    loadLocalData();
     renderCal();renderMissBanner();checkDateForExisting(today);
-    if(cfg&&cfg.fbUrl){
-      refreshTimer=setInterval(async()=>{if(!isEditing)try{await fbLoad();renderCal();renderMissBanner();}catch(e){}},3*60*1000);
-    }
     return;
   }
 
@@ -1018,18 +933,14 @@ async function initApp(){
 }
 
 async function refreshData(){
-  if(mode!=='admin'){
-    const cfg=getGuestCfg();
-    if(cfg&&cfg.fbUrl){try{await fbLoad();}catch(e){loadLocalData();}}else{loadLocalData();}
-  } else {
-    try{await loadSheetData();}catch(e){}
-  }
+  if(mode!=='admin'){loadLocalData();}
+  else{try{await loadSheetData();}catch(e){}}
 }
 
 async function refresh(){
   if(isEditing)return;
   try{
-    if(mode!=='admin'){const cfg=getGuestCfg();if(cfg&&cfg.fbUrl){$('gwDot').className='dot y';await fbLoad();$('gwDot').className='dot g';$('gwTxt').textContent='Cloud';}else{loadLocalData();}}
+    if(mode!=='admin'){loadLocalData();}
     else{$('gwDot').className='dot y';await loadSheetData();await checkGW();}
     renderCal();renderMissBanner();
     const ac=document.querySelector('.page.active');
@@ -1067,20 +978,10 @@ async function doSubmit(payload,isUpdate){
     const ts=new Date().toISOString();
     const reportData={...payload,ts};
     if(mode!=='admin'){
-      const cfg=getGuestCfg();
-      if(cfg&&cfg.fbUrl){
-        await fbSave(payload.date,reportData,isUpdate);
-        // Update local cache
-        const cached=JSON.parse(localStorage.getItem('zr_cache_'+storeKey())||'[]');
-        const idx=cached.findIndex(r=>r.date===payload.date);
-        if(idx>=0)cached[idx]={...reportData};else cached.push({...reportData});
-        localStorage.setItem('zr_cache_'+storeKey(),JSON.stringify(cached));
-      } else {
-        const reports=getLocalReports();
-        const idx=reports.findIndex(r=>r.date===payload.date);
-        if(idx>=0)reports[idx]={...reportData};else reports.push({...reportData});
-        saveLocalReports(reports);
-      }
+      const reports=getLocalReports();
+      const idx=reports.findIndex(r=>r.date===payload.date);
+      if(idx>=0)reports[idx]={...reportData};else reports.push({...reportData});
+      saveLocalReports(reports);
       toast(isUpdate?'Entry updated ✓':'Z Report saved ✓',isUpdate?'warn':'ok');
       if(isUpdate){Object.assign(datesMap[payload.date],{sales:payload.sales,tax:payload.tax,cc:payload.cc,cash:payload.cash,by:payload.by,notes:payload.notes});}
       else{const nr={...payload};allRows.unshift(nr);allRows.sort((a,b)=>b.date.localeCompare(a.date));datesMap[payload.date]=nr;}
