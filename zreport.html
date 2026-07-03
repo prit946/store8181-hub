@@ -652,7 +652,6 @@ function showRole(){ pinBuf='';gPinBuf=''; showScreen('role'); }
 
 // ── ADMIN ────────────────────────────────────────────────────────────────────
 function startAdmin(){
-  if(sessionStorage.getItem(ADMIN_SK)==='ok'){enterAdmin();return;}
   pinBuf='';renderPinDots();$('pinErr').textContent='';showScreen('pin');
 }
 function kp(d){if(pinBuf.length>=4)return;pinBuf+=d;renderPinDots();if(pinBuf.length===4)checkAdminPin();}
@@ -1317,10 +1316,7 @@ function hideLoader(){$('loader').style.display='none';}
 
 // ── BOOT ─────────────────────────────────────────────────────────────────────
 $('confirmOverlay').addEventListener('click',e=>{if(e.target===$('confirmOverlay'))closeConfirm();});
-if(!checkJoinParam()){
-  if(sessionStorage.getItem(ADMIN_SK)==='ok'){enterAdmin();}
-  else{showRole();}
-}
+if(!checkJoinParam()){showRole();}
 </script>
 </body>
 </html>

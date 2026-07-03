@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#1b2d45">
+<link rel="stylesheet" href="hub.css">
+<title>Tool Name · Store 8181</title>
+<style>
+/* Tool-specific styles only — shared styles live in hub.css */
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader" style="display:none"><div class="sp2"></div><div class="lmsg" id="lmsg">Loading…</div></div>
+
+<!-- ROLE SELECT -->
+<div id="screen-role" style="display:none">
+  <div class="auth-hdr" style="justify-content:center">
+    <div style="text-align:center">
+      <h1>Tool Name</h1>
+      <small>Store 8181 · Operations Hub</small>
+    </div>
+  </div>
+  <div class="auth-wrap">
+    <div class="slbl">Who are you?</div>
+    <div class="role-grid">
+      <div class="role-card admin" onclick="startAdmin()">
+        <div class="rc-ico">🔑</div>
+        <div class="rc-name">Admin</div>
+        <div class="rc-desc">Store 8181 · Full access</div>
+      </div>
+      <div class="role-card guest" onclick="startGuest()">
+        <div class="rc-ico">🏪</div>
+        <div class="rc-name">Other Store</div>
+        <div class="rc-desc">Your store · Local data</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PIN -->
+<div id="screen-pin" style="display:none">
+  <div class="auth-hdr">
+    <a href="#" onclick="showRole();return false" class="hdr-back-lnk">‹</a>
+    <div style="text-align:center">
+      <h1>Admin Access</h1>
+      <small>Tool Name · Store 8181</small>
+    </div>
+  </div>
+  <div class="auth-wrap">
+    <div class="pin-wrap">
+      <div class="pin-title"><h2>Enter PIN</h2><p>Admin · Store 8181</p></div>
+      <div class="pin-dots" id="pinDots">
+        <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div>
+        <div class="pin-dot" id="pd2"></div><div class="pin-dot" id="pd3"></div>
+      </div>
+      <div class="keypad">
+        <div class="key" onclick="aPS.add('1')">1</div><div class="key" onclick="aPS.add('2')">2</div><div class="key" onclick="aPS.add('3')">3</div>
+        <div class="key" onclick="aPS.add('4')">4</div><div class="key" onclick="aPS.add('5')">5</div><div class="key" onclick="aPS.add('6')">6</div>
+        <div class="key" onclick="aPS.add('7')">7</div><div class="key" onclick="aPS.add('8')">8</div><div class="key" onclick="aPS.add('9')">9</div>
+        <div class="key empty"></div><div class="key" onclick="aPS.add('0')">0</div><div class="key del" onclick="aPS.del()">⌫</div>
+      </div>
+      <div class="pin-error" id="pinErr"></div>
+      <div class="back-lnk" onclick="showRole()">← Back</div>
+    </div>
+  </div>
+</div>
+
+<!-- GUEST SETUP (first visit only) -->
+<div id="screen-guest-setup" style="display:none">
+  <div class="auth-hdr">
+    <a href="#" onclick="showRole();return false" class="hdr-back-lnk">‹</a>
+    <div style="text-align:center">
+      <h1>New Store Setup</h1>
+      <small>One-time · your data stays on this device</small>
+    </div>
+  </div>
+  <div class="auth-wrap">
+    <div class="setup-card">
+      <h3>Set Up Your Store</h3>
+      <p>30-second setup. All data is saved on this device only — no accounts or internet required.</p>
+      <div class="fg"><label>Store Name</label><input type="text" id="gStoreName" placeholder="e.g. UPS Store 9182" autocomplete="off"/></div>
+      <div class="fg"><label>Owner PIN (4 digits)</label><input type="number" id="gPin" inputmode="numeric" placeholder="Choose a 4-digit owner PIN" style="font-size:22px;letter-spacing:6px"/></div>
+      <div class="fg"><label>Employee PIN <span class="opt-lbl">default 0000</span></label><input type="number" id="gEmpPin" inputmode="numeric" placeholder="0000" style="font-size:22px;letter-spacing:6px"/></div>
+      <div class="info-box"><strong>About PINs</strong>Owner PIN → full access. Employee PIN → Submit only. Share the Employee Join Link (in Settings) so staff auto-configure without manual setup.</div>
+      <button class="btn btn-teal" onclick="saveGuestSetup()" style="margin-top:4px">Save &amp; Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- GUEST ROLE (returning) -->
+<div id="screen-guest-role" style="display:none">
+  <div class="auth-hdr">
+    <a href="#" onclick="showRole();return false" class="hdr-back-lnk">‹</a>
+    <div style="text-align:center"><h1 id="gRoleH1">Store Access</h1><small id="gRoleSub">Select your role</small></div>
+  </div>
+  <div class="auth-wrap">
+    <div class="slbl">Who are you?</div>
+    <div class="role-grid">
+      <div class="role-card owner" onclick="startGuestAs('owner')">
+        <div class="rc-ico">👔</div><div class="rc-name">Owner</div><div class="rc-desc">Full access</div>
+      </div>
+      <div class="role-card emp" onclick="startGuestAs('employee')">
+        <div class="rc-ico">👤</div><div class="rc-name">Employee</div><div class="rc-desc">Submit only</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GUEST PIN -->
+<div id="screen-guest-pin" style="display:none">
+  <div class="auth-hdr">
+    <a href="#" onclick="backFromGuestPin();return false" class="hdr-back-lnk">‹</a>
+    <div style="text-align:center"><h1 id="gPinH1">Store Access</h1><small id="gPinSub">Enter your PIN</small></div>
+  </div>
+  <div class="auth-wrap">
+    <div class="pin-wrap">
+      <div class="pin-title"><h2 id="gPinRole">Enter PIN</h2><p id="gPinStore">Your Store</p></div>
+      <div class="pin-dots" id="gPinDots">
+        <div class="pin-dot" id="gd0"></div><div class="pin-dot" id="gd1"></div>
+        <div class="pin-dot" id="gd2"></div><div class="pin-dot" id="gd3"></div>
+      </div>
+      <div class="keypad">
+        <div class="key" onclick="gPS.add('1')">1</div><div class="key" onclick="gPS.add('2')">2</div><div class="key" onclick="gPS.add('3')">3</div>
+        <div class="key" onclick="gPS.add('4')">4</div><div class="key" onclick="gPS.add('5')">5</div><div class="key" onclick="gPS.add('6')">6</div>
+        <div class="key" onclick="gPS.add('7')">7</div><div class="key" onclick="gPS.add('8')">8</div><div class="key" onclick="gPS.add('9')">9</div>
+        <div class="key empty"></div><div class="key" onclick="gPS.add('0')">0</div><div class="key del" onclick="gPS.del()">⌫</div>
+      </div>
+      <div class="pin-error" id="gPinErr"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="screen-main" style="display:none">
+  <div class="hub-hdr">
+    <a class="hdr-back" id="hdrBack" href="index.html">‹</a>
+    <div class="hub-hdr-info">
+      <h1 id="storeTitle">Tool Name</h1>
+      <small id="storeSub">Store 8181 · Joelton TN</small>
+    </div>
+    <div class="hub-hdr-right">
+      <span class="role-pill" id="rolePill" style="display:none"></span>
+    </div>
+  </div>
+  <nav class="nav-tabs">
+    <button class="nav-tab active" data-tab="submit" onclick="switchTab('submit')">Submit</button>
+    <button class="nav-tab nav-owner" data-tab="history" onclick="switchTab('history')">History</button>
+    <button class="nav-tab nav-owner" data-tab="settings" onclick="switchTab('settings')">Settings</button>
+  </nav>
+  <div class="hub-wrap">
+
+    <!-- SUBMIT TAB -->
+    <div class="tab-panel active" id="panel-submit">
+      <!-- Tool-specific submit form here -->
+      <div class="card"><div class="ctitle">Submit</div><p class="text-sm">Add your form fields here.</p></div>
+    </div>
+
+    <!-- HISTORY TAB (owner only) -->
+    <div class="tab-panel" id="panel-history">
+      <div class="card"><div class="ctitle">History</div><div class="empty" id="histEmpty">No entries yet</div></div>
+    </div>
+
+    <!-- SETTINGS TAB (owner/admin only) -->
+    <div class="tab-panel" id="panel-settings">
+
+      <div class="slbl">How to Use</div>
+      <div class="info-box">
+        <strong>About this tool</strong>
+        Explain what this tool does in 2-3 sentences.
+      </div>
+      <div class="info-box teal">
+        <strong>Your data &amp; privacy</strong>
+        All data is stored on this device only (browser localStorage). It does not sync to a cloud server. To protect your data: back up regularly using the export button below, and store the backup in Google Drive or email it to yourself. If you clear your browser storage, data will be lost.
+      </div>
+      <div class="info-box warn">
+        <strong>Recommendation</strong>
+        Use one primary device for best results. Export a backup at least once per month.
+      </div>
+
+      <div class="slbl">Tool Config</div>
+      <div class="card">
+        <!-- Tool-specific settings here -->
+        <div class="ctitle">Settings</div>
+        <p class="text-sm">Add tool-specific config fields here.</p>
+      </div>
+
+      <div class="slbl">Notes</div>
+      <div class="card">
+        <div class="ctitle">Notes</div>
+        <textarea id="notesField" placeholder="Store notes, reminders, etc." rows="5" style="width:100%;border:1.5px solid #dde0e5;border-radius:5px;padding:10px;font-size:13px;line-height:1.6;background:#f4f6f9;outline:none;" oninput="saveNotes()"></textarea>
+      </div>
+
+      <div class="slbl">Backup &amp; Restore</div>
+      <div class="card">
+        <div class="ctitle">Data Backup</div>
+        <button class="btn-export" onclick="exportData()">📤 Export Backup (JSON)</button>
+        <button class="btn-import" onclick="$('importFile').click()">📥 Import Backup</button>
+        <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(this)">
+        <p class="text-sm" style="margin-top:8px">Export saves a JSON file to your device. Import restores from that file. Store the backup in Google Drive or email it to yourself.</p>
+      </div>
+
+      <hr class="sec">
+      <div class="slbl">Danger Zone</div>
+      <button class="btn-danger" onclick="nukeData()">🗑 Reset All Data</button>
+
+    </div><!-- /settings -->
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="hub.js"></script>
+<script>
+// ── CONSTANTS ─────────────────────────────────────────────────────────────
+const ADMIN_PIN = '1997';
+const TOOL_KEY  = 'tool_name_v1';       // change per tool
+const GUEST_KEY = 'tool_name_guest_v1'; // change per tool
+
+// ── STATE ─────────────────────────────────────────────────────────────────
+let mode = 'admin'; // 'admin' | 'guest-owner' | 'guest-employee'
+let guestAuthRole = 'owner';
+
+// ── SCREENS ───────────────────────────────────────────────────────────────
+function showScreen(n){
+  ['role','pin','guest-setup','guest-role','guest-pin','main'].forEach(s=>{
+    $('screen-'+s).style.display=s===n?'block':'none';
+  });
+}
+function showRole(){ aPS.reset(); gPS.reset(); showScreen('role'); }
+
+// ── ADMIN ─────────────────────────────────────────────────────────────────
+function startAdmin(){ aPS.reset(); showScreen('pin'); }
+const aPS = makePinState(['pd0','pd1','pd2','pd3'],'pinErr', v=>{
+  if(v===ADMIN_PIN){ enterAdmin(); }
+  else{ aPS.shake('pinDots','Incorrect PIN'); }
+});
+function enterAdmin(){
+  mode='admin';
+  $('storeTitle').textContent='Tool Name';
+  $('storeSub').textContent='Store 8181 · Joelton TN';
+  $('hdrBack').href='index.html';$('hdrBack').onclick=null;
+  document.querySelectorAll('.nav-owner').forEach(el=>el.style.display='');
+  $('rolePill').style.display='none';
+  showScreen('main'); switchTab('submit'); initApp();
+}
+
+// ── GUEST AUTH ─────────────────────────────────────────────────────────────
+function startGuest(){
+  const cfg=getGuestCfg();
+  if(cfg){ $('gRoleH1').textContent=cfg.name||'Store Access'; showScreen('guest-role'); }
+  else{ showScreen('guest-setup'); }
+}
+function startGuestAs(r){
+  const cfg=getGuestCfg();if(!cfg)return;
+  guestAuthRole=r;
+  $('gPinH1').textContent=cfg.name||'Store Access';
+  $('gPinSub').textContent=r==='employee'?'Enter Employee PIN':'Enter Owner PIN';
+  $('gPinRole').textContent=r==='employee'?'Employee · Submit only':'Owner · Full access';
+  $('gPinStore').textContent=cfg.name||'Your Store';
+  gPS.reset(); showScreen('guest-pin');
+}
+function backFromGuestPin(){ getGuestCfg()?showScreen('guest-role'):showRole(); }
+const gPS = makePinState(['gd0','gd1','gd2','gd3'],'gPinErr', v=>{
+  const cfg=getGuestCfg();
+  const exp=guestAuthRole==='employee'?(cfg.empPin||'0000'):cfg.pin;
+  if(v===exp){ enterGuest(cfg,guestAuthRole); }
+  else{ gPS.shake('gPinDots','Incorrect PIN'); }
+});
+function getGuestCfg(){return lsGet(GUEST_KEY,null);}
+function saveGuestSetup(){
+  const name=$('gStoreName').value.trim();
+  const pin=String($('gPin').value||'').trim();
+  const empPin=String($('gEmpPin').value||'').trim()||'0000';
+  if(!name){toast('Enter a store name','err');return;}
+  if(!/^\d{4}$/.test(pin)){toast('Owner PIN must be 4 digits','err');return;}
+  if(!/^\d{4}$/.test(empPin)){toast('Employee PIN must be 4 digits','err');return;}
+  const cfg={name,pin,empPin};lsSet(GUEST_KEY,cfg);
+  enterGuest(cfg,'owner');
+}
+function enterGuest(cfg,role){
+  mode=role==='employee'?'guest-employee':'guest-owner';
+  $('storeTitle').textContent=cfg.name||'Tool Name';
+  $('storeSub').textContent='Local · '+role;
+  $('hdrBack').href='#';$('hdrBack').onclick=e=>{e.preventDefault();showRole();};
+  $('rolePill').textContent=role==='employee'?'Employee':'Owner';
+  $('rolePill').style.display='';
+  if(role==='employee'){
+    document.querySelectorAll('.nav-owner').forEach(el=>el.style.display='none');
+  } else {
+    document.querySelectorAll('.nav-owner').forEach(el=>el.style.display='');
+  }
+  showScreen('main'); switchTab('submit'); initApp();
+}
+
+// ── DATA ──────────────────────────────────────────────────────────────────
+function loadData(){ return lsGet(TOOL_KEY,{/* default state */}); }
+function saveData(d){ lsSet(TOOL_KEY,d); }
+function saveNotes(){ /* save notes from #notesField */ }
+function exportData(){
+  const d=loadData();
+  const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);
+  a.download='toolname-backup-'+todayLocal()+'.json';a.click();
+}
+function importData(input){
+  const f=input.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    try{const d=JSON.parse(e.target.result);saveData(d);initApp();toast('Backup restored','ok');}
+    catch(ex){toast('Invalid backup file','err');}
+  };r.readAsText(f);input.value='';
+}
+function nukeData(){
+  if(!confirm('This will permanently delete all data. Are you sure?'))return;
+  if(!confirm('Last chance — all data will be wiped.'))return;
+  localStorage.removeItem(TOOL_KEY);
+  initApp(); toast('All data cleared','warn');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+function initApp(){
+  // Load data and render UI
+}
+
+// ── BOOT — always show role, no bypass ────────────────────────────────────
+showRole();
+</script>
+</body>
+</html>

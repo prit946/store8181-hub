@@ -223,6 +223,21 @@ header h1 { font-size: 14px; font-weight: 600; letter-spacing: .3px; }
         </div>
 
         <div class="sc">
+          <div class="sc-head">Push Credentials to Employees</div>
+          <div class="sc-body">
+            <div style="font-size:11px;color:#555;margin-bottom:12px;line-height:1.6;">Generate a sync link. Employees open it (or scan the QR code) — their device instantly gets the latest passwords and QR codes. No manual re-entry needed.<br><strong style="display:block;margin-top:6px;color:#1b2d45;">Owner PIN is never included in the link. Employee PIN only.</strong></div>
+            <button class="btn-teal" onclick="genSyncLink()" style="width:100%;margin-bottom:10px;padding:10px;font-size:13px;font-weight:700;border:none;border-radius:5px;cursor:pointer;">📤 Generate Sync Link</button>
+            <div id="sync-out" style="display:none;">
+              <div id="sync-qr-wrap" style="display:flex;justify-content:center;margin-bottom:10px;"></div>
+              <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-bottom:4px;font-weight:700;">Sync Link — copy or share</div>
+              <div id="sync-url" style="font-size:10px;color:#0498BC;word-break:break-all;background:#f4f6f9;padding:8px;border-radius:4px;margin-bottom:8px;border:1px solid #dde0e5;"></div>
+              <button id="copy-sync-btn" class="btn-pri" onclick="copySyncLink()" style="width:100%;padding:9px;border:none;border-radius:5px;font-size:12px;font-weight:700;cursor:pointer;">Copy Link</button>
+              <p style="font-size:10px;color:#888;margin-top:8px;line-height:1.5;">Share this link via iMessage or email. Anyone with it can see your store credentials — send only to your employees.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="sc">
           <div class="sc-head">
             Backup &amp; Notes
             <div class="sc-head-sub">Backup Now only overwrites Store 8181 section &mdash; Other Stores section is never touched</div>
@@ -692,4 +707,59 @@ function resetDefaults() {
   accounts = JSON.parse(JSON.stringify(DEFAULT_ACCOUNTS)); saveState(); renderAccts();
 }
 function esc(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+// ── CREDENTIAL SYNC ───────────────────────────────────────────────────────
+let _syncLink = '';
+
+function genSyncLink() {
+  if (!storeNumber) { alert('Log in as Owner first.'); return; }
+  try {
+    const payload = { v: 1, s: storeNumber, a: accounts, ep: pins.e };
+    const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+    _syncLink = location.origin + location.pathname + '?hs=' + encoded;
+    document.getElementById('sync-url').textContent = _syncLink;
+    makeQR(document.getElementById('sync-qr-wrap'), _syncLink, 180);
+    document.getElementById('sync-out').style.display = 'block';
+  } catch(e) {
+    alert('Link too large. Remove unused accounts and try again.');
+  }
+}
+
+function copySyncLink() {
+  if (!_syncLink) return;
+  const btn = document.getElementById('copy-sync-btn');
+  const done = () => { if(btn){btn.textContent='✅ Copied!';setTimeout(()=>btn.textContent='Copy Link',2000);} };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(_syncLink).then(done).catch(fb);
+  } else { fb(); }
+  function fb() {
+    const ta = document.createElement('textarea'); ta.value = _syncLink;
+    ta.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy'); document.body.removeChild(ta); done();
+  }
+}
+
+function checkSyncParam() {
+  const raw = new URLSearchParams(location.search).get('hs');
+  if (!raw) return;
+  try {
+    const d = JSON.parse(decodeURIComponent(escape(atob(raw))));
+    if (!d.v || !d.s) return;
+    const key = 'ups_store_' + d.s + '_v1';
+    const existing = JSON.parse(localStorage.getItem(key) || '{}');
+    if (d.a && d.a.length) existing.accounts = d.a;
+    if (d.ep) { existing.pins = Object.assign({}, existing.pins || DEFAULT_PINS, { e: d.ep }); }
+    localStorage.setItem(key, JSON.stringify(existing));
+    history.replaceState({}, '', location.pathname);
+    const inp = document.getElementById('store-number-input');
+    if (inp) inp.value = d.s;
+    const banner = document.createElement('div');
+    banner.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#28a745;color:#fff;padding:12px 16px;text-align:center;font-size:13px;font-weight:700;z-index:9999;line-height:1.4;';
+    banner.textContent = '✅ Credentials updated for Store #' + d.s + '. Enter your store number to log in.';
+    document.body.prepend(banner);
+    setTimeout(() => banner.remove(), 7000);
+  } catch(e) { /* silently ignore malformed sync param */ }
+}
+
+checkSyncParam();
 </script></body></html>
