@@ -169,6 +169,13 @@ input[type=file]{display:none}
 hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 .empty{text-align:center;color:#888;padding:28px 0;font-size:13px;font-weight:600}
 .scroll-hint{font-size:10px;color:#888;text-align:right;margin-bottom:4px}
+.store-banner{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #dde0e5;border-radius:6px;padding:10px 13px;margin-bottom:11px}
+.store-banner .sb-lbl{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:#888;white-space:nowrap}
+.store-banner select{flex:1;padding:7px 10px;background:#f4f6f9;border:1.5px solid #1b2d45;border-radius:5px;color:#1b2d45;font-size:13px;font-weight:700;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%231b2d45'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
+.slist-row{display:flex;align-items:center;justify-content:space-between;background:#f4f6f9;border:1px solid #dde0e5;border-radius:5px;padding:10px 12px;margin-bottom:7px}
+.slist-row .sname{font-size:12px;font-weight:700;color:#1b2d45}
+.slist-row .sinfo{font-size:10px;color:#888;margin-top:1px}
+.slist-row .sdel{font-size:11px;font-weight:700;color:#dc3545;cursor:pointer;padding:4px 8px;border:1px solid rgba(220,53,69,.3);border-radius:4px;background:rgba(220,53,69,.06)}
 </style>
 <link rel="manifest" href="manifest.json">
 </head>
@@ -356,6 +363,11 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 
     <!-- SUBMIT -->
     <div id="page-submit" class="page active">
+      <!-- Store selector — only visible when admin has multiple stores -->
+      <div class="store-banner" id="adminStoreBanner" style="display:none">
+        <div class="sb-lbl">Store</div>
+        <select id="adminStoreSelect" onchange="switchStore(this.value)"></select>
+      </div>
       <div class="card">
         <div class="ctitle">Select Date</div>
         <div class="scroll-hint">← scroll for older dates</div>
@@ -480,6 +492,60 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
           </div>
           <button class="btn-sec btn-sm" onclick="recheckGW()" style="margin-top:4px">↻ Re-check Gateway</button>
         </div>
+
+        <div class="card">
+          <div class="ctitle">My Stores — Multi-Store</div>
+          <p style="font-size:11px;color:#666;margin-bottom:12px;line-height:1.6">
+            Store 8181 uses Google Sheets (existing setup). Additional stores you own use Firebase — one database holds all of them. Set the Firebase URL once, then add each store below.
+          </p>
+
+          <div class="shdr">Firebase Connection</div>
+          <div class="info-box teal" style="margin-bottom:10px">
+            <strong>One-time Firebase setup (free, 5 min)</strong>
+            1. <strong>console.firebase.google.com</strong> → Create project → Continue<br>
+            2. Realtime Database → Create Database → Start in test mode → Enable<br>
+            3. Copy the URL (looks like <code>https://your-project-default-rtdb.firebaseio.com</code>)<br>
+            4. Rules → set <code>&#123;"rules"&#123;".read":true,".write":true&#125;&#125;</code>
+          </div>
+          <div class="ff" style="margin-bottom:8px">
+            <label>Firebase Database URL</label>
+            <input type="url" id="adminFbUrl" placeholder="https://your-project-default-rtdb.firebaseio.com"/>
+          </div>
+          <button class="btn-sec btn-sm" onclick="saveAdminFbUrl()" style="margin-bottom:14px">Save Firebase URL</button>
+
+          <hr class="sec">
+          <div class="shdr">Stores</div>
+          <div class="slist-row" style="background:#e8ecf2;border-color:#c5cdd8">
+            <div><div class="sname">Store 8181 · Joelton TN</div><div class="sinfo">Primary · Google Sheets gateway</div></div>
+            <span style="font-size:10px;color:#7a9ab8;font-weight:700">Primary</span>
+          </div>
+          <div id="adminStoresList"></div>
+
+          <div id="addStoreBtnWrap">
+            <button class="btn btn-teal btn-sm" onclick="showAddStore()" style="margin-top:4px">+ Add Store</button>
+          </div>
+          <div id="addStoreForm" style="display:none;margin-top:10px;background:#f4f6f9;border-radius:6px;padding:14px;border:1px solid #dde0e5">
+            <div class="shdr" style="margin-top:0">New Store</div>
+            <div class="ff"><label>Store Name / Number</label>
+              <input type="text" id="newStoreName" placeholder="e.g. Store 9182 · Nashville"/></div>
+            <div class="ff"><label>Google Sheet ID <span class="opt-lbl">Optional — leave blank to use Firebase</span></label>
+              <input type="text" id="newStoreSid" placeholder="Sheet ID (or leave blank for Firebase)"/></div>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-pri btn-sm" onclick="addAdminStore()" style="flex:1">Add Store</button>
+              <button class="btn btn-sec btn-sm" onclick="hideAddStore()" style="flex:1">Cancel</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="ctitle">Launch Tool for Another Store</div>
+          <p style="font-size:11px;color:#666;margin-bottom:10px;line-height:1.6">
+            <strong style="color:#1b2d45">Your own stores:</strong> Use "Add Store" above — no separate setup, all data goes to your Firebase and you can switch between stores right in the app.<br><br>
+            <strong style="color:#1b2d45">Other owners (not your stores):</strong> Share the URL below. They enter their own store name and PIN — their data stays on their own device or their own Firebase.
+          </p>
+          <button class="btn-copy" onclick="copyBaseUrl()">📋 Copy Tool URL to Share</button>
+        </div>
+
         <div class="card">
           <div class="ctitle">Manage Guest Profiles on This Device</div>
           <div id="guestProfilesList"><div class="empty" style="padding:12px 0">No guest profiles stored on this device</div></div>
@@ -565,11 +631,14 @@ const GW_URL     = 'https://script.google.com/macros/s/AKfycbwUh6kuKSn4h-YrHdxBj
 const GW_KEY     = 'Store8181Prit2026';
 const ADMIN_SID  = '1OiU8cDWGvpJFIV2h89Oq6gWwfqkyso2GDmqzsrhqwxQ';
 const GUEST_KEY  = 'zr_guest_cfg';
+const ADMIN_CFG_KEY = 'zr_admin_cfg';
 
 let mode='admin', allRows=[], datesMap={}, selDate=null, isEditing=false;
 let pendingPayload=null, refreshTimer=null;
 let pinBuf='', gPinBuf='', guestAuthRole='owner';
-let joinData=null; // set when opened via join link
+let joinData=null;
+let adminCfg={fbUrl:'',stores:[]};
+let currentStore='store8181';
 
 const $=id=>document.getElementById(id);
 
@@ -599,13 +668,15 @@ function checkAdminPin(){
 }
 function enterAdmin(){
   mode='admin';
+  loadAdminCfg();
+  currentStore='store8181';
   $('storeTitle').textContent='Z Report';$('storeSub').textContent='Store 8181 · Joelton TN';
   $('hdrBack').href='index.html';$('hdrBack').onclick=null;
   document.querySelectorAll('.nav-owner').forEach(el=>el.style.display='');
   $('settingsTab').style.display='';$('rolePill').style.display='none';
   $('gwPill').style.display='';
   $('fEmp').innerHTML='<option value="Prit">Prit</option><option value="Jatin">Jatin</option><option value="Other">Other</option>';
-  showScreen('main');initApp();
+  showScreen('main');renderStoreSelector();initApp();
 }
 
 // ── GUEST AUTH ────────────────────────────────────────────────────────────────
@@ -785,7 +856,7 @@ function importJSON(input){
 }
 
 // ── NOTES ─────────────────────────────────────────────────────────────────────
-function notesKey(){return mode==='admin'?'zr_admin_notes':'zr_notes_'+storeKey();}
+function notesKey(){return mode==='admin'?'zr_admin_notes_'+currentStore:'zr_notes_'+storeKey();}
 function saveNotes(){localStorage.setItem(notesKey(),$('notesArea').value);toast('Notes saved','ok');}
 
 // ── SETTINGS PAGE ─────────────────────────────────────────────────────────────
@@ -797,7 +868,7 @@ function loadSettingsPage(){
   if(isAdmin){
     $('adminEmpPin').textContent=localStorage.getItem('s8181_emp_pin')||'0000';
     renderGuestProfiles();
-    $('helpMultiDevice').style.display='none';$('helpLocalOnly').style.display='none';
+    loadAdminSettingsMyStores();
   } else {
     const cfg=getGuestCfg()||{};
     $('sStoreName').value=cfg.storeName||'';
@@ -882,6 +953,106 @@ function resetGuest(){
   showRole();
 }
 
+// ── ADMIN MULTI-STORE ─────────────────────────────────────────────────────────
+function loadAdminCfg(){
+  try{const r=JSON.parse(localStorage.getItem(ADMIN_CFG_KEY)||'{}');adminCfg={fbUrl:r.fbUrl||'',stores:Array.isArray(r.stores)?r.stores:[]};}
+  catch(e){adminCfg={fbUrl:'',stores:[]};}
+}
+function saveAdminCfg(){localStorage.setItem(ADMIN_CFG_KEY,JSON.stringify(adminCfg));}
+
+function allAdminStores(){
+  return [{id:'store8181',name:'Store 8181 · Joelton TN',type:'sheet'},...adminCfg.stores];
+}
+function fbStorePrefix(id){return adminCfg.fbUrl+'/stores/'+id;}
+
+async function fbAdminLoad(storeId){
+  const res=await fetch(fbStorePrefix(storeId)+'/reports.json');
+  if(!res.ok)throw new Error('Firebase read failed ('+res.status+')');
+  const data=await res.json();
+  allRows=[];datesMap={};
+  if(data){Object.entries(data).forEach(([k,r])=>{
+    const date=k.replace(/_/g,'-');
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return;
+    const row={date,sales:+r.sales||0,tax:+r.tax||0,cc:+r.cc||0,cash:+r.cash||0,by:r.by||'',notes:r.notes||''};
+    allRows.push(row);datesMap[date]=row;
+  });}
+  allRows.sort((a,b)=>b.date.localeCompare(a.date));
+}
+async function fbAdminSave(storeId,date,payload){
+  const url=fbStorePrefix(storeId)+'/reports/'+date.replace(/-/g,'_')+'.json';
+  const res=await fetch(url,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+  if(!res.ok)throw new Error('Firebase write failed ('+res.status+')');
+}
+
+function switchStore(storeId){
+  currentStore=storeId;
+  const store=allAdminStores().find(s=>s.id===storeId)||allAdminStores()[0];
+  $('storeSub').textContent=store.name;
+  $('adminStoreSelect').value=storeId;
+  // Employee options: named staff for 8181, generic for other stores
+  $('fEmp').innerHTML=storeId==='store8181'
+    ?'<option value="Prit">Prit</option><option value="Jatin">Jatin</option><option value="Other">Other</option>'
+    :'<option value="Me">Me</option><option value="Other">Other</option>';
+  onEmpChange();
+  $('gwDot').className='dot y';$('gwTxt').textContent='…';
+  initApp();
+}
+
+function renderStoreSelector(){
+  const stores=allAdminStores();
+  const banner=$('adminStoreBanner');
+  if(stores.length<2){banner.style.display='none';return;}
+  banner.style.display='flex';
+  $('adminStoreSelect').innerHTML=stores.map(s=>`<option value="${s.id}"${s.id===currentStore?' selected':''}>${s.name}</option>`).join('');
+}
+
+// Settings — My Stores
+function loadAdminSettingsMyStores(){
+  $('adminFbUrl').value=adminCfg.fbUrl||'';
+  renderAdminStoresList();
+}
+function renderAdminStoresList(){
+  const el=$('adminStoresList');
+  if(!adminCfg.stores.length){el.innerHTML='';return;}
+  el.innerHTML=adminCfg.stores.map((s,i)=>`<div class="slist-row">
+    <div><div class="sname">${s.name}</div><div class="sinfo">${s.type==='sheet'?'Google Sheets':'Firebase'} · ${s.id}</div></div>
+    <span class="sdel" onclick="removeAdminStore(${i})">Remove</span>
+  </div>`).join('');
+}
+function saveAdminFbUrl(){
+  const url=$('adminFbUrl').value.trim().replace(/\/+$/,'');
+  adminCfg.fbUrl=url;saveAdminCfg();renderStoreSelector();
+  toast(url?'Firebase URL saved — add stores below':'Firebase URL cleared','ok');
+}
+function showAddStore(){$('addStoreForm').style.display='';$('addStoreBtnWrap').style.display='none';}
+function hideAddStore(){$('addStoreForm').style.display='none';$('addStoreBtnWrap').style.display='';}
+function addAdminStore(){
+  const name=$('newStoreName').value.trim();
+  const sid=$('newStoreSid').value.trim();
+  if(!name){toast('Enter a store name','err');return;}
+  if(!sid&&!adminCfg.fbUrl){toast('Save a Firebase URL first, or enter a Sheet ID','err');return;}
+  const id=name.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
+  if(adminCfg.stores.find(s=>s.id===id)){toast('A store with that name already exists','warn');return;}
+  adminCfg.stores.push({id,name,type:sid?'sheet':'firebase',sid:sid||''});
+  saveAdminCfg();renderAdminStoresList();renderStoreSelector();hideAddStore();
+  $('newStoreName').value='';$('newStoreSid').value='';
+  toast('Store added: '+name,'ok');
+}
+function removeAdminStore(idx){
+  const s=adminCfg.stores[idx];
+  if(!confirm('Remove "'+s.name+'" from your store list?\n\nData in Firebase is NOT deleted — it will still be there if you re-add the store.'))return;
+  adminCfg.stores.splice(idx,1);saveAdminCfg();
+  if(currentStore===s.id)switchStore('store8181');
+  renderAdminStoresList();renderStoreSelector();toast('Store removed','ok');
+}
+function copyBaseUrl(){
+  const url=location.href.split('?')[0];
+  navigator.clipboard?.writeText(url).then(()=>toast('Tool URL copied!','ok')).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=url;ta.style.cssText='position:fixed;opacity:0';
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('Tool URL copied!','ok');
+  });
+}
+
 // ── GATEWAY (admin) ───────────────────────────────────────────────────────────
 async function gw(action,params={},timeout=15000){
   const ctrl=new AbortController(),tid=setTimeout(()=>ctrl.abort(),timeout);
@@ -922,7 +1093,28 @@ async function initApp(){
     return;
   }
 
-  // Admin: GAS gateway
+  // Admin: non-8181 store via Firebase
+  if(currentStore!=='store8181'){
+    if(!adminCfg.fbUrl){
+      toast('Set Firebase URL in Settings → My Stores first','warn',6000);
+      renderCal();renderMissBanner();checkDateForExisting(today);return;
+    }
+    showLoader('Loading '+currentStore+'…');
+    try{
+      await fbAdminLoad(currentStore);
+      $('gwDot').className='dot g';$('gwTxt').textContent='Cloud';
+      hideLoader();
+    }catch(e){
+      hideLoader();$('gwDot').className='dot r';$('gwTxt').textContent='Error';
+      toast('Firebase error: '+e.message,'err',6000);
+    }
+    renderCal();renderMissBanner();checkDateForExisting(today);
+    if(refreshTimer)clearInterval(refreshTimer);
+    refreshTimer=setInterval(async()=>{if(!isEditing)try{await fbAdminLoad(currentStore);renderCal();renderMissBanner();}catch(e){}},3*60*1000);
+    return;
+  }
+
+  // Admin: Store 8181 GAS gateway
   showLoader('Connecting to Gateway…');$('lmsg').textContent='Checking gateway…';
   const gwOk=await checkGW();
   if(!gwOk){hideLoader();toast('Gateway offline','err',6000);renderCal();return;}
@@ -934,6 +1126,7 @@ async function initApp(){
 
 async function refreshData(){
   if(mode!=='admin'){loadLocalData();}
+  else if(currentStore!=='store8181'){try{await fbAdminLoad(currentStore);}catch(e){}}
   else{try{await loadSheetData();}catch(e){}}
 }
 
@@ -941,6 +1134,7 @@ async function refresh(){
   if(isEditing)return;
   try{
     if(mode!=='admin'){loadLocalData();}
+    else if(currentStore!=='store8181'){$('gwDot').className='dot y';await fbAdminLoad(currentStore);$('gwDot').className='dot g';$('gwTxt').textContent='Cloud';}
     else{$('gwDot').className='dot y';await loadSheetData();await checkGW();}
     renderCal();renderMissBanner();
     const ac=document.querySelector('.page.active');
@@ -985,6 +1179,13 @@ async function doSubmit(payload,isUpdate){
       toast(isUpdate?'Entry updated ✓':'Z Report saved ✓',isUpdate?'warn':'ok');
       if(isUpdate){Object.assign(datesMap[payload.date],{sales:payload.sales,tax:payload.tax,cc:payload.cc,cash:payload.cash,by:payload.by,notes:payload.notes});}
       else{const nr={...payload};allRows.unshift(nr);allRows.sort((a,b)=>b.date.localeCompare(a.date));datesMap[payload.date]=nr;}
+    } else if(currentStore!=='store8181'){
+      if(!adminCfg.fbUrl)throw new Error('Firebase URL not configured — add it in Settings → My Stores');
+      const reportData={...payload,ts:new Date().toISOString()};
+      await fbAdminSave(currentStore,payload.date,reportData);
+      if(isUpdate){Object.assign(datesMap[payload.date],{sales:payload.sales,tax:payload.tax,cc:payload.cc,cash:payload.cash,by:payload.by,notes:payload.notes});}
+      else{const nr={...payload};allRows.unshift(nr);allRows.sort((a,b)=>b.date.localeCompare(a.date));datesMap[payload.date]=nr;}
+      toast(isUpdate?'Entry updated ✓':'Z Report submitted ✓',isUpdate?'warn':'ok');
     } else {
       const row=[payload.date,payload.sales.toFixed(2),payload.tax.toFixed(2),payload.cc.toFixed(2),payload.cash.toFixed(2),payload.by,payload.notes];
       if(isUpdate&&datesMap[payload.date]){
