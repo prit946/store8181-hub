@@ -64,79 +64,6 @@ zr_admin_notes_{id}   admin notes per store
 ups_store_{num}_v1    template.html credentials per store
 ```
 
-## Standard HTML Skeleton (from tool-template.html)
-```html
-<div id="loader" style="display:none">
-  <div class="sp2"></div><div class="lmsg" id="lmsg">Loading…</div>
-</div>
-
-<!-- ROLE SELECT -->
-<div id="screen-role" style="display:none">
-  <div class="auth-hdr"><h1>Tool Name</h1><small>Store 8181</small></div>
-  <div class="auth-wrap">
-    <div class="slbl">Who are you?</div>
-    <div class="role-grid">
-      <div class="role-card admin" onclick="startAdmin()">
-        <div class="rc-ico">🔑</div>
-        <div class="rc-name">Admin</div>
-        <div class="rc-desc">Store 8181 · Full access</div>
-      </div>
-      <div class="role-card guest" onclick="startGuest()">
-        <div class="rc-ico">🏪</div>
-        <div class="rc-name">Other Store</div>
-        <div class="rc-desc">Your store · Local data</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ADMIN PIN -->
-<div id="screen-pin" style="display:none">
-  <div class="auth-hdr">
-    <a href="#" onclick="showRole();return false" class="hdr-back-lnk">‹</a>
-    <div><h1>Admin Access</h1><small>Tool Name · Store 8181</small></div>
-  </div>
-  <div class="auth-wrap">
-    <div class="pin-wrap">
-      <div class="pin-title"><h2>Enter PIN</h2><p>Admin · Store 8181</p></div>
-      <div class="pin-dots" id="pinDots">
-        <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div>
-        <div class="pin-dot" id="pd2"></div><div class="pin-dot" id="pd3"></div>
-      </div>
-      <div class="keypad" id="adminKeypad"></div>
-      <div class="pin-error" id="pinErr"></div>
-      <div class="back-lnk" onclick="showRole()">← Back</div>
-    </div>
-  </div>
-</div>
-
-<!-- MAIN APP -->
-<div id="screen-main" style="display:none">
-  <div class="hub-hdr" id="mainHdr">
-    <a class="hdr-back" id="hdrBack" href="index.html">‹</a>
-    <div class="hub-hdr-info">
-      <h1 id="storeTitle">Tool Name</h1>
-      <small id="storeSub">Store 8181</small>
-    </div>
-    <span class="role-pill" id="rolePill" style="display:none"></span>
-  </div>
-  <nav class="nav-tabs" id="mainNav">
-    <button class="nav-tab active" data-tab="submit" onclick="switchTab('submit')">Submit</button>
-    <button class="nav-tab nav-owner" data-tab="history" onclick="switchTab('history')">History</button>
-    <button class="nav-tab nav-owner" data-tab="settings" onclick="switchTab('settings')">Settings</button>
-  </nav>
-  <div class="hub-wrap">
-    <div class="tab-panel active" id="panel-submit"><!-- form --></div>
-    <div class="tab-panel" id="panel-history"><!-- history --></div>
-    <div class="tab-panel" id="panel-settings">
-      <!-- How to Use + Notes + Export/Import always in Settings -->
-    </div>
-  </div>
-</div>
-
-<div id="toast"></div>
-```
-
 ## Standard JS Init Pattern
 ```javascript
 const ADMIN_PIN = '1997';
@@ -183,6 +110,25 @@ if(!checkSpecialParams()){ showRole(); }
 | `credentials.html` | Static credentials | Admin PIN | Static |
 | `template.html` | Guest credentials hub | Store# + PIN | localStorage |
 | `store-ops.html` | Royalty & Inventory | Admin PIN | TBD |
+
+## Gateway Quick Reference
+**URL**: `https://script.google.com/macros/s/AKfycbwUh6kuKSn4h-YrHdxBjbZHelGDtg0NmTmKXwUZrCW0nB9RUWwmBLcrCIVZIAs0gzQj/exec`
+**Key**: `Store8181Prit2026` · **Script ID**: `1qmZ9Vravgtx2uf0VjQYB-_-IGO8si8eEu7jUQM9x1d2C9ntX24Czehaf`
+
+**Claude Code call pattern (PowerShell):**
+```powershell
+$r = Invoke-WebRequest -Uri $GW -Method POST -Body '{"key":"Store8181Prit2026","action":"ACTION","params":{...}}' -ContentType 'text/plain;charset=utf-8' -MaximumRedirection 5 -UseBasicParsing
+```
+
+**Available actions**: ping | sheets.read | sheets.append | sheets.update | drive.list | drive.readDoc | drive.createDoc | drive.updateDoc | gmail.send | cal.create | cal.list | tasks.*
+
+**⚠️ NO delete action** — to remove rows: read all data, clear target rows with empty values, or rewrite range.
+
+**Z Report Sheet**: `1OiU8cDWGvpJFIV2h89Oq6gWwfqkyso2GDmqzsrhqwxQ`
+**Tab names** (use exact strings including emoji):
+`📊 This Month` | `📅 Daily` | `📆 Monthly` | `📅 Yearly` | `Raw Log` | `📋 Tips`
+
+**drive.updateDoc params**: `{id, content, append: true/false}` — use `id` not `fileId`
 
 ## How to Add a Tool (session startup script)
 ```
