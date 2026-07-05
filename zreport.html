@@ -193,17 +193,27 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
     <div><h1>Z Report</h1><small>Select access level to continue</small></div>
   </div>
   <div class="auth-wrap">
-    <div class="slbl">Who are you?</div>
+    <div class="slbl">Store 8181 Staff</div>
     <div class="role-grid">
       <div class="role-card admin" onclick="startAdmin()">
         <div class="rc-ico">🔑</div>
         <div class="rc-name">Admin</div>
-        <div class="rc-desc">Store 8181 · Full access</div>
+        <div class="rc-desc">Full access · all tabs</div>
       </div>
-      <div class="role-card guest" onclick="startGuest()">
-        <div class="rc-ico">🏪</div>
-        <div class="rc-name">Other Store</div>
-        <div class="rc-desc">Your store · Cloud or local</div>
+      <div class="role-card emp" onclick="startEmployee()">
+        <div class="rc-ico">👤</div>
+        <div class="rc-name">Employee</div>
+        <div class="rc-desc">Submit only</div>
+      </div>
+    </div>
+    <div class="slbl" style="margin-top:16px">Other UPS Store</div>
+    <div class="role-card guest" style="display:block;margin:0" onclick="startGuest()">
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:28px">🏪</span>
+        <div>
+          <div class="rc-name" style="text-align:left">Other Store</div>
+          <div class="rc-desc" style="text-align:left">Your store · Cloud or local</div>
+        </div>
       </div>
     </div>
   </div>
@@ -213,11 +223,11 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 <div id="screen-pin">
   <div class="auth-hdr">
     <a href="#" onclick="showRole();return false" class="hdr-back-lnk">‹</a>
-    <div><h1>Admin Access</h1><small>Z Report · Store 8181</small></div>
+    <div><h1 id="pinScreenH1">Admin Access</h1><small id="pinScreenSub">Z Report · Store 8181</small></div>
   </div>
   <div class="auth-wrap">
     <div class="pin-wrap">
-      <div class="pin-title"><h2>Enter PIN</h2><p>Admin · Store 8181</p></div>
+      <div class="pin-title"><h2>Enter PIN</h2><p id="pinScreenRole">Admin · Store 8181</p></div>
       <div class="pin-dots" id="pinDots">
         <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div>
         <div class="pin-dot" id="pd2"></div><div class="pin-dot" id="pd3"></div>
@@ -483,6 +493,21 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 
       <!-- Admin block -->
       <div id="admin-settings-block" style="display:none">
+
+        <div class="card">
+          <div class="ctitle">Employee Access — Store 8181</div>
+          <p style="font-size:11px;color:#666;margin-bottom:12px;line-height:1.5">Employees log in with the Employee role using this PIN — they can only submit Z reports, no history or settings visible.</p>
+          <div class="fg" style="margin-bottom:8px">
+            <label>Employee PIN (4 digits)</label>
+            <input type="number" id="adminZrEmpPin" inputmode="numeric" placeholder="0000" style="font-size:22px;letter-spacing:6px;max-width:160px"/>
+          </div>
+          <div style="display:flex;gap:8px;margin-bottom:12px">
+            <button class="btn btn-pri btn-sm" onclick="saveAdminEmpPin()">Save PIN</button>
+          </div>
+          <button class="btn-copy" onclick="copyEmpAccess()">📋 Copy Employee Access Info</button>
+          <p style="font-size:10px;color:#888;margin-top:6px;line-height:1.5">Copies the URL + role + PIN as a text message you can send to employees.</p>
+        </div>
+
         <div class="card">
           <div class="ctitle">Store 8181 Info</div>
           <div class="info-box">
@@ -635,7 +660,7 @@ const ADMIN_CFG_KEY = 'zr_admin_cfg';
 
 let mode='admin', allRows=[], datesMap={}, selDate=null, isEditing=false;
 let pendingPayload=null, refreshTimer=null;
-let pinBuf='', gPinBuf='', guestAuthRole='owner';
+let pinBuf='', gPinBuf='', guestAuthRole='owner', pinAuthFor='admin';
 let joinData=null;
 let adminCfg={fbUrl:'',stores:[]};
 let currentStore='store8181';
@@ -652,14 +677,28 @@ function showRole(){ pinBuf='';gPinBuf=''; showScreen('role'); }
 
 // ── ADMIN ────────────────────────────────────────────────────────────────────
 function startAdmin(){
+  pinAuthFor='admin';
+  $('pinScreenH1').textContent='Admin Access';
+  $('pinScreenSub').textContent='Z Report · Store 8181';
+  $('pinScreenRole').textContent='Admin · Store 8181';
+  pinBuf='';renderPinDots();$('pinErr').textContent='';showScreen('pin');
+}
+function startEmployee(){
+  pinAuthFor='employee';
+  $('pinScreenH1').textContent='Employee Access';
+  $('pinScreenSub').textContent='Z Report · Store 8181';
+  $('pinScreenRole').textContent='Employee · Submit only';
   pinBuf='';renderPinDots();$('pinErr').textContent='';showScreen('pin');
 }
 function kp(d){if(pinBuf.length>=4)return;pinBuf+=d;renderPinDots();if(pinBuf.length===4)checkAdminPin();}
 function kpDel(){pinBuf=pinBuf.slice(0,-1);renderPinDots();$('pinErr').textContent='';}
 function renderPinDots(){for(let i=0;i<4;i++)$('pd'+i).classList.toggle('on',i<pinBuf.length);}
 function checkAdminPin(){
-  if(pinBuf===ADMIN_PIN){sessionStorage.setItem(ADMIN_SK,'ok');enterAdmin();}
-  else{
+  const correctPin=pinAuthFor==='employee'?(localStorage.getItem('s8181_emp_pin')||'0000'):ADMIN_PIN;
+  if(pinBuf===correctPin){
+    if(pinAuthFor==='employee'){enterEmployee();}
+    else{sessionStorage.setItem(ADMIN_SK,'ok');enterAdmin();}
+  } else {
     const d=$('pinDots');d.classList.add('shake');setTimeout(()=>d.classList.remove('shake'),400);
     $('pinErr').textContent='Incorrect PIN';
     setTimeout(()=>{pinBuf='';renderPinDots();$('pinErr').textContent='';},900);
@@ -676,6 +715,18 @@ function enterAdmin(){
   $('gwPill').style.display='';
   $('fEmp').innerHTML='<option value="Prit">Prit</option><option value="Jatin">Jatin</option><option value="Other">Other</option>';
   showScreen('main');renderStoreSelector();initApp();
+}
+function enterEmployee(){
+  mode='employee';
+  currentStore='store8181';
+  $('storeTitle').textContent='Z Report';$('storeSub').textContent='Store 8181 · Joelton TN';
+  $('hdrBack').href='index.html';$('hdrBack').onclick=null;
+  document.querySelectorAll('.nav-owner').forEach(el=>el.style.display='none');
+  $('rolePill').textContent='Employee';$('rolePill').style.display='';
+  $('gwPill').style.display='';
+  $('adminStoreBanner').style.display='none';
+  $('fEmp').innerHTML='<option value="Prit">Prit</option><option value="Jatin">Jatin</option><option value="Other">Other</option>';
+  showScreen('main');initApp();
 }
 
 // ── GUEST AUTH ────────────────────────────────────────────────────────────────
@@ -865,7 +916,9 @@ function loadSettingsPage(){
   $('guest-settings-block').style.display=isAdmin?'none':'';
 
   if(isAdmin){
-    $('adminEmpPin').textContent=localStorage.getItem('s8181_emp_pin')||'0000';
+    const empPin=localStorage.getItem('s8181_emp_pin')||'0000';
+    $('adminEmpPin').textContent=empPin;
+    $('adminZrEmpPin').value=empPin;
     renderGuestProfiles();
     loadAdminSettingsMyStores();
   } else {
@@ -1052,6 +1105,23 @@ function copyBaseUrl(){
   });
 }
 
+// ── EMPLOYEE PIN (admin manages) ─────────────────────────────────────────────
+function saveAdminEmpPin(){
+  const p=String($('adminZrEmpPin').value||'').trim();
+  if(!/^\d{4}$/.test(p)){toast('PIN must be exactly 4 digits','err');return;}
+  localStorage.setItem('s8181_emp_pin',p);
+  $('adminEmpPin').textContent=p;
+  toast('Employee PIN saved','ok');
+}
+function copyEmpAccess(){
+  const pin=localStorage.getItem('s8181_emp_pin')||'0000';
+  const url=location.href.split('?')[0];
+  const text='Z Report Access\nURL: '+url+'\nRole: Employee\nPIN: '+pin;
+  const done=()=>toast('Copied — paste into iMessage or email','ok',4000);
+  if(navigator.clipboard?.writeText){navigator.clipboard.writeText(text).then(done).catch(fb);}else{fb();}
+  function fb(){const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();}
+}
+
 // ── GATEWAY (admin) ───────────────────────────────────────────────────────────
 async function gw(action,params={},timeout=15000){
   const ctrl=new AbortController(),tid=setTimeout(()=>ctrl.abort(),timeout);
@@ -1086,13 +1156,13 @@ async function initApp(){
   if(refreshTimer)clearInterval(refreshTimer);
   const today=todayLocal();$('fDate').value=today;selDate=today;
 
-  if(mode!=='admin'){
+  if(mode==='guest-owner'||mode==='guest-employee'){
     loadLocalData();
     renderCal();renderMissBanner();checkDateForExisting(today);
     return;
   }
 
-  // Admin: non-8181 store via Firebase
+  // Admin/Employee: non-8181 store via Firebase
   if(currentStore!=='store8181'){
     if(!adminCfg.fbUrl){
       toast('Set Firebase URL in Settings → My Stores first','warn',6000);
@@ -1124,7 +1194,7 @@ async function initApp(){
 }
 
 async function refreshData(){
-  if(mode!=='admin'){loadLocalData();}
+  if(mode==='guest-owner'||mode==='guest-employee'){loadLocalData();}
   else if(currentStore!=='store8181'){try{await fbAdminLoad(currentStore);}catch(e){}}
   else{try{await loadSheetData();}catch(e){}}
 }
@@ -1132,7 +1202,7 @@ async function refreshData(){
 async function refresh(){
   if(isEditing)return;
   try{
-    if(mode!=='admin'){loadLocalData();}
+    if(mode==='guest-owner'||mode==='guest-employee'){loadLocalData();}
     else if(currentStore!=='store8181'){$('gwDot').className='dot y';await fbAdminLoad(currentStore);$('gwDot').className='dot g';$('gwTxt').textContent='Cloud';}
     else{$('gwDot').className='dot y';await loadSheetData();await checkGW();}
     renderCal();renderMissBanner();
@@ -1170,7 +1240,7 @@ async function doSubmit(payload,isUpdate){
   try{
     const ts=new Date().toISOString();
     const reportData={...payload,ts};
-    if(mode!=='admin'){
+    if(mode==='guest-owner'||mode==='guest-employee'){
       const reports=getLocalReports();
       const idx=reports.findIndex(r=>r.date===payload.date);
       if(idx>=0)reports[idx]={...reportData};else reports.push({...reportData});
