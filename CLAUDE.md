@@ -109,7 +109,8 @@ if(!checkSpecialParams()){ showRole(); }
 | `zreport.html` | Z Report | Admin + Guest | GAS/Firebase/localStorage |
 | `credentials.html` | Static credentials | Admin PIN | Static |
 | `template.html` | Guest credentials hub | Store# + PIN | localStorage |
-| `store-ops.html` | Royalty & Inventory | Admin PIN | TBD |
+| `royalty.html` | Royalty & Stamps calculator | Admin PIN + Guest Owner/Employee | localStorage (`ry_pricing_v1`, `ry_sess_*_v1`, `ry_guest_cfg_v1`) |
+| `store-ops.html` | Legacy — superseded by royalty.html | — | — |
 
 ## Gateway Quick Reference
 **URL**: `https://script.google.com/macros/s/AKfycbwUh6kuKSn4h-YrHdxBjbZHelGDtg0NmTmKXwUZrCW0nB9RUWwmBLcrCIVZIAs0gzQj/exec`
