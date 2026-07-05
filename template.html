@@ -202,13 +202,14 @@ header h1 { font-size: 14px; font-weight: 600; letter-spacing: .3px; }
               Go to the Credentials tab — tap any title, username, or password field to edit. QR codes generate automatically.<br><br>
               <strong style="color:#0498BC;">3. Add or remove profiles</strong><br>
               Owner login only — tap + Add Account to create new profiles, or X to delete ones you don't need.<br><br>
-              <strong style="color:#0498BC;">4. Share with employees</strong><br>
-              Send them this same URL. They log in with the Employee PIN and only see the profiles you marked as employee-visible.<br><br>
-              <strong style="color:#0498BC;">5. Back up your data</strong><br>
-              Settings → Backup Now — copies all credentials as text. Paste into Apple Notes or Google Docs to keep a safe copy.<br><br>
-              <strong style="color:#0498BC;">6. Changing passwords (every 30 days)</strong><br>
-              Log in as Owner → tap the password field → type the new password → QR updates instantly.<br>Then go to <strong>Settings → Backup Now → Copy</strong> and paste into your Notes app. This is your only copy — do it every time passwords change.<br><br>
-              <strong style="color:#e67e22;">Important:</strong> This tool does not auto-sync between devices. When passwords change, notify your employees directly and have them tap the password field and type in the new one. Their QR code updates the moment they do.
+              <strong style="color:#0498BC;">4. Save your Hub Link</strong><br>
+              Settings → Your Hub Link → Copy and save it in Apple Notes or Google Keep. If you ever clear your browser or get a new device, open that link to restore your full setup instantly — no re-entry needed.<br><br>
+              <strong style="color:#0498BC;">5. Share with employees</strong><br>
+              Settings → Push Credentials to Employees → Generate Sync Link → send to your staff group chat. Employees tap the link — their device gets the latest passwords automatically. Repeat every 30 days when passwords reset.<br><br>
+              <strong style="color:#0498BC;">6. Back up your data</strong><br>
+              Settings → Backup Now — copies all credentials as text. Paste into Apple Notes or Google Docs for a safe offline copy.<br><br>
+              <strong style="color:#0498BC;">7. Changing passwords (every 30 days)</strong><br>
+              Log in as Owner → tap the password field → type the new password → QR updates instantly. Then regenerate your Hub Link and Employee Sync Link so both you and your staff are up to date.
             </div>
           </div>
         </div>
@@ -219,6 +220,22 @@ header h1 { font-size: 14px; font-weight: 600; letter-spacing: .3px; }
             <div class="pin-field"><label>Owner PIN</label><input id="o-pin" maxlength="4" inputmode="numeric" oninput="autoSavePins()"></div>
             <div class="pin-field"><label>Employee PIN</label><input id="e-pin" maxlength="4" inputmode="numeric" oninput="autoSavePins()"></div>
             <span id="pin-badge">&#10003; Saved</span>
+          </div>
+        </div>
+
+        <div class="sc">
+          <div class="sc-head">Your Hub Link
+            <div class="sc-head-sub">Save this — restores your full setup on any device</div>
+          </div>
+          <div class="sc-body">
+            <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:5px;padding:10px 12px;margin-bottom:12px;font-size:11px;color:#555;line-height:1.6;">
+              <strong style="color:#1b2d45;">Your private restore link.</strong> Clear your browser, get a new phone, switch devices — open this link and your full setup comes back instantly. Save it in Apple Notes or Google Keep.<br>
+              <strong style="color:#e67e22;display:block;margin-top:5px;">⚠️ Contains your Owner PIN — do not share this link with employees.</strong>
+            </div>
+            <div id="hub-link-qr" style="display:flex;justify-content:center;margin-bottom:10px;"></div>
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-bottom:4px;font-weight:700;">Your Hub Link</div>
+            <div id="hub-link-url" style="font-size:10px;color:#0498BC;word-break:break-all;background:#f4f6f9;padding:8px;border-radius:4px;margin-bottom:8px;border:1px solid #dde0e5;min-height:36px;"></div>
+            <button class="btn-pri" onclick="copyHubLink()" id="copy-hub-btn" style="width:100%;padding:9px;border:none;border-radius:5px;font-size:12px;font-weight:700;cursor:pointer;">Copy Link</button>
           </div>
         </div>
 
@@ -397,6 +414,7 @@ function saveState() {
   const f = document.getElementById("flash");
   f.classList.add("on"); setTimeout(() => f.classList.remove("on"), 1600);
   doPush();
+  if (role === 'o') genHubLink();
 }
 
 // Sync
@@ -479,6 +497,7 @@ function checkPin() {
     }
     switchTab("creds"); renderAccts(); renderPortals();
     pin = ""; selR = null;
+    if (role === 'o') genHubLink();
     doPull().then(changed => { if (changed) { renderAccts(); renderPortals(); } });
   } else {
     setTimeout(() => { pin = ""; document.getElementById("pin-err").textContent = "Incorrect PIN — try again."; drawDots(); }, 200);
@@ -708,6 +727,58 @@ function resetDefaults() {
 }
 function esc(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 
+// ── HUB LINK (owner restore — includes owner PIN, private) ───────────────
+let _hubLink = '';
+
+function genHubLink() {
+  if (!storeNumber || role !== 'o') return;
+  try {
+    const payload = { v: 2, s: storeNumber, a: accounts, ep: pins.e, op: pins.o };
+    const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+    _hubLink = location.origin + location.pathname + '?hub=' + encoded;
+    const urlEl = document.getElementById('hub-link-url');
+    const qrEl  = document.getElementById('hub-link-qr');
+    if (urlEl) urlEl.textContent = _hubLink;
+    if (qrEl)  makeQR(qrEl, _hubLink, 180);
+  } catch(e) { /* silently skip if data too large */ }
+}
+
+function copyHubLink() {
+  if (!_hubLink) return;
+  const btn = document.getElementById('copy-hub-btn');
+  const done = () => { if(btn){btn.textContent='✅ Copied!';setTimeout(()=>btn.textContent='Copy Link',2000);} };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(_hubLink).then(done).catch(fb);
+  } else { fb(); }
+  function fb() {
+    const ta=document.createElement('textarea'); ta.value=_hubLink;
+    ta.style.cssText='position:fixed;opacity:0'; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy'); document.body.removeChild(ta); done();
+  }
+}
+
+function checkHubParam() {
+  const raw = new URLSearchParams(location.search).get('hub');
+  if (!raw) return;
+  try {
+    const d = JSON.parse(decodeURIComponent(escape(atob(raw))));
+    if (!d.v || d.v < 2 || !d.s) return;
+    const key = 'ups_store_' + d.s + '_v1';
+    const existing = JSON.parse(localStorage.getItem(key) || '{}');
+    if (d.a && d.a.length) existing.accounts = d.a;
+    existing.pins = { o: d.op || '0000', e: d.ep || '0000' };
+    localStorage.setItem(key, JSON.stringify(existing));
+    history.replaceState({}, '', location.pathname);
+    const inp = document.getElementById('store-number-input');
+    if (inp) inp.value = d.s;
+    const banner = document.createElement('div');
+    banner.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#1b2d45;color:#fff;padding:12px 16px;text-align:center;font-size:13px;font-weight:700;z-index:9999;line-height:1.4;';
+    banner.textContent = '✅ Hub restored for Store #' + d.s + ' — enter your store number and log in as Owner.';
+    document.body.prepend(banner);
+    setTimeout(() => banner.remove(), 7000);
+  } catch(e) { /* silently ignore malformed hub param */ }
+}
+
 // ── CREDENTIAL SYNC ───────────────────────────────────────────────────────
 let _syncLink = '';
 
@@ -762,4 +833,5 @@ function checkSyncParam() {
 }
 
 checkSyncParam();
+checkHubParam();
 </script></body></html>
