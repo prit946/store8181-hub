@@ -7,7 +7,31 @@
 <link rel="stylesheet" href="hub.css">
 <title>Royalty &amp; Stamps · Store Hub</title>
 <style>
-/* ── SUMMARY ROWS ─────────────────────────────────────────────────────────── */
+/* ── LOG CARDS ──────────────────────────────────────────────────────────── */
+.log-card{background:#f4f6f9;border:1px solid var(--border);border-radius:6px;padding:10px;margin-bottom:8px;position:relative}
+.log-del{position:absolute;top:6px;right:8px;color:#aaa;font-size:14px;cursor:pointer;padding:2px 6px;border-radius:4px;background:#fff;border:1px solid var(--border);line-height:1}
+.log-del:active{color:var(--danger);border-color:var(--danger)}
+.log-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+.log-fields-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:6px}
+.field-mini label{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#888;display:block;margin-bottom:3px}
+.field-mini input,.field-mini select{width:100%;padding:8px 10px;background:#fff;border:1.5px solid var(--border);border-radius:5px;color:#111;font-size:14px;-webkit-appearance:none;appearance:none;box-sizing:border-box}
+.field-mini input:focus,.field-mini select:focus{border-color:var(--navy);outline:none}
+
+/* ── VALIDATION ─────────────────────────────────────────────────────────── */
+.val-err{background:#fde8ea;border:1.5px solid var(--danger);border-radius:6px;padding:10px 12px;margin:8px 0;font-size:12px;color:#7a0000;font-weight:600;line-height:1.5}
+.val-warn{background:#fff8e1;border:1.5px solid #ffc107;border-radius:6px;padding:10px 12px;margin:8px 0;font-size:12px;color:#7a4a00;font-weight:600;line-height:1.5}
+.val-ok{background:#edfaf0;border:1.5px solid var(--success);border-radius:6px;padding:8px 12px;margin:8px 0;font-size:12px;color:#1a6e31;font-weight:600}
+
+/* ── AUTO / LOCKED ──────────────────────────────────────────────────────── */
+.auto-field{background:#f0f2f5;border:1px solid #d0d4db;border-radius:5px;padding:10px 12px;font-size:15px;font-weight:700;color:var(--navy);font-family:inherit;display:block}
+.auto-lbl{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#888;display:block;margin-bottom:4px}
+
+/* ── SECTION HEADER ─────────────────────────────────────────────────────── */
+.section-hdr{display:flex;align-items:center;justify-content:space-between;margin:16px 0 8px}
+.section-hdr h3{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#888;margin:0}
+.add-btn{font-size:11px;font-weight:700;color:var(--teal);background:#e0f5fb;border:1px solid #b0dce8;border-radius:5px;padding:5px 12px;cursor:pointer;touch-action:manipulation}
+
+/* ── SUM ROWS ────────────────────────────────────────────────────────────── */
 .sum-row{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px}
 .sum-row:last-child{border-bottom:none}
 .sum-row .lbl{color:#555;flex:1;padding-right:8px}
@@ -16,52 +40,44 @@
 .sum-row.total .lbl{font-weight:800;color:var(--navy)}
 .sum-row.total .val{font-size:16px}
 
-/* ── LOG CARDS (purchase/sale rows) ─────────────────────────────────────── */
-.log-card{background:#f4f6f9;border:1px solid var(--border);border-radius:6px;padding:10px;margin-bottom:8px;position:relative}
-.log-del{position:absolute;top:6px;right:8px;color:#aaa;font-size:14px;cursor:pointer;padding:2px 6px;border-radius:4px;background:#fff;border:1px solid var(--border);line-height:1}
-.log-del:active{color:var(--danger);border-color:var(--danger)}
-.log-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
-.field-mini label{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#888;display:block;margin-bottom:3px}
-.field-mini input,.field-mini select{width:100%;padding:8px 10px;background:#fff;border:1.5px solid var(--border);border-radius:5px;color:#111;font-size:14px;-webkit-appearance:none;appearance:none;box-sizing:border-box}
-.field-mini input:focus,.field-mini select:focus{border-color:var(--navy);outline:none}
+/* ── CM GUIDE ────────────────────────────────────────────────────────────── */
+.g-section{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--navy);margin:16px 0 6px 2px;padding-bottom:4px;border-bottom:2px solid var(--navy)}
+.g-section:first-child{margin-top:0}
+.guide-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);gap:8px;flex-wrap:wrap}
+.guide-row:last-child{border-bottom:none}
+.guide-row .g-lbl{font-size:12px;color:#444;flex:1;min-width:120px}
+.guide-row .g-val{font-weight:800;color:var(--navy);font-size:15px;white-space:nowrap;text-align:right}
+.g-tag{font-size:9px;font-weight:700;color:var(--teal);background:#e0f5fb;border:1px solid #b0dce8;border-radius:4px;padding:2px 7px;white-space:nowrap;flex-shrink:0}
+.g-tag-auto{font-size:9px;font-weight:700;color:#888;background:#f4f6f9;border:1px solid var(--border);border-radius:4px;padding:2px 7px;white-space:nowrap;flex-shrink:0}
+.btn-copy-lg{display:block;width:100%;padding:14px;background:var(--teal);color:#fff;border:none;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;margin-top:12px;touch-action:manipulation}
+.btn-copy-lg:active{background:#037fa0}
 
-/* ── VALIDATION MESSAGES ─────────────────────────────────────────────────── */
-.val-err{background:#fde8ea;border:1.5px solid var(--danger);border-radius:6px;padding:10px 12px;margin:8px 0;font-size:12px;color:#7a0000;font-weight:600;line-height:1.5}
-.val-warn{background:#fff8e1;border:1.5px solid #ffc107;border-radius:6px;padding:10px 12px;margin:8px 0;font-size:12px;color:#7a4a00;font-weight:600;line-height:1.5}
-.val-ok{background:#edfaf0;border:1.5px solid var(--success);border-radius:6px;padding:8px 12px;margin:8px 0;font-size:12px;color:#1a6e31;font-weight:600}
+/* ── PRICING ─────────────────────────────────────────────────────────────── */
+.pricing-grid{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;margin-bottom:8px}
+.pricing-grid .ph{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#888}
+.pricing-grid .pn{font-size:11px;font-weight:700;color:var(--navy)}
+.pricing-grid input{padding:8px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:#111;width:100%;box-sizing:border-box}
+.pricing-grid input:focus{border-color:var(--navy);outline:none}
 
-/* ── AUTO FIELD ──────────────────────────────────────────────────────────── */
-.auto-field{background:#f0f2f5;border:1px solid #d0d4db;border-radius:5px;padding:10px 12px;font-size:15px;font-weight:700;color:var(--navy);font-family:inherit;display:block}
-.auto-lbl{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#888;display:block;margin-bottom:4px}
-
-/* ── LOCKED FIELD ────────────────────────────────────────────────────────── */
-.locked-field{background:#f0f2f5;border:1px solid #d0d4db;border-radius:5px;padding:10px 12px;font-size:14px;color:#555;font-family:inherit}
-.field-note{font-size:10px;color:#888;line-height:1.5;margin-top:4px}
-
-/* ── SECTION HEADER ──────────────────────────────────────────────────────── */
-.section-hdr{display:flex;align-items:center;justify-content:space-between;margin:16px 0 8px}
-.section-hdr h3{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#888;margin:0}
-.add-btn{font-size:11px;font-weight:700;color:var(--teal);background:#e0f5fb;border:1px solid #b0dce8;border-radius:5px;padding:5px 12px;cursor:pointer;touch-action:manipulation}
-
-/* ── FINAL NUMBERS ───────────────────────────────────────────────────────── */
-.fn-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px}
-.fn-row:last-child{border-bottom:none}
-.fn-row .fnl{color:#333}
-.fn-row .fnv{font-weight:700;color:var(--navy);font-size:15px;white-space:nowrap}
-.fn-row.big{border-top:2px solid var(--navy);margin-top:6px;padding-top:12px}
-.fn-row.big .fnl{font-weight:800;font-size:14px;color:var(--navy)}
-.fn-row.big .fnv{font-size:22px}
-
-/* ── CHECKLIST ───────────────────────────────────────────────────────────── */
-.chk-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
-.chk-item:last-child{border-bottom:none}
-.chk-item input[type=checkbox]{width:20px;height:20px;flex-shrink:0;accent-color:var(--teal);margin-top:1px;cursor:pointer}
-.chk-item label{font-size:12px;color:#333;line-height:1.5;cursor:pointer}
-
-/* ── GUIDE STEPS ─────────────────────────────────────────────────────────── */
+/* ── HOW TO USE STEPS ────────────────────────────────────────────────────── */
 .guide-step{display:flex;gap:10px;margin-bottom:12px;font-size:12px;line-height:1.6;color:#333}
 .guide-step:last-child{margin-bottom:0}
 .guide-num{width:22px;height:22px;border-radius:50%;background:var(--navy);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+
+/* ── REPORT MAP ──────────────────────────────────────────────────────────── */
+.rmap{margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,.1);display:grid;grid-template-columns:1fr auto 1fr;gap:4px 10px;align-items:center;font-size:12px}
+.rmap .rh{color:#888;font-size:10px;text-transform:uppercase;letter-spacing:.5px;padding-bottom:2px}
+.rmap .ra{color:var(--teal);font-weight:800;font-size:15px;text-align:center}
+.rmap .rb{font-weight:700;color:var(--navy)}
+
+/* ── VERIFY BADGE ────────────────────────────────────────────────────────── */
+.vbadge{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-top:8px}
+.vb-ok{background:#edfaf0;color:var(--success);border:1px solid var(--success)}
+.vb-warn{background:#fff8e1;color:#7a4a00;border:1px solid #ffc107}
+.vb-none{background:#f4f6f9;color:#888;border:1px solid var(--border)}
+
+/* ── CARD TEMPLATE ───────────────────────────────────────────────────────── */
+.card-tpl{font-family:'Courier New',monospace;font-size:11px;background:#f4f6f9;border:1.5px solid var(--border);border-radius:6px;padding:12px;line-height:1.65;white-space:pre;overflow-x:auto;-webkit-overflow-scrolling:touch}
 
 /* ── ERROR TABLE ─────────────────────────────────────────────────────────── */
 .err-tbl{width:100%;border-collapse:collapse;font-size:11px;margin-top:4px}
@@ -69,12 +85,9 @@
 .err-tbl td{padding:6px 8px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.4}
 .err-tbl tr:last-child td{border-bottom:none}
 
-/* ── PRICING GRID ────────────────────────────────────────────────────────── */
-.pricing-grid{display:grid;grid-template-columns:auto 1fr 1fr;gap:8px;align-items:center;margin-bottom:8px}
-.pricing-grid .ph{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:#888}
-.pricing-grid .pn{font-size:11px;font-weight:700;color:var(--navy)}
-.pricing-grid input{padding:8px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:#111;width:100%;box-sizing:border-box}
-.pricing-grid input:focus{border-color:var(--navy);outline:none}
+/* ── PRINT ───────────────────────────────────────────────────────────────── */
+@media print{body>*{display:none!important}#printCard{display:block!important;font-family:'Courier New',monospace;font-size:10pt;line-height:1.6;white-space:pre;padding:4mm}}
+#printCard{display:none}
 </style>
 </head>
 <body>
@@ -84,30 +97,21 @@
 <!-- ═══════════════════════════════ ROLE SELECT ════════════════════════════ -->
 <div id="screen-role" style="display:none">
   <div class="auth-hdr" style="justify-content:center">
-    <div style="text-align:center">
-      <h1>Royalty &amp; Stamps Tool</h1>
-      <small>Monthly royalty calculator</small>
-    </div>
+    <div style="text-align:center"><h1>Royalty &amp; Stamps Tool</h1><small>Monthly royalty helper</small></div>
   </div>
   <div class="auth-wrap">
     <div class="slbl">Who are you?</div>
     <div class="role-grid">
       <div class="role-card admin" onclick="startAdmin()">
-        <div class="rc-ico">🔑</div>
-        <div class="rc-name">Admin</div>
-        <div class="rc-desc">Store 8181 · Full access</div>
+        <div class="rc-ico">🔑</div><div class="rc-name">Admin</div><div class="rc-desc">Store 8181 · Full access</div>
       </div>
       <div class="role-card guest" onclick="startGuest()">
-        <div class="rc-ico">🏪</div>
-        <div class="rc-name">Other Store</div>
-        <div class="rc-desc">Your store · Local data</div>
+        <div class="rc-ico">🏪</div><div class="rc-name">Other Store</div><div class="rc-desc">Your store · Local data</div>
       </div>
     </div>
     <div style="margin-top:12px">
       <div class="role-card emp" onclick="startEmployee()" style="display:block;text-align:center;cursor:pointer">
-        <div class="rc-ico">👤</div>
-        <div class="rc-name" style="color:var(--success)">Employee</div>
-        <div class="rc-desc">Log daily stamp sales</div>
+        <div class="rc-ico">👤</div><div class="rc-name" style="color:var(--success)">Employee</div><div class="rc-desc">Log daily stamp sales</div>
       </div>
     </div>
   </div>
@@ -151,7 +155,7 @@
       <div class="fg"><label>Store Name or Number</label><input type="text" id="gStoreName" placeholder="e.g. UPS Store 1234" autocomplete="off"/></div>
       <div class="fg"><label>Owner PIN (4 digits)</label><input type="number" id="gPin" inputmode="numeric" placeholder="Choose a 4-digit PIN" style="font-size:22px;letter-spacing:6px"/></div>
       <div class="fg"><label>Employee PIN <span class="opt-lbl">default 0000</span></label><input type="number" id="gEmpPin" inputmode="numeric" placeholder="0000" style="font-size:22px;letter-spacing:6px"/></div>
-      <div class="info-box"><strong>About PINs</strong>Owner PIN → full access. Employee PIN → sales log only.</div>
+      <div class="info-box"><strong>About PINs</strong> — Owner PIN gives full access. Employee PIN shows sales log only.</div>
       <button class="btn btn-teal" onclick="saveGuestSetup()" style="margin-top:8px">Save &amp; Continue →</button>
     </div>
   </div>
@@ -218,10 +222,7 @@
   <nav class="nav-tabs">
     <button class="nav-tab active" data-tab="stamps" onclick="switchTab('stamps')">Stamps</button>
     <button class="nav-tab nav-owner" data-tab="metered" onclick="switchTab('metered')">Metered</button>
-    <button class="nav-tab nav-owner" data-tab="products" onclick="switchTab('products')">Products</button>
-    <button class="nav-tab nav-owner" data-tab="excl" onclick="switchTab('excl')">Exclusions</button>
-    <button class="nav-tab nav-owner" data-tab="comm" onclick="switchTab('comm')">Commissions</button>
-    <button class="nav-tab nav-owner" data-tab="summary" onclick="switchTab('summary')">Summary</button>
+    <button class="nav-tab nav-owner" data-tab="cmguide" onclick="switchTab('cmguide')">CM Guide</button>
     <button class="nav-tab nav-owner" data-tab="settings" onclick="switchTab('settings')">Settings</button>
   </nav>
 
@@ -230,47 +231,43 @@
     <!-- ════════════════════════ STAMPS TAB ══════════════════════════════ -->
     <div class="tab-panel active" id="panel-stamps">
 
-      <!-- Store info (owner/admin only) -->
+      <!-- Store + Period (owner/admin only) -->
       <div class="nav-owner">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
-          <div class="fg" style="margin:0">
-            <label>Store #</label>
-            <input type="text" id="f_storeNum" placeholder="8181" oninput="sess.storeNum=this.value;save()">
-          </div>
-          <div class="fg" style="margin:0">
-            <label>Royalty Period</label>
-            <input type="text" id="f_period" placeholder="Jun 2026" oninput="sess.period=this.value;save()">
-          </div>
+          <div class="fg" style="margin:0"><label>Store #</label>
+            <input type="text" id="f_storeNum" placeholder="8181" oninput="sess.storeNum=this.value;save();renderCardTemplate()"></div>
+          <div class="fg" style="margin:0"><label>Royalty Period</label>
+            <input type="text" id="f_period" placeholder="Jun 2026" oninput="sess.period=this.value;save();renderCardTemplate()"></div>
         </div>
       </div>
 
       <!-- Pricing quick-ref -->
       <div class="info-box" id="pricingRef"></div>
 
-      <!-- Physical stamps scope note (owner/admin only) -->
+      <!-- Physical stamps only note (owner/admin) -->
       <div class="nav-owner">
         <div class="info-box" style="margin-top:10px">
-          <strong>Physical stamps only</strong> — coil of 100 &amp; book of 20.<br>
+          <strong>Physical stamps only</strong> — Book of 20 &amp; Coil of 100.<br>
           Stamps.com / postage meter → <strong>Metered tab</strong>.
         </div>
       </div>
 
-      <!-- Beginning inventory (owner/admin only) -->
+      <!-- Beginning Inventory (owner/admin) -->
       <div class="nav-owner">
         <div class="card" style="margin-top:10px">
           <div class="ctitle">Beginning Stamps Inventory</div>
           <div class="fg" style="margin:0">
-            <label>Carries from last month's Ending Inventory ($0 if first month)</label>
+            <label>$ — carries from last month's ending inventory ($0 if first month)</label>
             <input type="text" inputmode="decimal" id="f_beginStamps" placeholder="0.00"
               oninput="sess.beginningStamps=this.value;calcAll()">
           </div>
         </div>
       </div>
 
-      <!-- PURCHASES LOG (owner/admin only) -->
+      <!-- Purchases Log (owner/admin) -->
       <div class="nav-owner">
-        <div class="section-hdr">
-          <h3>Stamp Purchases Log</h3>
+        <div class="section-hdr" style="margin-top:16px">
+          <h3>Stamp Purchases</h3>
           <button class="add-btn" onclick="addPurchaseRow()">+ Add Row</button>
         </div>
         <div class="info-box" style="margin-bottom:8px;font-size:11px">
@@ -279,375 +276,277 @@
         <div id="purchaseRows"></div>
         <div class="card">
           <div class="sum-row"><span class="lbl">Total Units Purchased</span><span class="val" id="s_purchUnits">0</span></div>
-          <div class="sum-row total"><span class="lbl">Total Purchases Cost → enter in CM as "Stamps Purchases"</span><span class="val" id="s_purchCost">$0.00</span></div>
+          <div class="sum-row total"><span class="lbl">Total Purchases Cost → enter in CM</span><span class="val" id="s_purchCost">$0.00</span></div>
         </div>
       </div>
 
-      <!-- SALES LOG -->
+      <!-- Sales Log (all roles) -->
       <div class="section-hdr" style="margin-top:16px">
-        <h3>Daily Stamp Sales Log</h3>
+        <h3>Daily Stamp Sales</h3>
         <button class="add-btn" onclick="addSaleRow()">+ Add Row</button>
       </div>
       <div id="saleRows"></div>
       <div class="card">
-        <div class="sum-row"><span class="lbl">Coil of 100 sold (qty)</span><span class="val" id="s_coilQty">0</span></div>
-        <div class="sum-row"><span class="lbl">Book of 20 sold (qty)</span><span class="val" id="s_bookQty">0</span></div>
-        <div class="sum-row total"><span class="lbl">Total Stamp Sales (retail) → Products tab</span><span class="val" id="s_stampSalesRetail">$0.00</span></div>
+        <div class="sum-row"><span class="lbl">Books of 20 sold</span><span class="val" id="s_bookQty">0</span></div>
+        <div class="sum-row"><span class="lbl">Coils of 100 sold</span><span class="val" id="s_coilQty">0</span></div>
+        <div class="sum-row total"><span class="lbl">Stamp Sales (retail) → verify in CM Products tab</span><span class="val" id="s_stampSalesRetail">$0.00</span></div>
       </div>
 
-      <!-- ENDING INVENTORY + STAMPS SUMMARY (owner/admin only) -->
+      <!-- Ending Inventory + Summary (owner/admin) -->
       <div class="nav-owner">
         <div class="card" style="margin-top:8px">
-          <div class="ctitle">Ending Stamps Inventory — Physical Count (1st of next month)</div>
+          <div class="ctitle">Ending Inventory — Physical Count</div>
           <div class="info-box warn" style="margin-bottom:12px">
-            <strong>Always use your USPS cost, not retail price</strong>
-            Enter quantities only — the tool calculates cost automatically using the USPS cost from Settings.
+            Count what's physically on hand at month end. Enter quantities — cost auto-calculates at USPS price.
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-            <div class="fg" style="margin:0">
-              <label>Coil of 100 — Qty on Hand</label>
-              <input type="text" inputmode="numeric" id="f_endCoil" placeholder="0"
-                oninput="sess.endingCoilQty=this.value;calcAll()">
-            </div>
-            <div class="fg" style="margin:0">
-              <label>Book of 20 — Qty on Hand</label>
+            <div class="fg" style="margin:0"><label>Book of 20 — Qty on Hand</label>
               <input type="text" inputmode="numeric" id="f_endBook" placeholder="0"
-                oninput="sess.endingBookQty=this.value;calcAll()">
-            </div>
+                oninput="sess.endingBookQty=this.value;calcAll()"></div>
+            <div class="fg" style="margin:0"><label>Coil of 100 — Qty on Hand</label>
+              <input type="text" inputmode="numeric" id="f_endCoil" placeholder="0"
+                oninput="sess.endingCoilQty=this.value;calcAll()"></div>
           </div>
           <div style="margin-top:12px">
-            <span class="auto-lbl">Ending Stamps Inventory $ → enter in CM</span>
+            <span class="auto-lbl">Ending Stamps Inventory Cost → enter in CM (right side)</span>
             <span class="auto-field" id="s_endingCost">$0.00</span>
           </div>
         </div>
 
-        <!-- STAMPS SUMMARY CARD -->
         <div class="card">
-          <div class="ctitle">Stamps Summary → Center Management</div>
+          <div class="ctitle">Stamps Summary</div>
           <div class="sum-row"><span class="lbl">Beginning Stamps Inventory</span><span class="val" id="s_sumBegin">$0.00</span></div>
           <div class="sum-row"><span class="lbl">+ Stamps Purchases</span><span class="val" id="s_sumPurch">$0.00</span></div>
           <div class="sum-row"><span class="lbl">− Ending Stamps Inventory</span><span class="val" id="s_sumEnd">$0.00</span></div>
-          <div class="sum-row total"><span class="lbl">= Cost of Stamps Sold (auto in CM)</span><span class="val" id="s_stampCost">$0.00</span></div>
-          <div class="sum-row" style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px">
-            <span class="lbl">Stamp Sales (retail) → Products tab</span>
-            <span class="val" id="s_sumSalesRetail">$0.00</span>
-          </div>
+          <div class="sum-row total"><span class="lbl">= Cost of Stamps Sold (CM calculates — verify)</span><span class="val" id="s_stampCost">$0.00</span></div>
           <div id="stampValMsg"></div>
         </div>
+
+        <!-- Monthly Activity Card Template -->
+        <div class="section-hdr" style="margin-top:16px">
+          <h3>Monthly Activity Card</h3>
+          <button onclick="printCard()" style="font-size:11px;font-weight:700;color:var(--navy);background:#fff;border:1.5px solid var(--border);border-radius:5px;padding:5px 12px;cursor:pointer">🖨 Print 4×6</button>
+        </div>
+        <div class="info-box" style="margin-bottom:8px;font-size:11px">
+          Print on 4×6 index card. Fill out throughout the month, then type into this tool at royalty time.
+        </div>
+        <div class="card-tpl" id="cardTpl"></div>
       </div>
+
     </div><!-- /stamps -->
 
     <!-- ══════════════════════ METERED MAIL TAB ═══════════════════════════ -->
     <div class="tab-panel" id="panel-metered">
+
       <div class="card">
-        <div class="ctitle">Metered Mail — Stamps.com Report</div>
+        <div class="ctitle">Stamps.com Balance Summary</div>
         <div class="info-box" style="margin-bottom:12px">
           <strong>or.stamps.com → Reports → Balances → Summary → select prior month</strong><br>
-          <span style="font-size:11px">Auto-reloads are captured in Funds Added — one report covers all three fields.</span>
-          <div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,.1);display:grid;grid-template-columns:1fr auto 1fr;gap:3px 10px;align-items:center;font-size:12px">
-            <span style="color:#888;font-size:10px;text-transform:uppercase;letter-spacing:.5px">Report says</span><span></span><span style="color:#888;font-size:10px;text-transform:uppercase;letter-spacing:.5px">Enter here as</span>
-            <span>Opening Balance</span><span style="color:var(--teal);font-weight:700">→</span><span style="font-weight:700">Beginning</span>
-            <span>Funds Added</span><span style="color:var(--teal);font-weight:700">→</span><span style="font-weight:700">Meter Fills</span>
-            <span>Ending Balance</span><span style="color:var(--teal);font-weight:700">→</span><span style="font-weight:700">Ending</span>
+          <span style="font-size:11px">Auto-reloads are captured in Funds Added — one report covers all four fields.</span>
+          <div class="rmap">
+            <span class="rh">Report says</span><span></span><span class="rh">Enter here as</span>
+            <span>Beginning Balance</span><span class="ra">→</span><span class="rb">Beginning</span>
+            <span>Funds Added</span><span class="ra">→</span><span class="rb">Meter Fills</span>
+            <span>Funds Deducted</span><span class="ra">→</span><span class="rb">Funds Deducted (verify only)</span>
+            <span>Ending Balance</span><span class="ra">→</span><span class="rb">Ending</span>
           </div>
         </div>
+
         <div class="fg">
-          <label>Beginning Metered Mail (= last month's ending, or $0 first month)</label>
+          <label>Beginning Balance → CM "Beginning Metered Mail"</label>
           <input type="text" inputmode="decimal" id="f_mtrBegin" placeholder="0.00"
-            oninput="sess.beginningMetered=this.value;calcAll()">
+            oninput="sess.mtrBegin=this.value;calcAll()">
         </div>
         <div class="fg">
-          <label>+ Meter Fills (Fund… row on Stamps.com)</label>
-          <input type="text" inputmode="decimal" id="f_mtrFills" placeholder="0.00"
-            oninput="sess.meterFills=this.value;calcAll()">
+          <label>Funds Added → CM "Meter Fills"</label>
+          <input type="text" inputmode="decimal" id="f_mtrFundsAdded" placeholder="0.00"
+            oninput="sess.mtrFundsAdded=this.value;calcAll()">
         </div>
         <div class="fg">
-          <label>− Ending Metered Mail Reading (Endi… row, last column)</label>
-          <input type="text" inputmode="decimal" id="f_mtrEnd" placeholder="0.00"
-            oninput="sess.endingMetered=this.value;calcAll()">
+          <label>Funds Deducted (from report — for verification only, not entered in CM)</label>
+          <input type="text" inputmode="decimal" id="f_mtrFundsDeducted" placeholder="0.00"
+            oninput="sess.mtrFundsDeducted=this.value;calcAll()">
         </div>
-        <div style="margin-top:4px">
-          <span class="auto-lbl">= Cost of Metered Mail Used (auto)</span>
+        <div class="fg" style="margin-bottom:0">
+          <label>Ending Balance → CM "Ending Metered Mail Reading"</label>
+          <input type="text" inputmode="decimal" id="f_mtrEnding" placeholder="0.00"
+            oninput="sess.mtrEnding=this.value;calcAll()">
+        </div>
+        <div style="margin-top:10px">
+          <span class="auto-lbl">Cost of Metered Mail Used (CM calculates — should match Funds Deducted)</span>
           <span class="auto-field" id="s_mtrCostUsed">$0.00</span>
+          <div id="mtrVerifyBadge"></div>
         </div>
       </div>
 
       <div class="card">
-        <div class="ctitle">Metered Mail Exclusion (Appendix A)</div>
+        <div class="ctitle">Metered Mail Exclusion — Appendix A</div>
         <div class="info-box warn" style="margin-bottom:12px">
           <strong>Separate report — not on the Balance Summary above</strong><br>
           print.endicia.com → Reports → Prints → By Type → Data → Prints, Refunds &amp; Adjustments → <strong>Net Amount Paid for Letters</strong>
         </div>
         <div class="fg" style="margin-bottom:0">
-          <label>Total Allowable Metered Mail Exclusion</label>
+          <label>Total Allowable Metered Mail Exclusion → CM right side</label>
           <input type="text" inputmode="decimal" id="f_mtrExcl" placeholder="0.00"
-            oninput="sess.meterExclusion=this.value;calcAll()">
+            oninput="sess.mtrExclusion=this.value;calcAll()">
         </div>
         <div id="meteredValMsg"></div>
       </div>
+
     </div><!-- /metered -->
 
-    <!-- ════════════════════════ PRODUCTS TAB ════════════════════════════ -->
-    <div class="tab-panel" id="panel-products">
-      <div class="card">
-        <div class="ctitle">Tab 1 — Products &amp; Services</div>
-        <div class="info-box" style="margin-bottom:12px">
-          <strong>Source</strong>
-          Center Management → FRS → POS Reports → Profit Center Report → prior month → <strong>Discounted Income</strong> column only.
-        </div>
-        <div class="fg"><label>Shipping Charge (UPS)</label><input type="text" inputmode="decimal" id="p_ship" placeholder="0.00" oninput="sess.shipping=this.value;calcAll()"></div>
-        <div class="fg"><label>Retail Shipping Supply</label><input type="text" inputmode="decimal" id="p_supply" placeholder="0.00" oninput="sess.supplies=this.value;calcAll()"></div>
-        <div class="fg"><label>Notary</label><input type="text" inputmode="decimal" id="p_notary" placeholder="0.00" oninput="sess.notary=this.value;calcAll()"></div>
-        <div class="fg"><label>Packaging Materials</label><input type="text" inputmode="decimal" id="p_pkg" placeholder="0.00" oninput="sess.packaging=this.value;calcAll()"></div>
-        <div class="fg"><label>Packaging Service Fee</label><input type="text" inputmode="decimal" id="p_pkgSvc" placeholder="0.00" oninput="sess.packagingService=this.value;calcAll()"></div>
-        <div class="fg"><label>Copies</label><input type="text" inputmode="decimal" id="p_copies" placeholder="0.00" oninput="sess.copies=this.value;calcAll()"></div>
-        <div class="fg"><label>Color Copies</label><input type="text" inputmode="decimal" id="p_colorCopies" placeholder="0.00" oninput="sess.colorCopies=this.value;calcAll()"></div>
-        <div class="fg"><label>Facsimile</label><input type="text" inputmode="decimal" id="p_fax" placeholder="0.00" oninput="sess.fax=this.value;calcAll()"></div>
-        <div class="fg"><label>Metered Mail</label><input type="text" inputmode="decimal" id="p_metered" placeholder="0.00" oninput="sess.meteredMail=this.value;calcAll()"></div>
-        <div class="fg">
-          <label>Stamp Sales <span class="opt-lbl">auto from Stamps tab</span></label>
-          <input type="text" inputmode="decimal" id="p_stampSales" placeholder="0.00"
-            oninput="sess.stampSalesOverride=(this.value===''?null:this.value);calcAll()">
-        </div>
-        <div class="fg"><label>Deposits</label><input type="text" inputmode="decimal" id="p_deposits" placeholder="0.00" oninput="sess.deposits=this.value;calcAll()"></div>
-        <div class="fg"><label>Sales Tax</label><input type="text" inputmode="decimal" id="p_salesTax" placeholder="0.00" oninput="sess.salesTax=this.value;calcAll()"></div>
-        <div class="fg" style="margin-bottom:0"><label>Other Products</label><input type="text" inputmode="decimal" id="p_other" placeholder="0.00" oninput="sess.otherProducts=this.value;calcAll()"></div>
-      </div>
-      <div class="card">
-        <div class="sum-row total"><span class="lbl">Total Gross Sales</span><span class="val" id="s_totalGross">$0.00</span></div>
-      </div>
-    </div><!-- /products -->
+    <!-- ═══════════════════════ CM GUIDE TAB ═════════════════════════════ -->
+    <div class="tab-panel" id="panel-cmguide">
 
-    <!-- ══════════════════════ EXCLUSIONS TAB ════════════════════════════ -->
-    <div class="tab-panel" id="panel-excl">
-      <div class="card">
-        <div class="ctitle">Tab 2 — Exclusions</div>
-        <div class="info-box warn" style="margin-bottom:12px">
-          <strong>Stamp Cost exclusion cannot exceed Stamp Sales.</strong>
-          If it does, Center Management will block submission. Check the Stamps tab and verify all entries use USPS cost basis, not retail.
-        </div>
-
-        <div class="fg">
-          <label>Stamp Cost (auto — from Stamps tab)</label>
-          <div class="locked-field" id="e_stampCost">$0.00</div>
-          <p class="field-note">Locked. Source: Cost of Stamps Sold calculated in Stamps tab.</p>
-        </div>
-        <div class="fg">
-          <label>Metered Mail Cost (auto — from Metered tab)</label>
-          <div class="locked-field" id="e_meteredCost">$0.00</div>
-          <p class="field-note">Locked. Source: Allowable Metered Mail Exclusion from Metered tab.</p>
-        </div>
-        <div class="fg">
-          <label>Money Transfer Cost</label>
-          <div class="locked-field">$0.00</div>
-          <p class="field-note">Always $0 — do not change.</p>
-        </div>
-        <div class="fg">
-          <label>Money Order Cost</label>
-          <div class="locked-field">$0.00</div>
-        </div>
-        <div class="fg">
-          <label>Public Service Payment Cost</label>
-          <div class="locked-field">$0.00</div>
-        </div>
-        <div class="fg">
-          <label>Sales Tax (auto — from Products tab)</label>
-          <div class="locked-field" id="e_salesTax">$0.00</div>
-        </div>
-        <div class="fg">
-          <label>Deposits (auto — from Products tab)</label>
-          <div class="locked-field" id="e_deposits">$0.00</div>
-        </div>
-        <div class="fg">
-          <label>iShip Processing Fee</label>
-          <input type="text" inputmode="decimal" id="e_iship" placeholder="10.00"
-            oninput="sess.iship=this.value;calcAll()">
-          <p class="field-note">Typically $10–$12/month. Cannot be pulled from POS automatically.</p>
-        </div>
-        <div class="fg" style="margin-bottom:0">
-          <label>Other 1</label>
-          <input type="text" inputmode="decimal" id="e_other1" placeholder="0.00"
-            oninput="sess.other1Excl=this.value;checkOther1();calcAll()">
-          <p class="field-note">Leave at $0.00 unless your area rep instructs otherwise. Adjusts royalty base directly (Total Adjusted STR), NOT Total Exclusions — do not use to fix the Stamp Cost cap.</p>
-          <div id="other1Msg"></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="sum-row total"><span class="lbl">Total Exclusions</span><span class="val" id="s_totalExcl">$0.00</span></div>
-      </div>
-    </div><!-- /excl -->
-
-    <!-- ═════════════════════ COMMISSIONS TAB ════════════════════════════ -->
-    <div class="tab-panel" id="panel-comm">
-      <div class="card">
-        <div class="ctitle">Tab 3 — Commissions</div>
-        <div class="fg">
-          <label>Money Transfer</label>
-          <div class="locked-field">$0.00</div>
-          <p class="field-note">Always $0 — do not change.</p>
-        </div>
-        <div class="fg">
-          <label>Other 1 — PRP Commissions (pre-populated by HQ)</label>
-          <div class="locked-field">$0.00</div>
-          <p class="field-note">UPS Store HQ auto-populates this in Center Management. Do NOT enter PRP commissions here or in your POS system — it causes double reporting. Leave this at $0.00 in the tool.</p>
-        </div>
-        <div class="fg" style="margin-bottom:0">
-          <label>Other 2</label>
-          <input type="text" inputmode="decimal" id="c_other2" placeholder="0.00"
-            oninput="sess.other2Comm=this.value;calcAll()">
-          <p class="field-note">Leave at $0.00 unless your area rep instructs otherwise.</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="sum-row total"><span class="lbl">Total Commissions</span><span class="val" id="s_totalComm">$0.00</span></div>
-      </div>
-    </div><!-- /comm -->
-
-    <!-- ═══════════════════════ SUMMARY TAB ══════════════════════════════ -->
-    <div class="tab-panel" id="panel-summary">
-
-      <div class="card">
-        <div class="ctitle">Tab 4 — Review &amp; Submit</div>
-        <div class="info-box teal" style="margin-bottom:12px">
-          <strong>Record these numbers in Center Management</strong>
-          My Center → Royalty → Submit Royalty → select month → verify each tab → submit.
-        </div>
-        <div class="fn-row"><span class="fnl">Total Gross Sales</span><span class="fnv" id="fn_gross">$0.00</span></div>
-        <div class="fn-row"><span class="fnl">Total Exclusions</span><span class="fnv" id="fn_excl">$0.00</span></div>
-        <div class="fn-row"><span class="fnl">Total Commissions</span><span class="fnv" id="fn_comm">$0.00</span></div>
-        <div class="fn-row"><span class="fnl">Total STR (royalty base)</span><span class="fnv" id="fn_str">$0.00</span></div>
-        <div style="height:4px"></div>
-        <div class="fn-row"><span class="fnl">Royalty Due (5%)</span><span class="fnv" id="fn_royalty">$0.00</span></div>
-        <div class="fn-row"><span class="fnl">Marketing Due (1%)</span><span class="fnv" id="fn_mktg">$0.00</span></div>
-        <div class="fn-row"><span class="fnl">NAF Due (2.5%)</span><span class="fnv" id="fn_naf">$0.00</span></div>
-        <div class="fn-row big"><span class="fnl">TOTAL DUE</span><span class="fnv" id="fn_total">$0.00</span></div>
-      </div>
-
-      <button class="btn-copy" onclick="copyFinalNumbers()">📋 Copy Final Numbers to Clipboard</button>
-
-      <div class="card">
-        <div class="ctitle">Pre-Submit Checklist</div>
-        <div class="chk-item">
-          <input type="checkbox" id="chk0" onchange="sess.checklist[0]=this.checked;save()">
-          <label for="chk0">Pulled Stamps.com Balances by Type report AND Profit Center Report (prior month, Discounted Income column)</label>
-        </div>
-        <div class="chk-item">
-          <input type="checkbox" id="chk1" onchange="sess.checklist[1]=this.checked;save()">
-          <label for="chk1">Daily Stamp Sales Log totaled; Ending Stamps Inventory counted and entered at cost</label>
-        </div>
-        <div class="chk-item">
-          <input type="checkbox" id="chk2" onchange="sess.checklist[2]=this.checked;save()">
-          <label for="chk2">Entered Stamps &amp; Metered Mail in Center Management and clicked Save</label>
-        </div>
-        <div class="chk-item">
-          <input type="checkbox" id="chk3" onchange="sess.checklist[3]=this.checked;save()">
-          <label for="chk3">Verified Products tab against Profit Center report; Stamp Cost ≤ Stamp Sales confirmed</label>
-        </div>
-        <div class="chk-item">
-          <input type="checkbox" id="chk4" onchange="sess.checklist[4]=this.checked;save()">
-          <label for="chk4">Entered Sales Tax + Deposits; Other 1 and all Commissions left at $0.00 unless instructed</label>
-        </div>
-        <div class="chk-item">
-          <input type="checkbox" id="chk5" onchange="sess.checklist[5]=this.checked;save()">
-          <label for="chk5">Submitted royalty, saved confirmation page, and entered confirmation number below</label>
-        </div>
+      <div class="info-box teal" style="margin-bottom:12px">
+        <strong>CM → My Center → Royalty → Submit Royalty → select month → Stamps and Metered Mail</strong><br>
+        <span style="font-size:11px">Enter each value below. Click Save before leaving the page.</span>
       </div>
 
       <div class="card">
-        <div class="ctitle">Sign-Off</div>
-        <div class="fg">
-          <label>Confirmation Number (from Center Management)</label>
-          <input type="text" id="f_confirmNum" placeholder="From confirmation page" oninput="sess.confirmNum=this.value;save()">
+        <p class="g-section">Stamps Inventory — Left Side</p>
+        <div class="guide-row">
+          <span class="g-lbl">Beginning Stamps Inventory</span>
+          <span class="g-tag">type in CM</span>
+          <span class="g-val" id="g_begin">$0.00</span>
         </div>
-        <div class="fg">
-          <label>Total Due (verify matches tool above)</label>
-          <input type="text" inputmode="decimal" id="f_totalDuePaid" placeholder="0.00" oninput="sess.totalDuePaid=this.value;save()">
+        <div class="guide-row">
+          <span class="g-lbl">Stamps Purchases</span>
+          <span class="g-tag">type in CM</span>
+          <span class="g-val" id="g_purch">$0.00</span>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div class="fg" style="margin:0"><label>Employee Initials</label><input type="text" id="f_empInit" placeholder="–" oninput="sess.empInitials=this.value;save()"></div>
-          <div class="fg" style="margin:0"><label>Date</label><input type="date" id="f_empDate" oninput="sess.empDate=this.value;save()"></div>
+
+        <p class="g-section">Ending Inventory — Right Side</p>
+        <div class="guide-row">
+          <span class="g-lbl">Book of 20 — Qty</span>
+          <span class="g-tag">type in CM</span>
+          <span class="g-val" id="g_endBook">0</span>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
-          <div class="fg" style="margin:0"><label>Manager Initials</label><input type="text" id="f_mgrInit" placeholder="–" oninput="sess.mgrInitials=this.value;save()"></div>
-          <div class="fg" style="margin:0"><label>Date</label><input type="date" id="f_mgrDate" oninput="sess.mgrDate=this.value;save()"></div>
+        <div class="guide-row">
+          <span class="g-lbl">Coil of 100 — Qty</span>
+          <span class="g-tag">type in CM</span>
+          <span class="g-val" id="g_endCoil">0</span>
         </div>
-        <div class="fg" style="margin-top:10px;margin-bottom:0">
-          <label>Manager Approved</label>
-          <select id="f_mgrApproved" onchange="sess.mgrApproved=this.value;save()">
-            <option value="">— Select —</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
+        <div class="guide-row">
+          <span class="g-lbl">Ending Stamps Inventory Cost</span>
+          <span class="g-tag-auto">CM calculates</span>
+          <span class="g-val" id="g_endCost">$0.00</span>
+        </div>
+        <div class="guide-row">
+          <span class="g-lbl">Cost of Stamps Sold</span>
+          <span class="g-tag-auto">CM calculates</span>
+          <span class="g-val" id="g_costSold">$0.00</span>
+        </div>
+
+        <p class="g-section">Metered Mail — Left Side</p>
+        <div class="guide-row">
+          <span class="g-lbl">Beginning Metered Mail</span>
+          <span class="g-tag">type in CM</span>
+          <span class="g-val" id="g_mtrBegin">$0.00</span>
+        </div>
+        <div class="guide-row">
+          <span class="g-lbl">Meter Fills</span>
+          <span class="g-tag">type in CM</span>
+          <span class="g-val" id="g_mtrFills">$0.00</span>
+        </div>
+        <div class="guide-row">
+          <span class="g-lbl">Ending Metered Mail Reading</span>
+          <span class="g-tag">type in CM</span>
+          <span class="g-val" id="g_mtrEnding">$0.00</span>
+        </div>
+        <div class="guide-row">
+          <span class="g-lbl">Cost of Metered Mail Used</span>
+          <span class="g-tag-auto">CM calculates</span>
+          <span class="g-val" id="g_mtrCostUsed">$0.00</span>
+        </div>
+
+        <p class="g-section">Metered Mail Exclusion — Right Side</p>
+        <div class="guide-row">
+          <span class="g-lbl">Total Allowable Exclusion (Appendix A)</span>
+          <span class="g-tag">type in CM</span>
+          <span class="g-val" id="g_mtrExcl">$0.00</span>
+        </div>
+
+        <p class="g-section">Exclusions Tab — iShip Proc Fee</p>
+        <div style="font-size:11px;color:#888;margin-bottom:8px">Typically $10–$12/month. Enter in CM Exclusions tab manually.</div>
+        <div class="fg" style="margin-bottom:8px">
+          <label>iShip Fee this month</label>
+          <input type="text" inputmode="decimal" id="f_iship" placeholder="10.00"
+            oninput="sess.iship=this.value;save();updateGuide()">
+        </div>
+        <div class="guide-row">
+          <span class="g-lbl">iShip Proc Fee</span>
+          <span class="g-tag">type in CM Exclusions</span>
+          <span class="g-val" id="g_iship">$0.00</span>
+        </div>
+
+        <p class="g-section">Verify in Products/Services Tab</p>
+        <div class="guide-row">
+          <span class="g-lbl">Stamp Sales (retail)<br><span style="font-size:10px;color:#888">CM pulls this from POS — confirm the two numbers match</span></span>
+          <span class="g-val" id="g_stampSales">$0.00</span>
         </div>
       </div>
 
-      <div class="card">
-        <div class="ctitle">Resubmission</div>
-        <div class="info-box">
-          <strong>To resubmit a previous month</strong>
-          Center Management → Royalty tab → Previously Submitted → select month → adjust fields → Adjustment Reason required for each changed line → View &amp; Submit Royalty → Submit.<br><br>
-          Resubmission is limited to the last 12 months in Center Management.
-        </div>
-      </div>
-    </div><!-- /summary -->
+      <button class="btn-copy-lg" onclick="copyCMGuide()">📋 Copy CM Entry Guide to Clipboard</button>
+
+    </div><!-- /cmguide -->
 
     <!-- ═══════════════════════ SETTINGS TAB ═════════════════════════════ -->
     <div class="tab-panel" id="panel-settings">
 
-      <div class="slbl">Stamp Pricing</div>
+      <div class="slbl">Stamp Pricing (USPS Cost)</div>
       <div class="card">
-        <div class="ctitle">Current Prices &nbsp;<span id="priceAgeLbl" style="font-size:9px;font-weight:600;color:#888;text-transform:none;letter-spacing:0"></span></div>
+        <div class="ctitle">USPS Cost per Unit &nbsp;<span id="priceAgeLbl" style="font-size:9px;font-weight:600;color:#888;text-transform:none;letter-spacing:0"></span></div>
         <div id="priceWarnMsg"></div>
         <div class="pricing-grid">
-          <div></div>
-          <div class="ph">USPS Cost/Unit</div>
-          <div class="ph">Retail $/Unit</div>
-          <div class="pn">Coil of 100</div>
-          <input type="text" inputmode="decimal" id="pr_coilUsps" oninput="savePricing()">
-          <input type="text" inputmode="decimal" id="pr_coilRetail" oninput="savePricing()">
+          <div class="ph">Product</div><div class="ph">USPS Cost ($)</div>
           <div class="pn">Book of 20</div>
-          <input type="text" inputmode="decimal" id="pr_bookUsps" oninput="savePricing()">
-          <input type="text" inputmode="decimal" id="pr_bookRetail" oninput="savePricing()">
+          <input type="text" inputmode="decimal" id="pr_bookCost" oninput="savePricing()">
+          <div class="pn">Coil of 100</div>
+          <input type="text" inputmode="decimal" id="pr_coilCost" oninput="savePricing()">
         </div>
-        <div class="info-box" style="margin-top:4px;opacity:.8">
-          <strong>Upcoming after July 12, 2026 (not yet active)</strong>
-          Coil: $82.00 / $109.99 &nbsp;·&nbsp; Book: $16.40 / $23.99
-          <br><button onclick="useUpcomingPricing()" style="margin-top:6px;font-size:11px;font-weight:700;color:var(--teal);background:#e0f5fb;border:1px solid #b0dce8;border-radius:4px;padding:4px 12px;cursor:pointer">Use these prices</button>
+        <div class="info-box" style="margin-top:4px;opacity:.85">
+          <strong>Upcoming prices after July 12, 2026</strong> (not yet active)<br>
+          Book of 20: $16.40 &nbsp;·&nbsp; Coil of 100: $82.00
+          <br><button onclick="useUpcomingPricing()" style="margin-top:6px;font-size:11px;font-weight:700;color:var(--teal);background:#e0f5fb;border:1px solid #b0dce8;border-radius:4px;padding:4px 12px;cursor:pointer">Use July 12 prices</button>
         </div>
       </div>
 
       <div class="slbl">How to Use</div>
       <div class="card">
-        <div class="ctitle">Monthly Process — 8 Steps</div>
-        <div class="guide-step"><div class="guide-num">1</div><div>Fill in the <strong>Stamps tab</strong> using your 4×6 tally card (sales log) and physical count (ending inventory). Enter beginning inventory from last month's ending.</div></div>
-        <div class="guide-step"><div class="guide-num">2</div><div>Fill in the <strong>Metered Mail tab</strong> using Stamps.com Balances report and Endicia Appendix A for the exclusion amount.</div></div>
-        <div class="guide-step"><div class="guide-num">3</div><div>Enter values in <strong>Center Management → Stamps &amp; Metered Mail</strong> using the summary values from tabs 1–2. Click Save before leaving.</div></div>
-        <div class="guide-step"><div class="guide-num">4</div><div>Fill in the <strong>Products tab</strong> using FRS Profit Center Report (Discounted Income column). Stamp Sales auto-fills from the Stamps tab.</div></div>
-        <div class="guide-step"><div class="guide-num">5</div><div>Review the <strong>Exclusions tab</strong> — verify no red warnings. Enter iShip fee. Leave Other 1 at $0 unless area rep instructs.</div></div>
-        <div class="guide-step"><div class="guide-num">6</div><div>Review the <strong>Commissions tab</strong> — leave all at $0 unless area rep instructs otherwise.</div></div>
-        <div class="guide-step"><div class="guide-num">7</div><div>Review the <strong>Summary tab</strong> — record Total Due. Complete the checklist. Submit in Center Management and enter the confirmation number.</div></div>
-        <div class="guide-step"><div class="guide-num">8</div><div>Hit <strong>Reset / New Month</strong> when done. Stamp pricing is preserved automatically.</div></div>
+        <div class="ctitle">Monthly Process — 3 Steps</div>
+        <div class="guide-step"><div class="guide-num">1</div><div><strong>Throughout month</strong> — fill out your 4×6 Stamp Activity Card as sales happen (front) and when USPS orders arrive (back). At month end, pull Stamps.com Balance Summary and add those numbers to the back of the card.</div></div>
+        <div class="guide-step"><div class="guide-num">2</div><div><strong>Royalty time</strong> — open this tool. Type in your card data: Stamps tab for purchases, sales, and ending inventory count. Metered tab for Stamps.com numbers and Appendix A exclusion. Check CM Guide tab for your final entry values.</div></div>
+        <div class="guide-step"><div class="guide-num">3</div><div><strong>Submit</strong> — Center Management → My Center → Royalty → Submit Royalty → select month → Stamps and Metered Mail. Enter each value from the CM Guide tab. Click Save, then go through Products, Exclusions (add iShip fee), Commissions tabs and submit.</div></div>
       </div>
 
       <div class="card">
         <div class="ctitle">Where to Find Each Report</div>
-        <div class="info-box" style="margin-bottom:8px"><strong>Stamps.com Metered Mail</strong>or.stamps.com → Reports → Balances → Summary → prior full month</div>
-        <div class="info-box" style="margin-bottom:8px"><strong>Endicia Exclusion (Appendix A)</strong>print.endicia.com → Reports → Prints → By Type → Data → Prints, Refunds &amp; Adjustments → Net Amount Paid for Letters</div>
-        <div class="info-box" style="margin-bottom:8px"><strong>FRS Profit Center Report</strong>Center Management → FRS → POS Reports → Profit Center Report → prior month → Discounted Income column</div>
-        <div class="info-box" style="margin-bottom:8px"><strong>Avalara Tax Report</strong>Avalara Identity → Product Login → Paid Services → Reports → Sales View Standard Reports → Liability &amp; Tax Reports</div>
-        <div class="info-box" style="margin-bottom:8px"><strong>Center Management — Stamps &amp; Metered Mail</strong>My Center → Stamps and Metered Mail → select month → Load → Save</div>
-        <div class="info-box" style="margin-bottom:0"><strong>Submit Royalty</strong>My Center → Royalty → Submit Royalty → select month</div>
+        <div class="info-box" style="margin-bottom:8px">
+          <strong>Stamps.com Balance Summary</strong><br>
+          or.stamps.com → Reports → Balances → Summary → select prior month
+        </div>
+        <div class="info-box" style="margin-bottom:8px">
+          <strong>Endicia Appendix A (Metered Mail Exclusion)</strong><br>
+          print.endicia.com → Reports → Prints → By Type → Data → Prints, Refunds &amp; Adjustments → Net Amount Paid for Letters
+        </div>
+        <div class="info-box" style="margin-bottom:0">
+          <strong>Center Management — Submit Royalty</strong><br>
+          My Center → Royalty → Submit Royalty → select month → Stamps and Metered Mail → Save
+        </div>
       </div>
 
       <div class="card">
-        <div class="ctitle">Key Rules</div>
+        <div class="ctitle">Rules to Know</div>
         <div class="info-box warn" style="margin-bottom:8px">
-          <strong>Always use USPS cost basis for inventory entries</strong>
-          Stamps Purchases and Ending Stamps Inventory must use what the STORE paid USPS — not what the customer paid. Mixing cost and retail is the #1 cause of Stamp Cost exclusion errors.
+          <strong>Stamp Cost ≤ Stamp Sales</strong> — always use USPS cost (what the store paid) for inventory, never retail. Mixing cost and retail is the #1 cause of CM submission blocks.
         </div>
-        <div class="info-box" style="margin-bottom:8px"><strong>Submission deadline</strong>Submit by the 5th of the following month. Center Management requires Google Chrome only.</div>
-        <div class="info-box" style="margin-bottom:8px"><strong>QuickBooks note</strong>Stamp cost/inventory journals must be done manually in QuickBooks — they are not included in the QuickBooks import file.</div>
-        <div class="info-box" style="margin-bottom:0"><strong>PRP commissions</strong>Pre-populated by HQ in Other 1 (Commissions tab in CM). Do not enter them in your POS system or in Other 2.</div>
+        <div class="info-box" style="margin-bottom:8px">
+          <strong>Submission deadline</strong> — 5th of the following month. Center Management requires Google Chrome only.
+        </div>
+        <div class="info-box" style="margin-bottom:0">
+          <strong>PRP commissions</strong> — pre-populated by HQ in CM Commissions tab (Other 1). Do not enter in POS or manually. Leave CM Commissions at $0 unless your area rep instructs otherwise.
+        </div>
       </div>
 
       <div class="card">
@@ -655,16 +554,15 @@
         <table class="err-tbl">
           <tr><th>Error</th><th>Fix</th></tr>
           <tr><td>Page won't load</td><td>Must use Google Chrome only</td></tr>
-          <tr><td>Stamp Cost &gt; Stamp Sales</td><td>Verify Stamps Purchases and Ending Inventory use USPS cost, not retail. Check Beginning Inventory carries correctly from last month.</td></tr>
-          <tr><td>Meter Cost &gt; Meter Sales</td><td>Reduce allowable metered mail exclusion in Stamps &amp; Metered Mail screen</td></tr>
-          <tr><td>Net Commissions negative</td><td>Update Other 2 in Commissions tab. Do not put a negative amount in a future month.</td></tr>
-          <tr><td>Unexpected error</td><td>Close Center Management, log back in, try again</td></tr>
+          <tr><td>Stamp Cost &gt; Stamp Sales</td><td>Verify all inventory entries use USPS cost, not retail. Check beginning inventory carries correctly from last month.</td></tr>
+          <tr><td>Metered Cost &gt; Metered Sales</td><td>Reduce Appendix A exclusion amount in CM Metered Mail right side.</td></tr>
+          <tr><td>Unexpected error on submit</td><td>Close CM, log back in, try again.</td></tr>
         </table>
       </div>
 
       <div class="slbl">Notes</div>
       <div class="card">
-        <textarea id="f_notes" placeholder="Notes, reminders for next month, issues to follow up…" rows="5"
+        <textarea id="f_notes" placeholder="Notes, reminders, issues to follow up…" rows="5"
           style="width:100%;border:1.5px solid var(--border);border-radius:5px;padding:10px;font-size:13px;line-height:1.6;background:#f4f6f9;outline:none;resize:vertical;font-family:inherit"
           oninput="sess.notes=this.value;save()"></textarea>
       </div>
@@ -685,10 +583,9 @@
       <div class="card">
         <div class="ctitle">Data Backup</div>
         <div class="info-box teal" style="margin-bottom:10px">
-          <strong>Why export?</strong>
-          Browser storage can be cleared unexpectedly. Export a backup before resetting or when closing out a month. Store it in Google Drive or email it to yourself.
+          <strong>Why export?</strong> Browser storage can be cleared. Export monthly — save to Google Drive or email yourself.
         </div>
-        <button class="btn-export" onclick="exportData()">📤 Export Session Backup (JSON)</button>
+        <button class="btn-export" onclick="exportData()">📤 Export Session Backup</button>
         <button class="btn-import" onclick="$('importFile').click()">📥 Import Session Backup</button>
         <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(this)">
       </div>
@@ -696,46 +593,38 @@
       <hr class="sec">
       <div class="slbl">Danger Zone</div>
       <button class="btn-danger" onclick="confirmReset()">↺ Reset / New Month — Clear All Entries</button>
-      <p class="text-sm" style="margin-top:8px;text-align:center;color:#888">Stamp pricing is saved. All session data is cleared.</p>
+      <p class="text-sm" style="margin-top:8px;text-align:center;color:#888">Stamp pricing is preserved. All other entries are cleared.</p>
+
     </div><!-- /settings -->
 
   </div><!-- /hub-wrap -->
 </div><!-- /screen-main -->
 
+<!-- Print card (hidden until print) -->
+<div id="printCard"></div>
 <div id="toast"></div>
 
 <script src="hub.js"></script>
 <script>
 'use strict';
-// ── CONSTANTS ──────────────────────────────────────────────────────────────
-const ADMIN_PIN     = '1997';
-const PRICING_KEY   = 'ry_pricing_v1';
-const SESS_KEY_ADMIN= 'ry_sess_admin_v1';
-const GUEST_CFG_KEY = 'ry_guest_cfg_v1';
 
-const DEFAULT_PRICING = {
-  coil:{usps:78.00,retail:100.00},
-  book:{usps:15.60,retail:22.49},
-  updatedAt:null
-};
+// ── CONSTANTS ──────────────────────────────────────────────────────────────
+const ADMIN_PIN      = '1997';
+const PRICING_KEY    = 'ry_pricing_v1';
+const SESS_KEY_ADMIN = 'ry_sess_admin_v1';
+const GUEST_CFG_KEY  = 'ry_guest_cfg_v1';
+const DEFAULT_PRICING = { bookCost: 15.60, coilCost: 78.00, updatedAt: null };
 
 function makeDefaultSession(){
   return {
     storeNum:'', period:'',
     beginningStamps:'',
-    purchases:[{date:'',product:'coil',qty:'',costOverride:null}],
-    sales:[{date:'',product:'coil',qty:'',initials:''}],
-    endingCoilQty:'', endingBookQty:'',
-    beginningMetered:'', meterFills:'', endingMetered:'', meterExclusion:'',
-    shipping:'', supplies:'', notary:'', packaging:'', packagingService:'',
-    copies:'', colorCopies:'', fax:'', meteredMail:'',
-    stampSalesOverride:null,
-    deposits:'', salesTax:'', otherProducts:'',
-    iship:'', other1Excl:'',
-    other2Comm:'',
-    confirmNum:'', totalDuePaid:'',
-    empInitials:'', empDate:'', mgrInitials:'', mgrDate:'', mgrApproved:'',
-    checklist:[false,false,false,false,false,false],
+    purchases:[{date:'',product:'coil',qty:'',totalCost:''}],
+    sales:[{date:'',product:'book',qty:''}],
+    endingBookQty:'', endingCoilQty:'',
+    mtrBegin:'', mtrFundsAdded:'', mtrFundsDeducted:'', mtrEnding:'',
+    mtrExclusion:'',
+    iship:'',
     notes:''
   };
 }
@@ -744,13 +633,10 @@ function makeDefaultSession(){
 let mode = 'admin';
 let guestAuthRole = 'owner';
 let sess = makeDefaultSession();
-let pricing = Object.assign({}, DEFAULT_PRICING, {
-  coil:Object.assign({},DEFAULT_PRICING.coil),
-  book:Object.assign({},DEFAULT_PRICING.book)
-});
+let pricing = Object.assign({}, DEFAULT_PRICING);
 let sessKey = SESS_KEY_ADMIN;
 
-// ── SCREENS ────────────────────────────────────────────────────────────────
+// ── SCREEN MANAGEMENT ──────────────────────────────────────────────────────
 function showScreen(n){
   ['role','pin','guest-setup','guest-role','guest-pin','main'].forEach(s=>{
     $('screen-'+s).style.display = (s===n)?'block':'none';
@@ -761,8 +647,7 @@ function showRole(){ aPS.reset(); gPS.reset(); showScreen('role'); }
 // ── ADMIN AUTH ─────────────────────────────────────────────────────────────
 function startAdmin(){ aPS.reset(); showScreen('pin'); }
 const aPS = makePinState(['pd0','pd1','pd2','pd3'],'pinErr', v=>{
-  if(v===ADMIN_PIN){ enterAdmin(); }
-  else{ aPS.shake('pinDots','Incorrect PIN'); }
+  if(v===ADMIN_PIN){ enterAdmin(); } else { aPS.shake('pinDots','Incorrect PIN'); }
 });
 function enterAdmin(){
   mode='admin'; sessKey=SESS_KEY_ADMIN;
@@ -775,7 +660,7 @@ function enterAdmin(){
   showScreen('main'); switchTab('stamps'); initApp();
 }
 
-// ── EMPLOYEE (store 8181 only, no PIN for stamp log) ───────────────────────
+// ── EMPLOYEE AUTH ──────────────────────────────────────────────────────────
 function startEmployee(){
   mode='guest-employee'; sessKey=SESS_KEY_ADMIN;
   $('storeTitle').textContent='Stamp Sales Log';
@@ -791,7 +676,7 @@ function startEmployee(){
 function startGuest(){
   const cfg=getGuestCfg();
   if(cfg){ $('gRoleH1').textContent=cfg.name||'Store Access'; showScreen('guest-role'); }
-  else{ showScreen('guest-setup'); }
+  else { showScreen('guest-setup'); }
 }
 function startGuestAs(r){
   const cfg=getGuestCfg(); if(!cfg)return;
@@ -806,8 +691,7 @@ function backFromGuestPin(){ getGuestCfg()?showScreen('guest-role'):showRole(); 
 const gPS = makePinState(['gd0','gd1','gd2','gd3'],'gPinErr', v=>{
   const cfg=getGuestCfg();
   const exp=guestAuthRole==='employee'?(cfg.empPin||'0000'):cfg.pin;
-  if(v===exp){ enterGuest(cfg,guestAuthRole); }
-  else{ gPS.shake('gPinDots','Incorrect PIN'); }
+  if(v===exp){ enterGuest(cfg,guestAuthRole); } else { gPS.shake('gPinDots','Incorrect PIN'); }
 });
 function getGuestCfg(){ return lsGet(GUEST_CFG_KEY,null); }
 function saveGuestSetup(){
@@ -817,8 +701,8 @@ function saveGuestSetup(){
   if(!name){toast('Enter a store name','err');return;}
   if(!/^\d{4}$/.test(pin)){toast('Owner PIN must be 4 digits','err');return;}
   if(!/^\d{4}$/.test(empPin)){toast('Employee PIN must be 4 digits','err');return;}
-  const cfg={name,pin,empPin}; lsSet(GUEST_CFG_KEY,cfg);
-  enterGuest(cfg,'owner');
+  lsSet(GUEST_CFG_KEY,{name,pin,empPin});
+  enterGuest({name,pin,empPin},'owner');
 }
 function enterGuest(cfg,role){
   mode=role==='employee'?'guest-employee':'guest-owner';
@@ -853,105 +737,101 @@ function saveGuestConfig(){
 // ── PRICING ────────────────────────────────────────────────────────────────
 function loadPricing(){
   const saved=lsGet(PRICING_KEY,null);
-  if(saved){
-    pricing=Object.assign({coil:{},book:{},updatedAt:null},saved);
-    pricing.coil=Object.assign({usps:78,retail:100},saved.coil);
-    pricing.book=Object.assign({usps:15.6,retail:22.49},saved.book);
+  if(!saved){ return; }
+  // Migrate old format {coil:{usps,retail}, book:{usps,retail}}
+  if(saved.coil && typeof saved.coil==='object'){
+    pricing={ bookCost:saved.book?saved.book.usps:DEFAULT_PRICING.bookCost,
+              coilCost:saved.coil.usps||DEFAULT_PRICING.coilCost,
+              updatedAt:saved.updatedAt||null };
+    lsSet(PRICING_KEY,pricing);
+  } else {
+    pricing=Object.assign({},DEFAULT_PRICING,saved);
   }
 }
 function savePricing(){
-  const cu=parseFloat($('pr_coilUsps').value);
-  const cr=parseFloat($('pr_coilRetail').value);
-  const bu=parseFloat($('pr_bookUsps').value);
-  const br=parseFloat($('pr_bookRetail').value);
-  if(isNaN(cu)||isNaN(cr)||isNaN(bu)||isNaN(br)){toast('Enter valid prices','err');return;}
-  pricing={coil:{usps:cu,retail:cr},book:{usps:bu,retail:br},updatedAt:todayLocal()};
+  const bc=parseFloat($('pr_bookCost').value);
+  const cc=parseFloat($('pr_coilCost').value);
+  if(isNaN(bc)||isNaN(cc)){toast('Enter valid prices','err');return;}
+  pricing={bookCost:bc,coilCost:cc,updatedAt:todayLocal()};
   lsSet(PRICING_KEY,pricing);
   renderPricingUI(); calcAll();
   toast('Pricing saved','ok');
 }
 function useUpcomingPricing(){
-  pricing={coil:{usps:82.00,retail:109.99},book:{usps:16.40,retail:23.99},updatedAt:todayLocal()};
+  pricing={bookCost:16.40,coilCost:82.00,updatedAt:todayLocal()};
   lsSet(PRICING_KEY,pricing);
   renderPricingUI(); calcAll();
-  toast('Prices updated to July 12, 2026 rates','ok');
+  toast('Updated to July 12, 2026 prices','ok');
 }
 function renderPricingUI(){
-  $('pr_coilUsps').value=pricing.coil.usps.toFixed(2);
-  $('pr_coilRetail').value=pricing.coil.retail.toFixed(2);
-  $('pr_bookUsps').value=pricing.book.usps.toFixed(2);
-  $('pr_bookRetail').value=pricing.book.retail.toFixed(2);
-
-  // Age badge
+  $('pr_bookCost').value=pricing.bookCost.toFixed(2);
+  $('pr_coilCost').value=pricing.coilCost.toFixed(2);
   let ageStr='';
-  if(pricing.updatedAt){ ageStr='Updated '+shortDate(pricing.updatedAt); }
+  if(pricing.updatedAt) ageStr='Updated '+shortDate(pricing.updatedAt);
   $('priceAgeLbl').textContent=ageStr;
-
-  // 45-day warning
-  let warnHtml='';
+  let warn='';
   if(pricing.updatedAt){
-    const days=Math.floor((Date.now()-new Date(pricing.updatedAt))/(86400000));
-    if(days>=45){
-      warnHtml='<div class="val-warn">⚠ Pricing was last updated '+days+' days ago. Verify USPS has not changed stamp prices.</div>';
-    }
+    const days=Math.floor((Date.now()-new Date(pricing.updatedAt))/86400000);
+    if(days>=45) warn='<div class="val-warn">⚠ Pricing was last updated '+days+' days ago. Verify USPS has not changed stamp prices.</div>';
   }
-  $('priceWarnMsg').innerHTML=warnHtml;
-
-  // Stamps tab quick-ref
+  $('priceWarnMsg').innerHTML=warn;
   $('pricingRef').innerHTML=
-    '<strong>Current Stamp Pricing</strong>'+
-    'Coil of 100 — USPS cost: <strong>'+fmt(pricing.coil.usps)+'</strong> &nbsp;·&nbsp; Retail: <strong>'+fmt(pricing.coil.retail)+'</strong><br>'+
-    'Book of 20 &nbsp;— USPS cost: <strong>'+fmt(pricing.book.usps)+'</strong> &nbsp;·&nbsp; Retail: <strong>'+fmt(pricing.book.retail)+'</strong>';
+    '<strong>Current USPS Stamp Pricing</strong> &nbsp;(what store pays USPS — not retail)<br>'+
+    'Book of 20: <strong>'+fmt(pricing.bookCost)+'</strong> &nbsp;·&nbsp; Coil of 100: <strong>'+fmt(pricing.coilCost)+'</strong>';
 }
 
 // ── SESSION PERSISTENCE ────────────────────────────────────────────────────
-function save(){ lsSet(sessKey, sess); }
+function save(){ lsSet(sessKey,sess); }
 function loadSess(){
   const saved=lsGet(sessKey,null);
-  if(saved){
-    sess=Object.assign(makeDefaultSession(), saved);
-    if(!Array.isArray(sess.purchases)||!sess.purchases.length)
-      sess.purchases=[{date:'',product:'coil',qty:'',costOverride:null}];
-    if(!Array.isArray(sess.sales)||!sess.sales.length)
-      sess.sales=[{date:'',product:'coil',qty:'',initials:''}];
-    if(!Array.isArray(sess.checklist)||sess.checklist.length!==6)
-      sess.checklist=[false,false,false,false,false,false];
-  } else {
-    sess=makeDefaultSession();
+  if(!saved){ sess=makeDefaultSession(); return; }
+  sess=Object.assign(makeDefaultSession(),saved);
+  // Migrate purchases: old {costOverride} → new {totalCost}
+  if(Array.isArray(sess.purchases)){
+    sess.purchases=sess.purchases.map(p=>({
+      date:p.date||'', product:p.product||'coil', qty:p.qty||'',
+      totalCost:p.totalCost!==undefined?p.totalCost:(p.costOverride!=null?String(p.costOverride):'')
+    }));
   }
+  // Migrate metered field names
+  if(!sess.mtrBegin && saved.beginningMetered) sess.mtrBegin=saved.beginningMetered;
+  if(!sess.mtrFundsAdded && saved.meterFills) sess.mtrFundsAdded=saved.meterFills;
+  if(!sess.mtrEnding && saved.endingMetered) sess.mtrEnding=saved.endingMetered;
+  if(!sess.mtrExclusion && saved.meterExclusion) sess.mtrExclusion=saved.meterExclusion;
+  // Migrate sales: remove initials
+  if(Array.isArray(sess.sales)){
+    sess.sales=sess.sales.map(s=>({date:s.date||'',product:s.product||'book',qty:s.qty||''}));
+  }
+  if(!sess.purchases.length) sess.purchases=[{date:'',product:'coil',qty:'',totalCost:''}];
+  if(!sess.sales.length) sess.sales=[{date:'',product:'book',qty:''}];
 }
 
 // ── PURCHASE ROWS ──────────────────────────────────────────────────────────
 function addPurchaseRow(){
-  sess.purchases.push({date:todayLocal(),product:'coil',qty:'',costOverride:null});
-  save(); renderPurchases(); calcAll();
+  sess.purchases.push({date:todayLocal(),product:'coil',qty:'',totalCost:''});
+  save(); renderPurchases();
 }
 function removePurchaseRow(i){
   if(sess.purchases.length<=1){toast('Need at least one row','warn');return;}
   sess.purchases.splice(i,1); save(); renderPurchases(); calcAll();
 }
-function purchQtyChange(i, el){
+function purchQtyChange(i,el){
   sess.purchases[i].qty=el.value;
-  sess.purchases[i].costOverride=null;
-  const uc=sess.purchases[i].product==='coil'?pricing.coil.usps:pricing.book.usps;
-  const autoVal=((parseFloat(el.value)||0)*uc).toFixed(2);
-  const costEl=$('pc_'+i); if(costEl) costEl.value=autoVal;
+  const uc=sess.purchases[i].product==='coil'?pricing.coilCost:pricing.bookCost;
+  const auto=((parseFloat(el.value)||0)*uc).toFixed(2);
+  const costEl=$('pc_'+i);
+  if(costEl){ costEl.value=auto; sess.purchases[i].totalCost=auto; }
   save(); calcAll();
 }
-function purchCostChange(i, el){
-  sess.purchases[i].costOverride=el.value===''?null:el.value;
-  save(); calcAll();
-}
-function purchProductChange(i, el){
+function purchProductChange(i,el){
   sess.purchases[i].product=el.value;
-  sess.purchases[i].costOverride=null;
+  sess.purchases[i].totalCost='';
   save(); renderPurchases(); calcAll();
 }
 function renderPurchases(){
   $('purchaseRows').innerHTML=sess.purchases.map((r,i)=>{
-    const uc=r.product==='coil'?pricing.coil.usps:pricing.book.usps;
-    const autoVal=((parseFloat(r.qty)||0)*uc).toFixed(2);
-    const dispCost=r.costOverride!==null?r.costOverride:autoVal;
+    const uc=r.product==='coil'?pricing.coilCost:pricing.bookCost;
+    const auto=((parseFloat(r.qty)||0)*uc).toFixed(2);
     return `<div class="log-card">
       <button class="log-del" onclick="removePurchaseRow(${i})">✕</button>
       <div class="log-fields">
@@ -966,8 +846,8 @@ function renderPurchases(){
           <input type="text" inputmode="numeric" value="${r.qty||''}" placeholder="0"
             oninput="purchQtyChange(${i},this)"></div>
         <div class="field-mini"><label>Total Cost Paid ($)</label>
-          <input type="text" inputmode="decimal" id="pc_${i}" value="${dispCost}" placeholder="${autoVal}"
-            oninput="purchCostChange(${i},this)"></div>
+          <input type="text" inputmode="decimal" id="pc_${i}" value="${r.totalCost||''}" placeholder="${auto}"
+            oninput="sess.purchases[${i}].totalCost=this.value;save();calcAll()"></div>
       </div>
     </div>`;
   }).join('');
@@ -975,8 +855,8 @@ function renderPurchases(){
 
 // ── SALE ROWS ──────────────────────────────────────────────────────────────
 function addSaleRow(){
-  sess.sales.push({date:todayLocal(),product:'coil',qty:'',initials:''});
-  save(); renderSales(); calcAll();
+  sess.sales.push({date:todayLocal(),product:'book',qty:''});
+  save(); renderSales();
 }
 function removeSaleRow(i){
   if(sess.sales.length<=1){toast('Need at least one row','warn');return;}
@@ -986,20 +866,17 @@ function renderSales(){
   $('saleRows').innerHTML=sess.sales.map((r,i)=>
     `<div class="log-card">
       <button class="log-del" onclick="removeSaleRow(${i})">✕</button>
-      <div class="log-fields">
+      <div class="log-fields-3">
         <div class="field-mini"><label>Date</label>
           <input type="date" value="${r.date||''}" onchange="sess.sales[${i}].date=this.value;save()"></div>
         <div class="field-mini"><label>Product</label>
           <select onchange="sess.sales[${i}].product=this.value;save();calcAll()">
-            <option value="coil"${r.product==='coil'?' selected':''}>Coil of 100</option>
             <option value="book"${r.product==='book'?' selected':''}>Book of 20</option>
+            <option value="coil"${r.product==='coil'?' selected':''}>Coil of 100</option>
           </select></div>
         <div class="field-mini"><label>Qty Sold</label>
           <input type="text" inputmode="numeric" value="${r.qty||''}" placeholder="0"
             oninput="sess.sales[${i}].qty=this.value;save();calcAll()"></div>
-        <div class="field-mini"><label>Initials</label>
-          <input type="text" value="${r.initials||''}" placeholder="–" maxlength="5"
-            oninput="sess.sales[${i}].initials=this.value;save()"></div>
       </div>
     </div>`
   ).join('');
@@ -1011,211 +888,224 @@ function calcStamps(){
   sess.purchases.forEach(r=>{
     const qty=parseFloat(r.qty)||0;
     purchUnits+=qty;
-    if(r.costOverride!==null){ purchCost+=parseFloat(r.costOverride)||0; }
-    else{ purchCost+=qty*(r.product==='coil'?pricing.coil.usps:pricing.book.usps); }
+    const cost=parseFloat(r.totalCost);
+    if(!isNaN(cost) && r.totalCost!==''){
+      purchCost+=cost;
+    } else {
+      purchCost+=qty*(r.product==='coil'?pricing.coilCost:pricing.bookCost);
+    }
   });
-  let coilQty=0, bookQty=0;
+  let booksQty=0, coilsQty=0;
   sess.sales.forEach(r=>{
-    const q=parseFloat(r.qty)||0;
-    if(r.product==='coil') coilQty+=q; else bookQty+=q;
+    const q=parseInt(r.qty)||0;
+    if(r.product==='book') booksQty+=q; else coilsQty+=q;
   });
-  const stampSalesRetail=coilQty*pricing.coil.retail+bookQty*pricing.book.retail;
-  const endingCoilCost=(parseFloat(sess.endingCoilQty)||0)*pricing.coil.usps;
-  const endingBookCost=(parseFloat(sess.endingBookQty)||0)*pricing.book.usps;
-  const endingCost=endingCoilCost+endingBookCost;
+  const stampSalesRetail=booksQty*pricing.bookCost+coilsQty*pricing.coilCost;
+  const endBook=parseInt(sess.endingBookQty)||0;
+  const endCoil=parseInt(sess.endingCoilQty)||0;
+  const endingCost=endBook*pricing.bookCost+endCoil*pricing.coilCost;
   const beginning=parseFloat(sess.beginningStamps)||0;
   const costOfStampsSold=beginning+purchCost-endingCost;
-  return {purchCost,purchUnits,coilQty,bookQty,stampSalesRetail,endingCost,beginning,costOfStampsSold};
+  return {purchCost,purchUnits,booksQty,coilsQty,stampSalesRetail,endingCost,beginning,costOfStampsSold,endBook,endCoil};
 }
 function calcMetered(){
-  const begin=parseFloat(sess.beginningMetered)||0;
-  const fills=parseFloat(sess.meterFills)||0;
-  const ending=parseFloat(sess.endingMetered)||0;
+  const begin=parseFloat(sess.mtrBegin)||0;
+  const fills=parseFloat(sess.mtrFundsAdded)||0;
+  const deducted=parseFloat(sess.mtrFundsDeducted)||0;
+  const ending=parseFloat(sess.mtrEnding)||0;
   const costUsed=begin+fills-ending;
-  const exclusion=parseFloat(sess.meterExclusion)||0;
-  return {begin,fills,ending,costUsed,exclusion};
+  const exclusion=parseFloat(sess.mtrExclusion)||0;
+  return {begin,fills,deducted,ending,costUsed,exclusion};
 }
 
 function calcAll(){
   const st=calcStamps();
   const me=calcMetered();
 
-  // Products
-  const stampSales=sess.stampSalesOverride!==null?(parseFloat(sess.stampSalesOverride)||0):st.stampSalesRetail;
-  const p={
-    shipping:   parseFloat(sess.shipping)||0,
-    supplies:   parseFloat(sess.supplies)||0,
-    notary:     parseFloat(sess.notary)||0,
-    packaging:  parseFloat(sess.packaging)||0,
-    packSvc:    parseFloat(sess.packagingService)||0,
-    copies:     parseFloat(sess.copies)||0,
-    colorCopies:parseFloat(sess.colorCopies)||0,
-    fax:        parseFloat(sess.fax)||0,
-    meteredMail:parseFloat(sess.meteredMail)||0,
-    stampSales,
-    deposits:   parseFloat(sess.deposits)||0,
-    salesTax:   parseFloat(sess.salesTax)||0,
-    other:      parseFloat(sess.otherProducts)||0,
-  };
-  const totalGross=Object.values(p).reduce((a,v)=>a+v,0);
-
-  // Exclusions: stamp cost + metered excl + salesTax + deposits + iship + other1
-  const iship=parseFloat(sess.iship)||0;
-  const other1=parseFloat(sess.other1Excl)||0;
-  const totalExcl=st.costOfStampsSold+me.exclusion+p.salesTax+p.deposits+iship+other1;
-
-  // Commissions
-  const other2=parseFloat(sess.other2Comm)||0;
-  const totalComm=other2;
-
-  // Royalty
-  const totalSTR=totalGross-totalExcl-totalComm;
-  const royalty=totalSTR*0.05;
-  const mktg=totalSTR*0.01;
-  const naf=totalSTR*0.025;
-  const totalDue=totalSTR*0.085;
-
-  // ── DOM UPDATES ────────────────────────────────────────────────────────
-  // Stamps tab
-  tx('s_purchUnits', st.purchUnits);
-  tx('s_purchCost', fmt(st.purchCost));
-  tx('s_coilQty', st.coilQty);
-  tx('s_bookQty', st.bookQty);
-  tx('s_stampSalesRetail', fmt(st.stampSalesRetail));
-  tx('s_endingCost', fmt(st.endingCost));
-  tx('s_sumBegin', fmt(st.beginning));
-  tx('s_sumPurch', fmt(st.purchCost));
-  tx('s_sumEnd', fmt(st.endingCost));
-  tx('s_stampCost', fmt(st.costOfStampsSold));
-  tx('s_sumSalesRetail', fmt(st.stampSalesRetail));
+  // Stamps tab DOM
+  tx('s_purchUnits',st.purchUnits);
+  tx('s_purchCost',fmt(st.purchCost));
+  tx('s_bookQty',st.booksQty);
+  tx('s_coilQty',st.coilsQty);
+  tx('s_stampSalesRetail',fmt(st.stampSalesRetail));
+  tx('s_endingCost',fmt(st.endingCost));
+  tx('s_sumBegin',fmt(st.beginning));
+  tx('s_sumPurch',fmt(st.purchCost));
+  tx('s_sumEnd',fmt(st.endingCost));
+  tx('s_stampCost',fmt(Math.max(0,st.costOfStampsSold)));
 
   // Stamp validation
   let sv='';
   if(st.costOfStampsSold<0){
     sv='<div class="val-err">⚠ Cost of Stamps Sold is negative ('+fmt(st.costOfStampsSold)+'). Check that Beginning + Purchases ≥ Ending Inventory.</div>';
   } else if(st.stampSalesRetail>0 && st.costOfStampsSold>st.stampSalesRetail){
-    sv='<div class="val-err">⚠ Stamp Cost ('+fmt(st.costOfStampsSold)+') exceeds Stamp Sales ('+fmt(st.stampSalesRetail)+'). Center Management will block submission. Verify all entries use USPS cost basis, not retail prices.</div>';
-  } else if(st.stampSalesRetail>0){
-    sv='<div class="val-ok">✓ Stamp Cost ≤ Stamp Sales — valid</div>';
+    sv='<div class="val-err">⚠ Stamp Cost ('+fmt(st.costOfStampsSold)+') exceeds Stamp Sales ('+fmt(st.stampSalesRetail)+'). CM will block submission. Verify all entries use USPS cost, not retail price.</div>';
+  } else if(st.stampSalesRetail>0 && st.costOfStampsSold>0){
+    sv='<div class="val-ok">✓ Stamp Cost ≤ Stamp Sales — valid for CM submission</div>';
   }
   $('stampValMsg').innerHTML=sv;
 
-  // Metered tab
-  tx('s_mtrCostUsed', fmt(me.costUsed));
+  // Metered tab DOM
+  tx('s_mtrCostUsed',fmt(me.costUsed));
+  // Verify badge
+  let badge='';
+  if(me.deducted>0){
+    const diff=Math.abs(me.costUsed-me.deducted);
+    if(diff<0.02){
+      badge='<span class="vbadge vb-ok">✓ Matches Funds Deducted ('+fmt(me.deducted)+')</span>';
+    } else {
+      badge='<span class="vbadge vb-warn">⚠ Mismatch — Cost Used '+fmt(me.costUsed)+' vs Funds Deducted '+fmt(me.deducted)+'. Check entries.</span>';
+    }
+  } else {
+    badge='<span class="vbadge vb-none">Enter Funds Deducted above to verify</span>';
+  }
+  $('mtrVerifyBadge').innerHTML=badge;
+  // Metered exclusion validation
   let mv='';
   if(me.costUsed<0){
     mv='<div class="val-err">⚠ Cost of Metered Mail Used is negative. Check your entries.</div>';
   } else if(me.exclusion>0 && me.exclusion>me.costUsed){
-    mv='<div class="val-err">⚠ Metered Mail Exclusion ('+fmt(me.exclusion)+') exceeds Cost Used ('+fmt(me.costUsed)+'). Center Management will block submission.</div>';
+    mv='<div class="val-err">⚠ Metered Mail Exclusion ('+fmt(me.exclusion)+') exceeds Cost Used ('+fmt(me.costUsed)+'). CM will block submission.</div>';
   } else if(me.exclusion>0){
-    mv='<div class="val-ok">✓ Metered Mail Exclusion ≤ Cost Used — valid</div>';
+    mv='<div class="val-ok">✓ Metered Exclusion ≤ Cost Used — valid</div>';
   }
   $('meteredValMsg').innerHTML=mv;
 
-  // Products tab — auto-fill Stamp Sales if no override
-  if(sess.stampSalesOverride===null){
-    const el=$('p_stampSales');
-    if(el && document.activeElement!==el){
-      el.value=st.stampSalesRetail>0?st.stampSalesRetail.toFixed(2):'';
-    }
-  }
-  tx('s_totalGross', fmt(totalGross));
-
-  // Exclusions tab
-  tx('e_stampCost', fmt(st.costOfStampsSold));
-  tx('e_meteredCost', fmt(me.exclusion));
-  tx('e_salesTax', fmt(p.salesTax));
-  tx('e_deposits', fmt(p.deposits));
-  tx('s_totalExcl', fmt(totalExcl));
-
-  // Commissions tab
-  tx('s_totalComm', fmt(totalComm));
-
-  // Summary tab
-  tx('fn_gross',  fmt(totalGross));
-  tx('fn_excl',   fmt(totalExcl));
-  tx('fn_comm',   fmt(totalComm));
-  tx('fn_str',    fmt(totalSTR));
-  tx('fn_royalty',fmt(royalty));
-  tx('fn_mktg',   fmt(mktg));
-  tx('fn_naf',    fmt(naf));
-  tx('fn_total',  fmt(totalDue));
-
+  updateGuide(st,me);
   save();
-  return {st,me,p,totalGross,totalExcl,totalComm,totalSTR,royalty,mktg,naf,totalDue};
 }
 
-// ── OTHER 1 WARNING ────────────────────────────────────────────────────────
-function checkOther1(){
-  const v=parseFloat(sess.other1Excl)||0;
-  $('other1Msg').innerHTML=v!==0
-    ?'<div class="val-warn">⚠ Other 1 adjusts the royalty base (Total Adjusted STR) directly, NOT Total Exclusions. Only use if your area rep provides a specific instruction.</div>'
-    :'';
+// ── CM GUIDE UPDATES ───────────────────────────────────────────────────────
+function updateGuide(st,me){
+  if(!st){ st=calcStamps(); }
+  if(!me){ me=calcMetered(); }
+  tx('g_begin',   fmt(st.beginning));
+  tx('g_purch',   fmt(st.purchCost));
+  tx('g_endBook', st.endBook);
+  tx('g_endCoil', st.endCoil);
+  tx('g_endCost', fmt(st.endingCost));
+  tx('g_costSold',fmt(Math.max(0,st.costOfStampsSold)));
+  tx('g_mtrBegin', fmt(parseFloat(sess.mtrBegin)||0));
+  tx('g_mtrFills', fmt(parseFloat(sess.mtrFundsAdded)||0));
+  tx('g_mtrEnding',fmt(parseFloat(sess.mtrEnding)||0));
+  tx('g_mtrCostUsed',fmt(Math.max(0,me.costUsed)));
+  tx('g_mtrExcl',  fmt(parseFloat(sess.mtrExclusion)||0));
+  tx('g_iship',    fmt(parseFloat(sess.iship)||0));
+  tx('g_stampSales',fmt(st.stampSalesRetail));
 }
 
-// ── POPULATE FORM FIELDS ───────────────────────────────────────────────────
-function populateForm(){
-  sv('f_storeNum', sess.storeNum);
-  sv('f_period', sess.period);
-  sv('f_beginStamps', sess.beginningStamps);
-  sv('f_endCoil', sess.endingCoilQty);
-  sv('f_endBook', sess.endingBookQty);
-  sv('f_mtrBegin', sess.beginningMetered);
-  sv('f_mtrFills', sess.meterFills);
-  sv('f_mtrEnd', sess.endingMetered);
-  sv('f_mtrExcl', sess.meterExclusion);
-  sv('p_ship', sess.shipping);
-  sv('p_supply', sess.supplies);
-  sv('p_notary', sess.notary);
-  sv('p_pkg', sess.packaging);
-  sv('p_pkgSvc', sess.packagingService);
-  sv('p_copies', sess.copies);
-  sv('p_colorCopies', sess.colorCopies);
-  sv('p_fax', sess.fax);
-  sv('p_metered', sess.meteredMail);
-  sv('p_stampSales', sess.stampSalesOverride!=null?sess.stampSalesOverride:'');
-  sv('p_deposits', sess.deposits);
-  sv('p_salesTax', sess.salesTax);
-  sv('p_other', sess.otherProducts);
-  sv('e_iship', sess.iship);
-  sv('e_other1', sess.other1Excl);
-  sv('c_other2', sess.other2Comm);
-  sv('f_confirmNum', sess.confirmNum);
-  sv('f_totalDuePaid', sess.totalDuePaid);
-  sv('f_empInit', sess.empInitials);
-  sv('f_empDate', sess.empDate);
-  sv('f_mgrInit', sess.mgrInitials);
-  sv('f_mgrDate', sess.mgrDate);
-  sv('f_mgrApproved', sess.mgrApproved);
-  sv('f_notes', sess.notes);
-  for(let i=0;i<6;i++){ const el=$('chk'+i); if(el) el.checked=!!sess.checklist[i]; }
-  checkOther1();
-}
-
-// ── COPY FINAL NUMBERS ─────────────────────────────────────────────────────
-function copyFinalNumbers(){
-  const r=calcAll();
+// ── COPY CM GUIDE ──────────────────────────────────────────────────────────
+function copyCMGuide(){
+  const st=calcStamps(), me=calcMetered();
+  const period=sess.period||'[month]';
+  const store=sess.storeNum?'Store #'+sess.storeNum:'';
   const lines=[
-    sess.period?'Royalty Period: '+sess.period:'',
-    sess.storeNum?'Store: #'+sess.storeNum:'',
+    'CM Entry Guide — '+period+(store?' · '+store:''),
+    'CM → My Center → Royalty → Submit Royalty → '+period+' → Stamps and Metered Mail',
     '',
-    'Total Gross Sales:   '+fmt(r.totalGross),
-    'Total Exclusions:    '+fmt(r.totalExcl),
-    'Total Commissions:   '+fmt(r.totalComm),
-    'Total STR:           '+fmt(r.totalSTR),
-    'Royalty Due (5%):    '+fmt(r.royalty),
-    'Marketing Due (1%):  '+fmt(r.mktg),
-    'NAF Due (2.5%):      '+fmt(r.naf),
-    'TOTAL DUE:           '+fmt(r.totalDue),
-  ].filter((l,i)=>i>1||l).join('\n');
-  hubCopy(lines,'Final numbers copied');
+    '═══ STAMPS INVENTORY (left side) ═══════════',
+    'Beginning Stamps Inventory:    '+fmt(st.beginning),
+    'Stamps Purchases:              '+fmt(st.purchCost),
+    '',
+    '═══ ENDING INVENTORY (right side) ══════════',
+    'Book of 20 qty:                '+st.endBook,
+    'Coil of 100 qty:               '+st.endCoil,
+    'Ending Stamps Cost:            '+fmt(st.endingCost)+' (CM calculates)',
+    'Cost of Stamps Sold:           '+fmt(Math.max(0,st.costOfStampsSold))+' (CM calculates)',
+    '',
+    '═══ METERED MAIL (left side) ═══════════════',
+    'Beginning Metered Mail:        '+fmt(parseFloat(sess.mtrBegin)||0),
+    'Meter Fills:                   '+fmt(parseFloat(sess.mtrFundsAdded)||0),
+    'Ending Metered Mail Reading:   '+fmt(parseFloat(sess.mtrEnding)||0),
+    'Cost of Metered Mail Used:     '+fmt(Math.max(0,me.costUsed))+' (CM calculates)',
+    '',
+    '═══ METERED EXCLUSION (right side) ═════════',
+    'Total Allowable Exclusion:     '+fmt(parseFloat(sess.mtrExclusion)||0),
+    '',
+    '═══ CM EXCLUSIONS TAB ═══════════════════════',
+    'iShip Proc Fee:                '+fmt(parseFloat(sess.iship)||0),
+    '',
+    '═══ VERIFY IN PRODUCTS TAB ══════════════════',
+    'Stamp Sales (retail):          '+fmt(st.stampSalesRetail)+' (verify matches CM POS)',
+  ].join('\n');
+  hubCopy(lines,'CM Guide copied to clipboard');
+}
+
+// ── CARD TEMPLATE ──────────────────────────────────────────────────────────
+function renderCardTemplate(){
+  const store=sess.storeNum?'Store: '+sess.storeNum:'Store: ______';
+  const month=sess.period||'__________';
+  const tpl=
+'STAMP ACTIVITY LOG   Month: '+month.padEnd(12)+'  '+store+'\n'+
+'\n'+
+'DAILY SALES\n'+
+'─────────────────────────────────────────\n'+
+'Date       │ Product    │ Qty Sold\n'+
+'───────────┼────────────┼───────────────\n'+
+'           │  B / C     │\n'+
+'           │  B / C     │\n'+
+'           │  B / C     │\n'+
+'           │  B / C     │\n'+
+'           │  B / C     │\n'+
+'           │  B / C     │\n'+
+'           │  B / C     │\n'+
+'           │  B / C     │\n'+
+'           │  B / C     │\n'+
+'           │  B / C     │\n'+
+'─────────────────────────────────────────\n'+
+'B = Book of 20    C = Coil of 100\n'+
+'\n'+
+'─ ─ ─ ─ ─ ─ ─ ─ ─ [BACK SIDE] ─ ─ ─ ─ ─\n'+
+'\n'+
+'PURCHASES  (from USPS receipt)\n'+
+'──────────────────────────────────────────────────\n'+
+'Date       │ Product    │ Qty   │ Total Cost $\n'+
+'───────────┼────────────┼───────┼────────────────\n'+
+'           │  B / C     │       │\n'+
+'           │  B / C     │       │\n'+
+'           │  B / C     │       │\n'+
+'           │  B / C     │       │\n'+
+'──────────────────────────────────────────────────\n'+
+'\n'+
+'STAMPS.COM  Month: '+month+'\n'+
+'or.stamps.com → Reports → Balances → Summary → select month\n'+
+'\n'+
+'Beginning Balance   $ ____________\n'+
+'Funds Added         $ ____________\n'+
+'Funds Deducted      $ ____________  (postage used)\n'+
+'Ending Balance      $ ____________\n'+
+'──────────────────────────────────────────────────';
+  const el=$('cardTpl'); if(el) el.textContent=tpl;
+}
+function printCard(){
+  const el=$('cardTpl');
+  const content=el?el.textContent:'';
+  $('printCard').textContent=content;
+  window.print();
+  setTimeout(()=>{ $('printCard').textContent=''; },500);
+}
+
+// ── POPULATE FORM ──────────────────────────────────────────────────────────
+function populateForm(){
+  sv('f_storeNum',  sess.storeNum);
+  sv('f_period',    sess.period);
+  sv('f_beginStamps',sess.beginningStamps);
+  sv('f_endBook',   sess.endingBookQty);
+  sv('f_endCoil',   sess.endingCoilQty);
+  sv('f_mtrBegin',  sess.mtrBegin);
+  sv('f_mtrFundsAdded', sess.mtrFundsAdded);
+  sv('f_mtrFundsDeducted', sess.mtrFundsDeducted);
+  sv('f_mtrEnding', sess.mtrEnding);
+  sv('f_mtrExcl',   sess.mtrExclusion);
+  sv('f_iship',     sess.iship);
+  sv('f_notes',     sess.notes);
 }
 
 // ── RESET ──────────────────────────────────────────────────────────────────
 function confirmReset(){
   if(!confirm('Clear all entries for this month?\n\nStamp pricing will be saved. This cannot be undone.'))return;
   sess=makeDefaultSession(); lsSet(sessKey,sess);
-  populateForm(); renderPurchases(); renderSales(); calcAll();
+  populateForm(); renderPurchases(); renderSales(); renderCardTemplate(); calcAll();
   switchTab('stamps');
   toast('Reset complete — ready for next month','ok');
 }
@@ -1235,10 +1125,10 @@ function importData(input){
     try{
       const d=JSON.parse(e.target.result);
       if(d.session){ sess=Object.assign(makeDefaultSession(),d.session); lsSet(sessKey,sess); }
-      if(d.pricing){ pricing=d.pricing; lsSet(PRICING_KEY,pricing); renderPricingUI(); }
-      populateForm(); renderPurchases(); renderSales(); calcAll();
+      if(d.pricing){ pricing=Object.assign({},DEFAULT_PRICING,d.pricing); lsSet(PRICING_KEY,pricing); renderPricingUI(); }
+      populateForm(); renderPurchases(); renderSales(); renderCardTemplate(); calcAll();
       toast('Backup restored','ok');
-    }catch(ex){toast('Invalid backup file','err');}
+    }catch(ex){ toast('Invalid backup file','err'); }
   };
   reader.readAsText(f); input.value='';
 }
@@ -1255,6 +1145,7 @@ function initApp(){
   renderPurchases();
   renderSales();
   populateForm();
+  renderCardTemplate();
   calcAll();
 }
 
