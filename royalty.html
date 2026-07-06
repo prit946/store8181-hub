@@ -342,11 +342,12 @@
         <div class="ctitle">Stamps.com Balance Summary</div>
         <div class="info-box" style="margin-bottom:12px">
           <strong>or.stamps.com → Reports → Balances → Summary → select prior month</strong><br>
-          <span style="font-size:11px">Auto-reloads are captured in Funds Added — one report covers all four fields.</span>
+          <span style="font-size:11px">One report covers all postage — letters, packages, labels, all weights and sizes are combined. No product breakdown needed.</span>
           <div class="rmap">
             <span class="rh">Report says</span><span></span><span class="rh">Enter here as</span>
             <span>Beginning Balance</span><span class="ra">→</span><span class="rb">Beginning</span>
             <span>Funds Added</span><span class="ra">→</span><span class="rb">Meter Fills</span>
+            <span style="color:#aaa">Funds Credited</span><span class="ra" style="color:#aaa">→</span><span style="color:#aaa">skip — always $0.00</span>
             <span>Funds Deducted</span><span class="ra">→</span><span class="rb">Funds Deducted (verify only)</span>
             <span>Ending Balance</span><span class="ra">→</span><span class="rb">Ending</span>
           </div>
@@ -515,9 +516,9 @@
       <div class="slbl">How to Use</div>
       <div class="card">
         <div class="ctitle">Monthly Process — 3 Steps</div>
-        <div class="guide-step"><div class="guide-num">1</div><div><strong>Throughout month</strong> — fill out your 4×6 Stamp Activity Card as sales happen (front) and when USPS orders arrive (back). At month end, pull Stamps.com Balance Summary and add those numbers to the back of the card.</div></div>
-        <div class="guide-step"><div class="guide-num">2</div><div><strong>Royalty time</strong> — open this tool. Type in your card data: Stamps tab for purchases, sales, and ending inventory count. Metered tab for Stamps.com numbers and Appendix A exclusion. Check CM Guide tab for your final entry values.</div></div>
-        <div class="guide-step"><div class="guide-num">3</div><div><strong>Submit</strong> — Center Management → My Center → Royalty → Submit Royalty → select month → Stamps and Metered Mail. Enter each value from the CM Guide tab. Click Save, then go through Products, Exclusions (add iShip fee), Commissions tabs and submit.</div></div>
+        <div class="guide-step"><div class="guide-num">1</div><div><strong>Throughout month</strong> — keep the 4×6 Stamp Activity Card handy. Front: log each sale (Date · B or C · Qty). Back: log each USPS order as it arrives (Date · B or C · Qty · Total Cost). At month end, open Stamps.com → Reports → Balances → Summary → select the month. Copy the 4 dollar amounts to the back of the card (Beginning, Funds Added, Funds Deducted, Ending — skip Funds Credited, it's always $0).</div></div>
+        <div class="guide-step"><div class="guide-num">2</div><div><strong>Royalty time</strong> — open this tool and type in your card. Stamps tab: beginning inventory, purchases, daily sales, ending count. Metered tab: the 4 Stamps.com dollar amounts + Appendix A exclusion. CM Guide tab shows the exact values to enter in Center Management — no math needed.</div></div>
+        <div class="guide-step"><div class="guide-num">3</div><div><strong>Submit in CM</strong> — Center Management → My Center → Royalty → Submit Royalty → select month → Stamps and Metered Mail. Enter each value from the CM Guide tab and click Save. Then go to the Exclusions tab and add the iShip fee. Products and Commissions tabs auto-populate from POS — leave them.</div></div>
       </div>
 
       <div class="card">
@@ -1036,45 +1037,47 @@ function renderCardTemplate(){
   const store=sess.storeNum?'Store: '+sess.storeNum:'Store: ______';
   const month=sess.period||'__________';
   const tpl=
-'STAMP ACTIVITY LOG   Month: '+month.padEnd(12)+'  '+store+'\n'+
+'STAMP ACTIVITY LOG\n'+
+'Month: '+month+'    '+store+'\n'+
+'────────────────────────────── FRONT ─────\n'+
 '\n'+
-'DAILY SALES\n'+
-'─────────────────────────────────────────\n'+
-'Date       │ Product    │ Qty Sold\n'+
-'───────────┼────────────┼───────────────\n'+
-'           │  B / C     │\n'+
-'           │  B / C     │\n'+
-'           │  B / C     │\n'+
-'           │  B / C     │\n'+
-'           │  B / C     │\n'+
-'           │  B / C     │\n'+
-'           │  B / C     │\n'+
-'           │  B / C     │\n'+
-'           │  B / C     │\n'+
-'           │  B / C     │\n'+
-'─────────────────────────────────────────\n'+
-'B = Book of 20    C = Coil of 100\n'+
+'DAILY SALES  (B = Book of 20  ·  C = Coil of 100)\n'+
+'──────────────────────────────────────────\n'+
+'Date       │ Product  │ Qty Sold\n'+
+'───────────┼──────────┼──────────────────\n'+
+'           │  B / C   │\n'+
+'           │  B / C   │\n'+
+'           │  B / C   │\n'+
+'           │  B / C   │\n'+
+'           │  B / C   │\n'+
+'           │  B / C   │\n'+
+'           │  B / C   │\n'+
+'           │  B / C   │\n'+
+'           │  B / C   │\n'+
+'           │  B / C   │\n'+
+'──────────────────────────────────────────\n'+
 '\n'+
-'─ ─ ─ ─ ─ ─ ─ ─ ─ [BACK SIDE] ─ ─ ─ ─ ─\n'+
+'─────────────────────────────── BACK ─────\n'+
 '\n'+
-'PURCHASES  (from USPS receipt)\n'+
-'──────────────────────────────────────────────────\n'+
-'Date       │ Product    │ Qty   │ Total Cost $\n'+
-'───────────┼────────────┼───────┼────────────────\n'+
-'           │  B / C     │       │\n'+
-'           │  B / C     │       │\n'+
-'           │  B / C     │       │\n'+
-'           │  B / C     │       │\n'+
-'──────────────────────────────────────────────────\n'+
+'STAMP PURCHASES  (source: USPS receipt)\n'+
+'──────────────────────────────────────────\n'+
+'Date       │ Product  │ Qty  │ Total Cost $\n'+
+'───────────┼──────────┼──────┼─────────────\n'+
+'           │  B / C   │      │\n'+
+'           │  B / C   │      │\n'+
+'           │  B / C   │      │\n'+
+'           │  B / C   │      │\n'+
+'──────────────────────────────────────────\n'+
 '\n'+
-'STAMPS.COM  Month: '+month+'\n'+
-'or.stamps.com → Reports → Balances → Summary → select month\n'+
-'\n'+
-'Beginning Balance   $ ____________\n'+
-'Funds Added         $ ____________\n'+
-'Funds Deducted      $ ____________  (postage used)\n'+
-'Ending Balance      $ ____________\n'+
-'──────────────────────────────────────────────────';
+'STAMPS.COM BALANCE SUMMARY — '+month+'\n'+
+'or.stamps.com → Reports → Balances → Summary\n'+
+'(Funds Credited = always $0.00, skip it)\n'+
+'──────────────────────────────────────────\n'+
+'Beginning Balance  $ ____________\n'+
+'Funds Added        $ ____________\n'+
+'Funds Deducted     $ ____________\n'+
+'Ending Balance     $ ____________\n'+
+'──────────────────────────────────────────';
   const el=$('cardTpl'); if(el) el.textContent=tpl;
 }
 function printCard(){
