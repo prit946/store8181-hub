@@ -386,8 +386,11 @@
           <strong>Separate report — not on the Balance Summary above</strong><br>
           print.endicia.com → Reports → Prints → By Type → Data → Prints, Refunds &amp; Adjustments → <strong>Net Amount Paid for Letters</strong>
         </div>
+        <div class="info-box" style="margin-bottom:12px;font-size:11px">
+          <strong>Auto-reloads do NOT go here.</strong> Auto-reloads are captured in Funds Added on the Balance Summary → entered as Meter Fills (left side above). This right-side exclusion table in CM is Appendix A only — one dollar amount, entered as a single line item with description "USPS First Class."
+        </div>
         <div class="fg" style="margin-bottom:0">
-          <label>Total Allowable Metered Mail Exclusion → CM right side</label>
+          <label>Total Allowable Metered Mail Exclusion → CM right side (one line item)</label>
           <input type="text" inputmode="decimal" id="f_mtrExcl" placeholder="0.00"
             oninput="sess.mtrExclusion=this.value;calcAll()">
         </div>
@@ -417,25 +420,26 @@
           <span class="g-val" id="g_purch">$0.00</span>
         </div>
 
-        <p class="g-section">Ending Inventory — Right Side</p>
+        <p class="g-section">Ending Inventory — Right Side Table</p>
+        <div style="font-size:11px;color:#888;margin-bottom:8px">Unit costs ($15.60 / $78.00) are pre-filled by CM. Only enter the Qty for each row.</div>
         <div class="guide-row">
-          <span class="g-lbl">Book of 20 — Qty</span>
+          <span class="g-lbl">Book Of Stamps 20 — Qty</span>
           <span class="g-tag">type in CM</span>
           <span class="g-val" id="g_endBook">0</span>
         </div>
         <div class="guide-row">
-          <span class="g-lbl">Coil of 100 — Qty</span>
+          <span class="g-lbl">Roll of Stamps 100 — Qty</span>
           <span class="g-tag">type in CM</span>
           <span class="g-val" id="g_endCoil">0</span>
         </div>
         <div class="guide-row">
-          <span class="g-lbl">Ending Stamps Inventory Cost</span>
-          <span class="g-tag-auto">CM calculates</span>
+          <span class="g-lbl">Ending Stamps Inventory Cost <span style="font-size:10px;color:#888;font-weight:400">(greyed out — CM calculates from table)</span></span>
+          <span class="g-tag-auto">verify matches</span>
           <span class="g-val" id="g_endCost">$0.00</span>
         </div>
         <div class="guide-row">
-          <span class="g-lbl">Cost of Stamps Sold</span>
-          <span class="g-tag-auto">CM calculates</span>
+          <span class="g-lbl">Cost of Stamps Sold <span style="font-size:10px;color:#888;font-weight:400">(greyed out — CM calculates)</span></span>
+          <span class="g-tag-auto">verify matches</span>
           <span class="g-val" id="g_costSold">$0.00</span>
         </div>
 
@@ -461,7 +465,8 @@
           <span class="g-val" id="g_mtrCostUsed">$0.00</span>
         </div>
 
-        <p class="g-section">Metered Mail Exclusion — Right Side</p>
+        <p class="g-section">Metered Mail Exclusion — Right Side Table</p>
+        <div style="font-size:11px;color:#888;margin-bottom:8px">In CM: Description = "USPS First Class" · Cost = Appendix A amount. Auto-reloads are NOT here — they are in Meter Fills above.</div>
         <div class="guide-row">
           <span class="g-lbl">Total Allowable Exclusion (Appendix A)</span>
           <span class="g-tag">type in CM</span>
