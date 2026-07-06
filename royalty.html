@@ -473,17 +473,34 @@
           <span class="g-val" id="g_mtrExcl">$0.00</span>
         </div>
 
-        <p class="g-section">Exclusions Tab — iShip Proc Fee</p>
-        <div style="font-size:11px;color:#888;margin-bottom:8px">Typically $10–$12/month. Enter in CM Exclusions tab manually.</div>
+        <p class="g-section">Exclusions Tab</p>
+        <div style="font-size:11px;color:#888;margin-bottom:8px">Most rows (Stamp Cost, Metered Mail Cost, Sales Tax, Deposits, iShip Proc Fee) auto-populate from POS. Only iShip and "Other 1 Adjustment" are manually entered.</div>
         <div class="fg" style="margin-bottom:8px">
           <label>iShip Fee this month</label>
           <input type="text" inputmode="decimal" id="f_iship" placeholder="10.00"
             oninput="sess.iship=this.value;save();updateGuide()">
         </div>
         <div class="guide-row">
-          <span class="g-lbl">iShip Proc Fee</span>
-          <span class="g-tag">type in CM Exclusions</span>
+          <span class="g-lbl">iShip Proc Fee <span style="font-size:10px;color:#888;font-weight:400">(auto-fills from POS)</span></span>
+          <span class="g-tag-auto">verify</span>
           <span class="g-val" id="g_iship">$0.00</span>
+        </div>
+        <div class="guide-row">
+          <span class="g-lbl">Other 1 — Adjustment <span style="font-size:10px;color:#888;font-weight:400">(only editable field)</span></span>
+          <span class="g-tag-auto">almost always $0</span>
+          <span class="g-val">$0.00</span>
+        </div>
+
+        <p class="g-section">Commissions Tab</p>
+        <div style="font-size:11px;color:#888;margin-bottom:8px">Money Transfer and Other 1 (PRP commissions from HQ) auto-populate. Only "Other 2 Adjustment" is editable — almost always $0. Do not touch unless your area rep instructs otherwise.</div>
+        <div class="guide-row">
+          <span class="g-lbl">Other 1 — PRP Commissions <span style="font-size:10px;color:#888;font-weight:400">(pre-filled by HQ)</span></span>
+          <span class="g-tag-auto">auto from HQ</span>
+        </div>
+        <div class="guide-row">
+          <span class="g-lbl">Other 2 — Adjustment <span style="font-size:10px;color:#888;font-weight:400">(only editable field)</span></span>
+          <span class="g-tag-auto">almost always $0</span>
+          <span class="g-val">$0.00</span>
         </div>
 
         <p class="g-section">Verify in Products/Services Tab</p>
@@ -523,7 +540,7 @@
         <div class="ctitle">Monthly Process — 3 Steps</div>
         <div class="guide-step"><div class="guide-num">1</div><div><strong>Throughout month</strong> — keep the 4×6 Stamp Activity Card handy. Front: log each sale (Date · B or C · Qty). Back: log each USPS order as it arrives (Date · B or C · Qty · Total Cost). At month end, open Stamps.com → Reports → Balances → Summary → select the month. Copy the 4 dollar amounts to the back of the card (Beginning, Funds Added, Funds Deducted, Ending — skip Funds Credited, it's always $0).</div></div>
         <div class="guide-step"><div class="guide-num">2</div><div><strong>Royalty time</strong> — open this tool and type in your card. Stamps tab: beginning inventory, purchases, daily sales, ending count. Metered tab: the 4 Stamps.com dollar amounts + Appendix A exclusion. CM Guide tab shows the exact values to enter in Center Management — no math needed.</div></div>
-        <div class="guide-step"><div class="guide-num">3</div><div><strong>Submit in CM</strong> — Center Management → My Center → Royalty → Submit Royalty → select month → Stamps and Metered Mail. Enter each value from the CM Guide tab and click Save. Then go to the Exclusions tab and add the iShip fee. Products and Commissions tabs auto-populate from POS — leave them.</div></div>
+        <div class="guide-step"><div class="guide-num">3</div><div><strong>Submit in CM</strong> — Center Management → My Center → Royalty → Submit Royalty → select month → Stamps and Metered Mail. Enter each value from the CM Guide tab and click Save. Exclusions tab: iShip auto-fills from POS (verify it), Other 1 Adjustment is almost always $0. Commissions tab: Other 1 (PRP) is pre-filled by HQ, Other 2 Adjustment is almost always $0. Products/Services tab auto-populates from POS — leave it. View &amp; Submit Royalty: review and submit.</div></div>
       </div>
 
       <div class="card">
@@ -551,7 +568,7 @@
           <strong>Submission deadline</strong> — 5th of the following month. Center Management requires Google Chrome only.
         </div>
         <div class="info-box" style="margin-bottom:0">
-          <strong>PRP commissions</strong> — pre-populated by HQ in CM Commissions tab (Other 1). Do not enter in POS or manually. Leave CM Commissions at $0 unless your area rep instructs otherwise.
+          <strong>Commissions tab</strong> — Other 1 (PRP) and Other 2 are both pre-populated by HQ from POS. Only "Other 2 Adjustment" column is editable — leave it at $0.00 unless your area rep instructs a change. Do not enter commission amounts manually.
         </div>
       </div>
 
