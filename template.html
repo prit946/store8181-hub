@@ -92,6 +92,12 @@ header h1 { font-size: 14px; font-weight: 600; letter-spacing: .3px; }
 .zone-lbl:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
 .notes-ta { width: 100%; font-family: 'Courier New',monospace; font-size: 11px; padding: 10px 12px; border: 1px solid #dde0e5; border-radius: 5px; outline: none; resize: vertical; line-height: 1.8; }
 .btn-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+.store-card { background:#f4f6f9; border:1.5px solid #dde0e5; border-radius:5px; padding:13px 12px 13px 16px; cursor:pointer; display:flex; align-items:center; gap:10px; margin-bottom:8px; transition:all .15s; user-select:none; -webkit-user-select:none; }
+.store-card:active { border-color:#1b2d45; background:#1b2d45; }
+.store-card .sc-num { font-size:14px; font-weight:700; color:#1b2d45; flex:1; }
+.store-card:active .sc-num { color:#fff; }
+.store-card .sc-rm { color:#bbb; font-size:11px; font-weight:700; padding:4px 9px; border-radius:4px; background:rgba(0,0,0,.06); border:1px solid rgba(0,0,0,.08); flex-shrink:0; }
+.store-card:active .sc-rm { background:rgba(255,255,255,.15); border-color:rgba(255,255,255,.2); color:#fff; }
 #copy-msg { font-size: 11px; color: #5cb85c; display: none; }
 #qr-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.82); align-items: center; justify-content: center; z-index: 999; padding: 20px; }
 #qr-modal.show { display: flex; }
@@ -130,8 +136,15 @@ header h1 { font-size: 14px; font-weight: 600; letter-spacing: .3px; }
     </div>
     <div class="lc-body">
 
+      <!-- Step 0: Saved stores (shown on return visits) -->
+      <div id="saved-stores-step" style="display:none">
+        <div class="step-lbl">Your Stores</div>
+        <div id="saved-store-list"></div>
+        <button onclick="showEnterStore()" style="width:100%;background:#f4f6f9;border:1.5px dashed #c0c8d4;border-radius:5px;padding:12px;font-size:12px;font-weight:700;color:#888;cursor:pointer;margin-top:4px">+ Enter Different Store Number</button>
+      </div>
+
       <!-- Step 1: Store number -->
-      <div id="store-select-step">
+      <div id="store-select-step" style="display:none">
         <div class="step-lbl">Your Store Number</div>
         <input id="store-number-input" class="form-inp" placeholder="e.g. 2842" inputmode="numeric" maxlength="6"
           style="font-size:22px;letter-spacing:6px;text-align:center;margin-bottom:14px;"
@@ -139,6 +152,9 @@ header h1 { font-size: 14px; font-weight: 600; letter-spacing: .3px; }
         >
         <button class="btn-pri" style="width:100%;padding:12px;" onclick="confirmStoreNumber()">Continue &#8594;</button>
         <div id="store-err" style="font-size:11px;color:#c0392b;margin-top:8px;text-align:center;"></div>
+        <div id="back-to-stores" style="display:none;text-align:center;margin-top:10px">
+          <button onclick="showSavedStores()" style="background:none;border:none;color:#aaa;font-size:11px;cursor:pointer">&#8592; Back to store list</button>
+        </div>
       </div>
 
       <!-- Step 2: Role + PIN (hidden until store confirmed) -->
@@ -177,13 +193,22 @@ header h1 { font-size: 14px; font-weight: 600; letter-spacing: .3px; }
     </div>
     <div class="tab-panel" id="panel-portals">
       <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#888;margin-bottom:10px;">Store Tools</div>
-      <a href="zreport.html" style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #dde0e5;border-radius:6px;padding:13px 14px;margin-bottom:14px;text-decoration:none;color:#111;transition:all .12s;" ontouchstart="" onmouseenter="this.style.borderColor='#28a745'" onmouseleave="this.style.borderColor='#dde0e5'">
+      <a href="zreport.html" style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #dde0e5;border-radius:6px;padding:13px 14px;margin-bottom:9px;text-decoration:none;color:#111;transition:all .12s;" ontouchstart="" onmouseenter="this.style.borderColor='#28a745'" onmouseleave="this.style.borderColor='#dde0e5'">
         <div style="width:40px;height:40px;border-radius:8px;background:#edfaf0;border:1px solid #28a745;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">📊</div>
         <div style="flex:1">
           <div style="font-size:13px;font-weight:700;color:#1b2d45;margin-bottom:2px">Z Report</div>
           <div style="font-size:11px;color:#888">Daily submission · Monthly &amp; yearly totals</div>
         </div>
         <span style="font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;padding:3px 8px;border-radius:20px;background:#edfaf0;color:#28a745;flex-shrink:0">Daily</span>
+        <div style="color:#ccc;font-size:18px">›</div>
+      </a>
+      <a href="royalty.html" style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #dde0e5;border-radius:6px;padding:13px 14px;margin-bottom:14px;text-decoration:none;color:#111;transition:all .12s;" ontouchstart="" onmouseenter="this.style.borderColor='#f97316'" onmouseleave="this.style.borderColor='#dde0e5'">
+        <div style="width:40px;height:40px;border-radius:8px;background:#fff3ec;border:1px solid #f97316;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">📋</div>
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:700;color:#1b2d45;margin-bottom:2px">Royalty &amp; Stamps</div>
+          <div style="font-size:11px;color:#888">Monthly royalty helper · Stamp inventory · Metered mail</div>
+        </div>
+        <span style="font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;padding:3px 8px;border-radius:20px;background:#fff3ec;color:#f97316;flex-shrink:0">Monthly</span>
         <div style="color:#ccc;font-size:18px">›</div>
       </a>
       <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#888;margin-bottom:10px;">UPS Portals</div>
@@ -318,6 +343,70 @@ const GATEWAY_URL = ""; // Paste your Apps Script URL here
 const GATEWAY_KEY = ""; // Paste your secret key here
 let LS = "ups_store_hub_v1"; // overwritten once store number is selected
 const DEFAULT_PINS = { o: "0000", e: "0000" };
+const SAVED_STORES_KEY = "ups_saved_stores_v1";
+
+// ── SAVED STORES ───────────────────────────────────────────────────────────
+function getSavedStores() {
+  try { return JSON.parse(localStorage.getItem(SAVED_STORES_KEY) || "[]"); } catch(e) { return []; }
+}
+function addSavedStore(num) {
+  const list = getSavedStores().filter(s => s !== num);
+  list.unshift(num); // most recent first
+  localStorage.setItem(SAVED_STORES_KEY, JSON.stringify(list.slice(0, 10)));
+}
+function removeSavedStore(num) {
+  const list = getSavedStores().filter(s => s !== num);
+  localStorage.setItem(SAVED_STORES_KEY, JSON.stringify(list));
+}
+function showSavedStores() {
+  document.getElementById("saved-stores-step").style.display = "block";
+  document.getElementById("store-select-step").style.display = "none";
+  document.getElementById("role-pin-step").style.display = "none";
+}
+function showEnterStore() {
+  document.getElementById("saved-stores-step").style.display = "none";
+  document.getElementById("store-select-step").style.display = "block";
+  const saved = getSavedStores();
+  document.getElementById("back-to-stores").style.display = saved.length ? "block" : "none";
+  document.getElementById("store-number-input").value = "";
+  document.getElementById("store-number-input").focus();
+}
+function renderSavedStores() {
+  const list = getSavedStores();
+  const container = document.getElementById("saved-store-list");
+  container.innerHTML = "";
+  list.forEach(num => {
+    const card = document.createElement("div");
+    card.className = "store-card";
+    card.innerHTML = '<div class="sc-num">UPS Store #' + num + '</div><div class="sc-rm">✕ Forget</div>';
+    card.querySelector(".sc-num").onclick = () => pickSavedStore(num);
+    card.querySelector(".sc-rm").onclick = e => {
+      e.stopPropagation();
+      if (confirm("Remove Store #" + num + " from this device?")) {
+        removeSavedStore(num);
+        renderSavedStores();
+        if (getSavedStores().length === 0) showEnterStore();
+      }
+    };
+    container.appendChild(card);
+  });
+}
+function pickSavedStore(num) {
+  storeNumber = num;
+  LS = "ups_store_" + storeNumber + "_v1";
+  const loaded = loadState();
+  accounts = loaded.accounts; pins = loaded.pins;
+  notesS8181 = loaded.notesS8181; notesOther = loaded.notesOther;
+  document.getElementById("login-store-name").textContent = "UPS STORE #" + storeNumber;
+  document.getElementById("login-store-sub").textContent = "Select your role";
+  document.getElementById("saved-stores-step").style.display = "none";
+  document.getElementById("store-select-step").style.display = "none";
+  document.getElementById("role-pin-step").style.display = "block";
+  document.getElementById("store-err").textContent = "";
+  document.querySelectorAll(".role-btn").forEach(b => b.classList.remove("sel"));
+  document.getElementById("pin-wrap").classList.remove("show");
+  pin = ""; selR = null; drawDots();
+}
 
 const PORTALS = [
   { name:"Email (M365)",  url:"https://login.microsoftonline.com" },
@@ -352,17 +441,14 @@ function confirmStoreNumber() {
   }
   storeNumber = val;
   LS = "ups_store_" + storeNumber + "_v1";
+  addSavedStore(storeNumber);
 
-  // Load this store's saved state
   const loaded = loadState();
-  accounts   = loaded.accounts;
-  pins       = loaded.pins;
-  notesS8181 = loaded.notesS8181;
-  notesOther = loaded.notesOther;
+  accounts = loaded.accounts; pins = loaded.pins;
+  notesS8181 = loaded.notesS8181; notesOther = loaded.notesOther;
 
-  // Update header
   document.getElementById("login-store-name").textContent = "UPS STORE #" + storeNumber;
-  document.getElementById("login-store-sub").textContent  = "Select your role";
+  document.getElementById("login-store-sub").textContent = "Select your role";
   document.getElementById("store-select-step").style.display = "none";
   document.getElementById("role-pin-step").style.display = "block";
   document.getElementById("store-err").textContent = "";
@@ -371,15 +457,20 @@ function confirmStoreNumber() {
 
 function resetStoreSelect() {
   storeNumber = "";
-  document.getElementById("store-number-input").value = "";
-  document.getElementById("store-select-step").style.display = "block";
-  document.getElementById("role-pin-step").style.display = "none";
-  document.getElementById("login-store-name").textContent = "UPS STORE";
-  document.getElementById("login-store-sub").textContent  = "Enter your store number to continue";
+  pin = ""; selR = null;
   document.querySelectorAll(".role-btn").forEach(b => b.classList.remove("sel"));
   document.getElementById("pin-wrap").classList.remove("show");
   document.getElementById("pin-err").textContent = "";
-  pin = ""; selR = null;
+  document.getElementById("login-store-name").textContent = "UPS STORE";
+  document.getElementById("login-store-sub").textContent = "Enter your store number to continue";
+  document.getElementById("role-pin-step").style.display = "none";
+  const saved = getSavedStores();
+  if (saved.length > 0) {
+    renderSavedStores();
+    showSavedStores();
+  } else {
+    showEnterStore();
+  }
 }
 
 // QR helper using embedded QRCode.js
@@ -709,15 +800,15 @@ function copyBackup() {
 function nukeEverything() {
   if (!confirm("This will permanently delete ALL profiles, notes, PINs, and saved data.\n\nAre you absolutely sure?")) return;
   if (!confirm("Last chance — everything will be wiped. Tap OK to confirm.")) return;
+  const wiped = storeNumber;
   localStorage.removeItem(LS);
+  removeSavedStore(wiped);
   accounts = JSON.parse(JSON.stringify(DEFAULT_ACCOUNTS));
   pins = { o: "0000", e: "0000" };
-  notesS8181 = "";
-  notesOther = "";
-  // Lock back to login screen with clean state
+  notesS8181 = ""; notesOther = "";
   lockScreen();
   setTimeout(() => {
-    alert("All data for Store #" + storeNumber + " has been wiped.\nSet new PINs after logging back in.");
+    alert("All data for Store #" + wiped + " has been wiped.\nSet new PINs after logging back in.");
   }, 300);
 }
 
@@ -768,12 +859,13 @@ function checkHubParam() {
     if (d.a && d.a.length) existing.accounts = d.a;
     existing.pins = { o: d.op || '0000', e: d.ep || '0000' };
     localStorage.setItem(key, JSON.stringify(existing));
+    addSavedStore(d.s);
     history.replaceState({}, '', location.pathname);
     const inp = document.getElementById('store-number-input');
     if (inp) inp.value = d.s;
     const banner = document.createElement('div');
     banner.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#1b2d45;color:#fff;padding:12px 16px;text-align:center;font-size:13px;font-weight:700;z-index:9999;line-height:1.4;';
-    banner.textContent = '✅ Hub restored for Store #' + d.s + ' — enter your store number and log in as Owner.';
+    banner.textContent = '✅ Hub restored for Store #' + d.s + ' — tap your store to log in.';
     document.body.prepend(banner);
     setTimeout(() => banner.remove(), 7000);
   } catch(e) { /* silently ignore malformed hub param */ }
@@ -821,12 +913,13 @@ function checkSyncParam() {
     if (d.a && d.a.length) existing.accounts = d.a;
     if (d.ep) { existing.pins = Object.assign({}, existing.pins || DEFAULT_PINS, { e: d.ep }); }
     localStorage.setItem(key, JSON.stringify(existing));
+    addSavedStore(d.s);
     history.replaceState({}, '', location.pathname);
     const inp = document.getElementById('store-number-input');
     if (inp) inp.value = d.s;
     const banner = document.createElement('div');
     banner.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#28a745;color:#fff;padding:12px 16px;text-align:center;font-size:13px;font-weight:700;z-index:9999;line-height:1.4;';
-    banner.textContent = '✅ Credentials updated for Store #' + d.s + '. Enter your store number to log in.';
+    banner.textContent = '✅ Credentials updated for Store #' + d.s + ' — tap your store to log in.';
     document.body.prepend(banner);
     setTimeout(() => banner.remove(), 7000);
   } catch(e) { /* silently ignore malformed sync param */ }
@@ -834,4 +927,15 @@ function checkSyncParam() {
 
 checkSyncParam();
 checkHubParam();
+
+// ── BOOT: show saved stores or blank entry ─────────────────────────────────
+(function boot() {
+  const saved = getSavedStores();
+  if (saved.length > 0) {
+    renderSavedStores();
+    showSavedStores();
+  } else {
+    showEnterStore();
+  }
+})();
 </script></body></html>
