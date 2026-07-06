@@ -381,16 +381,18 @@
       </div>
 
       <div class="card">
-        <div class="ctitle">Metered Mail Exclusion — Appendix A</div>
-        <div class="info-box warn" style="margin-bottom:12px">
-          <strong>Separate report — not on the Balance Summary above</strong><br>
-          print.endicia.com → Reports → Prints → By Type → Data → Prints, Refunds &amp; Adjustments → <strong>Net Amount Paid for Letters</strong>
+        <div class="ctitle">Metered Mail Exclusion <span style="font-size:10px;font-weight:600;color:#888;text-transform:none;letter-spacing:0">(most months: $0)</span></div>
+        <div class="info-box" style="margin-bottom:10px;font-size:12px">
+          <strong>Only fill this in if you printed USPS labels through the Stamps.com meter.</strong><br>
+          <span style="font-size:11px">This covers postage you printed at the counter for a customer — the cost is passed through so it's excluded from royalty. If you didn't print any USPS labels this month, leave this $0.</span>
         </div>
-        <div class="info-box" style="margin-bottom:12px;font-size:11px">
-          <strong>Auto-reloads do NOT go here.</strong> Auto-reloads are captured in Funds Added on the Balance Summary → entered as Meter Fills (left side above). This right-side exclusion table in CM is Appendix A only — one dollar amount, entered as a single line item with description "USPS First Class."
+        <div class="info-box warn" style="margin-bottom:10px;font-size:11px">
+          <strong>If you did print USPS labels →</strong> run the Endicia Appendix A report to get the exact amount:<br>
+          print.endicia.com → Reports → Prints → By Type → Data → Prints, Refunds &amp; Adjustments → <strong>Net Amount Paid for Letters</strong><br>
+          <span style="color:#888;margin-top:4px;display:block">Enter that dollar amount here. In CM: one line, Description = "USPS First Class."</span>
         </div>
         <div class="fg" style="margin-bottom:0">
-          <label>Total Allowable Metered Mail Exclusion → CM right side (one line item)</label>
+          <label>Metered Mail Exclusion (Appendix A) — leave $0 if no USPS labels printed</label>
           <input type="text" inputmode="decimal" id="f_mtrExcl" placeholder="0.00"
             oninput="sess.mtrExclusion=this.value;calcAll()">
         </div>
@@ -466,9 +468,9 @@
         </div>
 
         <p class="g-section">Metered Mail Exclusion — Right Side Table</p>
-        <div style="font-size:11px;color:#888;margin-bottom:8px">In CM: Description = "USPS First Class" · Cost = Appendix A amount. Auto-reloads are NOT here — they are in Meter Fills above.</div>
+        <div style="font-size:11px;color:#888;margin-bottom:8px">Only applies if you printed USPS labels through the meter this month. Most months: $0. If non-zero: Description = "USPS First Class" · Amount = Appendix A report total.</div>
         <div class="guide-row">
-          <span class="g-lbl">Total Allowable Exclusion (Appendix A)</span>
+          <span class="g-lbl">Total Allowable Exclusion <span style="font-size:10px;font-weight:400">(from Endicia Appendix A report)</span></span>
           <span class="g-tag">type in CM</span>
           <span class="g-val" id="g_mtrExcl">$0.00</span>
         </div>
@@ -539,7 +541,7 @@
       <div class="card">
         <div class="ctitle">Monthly Process — 3 Steps</div>
         <div class="guide-step"><div class="guide-num">1</div><div><strong>Throughout month</strong> — keep the 4×6 Stamp Activity Card handy. Front: log each sale (Date · B or C · Qty). Back: log each USPS order as it arrives (Date · B or C · Qty · Total Cost). At month end, open Stamps.com → Reports → Balances → Summary → select the month. Copy the 4 dollar amounts to the back of the card (Beginning, Funds Added, Funds Deducted, Ending — skip Funds Credited, it's always $0).</div></div>
-        <div class="guide-step"><div class="guide-num">2</div><div><strong>Royalty time</strong> — open this tool and type in your card. Stamps tab: beginning inventory, purchases, daily sales, ending count. Metered tab: the 4 Stamps.com dollar amounts + Appendix A exclusion. CM Guide tab shows the exact values to enter in Center Management — no math needed.</div></div>
+        <div class="guide-step"><div class="guide-num">2</div><div><strong>Royalty time</strong> — open this tool and type in your card. Stamps tab: beginning inventory, purchases, daily sales, ending count. Metered tab: the 4 Stamps.com dollar amounts. Exclusion: only enter an amount if you printed USPS labels through the meter this month (run Endicia Appendix A report) — otherwise leave $0. CM Guide tab shows exact values to enter in CM.</div></div>
         <div class="guide-step"><div class="guide-num">3</div><div><strong>Submit in CM</strong> — Center Management → My Center → Royalty → Submit Royalty → select month → Stamps and Metered Mail. Enter each value from the CM Guide tab and click Save. Exclusions tab: iShip auto-fills from POS (verify it), Other 1 Adjustment is almost always $0. Commissions tab: Other 1 (PRP) is pre-filled by HQ, Other 2 Adjustment is almost always $0. Products/Services tab auto-populates from POS — leave it. View &amp; Submit Royalty: review and submit.</div></div>
       </div>
 
@@ -550,7 +552,7 @@
           or.stamps.com → Reports → Balances → Summary → select prior month
         </div>
         <div class="info-box" style="margin-bottom:8px">
-          <strong>Endicia Appendix A (Metered Mail Exclusion)</strong><br>
+          <strong>Endicia Appendix A</strong> — only needed in months you printed USPS labels through the meter<br>
           print.endicia.com → Reports → Prints → By Type → Data → Prints, Refunds &amp; Adjustments → Net Amount Paid for Letters
         </div>
         <div class="info-box" style="margin-bottom:0">
