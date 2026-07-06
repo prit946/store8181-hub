@@ -247,6 +247,14 @@
       <!-- Pricing quick-ref -->
       <div class="info-box" id="pricingRef"></div>
 
+      <!-- Physical stamps scope note (owner/admin only) -->
+      <div class="nav-owner">
+        <div class="info-box" style="margin-top:10px">
+          <strong>Physical stamps only</strong> — coil of 100 &amp; book of 20.<br>
+          Stamps.com / postage meter → <strong>Metered tab</strong>.
+        </div>
+      </div>
+
       <!-- Beginning inventory (owner/admin only) -->
       <div class="nav-owner">
         <div class="card" style="margin-top:10px">
@@ -264,6 +272,9 @@
         <div class="section-hdr">
           <h3>Stamp Purchases Log</h3>
           <button class="add-btn" onclick="addPurchaseRow()">+ Add Row</button>
+        </div>
+        <div class="info-box" style="margin-bottom:8px;font-size:11px">
+          Source: USPS delivery email or paper receipt included with each stamp order.
         </div>
         <div id="purchaseRows"></div>
         <div class="card">
@@ -331,9 +342,14 @@
       <div class="card">
         <div class="ctitle">Metered Mail — Stamps.com Report</div>
         <div class="info-box" style="margin-bottom:12px">
-          <strong>Where to find these numbers</strong>
-          or.stamps.com → Reports → Balances → Summary → prior full month.<br>
-          "Endi…" row, last column = Ending Balance &nbsp;·&nbsp; "Fund…" reload row = Meter Fills.
+          <strong>or.stamps.com → Reports → Balances → Summary → select prior month</strong><br>
+          <span style="font-size:11px">Auto-reloads are captured in Funds Added — one report covers all three fields.</span>
+          <div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,.1);display:grid;grid-template-columns:1fr auto 1fr;gap:3px 10px;align-items:center;font-size:12px">
+            <span style="color:#888;font-size:10px;text-transform:uppercase;letter-spacing:.5px">Report says</span><span></span><span style="color:#888;font-size:10px;text-transform:uppercase;letter-spacing:.5px">Enter here as</span>
+            <span>Opening Balance</span><span style="color:var(--teal);font-weight:700">→</span><span style="font-weight:700">Beginning</span>
+            <span>Funds Added</span><span style="color:var(--teal);font-weight:700">→</span><span style="font-weight:700">Meter Fills</span>
+            <span>Ending Balance</span><span style="color:var(--teal);font-weight:700">→</span><span style="font-weight:700">Ending</span>
+          </div>
         </div>
         <div class="fg">
           <label>Beginning Metered Mail (= last month's ending, or $0 first month)</label>
@@ -359,8 +375,8 @@
       <div class="card">
         <div class="ctitle">Metered Mail Exclusion (Appendix A)</div>
         <div class="info-box warn" style="margin-bottom:12px">
-          <strong>Appendix A path</strong>
-          print.endicia.com → Reports → Prints → By Type → Data → Prints, Refunds &amp; Adjustments → find <strong>Net Amount Paid for Letters</strong> row.
+          <strong>Separate report — not on the Balance Summary above</strong><br>
+          print.endicia.com → Reports → Prints → By Type → Data → Prints, Refunds &amp; Adjustments → <strong>Net Amount Paid for Letters</strong>
         </div>
         <div class="fg" style="margin-bottom:0">
           <label>Total Allowable Metered Mail Exclusion</label>
