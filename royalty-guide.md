@@ -71,7 +71,7 @@ Comes from the Stamps.com Balance Summary (back of card):
 | Funds Added | Meter Fills | Meter Fills |
 | Funds Deducted | Funds Deducted | (verify only) |
 | Ending Balance | Ending | Ending Metered Mail Reading |
-| Appendix A amount | Metered Exclusion | Allowable Metered Mail Exclusion |
+**Metered Mail Exclusion** — only fill in if you printed USPS labels through the Stamps.com meter this month. Most months this is $0. If you did print labels, run the Endicia Appendix A report (print.endicia.com → Reports → Prints → By Type → Data → Net Amount Paid for Letters) and enter that amount. In CM: one line, Description = "USPS First Class."
 
 > **Auto-reloads:** These appear in Funds Added → entered as Meter Fills on CM left side. They do NOT go in the CM right-side exclusion table.
 
