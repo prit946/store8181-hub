@@ -1183,10 +1183,20 @@ async function initApp(){
     return;
   }
 
+  // Employee: show form immediately, load data in background
+  if(mode==='employee'){
+    renderCal();renderMissBanner();checkDateForExisting(today);
+    (async()=>{
+      try{await loadSheetData();renderCal();renderMissBanner();checkDateForExisting(today);await checkGW();}
+      catch(e){$('gwDot').className='dot r';$('gwTxt').textContent='Offline';}
+    })();
+    return;
+  }
+
   // Admin: Store 8181 GAS gateway
   showLoader('Connecting to Gateway…');$('lmsg').textContent='Checking gateway…';
   const gwOk=await checkGW();
-  if(!gwOk){hideLoader();toast('Gateway offline','err',6000);renderCal();return;}
+  if(!gwOk){hideLoader();toast('Gateway offline — check Google Apps Script','err',8000);renderCal();return;}
   $('lmsg').textContent='Loading Sheet…';
   try{await loadSheetData();}catch(e){hideLoader();toast('Sheet load failed: '+e.message,'err',6000);renderCal();return;}
   hideLoader();renderCal();renderMissBanner();checkDateForExisting(today);
