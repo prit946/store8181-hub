@@ -96,7 +96,8 @@
 
 <!-- ═══════════════════════════════ ROLE SELECT ════════════════════════════ -->
 <div id="screen-role" style="display:none">
-  <div class="auth-hdr" style="justify-content:center">
+  <div class="auth-hdr">
+    <a href="index.html" class="hdr-back-lnk">‹</a>
     <div style="text-align:center"><h1>Royalty &amp; Stamps Tool</h1><small>Monthly royalty helper</small></div>
   </div>
   <div class="auth-wrap">
@@ -476,16 +477,11 @@
         </div>
 
         <p class="g-section">Exclusions Tab</p>
-        <div style="font-size:11px;color:#888;margin-bottom:8px">Most rows (Stamp Cost, Metered Mail Cost, Sales Tax, Deposits, iShip Proc Fee) auto-populate from POS. Only iShip and "Other 1 Adjustment" are manually entered.</div>
-        <div class="fg" style="margin-bottom:8px">
-          <label>iShip Fee this month</label>
-          <input type="text" inputmode="decimal" id="f_iship" placeholder="10.00"
-            oninput="sess.iship=this.value;save();updateGuide()">
-        </div>
+        <div style="font-size:11px;color:#888;margin-bottom:8px">Most rows auto-populate from POS. Only "Other 1 Adjustment" is editable — almost always $0.</div>
         <div class="guide-row">
           <span class="g-lbl">iShip Proc Fee <span style="font-size:10px;color:#888;font-weight:400">(auto-fills from POS)</span></span>
           <span class="g-tag-auto">verify</span>
-          <span class="g-val" id="g_iship">$0.00</span>
+          <span class="g-val" style="color:#aaa;font-size:11px">check CM</span>
         </div>
         <div class="guide-row">
           <span class="g-lbl">Other 1 — Adjustment <span style="font-size:10px;color:#888;font-weight:400">(only editable field)</span></span>
@@ -1015,7 +1011,6 @@ function updateGuide(st,me){
   tx('g_mtrEnding',fmt(parseFloat(sess.mtrEnding)||0));
   tx('g_mtrCostUsed',fmt(Math.max(0,me.costUsed)));
   tx('g_mtrExcl',  fmt(parseFloat(sess.mtrExclusion)||0));
-  tx('g_iship',    fmt(parseFloat(sess.iship)||0));
   tx('g_stampSales',fmt(st.stampSalesRetail));
 }
 
@@ -1048,7 +1043,7 @@ function copyCMGuide(){
     'Total Allowable Exclusion:     '+fmt(parseFloat(sess.mtrExclusion)||0),
     '',
     '═══ CM EXCLUSIONS TAB ═══════════════════════',
-    'iShip Proc Fee:                '+fmt(parseFloat(sess.iship)||0),
+    'iShip Proc Fee:                auto from POS (verify in CM)',
     '',
     '═══ VERIFY IN PRODUCTS TAB ══════════════════',
     'Stamp Sales (retail):          '+fmt(st.stampSalesRetail)+' (verify matches CM POS)',
@@ -1124,7 +1119,6 @@ function populateForm(){
   sv('f_mtrFundsDeducted', sess.mtrFundsDeducted);
   sv('f_mtrEnding', sess.mtrEnding);
   sv('f_mtrExcl',   sess.mtrExclusion);
-  sv('f_iship',     sess.iship);
   sv('f_notes',     sess.notes);
 }
 
