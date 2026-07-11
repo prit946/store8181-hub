@@ -238,7 +238,7 @@
           <div class="fg" style="margin:0"><label>Store #</label>
             <input type="text" id="f_storeNum" placeholder="8181" oninput="sess.storeNum=this.value;save();renderCardTemplate()"></div>
           <div class="fg" style="margin:0"><label>Royalty Period</label>
-            <input type="text" id="f_period" placeholder="Jun 2026" oninput="sess.period=this.value;save();renderCardTemplate()"></div>
+            <input type="text" id="f_period" placeholder="e.g. Jul 2026" oninput="sess.period=this.value;save();renderCardTemplate()"></div>
         </div>
       </div>
 
@@ -645,7 +645,6 @@ function makeDefaultSession(){
     endingBookQty:'', endingCoilQty:'',
     mtrBegin:'', mtrFundsAdded:'', mtrFundsDeducted:'', mtrEnding:'',
     mtrExclusion:'',
-    iship:'',
     notes:''
   };
 }
@@ -829,7 +828,7 @@ function loadSess(){
 
 // ── PURCHASE ROWS ──────────────────────────────────────────────────────────
 function addPurchaseRow(){
-  sess.purchases.push({date:todayLocal(),product:'coil',qty:'',totalCost:''});
+  sess.purchases.push({date:'',product:'coil',qty:'',totalCost:''});
   save(); renderPurchases();
 }
 function removePurchaseRow(i){
@@ -876,7 +875,7 @@ function renderPurchases(){
 
 // ── SALE ROWS ──────────────────────────────────────────────────────────────
 function addSaleRow(){
-  sess.sales.push({date:todayLocal(),product:'book',qty:''});
+  sess.sales.push({date:'',product:'book',qty:''});
   save(); renderSales();
 }
 function removeSaleRow(i){
@@ -1110,7 +1109,7 @@ function printCard(){
 // ── POPULATE FORM ──────────────────────────────────────────────────────────
 function populateForm(){
   sv('f_storeNum',  sess.storeNum);
-  sv('f_period',    sess.period);
+  // period intentionally not restored — user always types the month fresh
   sv('f_beginStamps',sess.beginningStamps);
   sv('f_endBook',   sess.endingBookQty);
   sv('f_endCoil',   sess.endingCoilQty);
@@ -1162,6 +1161,7 @@ function sv(id,val){ const el=$(id); if(el) el.value=(val==null?'':val); }
 function initApp(){
   loadPricing();
   loadSess();
+  sess.period=''; // always blank on load — user types the month each time
   renderPricingUI();
   renderPurchases();
   renderSales();
