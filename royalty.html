@@ -258,7 +258,7 @@
         <div class="card" style="margin-top:10px">
           <div class="ctitle">Beginning Stamps Inventory</div>
           <div class="fg" style="margin:0">
-            <label>$ — carries from last month's ending inventory ($0 if first month)</label>
+            <label>$ — carries from last month's ending. To verify: count what you had on hand at start of month × USPS cost. Override here if the number looks wrong.</label>
             <input type="text" inputmode="decimal" id="f_beginStamps" placeholder="0.00"
               oninput="sess.beginningStamps=this.value;calcAll()">
           </div>
@@ -312,6 +312,10 @@
             <span class="auto-lbl">Ending Stamps Inventory Cost → enter in CM (right side)</span>
             <span class="auto-field" id="s_endingCost">$0.00</span>
           </div>
+          <div class="info-box" style="margin-top:10px;font-size:11px">
+            <strong>Next month's Beginning Stamps Inventory: <span id="s_nextBegin" style="color:var(--navy)">$0.00</span></strong><br>
+            <span style="color:#888">Write this down — it carries into next month's beginning. If it doesn't match your physical count × USPS cost, something is off this month.</span>
+          </div>
         </div>
 
         <div class="card">
@@ -321,6 +325,16 @@
           <div class="sum-row"><span class="lbl">− Ending Stamps Inventory</span><span class="val" id="s_sumEnd">$0.00</span></div>
           <div class="sum-row total"><span class="lbl">= Cost of Stamps Sold (CM calculates — verify)</span><span class="val" id="s_stampCost">$0.00</span></div>
           <div id="stampValMsg"></div>
+        </div>
+
+        <div class="card">
+          <div class="ctitle">FRS Cross-Check <span style="font-size:10px;font-weight:400;color:#888;text-transform:none;letter-spacing:0">optional · recommended</span></div>
+          <div class="fg" style="margin-bottom:0">
+            <label>Stamp Sales from FRS Profit Center Report <span style="font-weight:400;font-size:11px;color:#888">(Discounted Income column)</span></label>
+            <input type="text" inputmode="decimal" id="f_frsStampSales" placeholder="0.00"
+              oninput="sess.frsStampSales=this.value;calcAll()">
+          </div>
+          <div id="frsValMsg" style="margin-top:4px"></div>
         </div>
 
         <!-- Monthly Activity Card Template -->
@@ -500,6 +514,9 @@
           <span class="g-tag-auto">almost always $0</span>
           <span class="g-val">$0.00</span>
         </div>
+        <div class="info-box warn" style="margin-top:8px;font-size:11px">
+          <strong>If CM shows Other 2 is non-zero →</strong> don't skip it. A non-zero Other 2 increases your royalty base and Total Due. Find out what it is before submitting — contact your area rep if unknown. You can resubmit within 12 months to correct it.
+        </div>
 
         <p class="g-section">Verify in Products/Services Tab</p>
         <div class="guide-row">
@@ -645,6 +662,7 @@ function makeDefaultSession(){
     endingBookQty:'', endingCoilQty:'',
     mtrBegin:'', mtrFundsAdded:'', mtrFundsDeducted:'', mtrEnding:'',
     mtrExclusion:'',
+    frsStampSales:'',
     notes:''
   };
 }
@@ -949,6 +967,7 @@ function calcAll(){
   tx('s_coilQty',st.coilsQty);
   tx('s_stampSalesRetail',fmt(st.stampSalesRetail));
   tx('s_endingCost',fmt(st.endingCost));
+  tx('s_nextBegin', fmt(st.endingCost));
   tx('s_sumBegin',fmt(st.beginning));
   tx('s_sumPurch',fmt(st.purchCost));
   tx('s_sumEnd',fmt(st.endingCost));
@@ -964,6 +983,19 @@ function calcAll(){
     sv='<div class="val-ok">✓ Stamp Cost ≤ Stamp Sales — valid for CM submission</div>';
   }
   $('stampValMsg').innerHTML=sv;
+
+  // FRS cross-check
+  let fv='';
+  const frs=parseFloat(sess.frsStampSales);
+  if(!isNaN(frs)&&frs>0){
+    const diff=Math.abs(frs-st.stampSalesRetail);
+    if(diff<0.02){
+      fv='<div class="val-ok">✓ FRS matches your log — Stamp Sales '+fmt(frs)+'</div>';
+    } else {
+      fv='<div class="val-warn">⚠ FRS shows '+fmt(frs)+' but your log calculates '+fmt(st.stampSalesRetail)+'. Check for unlogged sales or non-standard transactions. Use the FRS figure when entering CM.</div>';
+    }
+  }
+  $('frsValMsg').innerHTML=fv;
 
   // Metered tab DOM
   tx('s_mtrCostUsed',fmt(me.costUsed));
@@ -1118,6 +1150,7 @@ function populateForm(){
   sv('f_mtrFundsDeducted', sess.mtrFundsDeducted);
   sv('f_mtrEnding', sess.mtrEnding);
   sv('f_mtrExcl',   sess.mtrExclusion);
+  sv('f_frsStampSales', sess.frsStampSales);
   sv('f_notes',     sess.notes);
 }
 
