@@ -652,7 +652,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 'use strict';
 const ADMIN_PIN  = '1997';
 const ADMIN_SK   = 's8181_admin';
-const GW_URL     = 'https://script.google.com/macros/s/AKfycbwUh6kuKSn4h-YrHdxBjbZHelGDtg0NmTmKXwUZrCW0nB9RUWwmBLcrCIVZIAs0gzQj/exec';
+const GW_URL     = '[CF_WORKER_URL]'; // ← paste Cloudflare Worker URL here after deployment
 const GW_KEY     = 'Store8181Prit2026';
 const ADMIN_SID  = '1OiU8cDWGvpJFIV2h89Oq6gWwfqkyso2GDmqzsrhqwxQ';
 const GUEST_KEY  = 'zr_guest_cfg';
@@ -1122,11 +1122,16 @@ function copyEmpAccess(){
   function fb(){const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();}
 }
 
-// ── GATEWAY (admin) ───────────────────────────────────────────────────────────
+// ── GATEWAY (admin) — Cloudflare Worker ──────────────────────────────────────
 async function gw(action,params={},timeout=15000){
+  if(!GW_URL||GW_URL.startsWith('['))throw new Error('Cloudflare Worker not deployed yet — update const GW_URL in zreport.html');
+  // Flatten params into body; map legacy spreadsheetId → sid for CF Worker
+  const {spreadsheetId,...rest}=params;
+  const body={key:GW_KEY,action,...rest};
+  if(spreadsheetId)body.sid=spreadsheetId;
   const ctrl=new AbortController(),tid=setTimeout(()=>ctrl.abort(),timeout);
   try{
-    const res=await fetch(GW_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({key:GW_KEY,action,params}),signal:ctrl.signal});
+    const res=await fetch(GW_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),signal:ctrl.signal});
     clearTimeout(tid);if(!res.ok)throw new Error('Gateway HTTP '+res.status);
     const data=await res.json();if(data.error)throw new Error(data.error);return data;
   }catch(e){clearTimeout(tid);if(e.name==='AbortError')throw new Error('Gateway timed out');throw e;}
