@@ -1,25 +1,25 @@
-# Store 8181 Hub — Claude Development Reference
+﻿# Store 8181 Hub â€” Claude Development Reference
 
 > Read this at the start of every session before writing any code.
-> This is the single source of truth — no need to read old files or memory.
+> This is the single source of truth â€” no need to read old files or memory.
 
 ---
 
 ## Repos & URLs
-- **Hub repo**: `prit946/store8181-hub` → live at `prit946.github.io/store8181-hub/`
+- **Hub repo**: `prit946/store8181-hub` â†’ live at `prit946.github.io/store8181-hub/`
 - **Local clone**: `C:\Users\theupsstore8181\store8181-hub\`
-- **Admin PIN**: `1997` · **SessionStorage key**: `s8181_admin`
+- **Admin PIN**: `1997` Â· **SessionStorage key**: `s8181_admin`
 
 ---
 
-## Gateway — Cloudflare Worker (PERMANENT — no OAuth, no expiry, ever)
+## Gateway â€” Cloudflare Worker (PERMANENT â€” no OAuth, no expiry, ever)
 
-**⚠️ The old GAS gateway is DEAD. Never use it. Never reference it.**
+**âš ï¸ The old GAS gateway is DEAD. Never use it. Never reference it.**
 
 ```
 Worker name:  store8181-hub-gateway
 Worker file:  gateway-worker\worker.js  (local)
-Worker URL:   [DEPLOY TO CLOUDFLARE — then update const GW in zreport.html and credentials.html]
+Worker URL:   https://spring-sea-ac0a.prit946.workers.dev
 Key:          Store8181Prit2026  (CF secret: SECRET_KEY)
 SA JSON:      CF secret: GOOGLE_SA_JSON  (file: C:\Users\theupsstore8181\Downloads\store8181-hub-a7f8dc09ee85.json)
 SA email:     hub-gateway@store8181-hub.iam.gserviceaccount.com
@@ -33,12 +33,12 @@ SA email:     hub-gateway@store8181-hub.iam.gserviceaccount.com
 ### Supported actions
 | Action | Required params | Notes |
 |---|---|---|
-| `ping` | — | Returns `{pong:true, ts}` |
+| `ping` | â€” | Returns `{pong:true, ts}` |
 | `sheets.read` | `sid`, `range` | Returns `{values: [[...]]}` |
 | `sheets.append` | `sid`, `range`, `values` | Appends rows |
 | `sheets.update` | `sid`, `range`, `values` | Overwrites range |
 
-**⚠️ NO delete action** — clear rows with empty values or rewrite range instead.
+**âš ï¸ NO delete action** â€” clear rows with empty values or rewrite range instead.
 
 ### PowerShell call pattern (Claude Code sessions)
 ```powershell
@@ -56,15 +56,15 @@ $r = Invoke-WebRequest -Uri $GW -Method POST -Body $body -ContentType 'applicati
 **To add a new tool that needs Sheets:** just share the sheet with `hub-gateway@store8181-hub.iam.gserviceaccount.com` as Editor. No new Worker setup needed.
 
 ### Z Report sheet tabs (exact strings including emoji)
-`📊 This Month` | `📅 Daily` | `📆 Monthly` | `📅 Yearly` | `Raw Log` | `📋 Tips`
+`ðŸ“Š This Month` | `ðŸ“… Daily` | `ðŸ“† Monthly` | `ðŸ“… Yearly` | `Raw Log` | `ðŸ“‹ Tips`
 
 ### Credentials sheet tab
-`Credentials` — single cell `A1` stores JSON blob `{accounts:[...], pins:{o,e}}`  
+`Credentials` â€” single cell `A1` stores JSON blob `{accounts:[...], pins:{o,e}}`  
 (If tab doesn't exist yet: open the sheet, click + to add tab, name it `Credentials`)
 
 ### Updating the Worker code
 Edit `gateway-worker\worker.js`, then paste the full file into:  
-Cloudflare dashboard → Workers & Pages → store8181-hub-gateway → Edit Code → Deploy
+Cloudflare dashboard â†’ Workers & Pages â†’ store8181-hub-gateway â†’ Edit Code â†’ Deploy
 
 ---
 
@@ -73,8 +73,8 @@ When the Worker URL is known (format: `https://store8181-hub-gateway.ACCOUNT.wor
 - [ ] Replace `[CF_WORKER_URL]` in `zreport.html` (`const GW`)
 - [ ] Replace `[CF_WORKER_URL]` in `credentials.html` (`const GW`)
 - [ ] Add `Credentials` tab to Z Report sheet (one blank cell A1 is enough)
-- [ ] Test: ping Worker → expect `{pong:true}`
-- [ ] Push both files to GitHub → GitHub Pages auto-deploys
+- [ ] Test: ping Worker â†’ expect `{pong:true}`
+- [ ] Push both files to GitHub â†’ GitHub Pages auto-deploys
 
 ---
 
@@ -98,20 +98,20 @@ Zero external imports. Mobile-first. `Segoe UI`, system-ui stack.
 ## Tool Inventory
 | File | Purpose | Auth | Data layer |
 |---|---|---|---|
-| `index.html` | Hub launcher — Store Ops / Credentials / Business / Personal sections | Admin PIN | None |
-| `zreport.html` | Z Report daily submission, missing dates, monthly/yearly totals | Admin PIN + Guest Owner/Employee | Admin: CF Worker → Sheet; Guest: localStorage |
-| `credentials.html` | Store 8181 passwords & portals — editable, Owner/Employee roles | Owner PIN + Employee PIN | CF Worker → `Credentials!A1` in Z Report sheet |
+| `index.html` | Hub launcher â€” Store Ops / Credentials / Business / Personal sections | Admin PIN | None |
+| `zreport.html` | Z Report daily submission, missing dates, monthly/yearly totals | Admin PIN + Guest Owner/Employee | Admin: CF Worker â†’ Sheet; Guest: localStorage |
+| `credentials.html` | Store 8181 passwords & portals â€” editable, Owner/Employee roles | Owner PIN + Employee PIN | CF Worker â†’ `Credentials!A1` in Z Report sheet |
 | `royalty.html` | Royalty & Stamps calculator | Admin PIN + Guest Owner/Employee | localStorage |
-| `template.html` | Guest hub — credentials + portals for other UPS Store owners | Store config + PIN | localStorage |
-| `store-ops.html` | Legacy — superseded by royalty.html | — | — |
+| `template.html` | Guest hub â€” credentials + portals for other UPS Store owners | Store config + PIN | localStorage |
+| `store-ops.html` | Legacy â€” superseded by royalty.html | â€” | â€” |
 
 ---
 
 ## Hub Index Sections (index.html)
-- **Store Operations** — Z Report, Royalty & Stamps
-- **Access & Credentials** — Store 8181 Access Hub, UPS Store Guest Access Hub
-- **Business** — Prit Business Op (external), Multi-Store Dashboard (soon)
-- **Personal** — Personal Finance (soon), Life Dashboard (soon), Notion Workspace (soon)
+- **Store Operations** â€” Z Report, Royalty & Stamps
+- **Access & Credentials** â€” Store 8181 Access Hub, UPS Store Guest Access Hub
+- **Business** â€” Prit Business Op (external), Multi-Store Dashboard (soon)
+- **Personal** â€” Personal Finance (soon), Life Dashboard (soon), Notion Workspace (soon)
 
 When adding a new tool: add a card to the correct section in `index.html` AND update this table.
 
@@ -120,10 +120,10 @@ When adding a new tool: add a card to the correct section in `index.html` AND up
 ## Auth Architecture
 
 ### index.html
-Role select → Admin (PIN 1997 → `sessionStorage s8181_admin='ok'`) | Guest (→ template.html)
+Role select â†’ Admin (PIN 1997 â†’ `sessionStorage s8181_admin='ok'`) | Guest (â†’ template.html)
 
 ### credentials.html
-Role select → Owner (PIN from `pins.o`, default `1997`) | Employee (PIN from `pins.e`, default `0000`)  
+Role select â†’ Owner (PIN from `pins.o`, default `1997`) | Employee (PIN from `pins.e`, default `0000`)  
 Owner sees all tabs including Settings (change PINs, backup). Employee sees Credentials + Portals only.  
 On login: pulls from CF Worker. On every edit: auto-pushes to CF Worker (600ms debounce).
 
@@ -133,7 +133,7 @@ Four modes: Admin (Store 8181) | Guest Owner | Guest Employee | Employee join li
 
 ### localStorage key convention
 ```
-s8181_v6              credentials.html — accounts, pins, notes
+s8181_v6              credentials.html â€” accounts, pins, notes
 zr_guest_cfg          zreport guest config
 zr_data_{storeSlug}   zreport localStorage-only store data
 zr_admin_cfg          admin multi-store config
@@ -148,14 +148,14 @@ ry_sess_admin_v1      royalty.html admin session
 ## New Tool Checklist
 - [ ] Mobile-first viewport meta + `<meta name="theme-color" content="#1b2d45">`
 - [ ] Zero external imports (no CDN, no frameworks)
-- [ ] Navy/teal palette — use design tokens above
-- [ ] Auth: role select → PIN → main (never bypass to main without PIN)
-- [ ] Back nav (`‹` link to index.html) in header
+- [ ] Navy/teal palette â€” use design tokens above
+- [ ] Auth: role select â†’ PIN â†’ main (never bypass to main without PIN)
+- [ ] Back nav (`â€¹` link to index.html) in header
 - [ ] Settings tab: How to Use + Notes section + Export/Import backup + tool config
 - [ ] Toast notifications instead of `alert()`
 - [ ] Sticky header + sticky nav tabs
-- [ ] If admin needs Sheets: use CF Worker (see above) — share the sheet with SA email first
-- [ ] If guest/standalone: localStorage only — no gateway dependency
+- [ ] If admin needs Sheets: use CF Worker (see above) â€” share the sheet with SA email first
+- [ ] If guest/standalone: localStorage only â€” no gateway dependency
 - [ ] Role pill in header when guest/employee is logged in
 - [ ] Employee always sees Submit only; Owner/Admin sees all tabs
 - [ ] Add card to `index.html` in correct section
@@ -170,8 +170,8 @@ ry_sess_admin_v1      royalty.html admin session
 
 ---
 
-## GAS Script (still exists — automation only, NOT a gateway)
+## GAS Script (still exists â€” automation only, NOT a gateway)
 - Script ID: `1qmZ9Vravgtx2uf0VjQYB-_-IGO8si8eEu7jUQM9x1d2C9ntX24Czehaf`
-- Old web app URL: **DEAD — do not use**
+- Old web app URL: **DEAD â€” do not use**
 - Still runs: `starredToTasks` (10min), `granolaEmailsToDrive` (30min), `dailyBriefing` (7am)
 - `healthCheck` trigger deleted (was causing hourly failure email spam)
