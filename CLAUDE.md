@@ -51,7 +51,7 @@ $r = Invoke-WebRequest -Uri $GW -Method POST -Body $body -ContentType 'applicati
 | Sheet | ID | SA access |
 |---|---|---|
 | Z Report | `1OiU8cDWGvpJFIV2h89Oq6gWwfqkyso2GDmqzsrhqwxQ` | Editor (already shared) |
-| Credentials data | same sheet, `Credentials` tab | Editor (already shared) |
+| Credentials | 1ZGTqHz3oEiYYgaZqnnEv_LdJMOqvGlxSQ3KinRiQJ_c | Editor (must be shared) |
 
 **To add a new tool that needs Sheets:** just share the sheet with `hub-gateway@store8181-hub.iam.gserviceaccount.com` as Editor. No new Worker setup needed.
 
