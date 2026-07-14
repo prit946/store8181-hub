@@ -73,6 +73,7 @@ header small{font-size:11px;color:#7a9ab8;display:block;text-align:center;margin
 .ic-green{background:#edfaf0;border:1px solid #28a745}
 .ic-orange{background:#fff3ec;border:1px solid #f97316}
 .ic-purple{background:#f3f0ff;border:1px solid #7c3aed}
+.ic-gold{background:#fefce8;border:1px solid #ca8a04}
 .tool-info{flex:1;min-width:0}
 .tool-name{font-size:14px;font-weight:700;color:#1b2d45;margin-bottom:2px}
 .tool-desc{font-size:11px;color:#888;line-height:1.4}
@@ -82,6 +83,7 @@ header small{font-size:11px;color:#7a9ab8;display:block;text-align:center;margin
 .b-green{background:#edfaf0;color:#28a745}
 .b-soon{background:#f4f6f9;color:#aaa}
 .b-purple{background:#f3f0ff;color:#7c3aed}
+.b-gold{background:#fefce8;color:#92400e}
 .tool-arrow{color:#ccc;font-size:18px;flex-shrink:0}
 
 /* ── DIVIDER ── */
@@ -157,7 +159,7 @@ hr{border:none;border-top:1px solid #dde0e5;margin:16px 0}
       <button class="signout-btn" onclick="signOut()">Sign Out</button>
     </div>
 
-    <div class="slbl" style="margin-top:0">Daily Operations</div>
+    <div class="slbl" style="margin-top:0">Store Operations</div>
 
     <a class="tool-card" href="zreport.html">
       <div class="tool-ico ic-green">📊</div>
@@ -203,7 +205,7 @@ hr{border:none;border-top:1px solid #dde0e5;margin:16px 0}
     </a>
 
     <hr>
-    <div class="slbl">Business Management</div>
+    <div class="slbl">Business</div>
 
     <a class="tool-card" href="https://prit946.github.io/prit-business-op/" target="_blank">
       <div class="tool-ico ic-purple">💼</div>
@@ -215,11 +217,41 @@ hr{border:none;border-top:1px solid #dde0e5;margin:16px 0}
       <div class="tool-arrow">›</div>
     </a>
 
+    <div class="tool-card soon">
+      <div class="tool-ico ic-purple">📈</div>
+      <div class="tool-info">
+        <div class="tool-name">Multi-Store Dashboard</div>
+        <div class="tool-desc">Revenue · Trends · Cross-store comparison</div>
+      </div>
+      <span class="tool-badge b-soon">Soon</span>
+      <div class="tool-arrow">›</div>
+    </div>
+
     <hr>
-    <div class="slbl">Coming Soon</div>
+    <div class="slbl">Personal</div>
 
     <div class="tool-card soon">
-      <div class="tool-ico ic-purple">🧠</div>
+      <div class="tool-ico ic-gold">💰</div>
+      <div class="tool-info">
+        <div class="tool-name">Personal Finance</div>
+        <div class="tool-desc">Budget · Income · Goals · Net worth</div>
+      </div>
+      <span class="tool-badge b-soon">Soon</span>
+      <div class="tool-arrow">›</div>
+    </div>
+
+    <div class="tool-card soon">
+      <div class="tool-ico ic-gold">🎯</div>
+      <div class="tool-info">
+        <div class="tool-name">Life Dashboard</div>
+        <div class="tool-desc">Goals · Habits · Health · Notes</div>
+      </div>
+      <span class="tool-badge b-soon">Soon</span>
+      <div class="tool-arrow">›</div>
+    </div>
+
+    <div class="tool-card soon">
+      <div class="tool-ico ic-navy">🧠</div>
       <div class="tool-info">
         <div class="tool-name">Notion Workspace</div>
         <div class="tool-desc">Life OS · SOPs · Employee docs · Tasks</div>
