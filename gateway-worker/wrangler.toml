@@ -1,0 +1,11 @@
+name = "spring-sea-ac0a"
+main = "worker.js"
+compatibility_date = "2026-07-14"
+account_id = "bad58a7b61139e134d8f8bc4bd7a2409"
+preview_urls = false
+
+[observability]
+enabled = true
+
+[observability.logs]
+enabled = true
