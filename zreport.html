@@ -176,6 +176,17 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 .slist-row .sname{font-size:12px;font-weight:700;color:#1b2d45}
 .slist-row .sinfo{font-size:10px;color:#888;margin-top:1px}
 .slist-row .sdel{font-size:11px;font-weight:700;color:#dc3545;cursor:pointer;padding:4px 8px;border:1px solid rgba(220,53,69,.3);border-radius:4px;background:rgba(220,53,69,.06)}
+
+.stat-arch{opacity:.68;border:1px dashed #555;}
+.arch-tag{font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:#444;color:#aaa;padding:2px 5px;border-radius:8px;margin-left:6px;vertical-align:middle;}
+.arch-hdr{opacity:.72;}
+.ytog{float:right;font-size:10px;color:#888;}
+.year-body{transition:none;}
+
+.stat-arch{opacity:.68;border:1px dashed #555;}
+.arch-tag{font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:#444;color:#aaa;padding:2px 5px;border-radius:8px;margin-left:6px;vertical-align:middle;}
+.arch-hdr{opacity:.72;}
+.ytog{float:right;font-size:11px;color:#888;}
 </style>
 <link rel="manifest" href="manifest.json">
 </head>
@@ -1365,14 +1376,26 @@ function loadYearly(){
     if(!byYM[ym])byYM[ym]={sales:0,tax:0,cc:0,cash:0,days:0,year:y};
     byYM[ym].sales+=r.sales;byYM[ym].tax+=r.tax;byYM[ym].cc+=r.cc;byYM[ym].cash+=r.cash;byYM[ym].days++;
   });
+  const curY=String(new Date().getFullYear());
   const years=Object.keys(byYear).sort((a,b)=>+b-+a);
-  $('yearStats').innerHTML=years.length?years.map(y=>`<div class="stat"><div class="lbl">${y}</div><div class="val" style="font-size:19px">${fmtK(byYear[y].sales)}</div><div class="sub">${byYear[y].days} days Â· ${fmtK(byYear[y].cash)} cash</div></div>`).join(''):'<div class="empty" style="grid-column:span 2">No data yet</div>';
-  if(!years.length){$('yearList').innerHTML='';return;}
-  const latY=years[0],months=Object.keys(byYM).filter(ym=>byYM[ym].year===latY).sort((a,b)=>b.localeCompare(a));
-  $('yearList').innerHTML=`<div class="shdr">${latY} â€” Month by Month</div>`+(months.map(ym=>`<div class="rrow"><div class="dc">${monthShort(ym)}<small>${byYM[ym].days}d</small></div><div class="amts"><div class="amt" style="color:#28a745">${fmtK(byYM[ym].sales)} <span>sales</span></div><div class="amt" style="color:#e09000">${fmtK(byYM[ym].tax)} <span>tax</span></div><div class="amt" style="color:#0498BC">${fmtK(byYM[ym].cc)} <span>cc</span></div><div class="amt" style="color:#7c3aed">${fmtK(byYM[ym].cash)} <span>cash</span></div></div></div>`).join('')||'<div class="empty">No data</div>');
+  if(!years.length){$('yearStats').innerHTML='<div class="empty" style="grid-column:span 2">No data yet</div>';$('yearList').innerHTML='';return;}
+  $('yearStats').innerHTML=years.map(y=>{
+    const past=y<curY;
+    return `<div class="stat${past?' stat-arch':''}"><div class="lbl">${y}${past?'<span class="arch-tag">Archived</span>':''}</div><div class="val" style="font-size:19px">${fmtK(byYear[y].sales)}</div><div class="sub">${byYear[y].days} days · ${fmtK(byYear[y].cash)} cash</div></div>`;
+  }).join('');
+  $('yearList').innerHTML=years.map(y=>{
+    const past=y<curY;
+    const months=Object.keys(byYM).filter(ym=>byYM[ym].year===y).sort((a,b)=>b.localeCompare(a));
+    const rows=months.map(ym=>`<div class="rrow"><div class="dc">${monthShort(ym)}<small>${byYM[ym].days}d</small></div><div class="amts"><div class="amt" style="color:#28a745">${fmtK(byYM[ym].sales)} <span>sales</span></div><div class="amt" style="color:#e09000">${fmtK(byYM[ym].tax)} <span>tax</span></div><div class="amt" style="color:#0498BC">${fmtK(byYM[ym].cc)} <span>cc</span></div><div class="amt" style="color:#7c3aed">${fmtK(byYM[ym].cash)} <span>cash</span></div></div></div>`).join('')||'<div class="empty">No entries</div>';
+    return `<div class="year-sec"><div class="shdr year-shdr${past?' arch-hdr':''}" onclick="toggleYearSec('${y}')">${past?'🗂️':'📅'} ${y} — Month by Month${past?'<span class="arch-tag">Archived</span>':''}<span class="ytog" id="ytog-${y}">${past?'▶':'▼'}</span></div><div class="year-body" id="ybody-${y}" style="${past?'display:none':''}"> ${rows}</div></div>`;
+  }).join('');
 }
-
-// â”€â”€ NAV â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function toggleYearSec(y){
+  const b=$('ybody-'+y),t=$('ytog-'+y);
+  const open=b.style.display!=='none';
+  b.style.display=open?'none':'';
+  t.textContent=open?'▶':'▼';
+}
 function nav(page){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
