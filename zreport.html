@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#1b2d45">
-<title>Z Report Â· Store 8181</title>
+<title>Z Report · Store 8181</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#eaecef;color:#111;font-size:14px;min-height:100vh}
@@ -187,6 +187,20 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 .arch-tag{font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:#444;color:#aaa;padding:2px 5px;border-radius:8px;margin-left:6px;vertical-align:middle;}
 .arch-hdr{opacity:.72;}
 .ytog{float:right;font-size:11px;color:#888;}
+
+.month-sec{margin-bottom:5px;}
+.month-hdr{display:flex;align-items:center;justify-content:space-between;background:#f4f6f9;border:1px solid #dde0e5;border-radius:6px;padding:10px 13px;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:manipulation;}
+.month-hdr:active{background:#e8ecf2;}
+.mname{font-size:13px;font-weight:800;color:#1b2d45;display:block;}
+.msub{font-size:10px;color:#888;font-weight:600;}
+.month-body{padding:4px 0 2px;}
+.month-totals{display:flex;gap:10px;flex-wrap:wrap;padding:6px 4px 8px;font-size:11px;font-weight:700;}
+.stat-arch{opacity:.68;border:1px dashed #555;}
+.arch-tag{font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:#444;color:#aaa;padding:2px 5px;border-radius:8px;margin-left:6px;vertical-align:middle;}
+.arch-hdr{opacity:.72;}
+.ytog{float:right;font-size:11px;color:#888;}
+.year-sec{margin-bottom:8px;}
+.year-body{padding-top:4px;}
 </style>
 <link rel="manifest" href="manifest.json">
 </head>
@@ -209,7 +223,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
       <div class="role-card admin" onclick="startAdmin()">
         <div class="rc-ico">ðŸ”‘</div>
         <div class="rc-name">Admin</div>
-        <div class="rc-desc">Full access Â· all tabs</div>
+        <div class="rc-desc">Full access · all tabs</div>
       </div>
       <div class="role-card emp" onclick="startEmployee()">
         <div class="rc-ico">ðŸ‘¤</div>
@@ -223,7 +237,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
         <span style="font-size:28px">ðŸª</span>
         <div>
           <div class="rc-name" style="text-align:left">Other Store</div>
-          <div class="rc-desc" style="text-align:left">Your store Â· Cloud or local</div>
+          <div class="rc-desc" style="text-align:left">Your store · Cloud or local</div>
         </div>
       </div>
     </div>
@@ -234,11 +248,11 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 <div id="screen-pin">
   <div class="auth-hdr">
     <a href="#" onclick="showRole();return false" class="hdr-back-lnk">â€¹</a>
-    <div><h1 id="pinScreenH1">Admin Access</h1><small id="pinScreenSub">Z Report Â· Store 8181</small></div>
+    <div><h1 id="pinScreenH1">Admin Access</h1><small id="pinScreenSub">Z Report · Store 8181</small></div>
   </div>
   <div class="auth-wrap">
     <div class="pin-wrap">
-      <div class="pin-title"><h2>Enter PIN</h2><p id="pinScreenRole">Admin Â· Store 8181</p></div>
+      <div class="pin-title"><h2>Enter PIN</h2><p id="pinScreenRole">Admin · Store 8181</p></div>
       <div class="pin-dots" id="pinDots">
         <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div>
         <div class="pin-dot" id="pd2"></div><div class="pin-dot" id="pd3"></div>
@@ -259,7 +273,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 <div id="screen-guest-setup">
   <div class="auth-hdr">
     <a href="#" onclick="showRole();return false" class="hdr-back-lnk">â€¹</a>
-    <div><h1>New Store Setup</h1><small>One-time setup Â· data owned by you</small></div>
+    <div><h1>New Store Setup</h1><small>One-time setup · data owned by you</small></div>
   </div>
   <div class="auth-wrap">
     <div class="setup-card">
@@ -321,7 +335,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
       <div class="role-card owner" onclick="startGuestAsOwner()">
         <div class="rc-ico">ðŸ‘”</div>
         <div class="rc-name">Owner</div>
-        <div class="rc-desc">Full access Â· all reports</div>
+        <div class="rc-desc">Full access · all reports</div>
       </div>
       <div class="role-card emp" onclick="startGuestAsEmployee()">
         <div class="rc-ico">ðŸ‘¤</div>
@@ -366,18 +380,16 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
     <a class="hdr-back" id="hdrBack" href="index.html">â€¹</a>
     <div class="hdr-info">
       <h1 id="storeTitle">Z Report</h1>
-      <small id="storeSub">Store 8181 Â· Joelton TN</small>
+      <small id="storeSub">Store 8181 · Joelton TN</small>
     </div>
     <span class="role-pill" id="rolePill" style="display:none"></span>
     <div class="gw-pill" id="gwPill"><span class="dot y" id="gwDot"></span><span id="gwTxt">â€¦</span></div>
   </div>
 
   <div class="nav">
-    <button class="nav-btn active" data-page="submit" onclick="nav('submit')"><span class="ico">âœï¸</span>Submit</button>
-    <button class="nav-btn nav-owner" data-page="dash" onclick="nav('dash')"><span class="ico">ðŸ“Š</span>This Month</button>
-    <button class="nav-btn nav-owner" data-page="monthly" onclick="nav('monthly')"><span class="ico">ðŸ“…</span>Monthly</button>
-    <button class="nav-btn nav-owner" data-page="yearly" onclick="nav('yearly')"><span class="ico">ðŸ“ˆ</span>Yearly</button>
-    <button class="nav-btn nav-owner" id="settingsTab" data-page="settings" onclick="nav('settings')"><span class="ico">âš™ï¸</span>Settings</button>
+    <button class="nav-btn active" data-page="submit" onclick="nav('submit')"><span class="ico">✏️</span>Submit</button>
+    <button class="nav-btn nav-owner" data-page="reports" onclick="nav('reports')"><span class="ico">📊</span>Reports</button>
+    <button class="nav-btn nav-owner" id="settingsTab" data-page="settings" onclick="nav('settings')"><span class="ico">⚙️</span>Settings</button>
   </div>
 
   <div class="content">
@@ -427,43 +439,9 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
     </div>
 
     <!-- THIS MONTH -->
-    <div id="page-dash" class="page">
-      <div class="stats">
-        <div class="stat s"><div class="lbl">Sales MTD</div><div class="val" id="dSales">â€”</div><div class="sub" id="dDays">â€” days</div></div>
-        <div class="stat t"><div class="lbl">Tax MTD</div><div class="val" id="dTax">â€”</div></div>
-        <div class="stat c"><div class="lbl">CC MTD</div><div class="val" id="dCC">â€”</div></div>
-        <div class="stat h"><div class="lbl">Cash MTD</div><div class="val" id="dCash">â€”</div></div>
-      </div>
-      <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-          <div class="ctitle" style="margin:0">All Entries This Month</div>
-          <button class="btn-sec btn-sm" onclick="refresh()">â†» Refresh</button>
-        </div>
-        <div id="dashList"></div>
-      </div>
-    </div>
-
-    <!-- MONTHLY -->
-    <div id="page-monthly" class="page">
-      <div class="card">
-        <div class="row2">
-          <div class="ff" style="margin:0"><label>Month</label><select id="mMonth" onchange="loadMonthly()"></select></div>
-          <div class="ff" style="margin:0"><label>Year</label><select id="mYear" onchange="buildMonthSelect()"></select></div>
-        </div>
-      </div>
-      <div class="stats">
-        <div class="stat s"><div class="lbl">Sales</div><div class="val" id="mSales">â€”</div></div>
-        <div class="stat t"><div class="lbl">Tax</div><div class="val" id="mTax">â€”</div></div>
-        <div class="stat c"><div class="lbl">CC</div><div class="val" id="mCC">â€”</div></div>
-        <div class="stat h"><div class="lbl">Cash</div><div class="val" id="mCash">â€”</div></div>
-      </div>
-      <div id="monthList"></div>
-    </div>
-
-    <!-- YEARLY -->
-    <div id="page-yearly" class="page">
-      <div class="stats" id="yearStats"></div>
-      <div id="yearList"></div>
+    <div id="page-reports" class="page">
+      <div class="stats" id="rMTD"></div>
+      <div id="rYears"></div>
     </div>
 
     <!-- SETTINGS -->
@@ -552,7 +530,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
           <hr class="sec">
           <div class="shdr">Stores</div>
           <div class="slist-row" style="background:#e8ecf2;border-color:#c5cdd8">
-            <div><div class="sname">Store 8181 Â· Joelton TN</div><div class="sinfo">Primary Â· Google Sheets gateway</div></div>
+            <div><div class="sname">Store 8181 · Joelton TN</div><div class="sinfo">Primary · Google Sheets gateway</div></div>
             <span style="font-size:10px;color:#7a9ab8;font-weight:700">Primary</span>
           </div>
           <div id="adminStoresList"></div>
@@ -563,7 +541,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
           <div id="addStoreForm" style="display:none;margin-top:10px;background:#f4f6f9;border-radius:6px;padding:14px;border:1px solid #dde0e5">
             <div class="shdr" style="margin-top:0">New Store</div>
             <div class="ff"><label>Store Name / Number</label>
-              <input type="text" id="newStoreName" placeholder="e.g. Store 9182 Â· Nashville"/></div>
+              <input type="text" id="newStoreName" placeholder="e.g. Store 9182 · Nashville"/></div>
             <div class="ff"><label>Google Sheet ID <span class="opt-lbl">Optional â€” leave blank to use Firebase</span></label>
               <input type="text" id="newStoreSid" placeholder="Sheet ID (or leave blank for Firebase)"/></div>
             <div style="display:flex;gap:8px">
@@ -690,15 +668,15 @@ function showRole(){ pinBuf='';gPinBuf=''; showScreen('role'); }
 function startAdmin(){
   pinAuthFor='admin';
   $('pinScreenH1').textContent='Admin Access';
-  $('pinScreenSub').textContent='Z Report Â· Store 8181';
-  $('pinScreenRole').textContent='Admin Â· Store 8181';
+  $('pinScreenSub').textContent='Z Report · Store 8181';
+  $('pinScreenRole').textContent='Admin · Store 8181';
   pinBuf='';renderPinDots();$('pinErr').textContent='';showScreen('pin');
 }
 function startEmployee(){
   pinAuthFor='employee';
   $('pinScreenH1').textContent='Employee Access';
-  $('pinScreenSub').textContent='Z Report Â· Store 8181';
-  $('pinScreenRole').textContent='Employee Â· Submit only';
+  $('pinScreenSub').textContent='Z Report · Store 8181';
+  $('pinScreenRole').textContent='Employee · Submit only';
   pinBuf='';renderPinDots();$('pinErr').textContent='';showScreen('pin');
 }
 function kp(d){if(pinBuf.length>=4)return;pinBuf+=d;renderPinDots();if(pinBuf.length===4)checkAdminPin();}
@@ -719,7 +697,7 @@ function enterAdmin(){
   mode='admin';
   loadAdminCfg();
   currentStore='store8181';
-  $('storeTitle').textContent='Z Report';$('storeSub').textContent='Store 8181 Â· Joelton TN';
+  $('storeTitle').textContent='Z Report';$('storeSub').textContent='Store 8181 · Joelton TN';
   $('hdrBack').href='index.html';$('hdrBack').onclick=null;
   document.querySelectorAll('.nav-owner').forEach(el=>el.style.display='');
   $('settingsTab').style.display='';$('rolePill').style.display='none';
@@ -730,7 +708,7 @@ function enterAdmin(){
 function enterEmployee(){
   mode='employee';
   currentStore='store8181';
-  $('storeTitle').textContent='Z Report';$('storeSub').textContent='Store 8181 Â· Joelton TN';
+  $('storeTitle').textContent='Z Report';$('storeSub').textContent='Store 8181 · Joelton TN';
   $('hdrBack').href='index.html';$('hdrBack').onclick=null;
   document.querySelectorAll('.nav-owner').forEach(el=>el.style.display='none');
   $('rolePill').textContent='Employee';$('rolePill').style.display='';
@@ -755,7 +733,7 @@ function startGuestAsOwner(){
   $('guestPinH1').textContent=cfg.storeName||'Store Access';
   $('guestPinSub').textContent='Enter Owner PIN';
   $('guestPinName').textContent=cfg.storeName||'Your Store';
-  $('guestPinRole').textContent='Owner Â· Full access';
+  $('guestPinRole').textContent='Owner · Full access';
   gPinBuf='';renderGPinDots();$('gPinErr').textContent='';showScreen('guest-pin');
 }
 function startGuestAsEmployee(){
@@ -764,7 +742,7 @@ function startGuestAsEmployee(){
   $('guestPinH1').textContent=cfg.storeName||'Store Access';
   $('guestPinSub').textContent='Enter Employee PIN';
   $('guestPinName').textContent=cfg.storeName||'Your Store';
-  $('guestPinRole').textContent='Employee Â· Submit only';
+  $('guestPinRole').textContent='Employee · Submit only';
   gPinBuf='';renderGPinDots();$('gPinErr').textContent='';showScreen('guest-pin');
 }
 function backFromGuestPin(){
@@ -789,7 +767,7 @@ function enterGuest(cfg,role){
   role=role||'owner';
   mode=role==='employee'?'guest-employee':'guest-owner';
   $('storeTitle').textContent=cfg.storeName||'Z Report';
-  $('storeSub').textContent='Local Â· '+role;
+  $('storeSub').textContent='Local · '+role;
   $('hdrBack').href='#';$('hdrBack').onclick=e=>{e.preventDefault();showRole();};
   $('rolePill').textContent=role==='employee'?'Employee':'Owner';$('rolePill').style.display='';
   $('gwDot').className='dot g';
@@ -1005,7 +983,7 @@ function changeEmpPin(){
   const cfg=getGuestCfg()||{};cfg.empPin=p;
   localStorage.setItem(GUEST_KEY,JSON.stringify(cfg));
   $('sNewEmpPin').value='';$('currentEmpPin').textContent=p;
-  toast('Employee PIN updated Â· New join link generated','ok',5000);
+  toast('Employee PIN updated · New join link generated','ok',5000);
   loadSettingsPage();
 }
 function resetGuest(){
@@ -1024,7 +1002,7 @@ function loadAdminCfg(){
 function saveAdminCfg(){localStorage.setItem(ADMIN_CFG_KEY,JSON.stringify(adminCfg));}
 
 function allAdminStores(){
-  return [{id:'store8181',name:'Store 8181 Â· Joelton TN',type:'sheet'},...adminCfg.stores];
+  return [{id:'store8181',name:'Store 8181 · Joelton TN',type:'sheet'},...adminCfg.stores];
 }
 function fbStorePrefix(id){return adminCfg.fbUrl+'/stores/'+id;}
 
@@ -1078,7 +1056,7 @@ function renderAdminStoresList(){
   const el=$('adminStoresList');
   if(!adminCfg.stores.length){el.innerHTML='';return;}
   el.innerHTML=adminCfg.stores.map((s,i)=>`<div class="slist-row">
-    <div><div class="sname">${s.name}</div><div class="sinfo">${s.type==='sheet'?'Google Sheets':'Firebase'} Â· ${s.id}</div></div>
+    <div><div class="sname">${s.name}</div><div class="sinfo">${s.type==='sheet'?'Google Sheets':'Firebase'} · ${s.id}</div></div>
     <span class="sdel" onclick="removeAdminStore(${i})">Remove</span>
   </div>`).join('');
 }
@@ -1233,7 +1211,7 @@ async function refresh(){
     else{$('gwDot').className='dot y';await loadSheetData();await checkGW();}
     renderCal();renderMissBanner();
     const ac=document.querySelector('.page.active');
-    if(ac?.id==='page-dash')loadDash();if(ac?.id==='page-monthly')loadMonthly();if(ac?.id==='page-yearly')loadYearly();
+    if(ac?.id==='page-reports')loadReports();
     toast('Refreshed','info',2000);
   }catch(e){toast('Refresh failed: '+e.message,'err');}
 }
@@ -1345,29 +1323,8 @@ function renderMissBanner(){
 }
 
 // â”€â”€ DASHBOARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-function loadDash(){
-  const ym=ymStr(todayLocal()),rows=allRows.filter(r=>ymStr(r.date)===ym),tot=sum(rows);
-  $('dSales').textContent=fmtK(tot.sales);$('dTax').textContent=fmtK(tot.tax);$('dCC').textContent=fmtK(tot.cc);$('dCash').textContent=fmtK(tot.cash);
-  $('dDays').textContent=rows.length+' day'+(rows.length!==1?'s':'');
-  $('dashList').innerHTML=rows.length?rows.map(rRow).join(''):'<div class="empty">No entries this month</div>';
-}
-function initYears(){const now=new Date(),yrEl=$('mYear');yrEl.innerHTML='';for(let y=now.getFullYear();y>=2023;y--)yrEl.innerHTML+=`<option value="${y}"${y===now.getFullYear()?'selected':''}>${y}</option>`;}
-function buildMonthSelect(){
-  const yr=+$('mYear').value,now=new Date(),mEl=$('mMonth');mEl.innerHTML='';
-  for(let m=12;m>=1;m--){
-    if(yr===now.getFullYear()&&m>now.getMonth()+1)continue;
-    const ym=`${yr}-${String(m).padStart(2,'0')}`,label=new Date(yr,m-1,1).toLocaleString('default',{month:'long'}),sel=(yr===now.getFullYear()&&m===now.getMonth()+1)?'selected':'';
-    mEl.innerHTML+=`<option value="${ym}" ${sel}>${label}</option>`;
-  }
-  loadMonthly();
-}
-function loadMonthly(){
-  const ym=$('mMonth').value;if(!ym)return;
-  const rows=allRows.filter(r=>ymStr(r.date)===ym),tot=sum(rows);
-  $('mSales').textContent=fmtK(tot.sales);$('mTax').textContent=fmtK(tot.tax);$('mCC').textContent=fmtK(tot.cc);$('mCash').textContent=fmtK(tot.cash);
-  $('monthList').innerHTML=rows.length?rows.map(rRow).join(''):'<div class="empty">No entries</div>';
-}
-function loadYearly(){
+function loadReports(){
+  const curY=String(new Date().getFullYear()),curYM=todayLocal().slice(0,7);
   const byYear={},byYM={};
   allRows.forEach(r=>{
     const y=r.date.slice(0,4),ym=ymStr(r.date);
@@ -1376,33 +1333,51 @@ function loadYearly(){
     if(!byYM[ym])byYM[ym]={sales:0,tax:0,cc:0,cash:0,days:0,year:y};
     byYM[ym].sales+=r.sales;byYM[ym].tax+=r.tax;byYM[ym].cc+=r.cc;byYM[ym].cash+=r.cash;byYM[ym].days++;
   });
-  const curY=String(new Date().getFullYear());
+  const mtd=byYM[curYM]||{sales:0,tax:0,cc:0,cash:0,days:0};
+  const mn=new Date().toLocaleString('default',{month:'long'});
+  $('rMTD').innerHTML='<div class="stat s"><div class="lbl">Sales \u2014 '+mn+'</div><div class="val">'+fmt(mtd.sales)+'</div><div class="sub">'+mtd.days+' day'+(mtd.days!==1?'s':'')+ ' submitted</div></div>'
+    +'<div class="stat t"><div class="lbl">Tax \u2014 '+mn+'</div><div class="val">'+fmt(mtd.tax)+'</div></div>'
+    +'<div class="stat c"><div class="lbl">CC \u2014 '+mn+'</div><div class="val">'+fmt(mtd.cc)+'</div></div>'
+    +'<div class="stat h"><div class="lbl">Cash \u2014 '+mn+'</div><div class="val">'+fmt(mtd.cash)+'</div></div>';
   const years=Object.keys(byYear).sort((a,b)=>+b-+a);
-  if(!years.length){$('yearStats').innerHTML='<div class="empty" style="grid-column:span 2">No data yet</div>';$('yearList').innerHTML='';return;}
-  $('yearStats').innerHTML=years.map(y=>{
-    const past=y<curY;
-    return `<div class="stat${past?' stat-arch':''}"><div class="lbl">${y}${past?'<span class="arch-tag">Archived</span>':''}</div><div class="val" style="font-size:19px">${fmtK(byYear[y].sales)}</div><div class="sub">${byYear[y].days} days · ${fmtK(byYear[y].cash)} cash</div></div>`;
-  }).join('');
-  $('yearList').innerHTML=years.map(y=>{
+  if(!years.length){$('rYears').innerHTML='<div class="empty">No entries yet</div>';return;}
+  $('rYears').innerHTML=years.map(y=>{
     const past=y<curY;
     const months=Object.keys(byYM).filter(ym=>byYM[ym].year===y).sort((a,b)=>b.localeCompare(a));
-    const rows=months.map(ym=>`<div class="rrow"><div class="dc">${monthShort(ym)}<small>${byYM[ym].days}d</small></div><div class="amts"><div class="amt" style="color:#28a745">${fmtK(byYM[ym].sales)} <span>sales</span></div><div class="amt" style="color:#e09000">${fmtK(byYM[ym].tax)} <span>tax</span></div><div class="amt" style="color:#0498BC">${fmtK(byYM[ym].cc)} <span>cc</span></div><div class="amt" style="color:#7c3aed">${fmtK(byYM[ym].cash)} <span>cash</span></div></div></div>`).join('')||'<div class="empty">No entries</div>';
-    return `<div class="year-sec"><div class="shdr year-shdr${past?' arch-hdr':''}" onclick="toggleYearSec('${y}')">${past?'🗂️':'📅'} ${y} — Month by Month${past?'<span class="arch-tag">Archived</span>':''}<span class="ytog" id="ytog-${y}">${past?'▶':'▼'}</span></div><div class="year-body" id="ybody-${y}" style="${past?'display:none':''}"> ${rows}</div></div>`;
+    const monthsHtml=months.map(ym=>{
+      const isNow=ym===curYM,md=byYM[ym];
+      const mo=+ym.split('-')[1],yr=+ym.split('-')[0];
+      const mLabel=new Date(yr,mo-1,1).toLocaleString('default',{month:'long'})+' '+yr;
+      const rows=allRows.filter(r=>ymStr(r.date)===ym).sort((a,b)=>b.date.localeCompare(a.date)).map(r=>rRow(r)).join('');
+      return '<div class="month-sec">'
+        +'<div class="month-hdr" onclick="toggleMonth(''+ym+'')">'
+        +'<div><span class="mname">'+mLabel+'</span><span class="msub">'+md.days+'d \xb7 '+fmtK(md.sales)+'</span></div>'
+        +'<span class="ytog" id="mtog-'+ym+'">'+(isNow?'\u25bc':'\u25b6')+'</span></div>'
+        +'<div class="month-body" id="mbody-'+ym+'" style="'+(isNow?'':'display:none')+'">'
+        +'<div class="month-totals">'
+        +'<span style="color:#28a745">'+fmt(md.sales)+' sales</span>'
+        +'<span style="color:#e09000">'+fmt(md.tax)+' tax</span>'
+        +'<span style="color:#0498BC">'+fmt(md.cc)+' cc</span>'
+        +'<span style="color:#7c3aed">'+fmt(md.cash)+' cash</span>'
+        +'</div>'+(rows||'<div class="empty">No entries</div>')+'</div></div>';
+    }).join('');
+    return '<div class="year-sec">'
+      +'<div class="shdr year-shdr'+(past?' arch-hdr':'')+'" onclick="toggleYearSec(''+y+'')">'
+      +(past?'\U0001f5c2\ufe0f':'\U0001f4c5')+' '+y+(past?' \u2014 Archived':'')
+      +(past?'<span class="arch-tag">Auto-archived</span>':'')
+      +'<span class="ytog" id="ytog-'+y+'">'+(past?'\u25b6':'\u25bc')+'</span></div>'
+      +'<div class="year-body" id="ybody-'+y+'" style="'+(past?'display:none':'')+'">'
+      +(monthsHtml||'<div class="empty">No entries</div>')+'</div></div>';
   }).join('');
 }
-function toggleYearSec(y){
-  const b=$('ybody-'+y),t=$('ytog-'+y);
-  const open=b.style.display!=='none';
-  b.style.display=open?'none':'';
-  t.textContent=open?'▶':'▼';
-}
+function toggleMonth(ym){const b=$('mbody-'+ym),t=$('mtog-'+ym);const open=b.style.display!=='none';b.style.display=open?'none':'';t.textContent=open?'\u25b6':'\u25bc';}
+function toggleYearSec(y){const b=$('ybody-'+y),t=$('ytog-'+y);const open=b.style.display!=='none';b.style.display=open?'none':'';t.textContent=open?'\u25b6':'\u25bc';}
+
 function nav(page){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   $(`page-${page}`).classList.add('active');document.querySelector(`[data-page="${page}"]`).classList.add('active');
-  if(page==='dash')loadDash();
-  if(page==='monthly'){initYears();buildMonthSelect();}
-  if(page==='yearly')loadYearly();
+  if(page==='reports')loadReports();
   if(page==='settings')loadSettingsPage();
 }
 
