@@ -202,6 +202,18 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 .year-sec{margin-bottom:8px;}
 .year-body{padding-top:4px;}
 
+
+.mtd-bar{display:flex;flex-wrap:wrap;align-items:center;gap:4px 14px;background:#fff;border:1px solid #dde0e5;border-radius:8px;padding:11px 14px;margin-bottom:11px}
+.mtd-mn{font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:.5px;flex-basis:100%;margin-bottom:2px}
+.mtd-i{font-size:14px;font-weight:700}
+.mtd-i.s{color:#28a745}.mtd-i.t{color:#e09000}.mtd-i.c{color:#0498BC}.mtd-i.h{color:#7c3aed}
+.mtd-d{font-size:11px;color:#aaa;margin-left:auto}
+.btn-arch{font-size:10px;font-weight:700;color:#6c757d;background:rgba(108,117,125,.07);border:1px solid rgba(108,117,125,.25);border-radius:4px;padding:2px 7px;cursor:pointer;flex-shrink:0;touch-action:manipulation;line-height:1.6;}
+.btn-arch:active{background:rgba(108,117,125,.18);}
+.arch-sec{margin-top:16px}
+.arch-hdr2{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:9px 13px;background:#f4f6f9;border:1px solid #dde0e5;border-radius:6px;font-size:11px;font-weight:800;color:#6c757d;user-select:none;touch-action:manipulation;letter-spacing:.4px;text-transform:uppercase;}
+.arch-hdr2:active{background:#e8ecf2;}
+
 .miss-month{margin-bottom:5px;}
 .miss-mhdr{display:flex;align-items:center;justify-content:space-between;padding:7px 11px;background:rgba(220,53,69,.07);border:1px solid rgba(220,53,69,.18);border-radius:5px;cursor:pointer;font-size:11px;font-weight:800;color:#dc3545;user-select:none;touch-action:manipulation;}
 .miss-mhdr:active{background:rgba(220,53,69,.14);}
@@ -448,8 +460,9 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 
     <!-- THIS MONTH -->
     <div id="page-reports" class="page">
-      <div class="stats" id="rMTD"></div>
+      <div id="rMTD"></div>
       <div id="rYears"></div>
+      <div id="rArchive"></div>
     </div>
 
     <!-- SETTINGS -->
@@ -1353,12 +1366,16 @@ function loadReports(){
   });
   const mtd=byYM[curYM]||{sales:0,tax:0,cc:0,cash:0,days:0};
   const mn=new Date().toLocaleString('default',{month:'long'});
-  $('rMTD').innerHTML='<div class="stat s"><div class="lbl">Sales \u2014 '+mn+'</div><div class="val">'+fmt(mtd.sales)+'</div><div class="sub">'+mtd.days+' day'+(mtd.days!==1?'s':'')+ ' submitted</div></div>'
-    +'<div class="stat t"><div class="lbl">Tax \u2014 '+mn+'</div><div class="val">'+fmt(mtd.tax)+'</div></div>'
-    +'<div class="stat c"><div class="lbl">CC \u2014 '+mn+'</div><div class="val">'+fmt(mtd.cc)+'</div></div>'
-    +'<div class="stat h"><div class="lbl">Cash \u2014 '+mn+'</div><div class="val">'+fmt(mtd.cash)+'</div></div>';
+  $('rMTD').innerHTML=mtd.days
+    ?'<div class="mtd-bar"><span class="mtd-mn">'+mn+' '+curY+'</span>'
+      +'<span class="mtd-i s">'+fmt(mtd.sales)+' sales</span>'
+      +'<span class="mtd-i c">'+fmt(mtd.cc)+' cc</span>'
+      +'<span class="mtd-i t">'+fmt(mtd.tax)+' tax</span>'
+      +'<span class="mtd-i h">'+fmt(mtd.cash)+' cash</span>'
+      +'<span class="mtd-d">'+mtd.days+' entr'+(mtd.days!==1?'ies':'y')+'</span></div>'
+    :'';
   const years=Object.keys(byYear).sort((a,b)=>+b-+a);
-  if(!years.length){$('rYears').innerHTML='<div class="empty">No entries yet</div>';return;}
+  if(!years.length){$('rYears').innerHTML='<div class="empty">No entries yet</div>';loadArchive();return;}
   $('rYears').innerHTML=years.map(y=>{
     const past=y<curY;
     const months=Object.keys(byYM).filter(ym=>byYM[ym].year===y).sort((a,b)=>b.localeCompare(a));
@@ -1369,8 +1386,12 @@ function loadReports(){
       const rows=allRows.filter(r=>ymStr(r.date)===ym).sort((a,b)=>b.date.localeCompare(a.date)).map(r=>rRow(r)).join('');
       return '<div class="month-sec">'
         +'<div class="month-hdr" onclick="toggleMonth(\''+ym+'\')">'
-        +'<div><span class="mname">'+mLabel+'</span><span class="msub">'+md.days+'d \xb7 '+fmtK(md.sales)+'</span></div>'
-        +'<span style="display:flex;align-items:center;gap:7px"><button class="btn-delmth" onclick="event.stopPropagation();deleteMonth(\''+ym+'\')" title="Delete all entries for this month">🗑</button><span class="ytog" id="mtog-'+ym+'">'+(isNow?'\u25bc':'\u25b6')+'</span></span></div>'
+        +'<div><span class="mname">'+mLabel+'</span>'
+        +'<span class="msub">'+md.days+'d \xb7 '+fmtK(md.sales)+' \xb7 CC '+fmtK(md.cc)+' \xb7 Tax '+fmtK(md.tax)+' \xb7 Cash '+fmtK(md.cash)+'</span></div>'
+        +'<span style="display:flex;align-items:center;gap:5px">'
+        +'<button class="btn-arch" onclick="event.stopPropagation();archiveMonth(\''+ym+'\')" title="Archive this month">\U0001f4e6</button>'
+        +'<button class="btn-delmth" onclick="event.stopPropagation();deleteMonth(\''+ym+'\')" title="Delete all entries for this month">\U0001f5d1</button>'
+        +'<span class="ytog" id="mtog-'+ym+'">'+(isNow?'▼':'▶')+'</span></span></div>'
         +'<div class="month-body" id="mbody-'+ym+'" style="'+(isNow?'':'display:none')+'">'
         +'<div class="month-totals">'
         +'<span style="color:#28a745">'+fmt(md.sales)+' sales</span>'
@@ -1380,13 +1401,15 @@ function loadReports(){
         +'</div>'+(rows||'<div class="empty">No entries</div>')+'</div></div>';
     }).join('');
     return '<div class="year-sec">'
-      +'<div class="shdr year-shdr'+(past?' arch-hdr':'')+'" onclick="toggleYearSec(\''+y+'\')">'
-      +(past?'🗂️':'📅')+' '+y+(past?' \u2014 Archived':'')
-      +(past?'<span class="arch-tag">Auto-archived</span>':'')
-      +'<span class="ytog" id="ytog-'+y+'">'+(past?'\u25b6':'\u25bc')+'</span></div>'
+      +'<div class="shdr year-shdr" onclick="toggleYearSec(\''+y+'\')">'
+      +(past?'\U0001f5c2️':'📅')+' '+y
+      +'<span style="display:flex;align-items:center;gap:6px">'
+      +'<button class="btn-arch" onclick="event.stopPropagation();archiveYear(\''+y+'\')" title="Archive entire '+y+'">\U0001f4e6 Archive</button>'
+      +'<span class="ytog" id="ytog-'+y+'">'+(past?'▶':'▼')+'</span></span></div>'
       +'<div class="year-body" id="ybody-'+y+'" style="'+(past?'display:none':'')+'">'
       +(monthsHtml||'<div class="empty">No entries</div>')+'</div></div>';
   }).join('');
+  loadArchive();
 }
 function toggleMonth(ym){const b=$('mbody-'+ym),t=$('mtog-'+ym);const open=b.style.display!=='none';b.style.display=open?'none':'';t.textContent=open?'\u25b6':'\u25bc';}
 function toggleYearSec(y){const b=$('ybody-'+y),t=$('ytog-'+y);const open=b.style.display!=='none';b.style.display=open?'none':'';t.textContent=open?'\u25b6':'\u25bc';}
@@ -1408,6 +1431,107 @@ function deleteMonth(ym){
   toast('Deleted '+rows.length+' entr'+(rows.length===1?'y':'ies')+' from '+mLabel,'ok');
   renderCal();renderMissBanner();loadReports();
 }
+
+function getArchived(){try{return JSON.parse(localStorage.getItem('zr_arch_'+storeKey())||'[]');}catch(e){return[];}}
+function saveArchived(arr){localStorage.setItem('zr_arch_'+storeKey(),JSON.stringify(arr));}
+
+function archiveMonth(ym){
+  const rows=allRows.filter(r=>ymStr(r.date)===ym);
+  if(!rows.length){toast('No entries for this month','warn');return;}
+  const[y,m]=ym.split('-');
+  const mLabel=new Date(+y,+m-1,1).toLocaleString('default',{month:'long',year:'numeric'});
+  if(!confirm('Archive ALL '+rows.length+' entries for '+mLabel+'?\n\nThey will move to the Archive section below.'))return;
+  if(mode==='admin'){toast('Admin: move rows manually in Raw Log sheet','warn',7000);return;}
+  const remaining=getLocalReports().filter(r=>ymStr(r.date)!==ym);
+  const archived=getArchived();
+  rows.forEach(r=>{const c=Object.assign({},r);c._arch=ym;archived.push(c);});
+  saveArchived(archived);saveLocalReports(remaining);
+  allRows=remaining.slice().sort((a,b)=>b.date.localeCompare(a.date));
+  datesMap={};allRows.forEach(r=>{datesMap[r.date]=r;});
+  toast('\U0001f4e6 Archived '+rows.length+' entr'+(rows.length===1?'y':'ies')+' from '+mLabel,'ok');
+  renderCal();renderMissBanner();loadReports();
+}
+
+function archiveYear(y){
+  const rows=allRows.filter(r=>r.date.startsWith(y+''));
+  if(!rows.length){toast('No active entries for '+y,'warn');return;}
+  if(!confirm('Archive ALL '+rows.length+' entries for '+y+'?\n\nThey will move to the Archive section.'))return;
+  if(mode==='admin'){toast('Admin: move rows manually in Raw Log sheet','warn',7000);return;}
+  const remaining=getLocalReports().filter(r=>!r.date.startsWith(y+''));
+  const archived=getArchived();
+  rows.forEach(r=>{const c=Object.assign({},r);c._arch=y;archived.push(c);});
+  saveArchived(archived);saveLocalReports(remaining);
+  allRows=remaining.slice().sort((a,b)=>b.date.localeCompare(a.date));
+  datesMap={};allRows.forEach(r=>{datesMap[r.date]=r;});
+  toast('\U0001f4e6 Archived '+rows.length+' entries from '+y,'ok');
+  renderCal();renderMissBanner();loadReports();
+}
+
+function unarchiveMonth(ym){
+  const archived=getArchived();
+  const toRestore=archived.filter(r=>ymStr(r.date)===ym);
+  if(!toRestore.length){toast('Nothing archived for this month','warn');return;}
+  const[y,m]=ym.split('-');
+  const mLabel=new Date(+y,+m-1,1).toLocaleString('default',{month:'long',year:'numeric'});
+  if(!confirm('Restore '+toRestore.length+' entries from '+mLabel+' back to active?'))return;
+  const remaining=archived.filter(r=>ymStr(r.date)!==ym);
+  const restored=toRestore.map(r=>{const c=Object.assign({},r);delete c._arch;return c;});
+  saveArchived(remaining);
+  const active=getLocalReports();
+  saveLocalReports([...active,...restored]);
+  allRows=[...active,...restored].sort((a,b)=>b.date.localeCompare(a.date));
+  datesMap={};allRows.forEach(r=>{datesMap[r.date]=r;});
+  toast('Restored '+restored.length+' entr'+(restored.length===1?'y':'ies')+' from '+mLabel,'ok');
+  renderCal();renderMissBanner();loadReports();
+}
+
+function loadArchive(){
+  const archived=getArchived();
+  const archEl=document.getElementById('rArchive');
+  if(!archEl)return;
+  if(!archived.length){archEl.innerHTML='';return;}
+  const byYM={},byY={};
+  archived.forEach(r=>{
+    const ym=ymStr(r.date),y=r.date.slice(0,4);
+    if(!byY[y])byY[y]={days:0,sales:0};
+    byY[y].days++;byY[y].sales+=r.sales;
+    if(!byYM[ym])byYM[ym]={sales:0,tax:0,cc:0,cash:0,days:0,year:y};
+    byYM[ym].sales+=r.sales;byYM[ym].tax+=r.tax;byYM[ym].cc+=r.cc;byYM[ym].cash+=r.cash;byYM[ym].days++;
+  });
+  const years=Object.keys(byY).sort((a,b)=>+b-+a);
+  archEl.innerHTML='<div class="arch-sec"><div class="arch-hdr2" onclick="toggleArchSec()">'
+    +'\U0001f4e6 Archive — '+archived.length+' entr'+(archived.length!==1?'ies':'y')
+    +'<span class="ytog" id="arch-tog">▶</span></div>'
+    +'<div id="arch-body" style="display:none">'
+    +years.map(y=>{
+      const months=Object.keys(byYM).filter(ym=>byYM[ym].year===y).sort((a,b)=>b.localeCompare(a));
+      return '<div class="year-sec" style="margin-top:6px">'
+        +'<div class="shdr year-shdr arch-hdr" onclick="toggleYearSec(\'arch-'+y+'\')">\U0001f5c2️ '+y
+        +'<span class="ytog" id="ytog-arch-'+y+'">▶</span></div>'
+        +'<div class="year-body" id="ybody-arch-'+y+'" style="display:none">'
+        +months.map(ym=>{
+          const md=byYM[ym],mo=+ym.split('-')[1],yr=+ym.split('-')[0];
+          const mLabel=new Date(yr,mo-1,1).toLocaleString('default',{month:'long'})+' '+yr;
+          const rows=archived.filter(r=>ymStr(r.date)===ym).sort((a,b)=>b.date.localeCompare(a.date)).map(r=>rRow(r)).join('');
+          return '<div class="month-sec">'
+            +'<div class="month-hdr" onclick="toggleMonth(\'arch-'+ym+'\')">'
+            +'<div><span class="mname">'+mLabel+'</span>'
+            +'<span class="msub">'+md.days+'d \xb7 '+fmtK(md.sales)+' \xb7 CC '+fmtK(md.cc)+' \xb7 Tax '+fmtK(md.tax)+' \xb7 Cash '+fmtK(md.cash)+'</span></div>'
+            +'<span style="display:flex;align-items:center;gap:5px">'
+            +'<button class="btn-arch" onclick="event.stopPropagation();unarchiveMonth(\''+ym+'\')" title="Restore to active" style="color:#28a745;border-color:rgba(40,167,69,.3);background:rgba(40,167,69,.06)">↩</button>'
+            +'<span class="ytog" id="mtog-arch-'+ym+'">▶</span></span></div>'
+            +'<div class="month-body" id="mbody-arch-'+ym+'" style="display:none">'
+            +'<div class="month-totals">'
+            +'<span style="color:#28a745">'+fmt(md.sales)+' sales</span>'
+            +'<span style="color:#e09000">'+fmt(md.tax)+' tax</span>'
+            +'<span style="color:#0498BC">'+fmt(md.cc)+' cc</span>'
+            +'<span style="color:#7c3aed">'+fmt(md.cash)+' cash</span>'
+            +'</div>'+(rows||'<div class="empty">No entries</div>')+'</div></div>';
+        }).join('')+'</div></div>';
+    }).join('')+'</div></div>';
+}
+function toggleArchSec(){const b=document.getElementById('arch-body'),t=document.getElementById('arch-tog');if(!b)return;const open=b.style.display!=='none';b.style.display=open?'none':'';t.textContent=open?'▶':'▾';}
+
 
 
 function nav(page){
