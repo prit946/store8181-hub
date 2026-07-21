@@ -201,6 +201,14 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 .ytog{float:right;font-size:11px;color:#888;}
 .year-sec{margin-bottom:8px;}
 .year-body{padding-top:4px;}
+
+.miss-month{margin-bottom:5px;}
+.miss-mhdr{display:flex;align-items:center;justify-content:space-between;padding:7px 11px;background:rgba(220,53,69,.07);border:1px solid rgba(220,53,69,.18);border-radius:5px;cursor:pointer;font-size:11px;font-weight:800;color:#dc3545;user-select:none;touch-action:manipulation;}
+.miss-mhdr:active{background:rgba(220,53,69,.14);}
+.miss-mhdr span:first-child{flex:1}
+.miss-chips-row{display:flex;flex-wrap:wrap;gap:5px;padding:6px 2px 2px;}
+.btn-delmth{font-size:10px;font-weight:700;color:#dc3545;background:rgba(220,53,69,.06);border:1px solid rgba(220,53,69,.22);border-radius:4px;padding:2px 7px;cursor:pointer;flex-shrink:0;touch-action:manipulation;line-height:1.6;}
+.btn-delmth:active{background:rgba(220,53,69,.18);}
 </style>
 <link rel="manifest" href="manifest.json">
 </head>
@@ -208,25 +216,25 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 
 <div id="loader" style="display:none">
   <div class="sp2"></div>
-  <div class="lmsg" id="lmsg">Loadingâ€¦</div>
+  <div class="lmsg" id="lmsg">Loading…</div>
 </div>
 
 <!-- ROLE SELECT -->
 <div id="screen-role">
   <div class="auth-hdr">
-    <a href="index.html" class="hdr-back-lnk">â€¹</a>
+    <a href="index.html" class="hdr-back-lnk">‹</a>
     <div><h1>Z Report</h1><small>Select access level to continue</small></div>
   </div>
   <div class="auth-wrap">
     <div class="slbl">Store 8181 Staff</div>
     <div class="role-grid">
       <div class="role-card admin" onclick="startAdmin()">
-        <div class="rc-ico">ðŸ”‘</div>
+        <div class="rc-ico">🔑</div>
         <div class="rc-name">Admin</div>
         <div class="rc-desc">Full access · all tabs</div>
       </div>
       <div class="role-card emp" onclick="startEmployee()">
-        <div class="rc-ico">ðŸ‘¤</div>
+        <div class="rc-ico">👤</div>
         <div class="rc-name">Employee</div>
         <div class="rc-desc">Submit only</div>
       </div>
@@ -247,7 +255,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 <!-- ADMIN PIN -->
 <div id="screen-pin">
   <div class="auth-hdr">
-    <a href="#" onclick="showRole();return false" class="hdr-back-lnk">â€¹</a>
+    <a href="#" onclick="showRole();return false" class="hdr-back-lnk">‹</a>
     <div><h1 id="pinScreenH1">Admin Access</h1><small id="pinScreenSub">Z Report · Store 8181</small></div>
   </div>
   <div class="auth-wrap">
@@ -261,7 +269,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
         <div class="key" onclick="kp(1)">1</div><div class="key" onclick="kp(2)">2</div><div class="key" onclick="kp(3)">3</div>
         <div class="key" onclick="kp(4)">4</div><div class="key" onclick="kp(5)">5</div><div class="key" onclick="kp(6)">6</div>
         <div class="key" onclick="kp(7)">7</div><div class="key" onclick="kp(8)">8</div><div class="key" onclick="kp(9)">9</div>
-        <div class="key empty"></div><div class="key" onclick="kp(0)">0</div><div class="key del" onclick="kpDel()">âŒ«</div>
+        <div class="key empty"></div><div class="key" onclick="kp(0)">0</div><div class="key del" onclick="kpDel()">⌫</div>
       </div>
       <div class="pin-error" id="pinErr"></div>
       <div class="back-lnk" onclick="showRole()">â† Back</div>
@@ -272,13 +280,13 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 <!-- GUEST SETUP (first visit) -->
 <div id="screen-guest-setup">
   <div class="auth-hdr">
-    <a href="#" onclick="showRole();return false" class="hdr-back-lnk">â€¹</a>
+    <a href="#" onclick="showRole();return false" class="hdr-back-lnk">‹</a>
     <div><h1>New Store Setup</h1><small>One-time setup · data owned by you</small></div>
   </div>
   <div class="auth-wrap">
     <div class="setup-card">
       <h3>Set Up Your Store</h3>
-      <p>One-time setup â€” takes 30 seconds. All data is saved on this device. No accounts, no internet required.</p>
+      <p>One-time setup — takes 30 seconds. All data is saved on this device. No accounts, no internet required.</p>
 
       <div class="fg">
         <label>Store Name</label>
@@ -294,9 +302,9 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
       </div>
       <div class="info-box">
         <strong>How PINs work</strong>
-        Owner PIN â†’ full access + Settings. Employee PIN â†’ Submit only. After setup, Settings shows an Employee Join Link â€” send it to staff so their device auto-configures with no manual setup.
+        Owner PIN → full access + Settings. Employee PIN → Submit only. After setup, Settings shows an Employee Join Link — send it to staff so their device auto-configures with no manual setup.
       </div>
-      <button class="btn btn-teal" onclick="saveGuestSetup()" style="margin-top:4px">Save & Continue â†’</button>
+      <button class="btn btn-teal" onclick="saveGuestSetup()" style="margin-top:4px">Save & Continue →</button>
     </div>
   </div>
 </div>
@@ -304,7 +312,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 <!-- EMPLOYEE JOIN (clicked a join link) -->
 <div id="screen-emp-join">
   <div class="auth-hdr">
-    <a href="#" onclick="showRole();return false" class="hdr-back-lnk">â€¹</a>
+    <a href="#" onclick="showRole();return false" class="hdr-back-lnk">‹</a>
     <div><h1 id="joinH1">Join Store</h1><small>Employee access</small></div>
   </div>
   <div class="auth-wrap">
@@ -312,13 +320,13 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
       <h3 id="joinStoreName">Joining your store</h3>
       <p id="joinDesc">Your owner shared this link. Enter the employee PIN to continue.</p>
       <div class="info-box green">
-        <strong id="joinSyncStatus">Data saved on this device â€” no cloud required</strong>
+        <strong id="joinSyncStatus">Data saved on this device — no cloud required</strong>
       </div>
       <div class="fg">
         <label>Employee PIN</label>
         <input type="number" id="joinPin" placeholder="Enter employee PIN" inputmode="numeric" style="font-size:22px;letter-spacing:6px"/>
       </div>
-      <button class="btn btn-teal" onclick="confirmJoin()">Connect â†’</button>
+      <button class="btn btn-teal" onclick="confirmJoin()">Connect →</button>
     </div>
   </div>
 </div>
@@ -326,19 +334,19 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 <!-- GUEST ROLE (returning) -->
 <div id="screen-guest-role">
   <div class="auth-hdr">
-    <a href="#" onclick="showRole();return false" class="hdr-back-lnk">â€¹</a>
+    <a href="#" onclick="showRole();return false" class="hdr-back-lnk">‹</a>
     <div><h1 id="gRoleH1">Store Access</h1><small id="gRoleSub">Select your role</small></div>
   </div>
   <div class="auth-wrap">
     <div class="slbl">Who are you?</div>
     <div class="role-grid">
       <div class="role-card owner" onclick="startGuestAsOwner()">
-        <div class="rc-ico">ðŸ‘”</div>
+        <div class="rc-ico">👔</div>
         <div class="rc-name">Owner</div>
         <div class="rc-desc">Full access · all reports</div>
       </div>
       <div class="role-card emp" onclick="startGuestAsEmployee()">
-        <div class="rc-ico">ðŸ‘¤</div>
+        <div class="rc-ico">👤</div>
         <div class="rc-name">Employee</div>
         <div class="rc-desc">Submit Z Report only</div>
       </div>
@@ -349,7 +357,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 <!-- GUEST PIN -->
 <div id="screen-guest-pin">
   <div class="auth-hdr">
-    <a href="#" onclick="backFromGuestPin();return false" class="hdr-back-lnk">â€¹</a>
+    <a href="#" onclick="backFromGuestPin();return false" class="hdr-back-lnk">‹</a>
     <div><h1 id="guestPinH1">Store Access</h1><small id="guestPinSub">Enter your PIN</small></div>
   </div>
   <div class="auth-wrap">
@@ -366,7 +374,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
         <div class="key" onclick="gkp(1)">1</div><div class="key" onclick="gkp(2)">2</div><div class="key" onclick="gkp(3)">3</div>
         <div class="key" onclick="gkp(4)">4</div><div class="key" onclick="gkp(5)">5</div><div class="key" onclick="gkp(6)">6</div>
         <div class="key" onclick="gkp(7)">7</div><div class="key" onclick="gkp(8)">8</div><div class="key" onclick="gkp(9)">9</div>
-        <div class="key empty"></div><div class="key" onclick="gkp(0)">0</div><div class="key del" onclick="gkpDel()">âŒ«</div>
+        <div class="key empty"></div><div class="key" onclick="gkp(0)">0</div><div class="key del" onclick="gkpDel()">⌫</div>
       </div>
       <div class="pin-error" id="gPinErr"></div>
       <div class="back-lnk" onclick="backFromGuestPin()">â† Back</div>
@@ -377,13 +385,13 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 <!-- MAIN APP -->
 <div id="screen-main">
   <div class="hdr">
-    <a class="hdr-back" id="hdrBack" href="index.html">â€¹</a>
+    <a class="hdr-back" id="hdrBack" href="index.html">‹</a>
     <div class="hdr-info">
       <h1 id="storeTitle">Z Report</h1>
       <small id="storeSub">Store 8181 · Joelton TN</small>
     </div>
     <span class="role-pill" id="rolePill" style="display:none"></span>
-    <div class="gw-pill" id="gwPill"><span class="dot y" id="gwDot"></span><span id="gwTxt">â€¦</span></div>
+    <div class="gw-pill" id="gwPill"><span class="dot y" id="gwDot"></span><span id="gwTxt">…</span></div>
   </div>
 
   <div class="nav">
@@ -396,7 +404,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 
     <!-- SUBMIT -->
     <div id="page-submit" class="page active">
-      <!-- Store selector â€” only visible when admin has multiple stores -->
+      <!-- Store selector — only visible when admin has multiple stores -->
       <div class="store-banner" id="adminStoreBanner" style="display:none">
         <div class="sb-lbl">Store</div>
         <select id="adminStoreSelect" onchange="switchStore(this.value)"></select>
@@ -407,11 +415,11 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
         <div class="cal" id="cal"></div>
       </div>
       <div class="miss-b" id="missB">
-        <div class="t">âš ï¸ Missing Entries (last 60 days)</div>
+        <div class="t">⚠ï¸ Missing Entries (last 60 days)</div>
         <div class="chips" id="missChips"></div>
       </div>
       <div class="update-alert" id="updateAlert">
-        <div class="ua-title">âš ï¸ Date already has entry â€” submitting will overwrite</div>
+        <div class="ua-title">⚠ï¸ Date already has entry — submitting will overwrite</div>
         <div id="updateExisting"></div>
       </div>
       <div class="card">
@@ -423,7 +431,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
             <option value="Prit">Prit</option><option value="Jatin">Jatin</option><option value="Other">Other</option>
           </select></div>
         <div class="ff" id="otherNameWrap" style="display:none"><label>Name</label>
-          <input type="text" id="fOtherName" placeholder="Employee nameâ€¦"/></div>
+          <input type="text" id="fOtherName" placeholder="Employee name…"/></div>
         <div class="row2">
           <div class="ff"><label>Sales ($)</label><input type="number" id="fSales" inputmode="decimal" step="0.01" min="0" placeholder="0.00"/></div>
           <div class="ff"><label>Tax ($)</label><input type="number" id="fTax" inputmode="decimal" step="0.01" min="0" placeholder="0.00"/></div>
@@ -433,7 +441,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
           <div class="ff"><label>Cash ($)</label><input type="number" id="fCash" inputmode="decimal" step="0.01" min="0" placeholder="0.00"/></div>
         </div>
         <div class="ff"><label>Notes (optional)</label>
-          <input type="text" id="fNotes" placeholder="Discrepancies, correctionsâ€¦"/></div>
+          <input type="text" id="fNotes" placeholder="Discrepancies, corrections…"/></div>
         <button class="btn btn-pri" id="subBtn" onclick="submitReport()">Submit Z Report</button>
       </div>
     </div>
@@ -452,7 +460,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
         <div class="ctitle">How to Use Z Report</div>
         <div class="help-item">
           <strong>Submitting a Z Report</strong>
-          <p>Tap a date on the calendar â€” green = done, red = missing. Fill in Sales, Tax, CC, Cash from the Z tape at closing. Pick the employee name and tap Submit.</p>
+          <p>Tap a date on the calendar — green = done, red = missing. Fill in Sales, Tax, CC, Cash from the Z tape at closing. Pick the employee name and tap Submit.</p>
         </div>
         <div class="help-item">
           <strong>Correcting an Entry</strong>
@@ -464,19 +472,19 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
         </div>
         <div class="help-item">
           <strong>How Your Data Works</strong>
-          <p>All Z report data is saved directly on <strong>this device</strong> (browser local storage). No account, no internet, no server â€” it just works. This is the same technology that saves your phone's app preferences and it is very reliable for store operations.</p>
+          <p>All Z report data is saved directly on <strong>this device</strong> (browser local storage). No account, no internet, no server — it just works. This is the same technology that saves your phone's app preferences and it is very reliable for store operations.</p>
         </div>
         <div class="help-item">
           <strong>One Device Per Store (Recommended)</strong>
-          <p>The cleanest setup is one designated device â€” a store tablet or the register computer â€” that everyone uses to submit Z reports. All history stays in one place, nothing gets out of sync.</p>
+          <p>The cleanest setup is one designated device — a store tablet or the register computer — that everyone uses to submit Z reports. All history stays in one place, nothing gets out of sync.</p>
         </div>
         <div class="help-item">
           <strong>Employee Join Link</strong>
-          <p>The Employee Join Link in Settings configures a second device automatically. The employee just clicks the link and enters their PIN â€” the store name is pre-filled. Useful for a backup device, but note that each device stores its own reports independently.</p>
+          <p>The Employee Join Link in Settings configures a second device automatically. The employee just clicks the link and enters their PIN — the store name is pre-filled. Useful for a backup device, but note that each device stores its own reports independently.</p>
         </div>
         <div class="help-item">
           <strong>Back Up Your Data (Important)</strong>
-          <p>Browser storage can be cleared if someone taps "Clear Site Data" or reinstalls the browser. Export a JSON backup from Settings â†’ Data Backup every month or whenever you have a lot of entries you can't afford to lose. Save it to Google Drive, email it to yourself, or paste the CSV into a spreadsheet.</p>
+          <p>Browser storage can be cleared if someone taps "Clear Site Data" or reinstalls the browser. Export a JSON backup from Settings → Data Backup every month or whenever you have a lot of entries you can't afford to lose. Save it to Google Drive, email it to yourself, or paste the CSV into a spreadsheet.</p>
         </div>
       </div>
 
@@ -484,8 +492,8 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
       <div id="admin-settings-block" style="display:none">
 
         <div class="card">
-          <div class="ctitle">Employee Access â€” Store 8181</div>
-          <p style="font-size:11px;color:#666;margin-bottom:12px;line-height:1.5">Employees log in with the Employee role using this PIN â€” they can only submit Z reports, no history or settings visible.</p>
+          <div class="ctitle">Employee Access — Store 8181</div>
+          <p style="font-size:11px;color:#666;margin-bottom:12px;line-height:1.5">Employees log in with the Employee role using this PIN — they can only submit Z reports, no history or settings visible.</p>
           <div class="fg" style="margin-bottom:8px">
             <label>Employee PIN (4 digits)</label>
             <input type="number" id="adminZrEmpPin" inputmode="numeric" placeholder="0000" style="font-size:22px;letter-spacing:6px;max-width:160px"/>
@@ -493,7 +501,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
           <div style="display:flex;gap:8px;margin-bottom:12px">
             <button class="btn btn-pri btn-sm" onclick="saveAdminEmpPin()">Save PIN</button>
           </div>
-          <button class="btn-copy" onclick="copyEmpAccess()">ðŸ“‹ Copy Employee Access Info</button>
+          <button class="btn-copy" onclick="copyEmpAccess()">📋 Copy Employee Access Info</button>
           <p style="font-size:10px;color:#888;margin-top:6px;line-height:1.5">Copies the URL + role + PIN as a text message you can send to employees.</p>
         </div>
 
@@ -504,22 +512,22 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
             Current: <strong id="adminEmpPin" style="font-size:18px;letter-spacing:4px;display:inline-block;margin-top:3px">0000</strong><br>
             Change this in the local app's Settings tab. Share with employees who use the local Node.js app.
           </div>
-          <button class="btn-sec btn-sm" onclick="recheckGW()" style="margin-top:4px">â†» Re-check Gateway</button>
+          <button class="btn-sec btn-sm" onclick="recheckGW()" style="margin-top:4px">↻ Re-check Gateway</button>
         </div>
 
         <div class="card">
-          <div class="ctitle">My Stores â€” Multi-Store</div>
+          <div class="ctitle">My Stores — Multi-Store</div>
           <p style="font-size:11px;color:#666;margin-bottom:12px;line-height:1.6">
-            Store 8181 uses Google Sheets (existing setup). Additional stores you own use Firebase â€” one database holds all of them. Set the Firebase URL once, then add each store below.
+            Store 8181 uses Google Sheets (existing setup). Additional stores you own use Firebase — one database holds all of them. Set the Firebase URL once, then add each store below.
           </p>
 
           <div class="shdr">Firebase Connection</div>
           <div class="info-box teal" style="margin-bottom:10px">
             <strong>One-time Firebase setup (free, 5 min)</strong>
-            1. <strong>console.firebase.google.com</strong> â†’ Create project â†’ Continue<br>
-            2. Realtime Database â†’ Create Database â†’ Start in test mode â†’ Enable<br>
+            1. <strong>console.firebase.google.com</strong> → Create project → Continue<br>
+            2. Realtime Database → Create Database → Start in test mode → Enable<br>
             3. Copy the URL (looks like <code>https://your-project-default-rtdb.firebaseio.com</code>)<br>
-            4. Rules â†’ set <code>&#123;"rules"&#123;".read":true,".write":true&#125;&#125;</code>
+            4. Rules → set <code>&#123;"rules"&#123;".read":true,".write":true&#125;&#125;</code>
           </div>
           <div class="ff" style="margin-bottom:8px">
             <label>Firebase Database URL</label>
@@ -542,7 +550,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
             <div class="shdr" style="margin-top:0">New Store</div>
             <div class="ff"><label>Store Name / Number</label>
               <input type="text" id="newStoreName" placeholder="e.g. Store 9182 · Nashville"/></div>
-            <div class="ff"><label>Google Sheet ID <span class="opt-lbl">Optional â€” leave blank to use Firebase</span></label>
+            <div class="ff"><label>Google Sheet ID <span class="opt-lbl">Optional — leave blank to use Firebase</span></label>
               <input type="text" id="newStoreSid" placeholder="Sheet ID (or leave blank for Firebase)"/></div>
             <div style="display:flex;gap:8px">
               <button class="btn btn-pri btn-sm" onclick="addAdminStore()" style="flex:1">Add Store</button>
@@ -554,10 +562,10 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
         <div class="card">
           <div class="ctitle">Launch Tool for Another Store</div>
           <p style="font-size:11px;color:#666;margin-bottom:10px;line-height:1.6">
-            <strong style="color:#1b2d45">Your own stores:</strong> Use "Add Store" above â€” no separate setup, all data goes to your Firebase and you can switch between stores right in the app.<br><br>
-            <strong style="color:#1b2d45">Other owners (not your stores):</strong> Share the URL below. They enter their own store name and PIN â€” their data stays on their own device or their own Firebase.
+            <strong style="color:#1b2d45">Your own stores:</strong> Use "Add Store" above — no separate setup, all data goes to your Firebase and you can switch between stores right in the app.<br><br>
+            <strong style="color:#1b2d45">Other owners (not your stores):</strong> Share the URL below. They enter their own store name and PIN — their data stays on their own device or their own Firebase.
           </p>
-          <button class="btn-copy" onclick="copyBaseUrl()">ðŸ“‹ Copy Tool URL to Share</button>
+          <button class="btn-copy" onclick="copyBaseUrl()">📋 Copy Tool URL to Share</button>
         </div>
 
         <div class="card">
@@ -572,8 +580,8 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
         <div class="card">
           <div class="ctitle">Employee Access</div>
           <p style="font-size:12px;color:#666;margin-bottom:10px;line-height:1.5">Send this link to your employees. They click it, enter the employee PIN, and they're connected to your store on their own device.</p>
-          <div class="join-code-box" id="joinCodeBox" style="font-size:9px">Generatingâ€¦</div>
-          <button class="btn-copy" onclick="copyJoinLink()">ðŸ“‹ Copy Employee Join Link</button>
+          <div class="join-code-box" id="joinCodeBox" style="font-size:9px">Generating…</div>
+          <button class="btn-copy" onclick="copyJoinLink()">📋 Copy Employee Join Link</button>
           <div style="font-size:10px;color:#888;margin-bottom:4px">
             Current employee PIN: <strong id="currentEmpPin" style="font-size:14px;letter-spacing:3px">0000</strong>
           </div>
@@ -599,11 +607,11 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 
         <div class="card">
           <div class="ctitle">Data Backup</div>
-          <button class="btn-export" onclick="exportCSV()">ðŸ“Š Export CSV</button>
-          <button class="btn-export" onclick="exportJSON()">ðŸ’¾ Export JSON Backup</button>
-          <label class="btn-import" for="importFile">ðŸ“‚ Import JSON Backup (merge)</label>
+          <button class="btn-export" onclick="exportCSV()">📊 Export CSV</button>
+          <button class="btn-export" onclick="exportJSON()">💾 Export JSON Backup</button>
+          <label class="btn-import" for="importFile">📂 Import JSON Backup (merge)</label>
           <input type="file" id="importFile" accept=".json" onchange="importJSON(this)"/>
-          <p style="font-size:10px;color:#888;margin-top:4px;line-height:1.5">Export JSON is a full backup you can import on any device. Import merges â€” existing dates are not overwritten.</p>
+          <p style="font-size:10px;color:#888;margin-top:4px;line-height:1.5">Export JSON is a full backup you can import on any device. Import merges — existing dates are not overwritten.</p>
           <hr class="sec">
           <button class="btn btn-danger" onclick="resetGuest()">Remove Store Data from This Device</button>
         </div>
@@ -614,7 +622,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
       <div class="card">
         <div class="ctitle">Notes</div>
         <div class="fg">
-          <textarea id="notesArea" placeholder="Reminders, discrepancies, instructions for staffâ€¦" style="min-height:90px"></textarea>
+          <textarea id="notesArea" placeholder="Reminders, discrepancies, instructions for staff…" style="min-height:90px"></textarea>
         </div>
         <button class="btn btn-pri btn-sm" onclick="saveNotes()" style="margin-top:2px">Save Notes</button>
       </div>
@@ -625,7 +633,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 
 <div class="overlay" id="confirmOverlay">
   <div class="modal">
-    <h3>âš ï¸ Overwrite Entry?</h3>
+    <h3>⚠ï¸ Overwrite Entry?</h3>
     <p>This date already has a submitted Z Report. Replace with new values?</p>
     <div class="existing" id="confirmExisting"></div>
     <div class="mbts">
@@ -656,7 +664,7 @@ let currentStore='store8181';
 
 const $=id=>document.getElementById(id);
 
-// â”€â”€ SCREEN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── SCREEN ───────────────────────────────────────────────────────────────────
 function showScreen(n){
   ['role','pin','guest-setup','emp-join','guest-role','guest-pin','main'].forEach(s=>{
     $('screen-'+s).style.display=s===n?'block':'none';
@@ -664,7 +672,7 @@ function showScreen(n){
 }
 function showRole(){ pinBuf='';gPinBuf=''; showScreen('role'); }
 
-// â”€â”€ ADMIN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── ADMIN ────────────────────────────────────────────────────────────────────
 function startAdmin(){
   pinAuthFor='admin';
   $('pinScreenH1').textContent='Admin Access';
@@ -718,7 +726,7 @@ function enterEmployee(){
   showScreen('main');initApp();
 }
 
-// â”€â”€ GUEST AUTH â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── GUEST AUTH ────────────────────────────────────────────────────────────────
 function startGuest(){
   const cfg=getGuestCfg();
   if(cfg){
@@ -783,7 +791,7 @@ function enterGuest(cfg,role){
   showScreen('main');initApp();
 }
 
-// â”€â”€ GUEST SETUP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── GUEST SETUP ───────────────────────────────────────────────────────────────
 function getGuestCfg(){try{return JSON.parse(localStorage.getItem(GUEST_KEY));}catch(e){return null;}}
 
 function saveGuestSetup(){
@@ -798,7 +806,7 @@ function saveGuestSetup(){
   enterGuest(cfg,'owner');
 }
 
-// â”€â”€ JOIN LINK â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── JOIN LINK ─────────────────────────────────────────────────────────────────
 function buildJoinLink(){
   const cfg=getGuestCfg();if(!cfg)return '';
   const encoded=btoa(unescape(encodeURIComponent(JSON.stringify({storeName:cfg.storeName}))));
@@ -813,7 +821,7 @@ function checkJoinParam(){
     $('joinH1').textContent=joinData.storeName||'Join Store';
     $('joinStoreName').textContent='Joining: '+joinData.storeName;
     $('joinDesc').textContent='Your owner shared this link. Enter the employee PIN to continue.';
-    $('joinSyncStatus').textContent='Data saved on this device â€” no cloud required';
+    $('joinSyncStatus').textContent='Data saved on this device — no cloud required';
     showScreen('emp-join');
     return true;
   }catch(e){return false;}
@@ -828,14 +836,14 @@ function confirmJoin(){
     if(existing.empPin!==pin&&existing.pin!==pin){toast('Incorrect employee PIN','err');return;}
     enterGuest(existing,'employee');
   } else {
-    // New device â€” save minimal cfg (no owner PIN)
+    // New device — save minimal cfg (no owner PIN)
     const cfg={storeName:joinData.storeName,pin:'',empPin:pin};
     localStorage.setItem(GUEST_KEY,JSON.stringify(cfg));
     enterGuest(cfg,'employee');
   }
 }
 
-// â”€â”€ LOCAL DATA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── LOCAL DATA ────────────────────────────────────────────────────────────────
 function storeKey(){
   const cfg=getGuestCfg();if(!cfg||!cfg.storeName)return 'default';
   return cfg.storeName.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
@@ -853,7 +861,7 @@ function loadLocalData(){
   allRows.sort((a,b)=>b.date.localeCompare(a.date));
 }
 
-// â”€â”€ EXPORT / IMPORT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── EXPORT / IMPORT ───────────────────────────────────────────────────────────
 function exportCSV(){
   const rows=[...allRows].sort((a,b)=>a.date.localeCompare(b.date));
   if(!rows.length){toast('No data to export','warn');return;}
@@ -894,11 +902,11 @@ function importJSON(input){
   reader.readAsText(file);
 }
 
-// â”€â”€ NOTES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── NOTES ─────────────────────────────────────────────────────────────────────
 function notesKey(){return mode==='admin'?'zr_admin_notes_'+currentStore:'zr_notes_'+storeKey();}
 function saveNotes(){localStorage.setItem(notesKey(),$('notesArea').value);toast('Notes saved','ok');}
 
-// â”€â”€ SETTINGS PAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── SETTINGS PAGE ─────────────────────────────────────────────────────────────
 function loadSettingsPage(){
   const isAdmin=mode==='admin';
   $('admin-settings-block').style.display=isAdmin?'':'none';
@@ -994,7 +1002,7 @@ function resetGuest(){
   showRole();
 }
 
-// â”€â”€ ADMIN MULTI-STORE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── ADMIN MULTI-STORE ─────────────────────────────────────────────────────────
 function loadAdminCfg(){
   try{const r=JSON.parse(localStorage.getItem(ADMIN_CFG_KEY)||'{}');adminCfg={fbUrl:r.fbUrl||'',stores:Array.isArray(r.stores)?r.stores:[]};}
   catch(e){adminCfg={fbUrl:'',stores:[]};}
@@ -1035,7 +1043,7 @@ function switchStore(storeId){
     ?'<option value="Prit">Prit</option><option value="Jatin">Jatin</option><option value="Other">Other</option>'
     :'<option value="Me">Me</option><option value="Other">Other</option>';
   onEmpChange();
-  $('gwDot').className='dot y';$('gwTxt').textContent='â€¦';
+  $('gwDot').className='dot y';$('gwTxt').textContent='…';
   initApp();
 }
 
@@ -1047,7 +1055,7 @@ function renderStoreSelector(){
   $('adminStoreSelect').innerHTML=stores.map(s=>`<option value="${s.id}"${s.id===currentStore?' selected':''}>${s.name}</option>`).join('');
 }
 
-// Settings â€” My Stores
+// Settings — My Stores
 function loadAdminSettingsMyStores(){
   $('adminFbUrl').value=adminCfg.fbUrl||'';
   renderAdminStoresList();
@@ -1063,7 +1071,7 @@ function renderAdminStoresList(){
 function saveAdminFbUrl(){
   const url=$('adminFbUrl').value.trim().replace(/\/+$/,'');
   adminCfg.fbUrl=url;saveAdminCfg();renderStoreSelector();
-  toast(url?'Firebase URL saved â€” add stores below':'Firebase URL cleared','ok');
+  toast(url?'Firebase URL saved — add stores below':'Firebase URL cleared','ok');
 }
 function showAddStore(){$('addStoreForm').style.display='';$('addStoreBtnWrap').style.display='none';}
 function hideAddStore(){$('addStoreForm').style.display='none';$('addStoreBtnWrap').style.display='';}
@@ -1081,7 +1089,7 @@ function addAdminStore(){
 }
 function removeAdminStore(idx){
   const s=adminCfg.stores[idx];
-  if(!confirm('Remove "'+s.name+'" from your store list?\n\nData in Firebase is NOT deleted â€” it will still be there if you re-add the store.'))return;
+  if(!confirm('Remove "'+s.name+'" from your store list?\n\nData in Firebase is NOT deleted — it will still be there if you re-add the store.'))return;
   adminCfg.stores.splice(idx,1);saveAdminCfg();
   if(currentStore===s.id)switchStore('store8181');
   renderAdminStoresList();renderStoreSelector();toast('Store removed','ok');
@@ -1094,7 +1102,7 @@ function copyBaseUrl(){
   });
 }
 
-// â”€â”€ EMPLOYEE PIN (admin manages) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── EMPLOYEE PIN (admin manages) ─────────────────────────────────────────────
 function saveAdminEmpPin(){
   const p=String($('adminZrEmpPin').value||'').trim();
   if(!/^\d{4}$/.test(p)){toast('PIN must be exactly 4 digits','err');return;}
@@ -1106,15 +1114,15 @@ function copyEmpAccess(){
   const pin=localStorage.getItem('s8181_emp_pin')||'0000';
   const url=location.href.split('?')[0];
   const text='Z Report Access\nURL: '+url+'\nRole: Employee\nPIN: '+pin;
-  const done=()=>toast('Copied â€” paste into iMessage or email','ok',4000);
+  const done=()=>toast('Copied — paste into iMessage or email','ok',4000);
   if(navigator.clipboard?.writeText){navigator.clipboard.writeText(text).then(done).catch(fb);}else{fb();}
   function fb(){const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();}
 }
 
-// â”€â”€ GATEWAY (admin) â€” Cloudflare Worker â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── GATEWAY (admin) — Cloudflare Worker ──────────────────────────────────────
 async function gw(action,params={},timeout=15000){
-  if(!GW_URL||GW_URL.startsWith('['))throw new Error('Cloudflare Worker not deployed yet â€” update const GW_URL in zreport.html');
-  // Flatten params into body; map legacy spreadsheetId â†’ sid for CF Worker
+  if(!GW_URL||GW_URL.startsWith('['))throw new Error('Cloudflare Worker not deployed yet — update const GW_URL in zreport.html');
+  // Flatten params into body; map legacy spreadsheetId → sid for CF Worker
   const {spreadsheetId,...rest}=params;
   const body={key:GW_KEY,action,...rest};
   if(spreadsheetId)body.sid=spreadsheetId;
@@ -1129,7 +1137,7 @@ async function checkGW(){
   try{await gw('ping',{},8000);$('gwDot').className='dot g';$('gwTxt').textContent='Live';return true;}
   catch(e){$('gwDot').className='dot r';$('gwTxt').textContent='Offline';return false;}
 }
-async function recheckGW(){$('gwDot').className='dot y';$('gwTxt').textContent='â€¦';const ok=await checkGW();toast(ok?'Gateway live':'Gateway offline',ok?'ok':'err');}
+async function recheckGW(){$('gwDot').className='dot y';$('gwTxt').textContent='…';const ok=await checkGW();toast(ok?'Gateway live':'Gateway offline',ok?'ok':'err');}
 async function loadSheetData(){
   const d=await gw('sheets.read',{spreadsheetId:ADMIN_SID,range:'Raw Log!A2:G5000'});
   const raw=d.values||[];allRows=[];datesMap={};
@@ -1141,7 +1149,7 @@ async function loadSheetData(){
   allRows.sort((a,b)=>b.date.localeCompare(a.date));
 }
 
-// â”€â”€ INIT APP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── INIT APP ──────────────────────────────────────────────────────────────────
 async function initApp(){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
@@ -1159,10 +1167,10 @@ async function initApp(){
   // Admin/Employee: non-8181 store via Firebase
   if(currentStore!=='store8181'){
     if(!adminCfg.fbUrl){
-      toast('Set Firebase URL in Settings â†’ My Stores first','warn',6000);
+      toast('Set Firebase URL in Settings → My Stores first','warn',6000);
       renderCal();renderMissBanner();checkDateForExisting(today);return;
     }
-    showLoader('Loading '+currentStore+'â€¦');
+    showLoader('Loading '+currentStore+'…');
     try{
       await fbAdminLoad(currentStore);
       $('gwDot').className='dot g';$('gwTxt').textContent='Cloud';
@@ -1188,10 +1196,10 @@ async function initApp(){
   }
 
   // Admin: Store 8181 GAS gateway
-  showLoader('Connecting to Gatewayâ€¦');$('lmsg').textContent='Checking gatewayâ€¦';
+  showLoader('Connecting to Gateway…');$('lmsg').textContent='Checking gateway…';
   const gwOk=await checkGW();
-  if(!gwOk){hideLoader();toast('Gateway offline â€” check Google Apps Script','err',8000);renderCal();return;}
-  $('lmsg').textContent='Loading Sheetâ€¦';
+  if(!gwOk){hideLoader();toast('Gateway offline — check Google Apps Script','err',8000);renderCal();return;}
+  $('lmsg').textContent='Loading Sheet…';
   try{await loadSheetData();}catch(e){hideLoader();toast('Sheet load failed: '+e.message,'err',6000);renderCal();return;}
   hideLoader();renderCal();renderMissBanner();checkDateForExisting(today);
   refreshTimer=setInterval(async()=>{if(!isEditing)try{await loadSheetData();await checkGW();renderCal();renderMissBanner();}catch(e){}},3*60*1000);
@@ -1216,7 +1224,7 @@ async function refresh(){
   }catch(e){toast('Refresh failed: '+e.message,'err');}
 }
 
-// â”€â”€ SUBMIT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── SUBMIT ────────────────────────────────────────────────────────────────────
 async function submitReport(){
   const date=$('fDate').value,by=getSubmitter();
   const salesV=$('fSales').value.trim(),taxV=$('fTax').value.trim(),ccV=$('fCC').value.trim(),cashV=$('fCash').value.trim();
@@ -1249,26 +1257,26 @@ async function doSubmit(payload,isUpdate){
       const idx=reports.findIndex(r=>r.date===payload.date);
       if(idx>=0)reports[idx]={...reportData};else reports.push({...reportData});
       saveLocalReports(reports);
-      toast(isUpdate?'Entry updated âœ“':'Z Report saved âœ“',isUpdate?'warn':'ok');
+      toast(isUpdate?'Entry updated ✓':'Z Report saved ✓',isUpdate?'warn':'ok');
       if(isUpdate){Object.assign(datesMap[payload.date],{sales:payload.sales,tax:payload.tax,cc:payload.cc,cash:payload.cash,by:payload.by,notes:payload.notes});}
       else{const nr={...payload};allRows.unshift(nr);allRows.sort((a,b)=>b.date.localeCompare(a.date));datesMap[payload.date]=nr;}
     } else if(currentStore!=='store8181'){
-      if(!adminCfg.fbUrl)throw new Error('Firebase URL not configured â€” add it in Settings â†’ My Stores');
+      if(!adminCfg.fbUrl)throw new Error('Firebase URL not configured — add it in Settings → My Stores');
       const reportData={...payload,ts:new Date().toISOString()};
       await fbAdminSave(currentStore,payload.date,reportData);
       if(isUpdate){Object.assign(datesMap[payload.date],{sales:payload.sales,tax:payload.tax,cc:payload.cc,cash:payload.cash,by:payload.by,notes:payload.notes});}
       else{const nr={...payload};allRows.unshift(nr);allRows.sort((a,b)=>b.date.localeCompare(a.date));datesMap[payload.date]=nr;}
-      toast(isUpdate?'Entry updated âœ“':'Z Report submitted âœ“',isUpdate?'warn':'ok');
+      toast(isUpdate?'Entry updated ✓':'Z Report submitted ✓',isUpdate?'warn':'ok');
     } else {
       const row=[payload.date,payload.sales.toFixed(2),payload.tax.toFixed(2),payload.cc.toFixed(2),payload.cash.toFixed(2),payload.by,payload.notes];
       if(isUpdate&&datesMap[payload.date]){
         await gw('sheets.update',{spreadsheetId:ADMIN_SID,range:`Raw Log!A${datesMap[payload.date].rowNum}:G${datesMap[payload.date].rowNum}`,values:[row]});
         Object.assign(datesMap[payload.date],{sales:payload.sales,tax:payload.tax,cc:payload.cc,cash:payload.cash,by:payload.by,notes:payload.notes});
-        toast('Entry updated âœ“','warn');
+        toast('Entry updated ✓','warn');
       } else {
         await gw('sheets.append',{spreadsheetId:ADMIN_SID,range:'Raw Log!A:G',values:[row]});
         const nr={...payload,rowNum:allRows.length+2};allRows.unshift(nr);allRows.sort((a,b)=>b.date.localeCompare(a.date));datesMap[payload.date]=nr;
-        toast('Z Report submitted âœ“','ok');
+        toast('Z Report submitted ✓','ok');
       }
     }
     $('fSales').value='';$('fTax').value='';$('fCC').value='';$('fCash').value='';$('fNotes').value='';
@@ -1277,11 +1285,11 @@ async function doSubmit(payload,isUpdate){
     selDate=null;isEditing=false;renderCal();renderMissBanner();
   }catch(e){toast(e.message,'err',6000);}
   const hasEx=datesMap[$('fDate').value];
-  btn.innerHTML=hasEx?'âš ï¸ Update This Entry':'Submit Z Report';
+  btn.innerHTML=hasEx?'⚠ï¸ Update This Entry':'Submit Z Report';
   btn.className=hasEx?'btn btn-warn':'btn btn-pri';btn.disabled=false;pendingPayload=null;
 }
 
-// â”€â”€ CALENDAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── CALENDAR ──────────────────────────────────────────────────────────────────
 function renderCal(){
   const cal=$('cal'),today=todayLocal();cal.innerHTML='';
   const days=[];
@@ -1291,7 +1299,7 @@ function renderCal(){
     const el=document.createElement('div');
     el.className=['cal-d',isFut?'future':(has?'ok':'miss'),isTod?'today':'',isSel?'sel':''].filter(Boolean).join(' ');
     const[,mo,dy]=d.split('-');
-    el.innerHTML=`<span class="dn">${+dy}</span><span class="dw">${dayAbbr(d)}</span>${has?'<span class="chk">âœ“</span>':''}`;
+    el.innerHTML=`<span class="dn">${+dy}</span><span class="dw">${dayAbbr(d)}</span>${has?'<span class="chk">✓</span>':''}`;
     el.onclick=()=>pickDate(d);cal.appendChild(el);
   });
   cal.scrollLeft=cal.scrollWidth;
@@ -1303,7 +1311,7 @@ function checkDateForExisting(date){
   if(entry){
     $('updateExisting').innerHTML=`<div class="ua-row">Sales<span>${fmt(entry.sales)}</span></div><div class="ua-row">Tax<span>${fmt(entry.tax)}</span></div><div class="ua-row">CC<span>${fmt(entry.cc)}</span></div><div class="ua-row">Cash<span>${fmt(entry.cash)}</span></div><div class="ua-row">By<span>${entry.by}</span></div>${entry.notes?`<div class="ua-row">Notes<span>${entry.notes}</span></div>`:''}`;
     $('updateAlert').classList.add('show');$('formTitle').textContent='âœï¸ Correct Existing Entry';
-    btn.innerHTML='âš ï¸ Update This Entry';btn.className='btn btn-warn';
+    btn.innerHTML='⚠ï¸ Update This Entry';btn.className='btn btn-warn';
     $('fSales').value=entry.sales.toFixed(2);$('fTax').value=entry.tax.toFixed(2);$('fCC').value=entry.cc.toFixed(2);$('fCash').value=entry.cash.toFixed(2);$('fNotes').value=entry.notes;
     const empSel=$('fEmp'),opt=empSel.querySelector(`option[value="${entry.by}"]`);
     if(opt){empSel.value=entry.by;}else{empSel.value='Other';$('fOtherName').value=entry.by;}onEmpChange();
@@ -1318,11 +1326,21 @@ function renderMissBanner(){
   const banner=$('missB');
   if(!missing.length){banner.classList.remove('show');return;}
   banner.classList.add('show');
-  $('missChips').innerHTML=missing.slice(0,20).map(d=>`<span class="chip" onclick="pickDate('${d}')">${shortDate(d)}</span>`).join('');
-  if(missing.length>20)$('missChips').innerHTML+=`<span class="chip" style="opacity:.6">+${missing.length-20} more</span>`;
+  const byMonth={};
+  missing.forEach(d=>{const ym=d.slice(0,7);if(!byMonth[ym])byMonth[ym]=[];byMonth[ym].push(d);});
+  const months=Object.keys(byMonth).sort().reverse();
+  const curYM=todayLocal().slice(0,7);
+  $('missChips').innerHTML=months.map((ym,idx)=>{
+    const[y,m]=ym.split('-');
+    const mLabel=new Date(+y,+m-1,1).toLocaleString('default',{month:'long',year:'numeric'});
+    const chips=byMonth[ym].map(d=>`<span class="chip" onclick="pickDate('${d}')">${shortDate(d)}</span>`).join('');
+    const isOpen=ym===curYM||idx===0;
+    return `<div class="miss-month"><div class="miss-mhdr" onclick="toggleMissMonth('${ym}')"><span>${mLabel} \u2014 ${byMonth[ym].length} missing</span><span id="misstog-${ym}">${isOpen?'\u25be':'\u25b8'}</span></div><div class="miss-chips-row" id="missbody-${ym}" style="${isOpen?'':\'display:none'}">${chips}</div></div>`;
+  }).join('');
 }
+function toggleMissMonth(ym){const b=$('missbody-'+ym),t=$('misstog-'+ym);if(!b)return;const open=b.style.display!=='none';b.style.display=open?'none':'';t.textContent=open?'\u25b8':'\u25be';}
 
-// â”€â”€ DASHBOARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── DASHBOARD ─────────────────────────────────────────────────────────────────
 function loadReports(){
   const curY=String(new Date().getFullYear()),curYM=todayLocal().slice(0,7);
   const byYear={},byYM={};
@@ -1352,7 +1370,7 @@ function loadReports(){
       return '<div class="month-sec">'
         +'<div class="month-hdr" onclick="toggleMonth(\''+ym+'\')">'
         +'<div><span class="mname">'+mLabel+'</span><span class="msub">'+md.days+'d \xb7 '+fmtK(md.sales)+'</span></div>'
-        +'<span class="ytog" id="mtog-'+ym+'">'+(isNow?'\u25bc':'\u25b6')+'</span></div>'
+        +'<span style="display:flex;align-items:center;gap:7px"><button class="btn-delmth" onclick="event.stopPropagation();deleteMonth(\''+ym+'\')" title="Delete all entries for this month">🗑</button><span class="ytog" id="mtog-'+ym+'">'+(isNow?'\u25bc':'\u25b6')+'</span></span></div>'
         +'<div class="month-body" id="mbody-'+ym+'" style="'+(isNow?'':'display:none')+'">'
         +'<div class="month-totals">'
         +'<span style="color:#28a745">'+fmt(md.sales)+' sales</span>'
@@ -1363,7 +1381,7 @@ function loadReports(){
     }).join('');
     return '<div class="year-sec">'
       +'<div class="shdr year-shdr'+(past?' arch-hdr':'')+'" onclick="toggleYearSec(\''+y+'\')">'
-      +(past?'\U0001f5c2\ufe0f':'\U0001f4c5')+' '+y+(past?' \u2014 Archived':'')
+      +(past?'🗂️':'📅')+' '+y+(past?' \u2014 Archived':'')
       +(past?'<span class="arch-tag">Auto-archived</span>':'')
       +'<span class="ytog" id="ytog-'+y+'">'+(past?'\u25b6':'\u25bc')+'</span></div>'
       +'<div class="year-body" id="ybody-'+y+'" style="'+(past?'display:none':'')+'">'
@@ -1373,6 +1391,24 @@ function loadReports(){
 function toggleMonth(ym){const b=$('mbody-'+ym),t=$('mtog-'+ym);const open=b.style.display!=='none';b.style.display=open?'none':'';t.textContent=open?'\u25b6':'\u25bc';}
 function toggleYearSec(y){const b=$('ybody-'+y),t=$('ytog-'+y);const open=b.style.display!=='none';b.style.display=open?'none':'';t.textContent=open?'\u25b6':'\u25bc';}
 
+function deleteMonth(ym){
+  const rows=allRows.filter(r=>ymStr(r.date)===ym);
+  if(!rows.length){toast('No entries for this month','warn');return;}
+  const[y,m]=ym.split('-');
+  const mLabel=new Date(+y,+m-1,1).toLocaleString('default',{month:'long',year:'numeric'});
+  if(!confirm('Delete ALL '+rows.length+' entries for '+mLabel+'?\n\nThis cannot be undone.'))return;
+  if(mode==='admin'){
+    toast('Admin: go to Raw Log sheet and delete the rows for '+mLabel,'warn',7000);
+    return;
+  }
+  const remaining=getLocalReports().filter(r=>ymStr(r.date)!==ym);
+  saveLocalReports(remaining);
+  allRows=remaining.slice().sort((a,b)=>b.date.localeCompare(a.date));
+  datesMap={};allRows.forEach(r=>{datesMap[r.date]=r;});
+  toast('Deleted '+rows.length+' entr'+(rows.length===1?'y':'ies')+' from '+mLabel,'ok');
+  renderCal();renderMissBanner();loadReports();
+}
+
 function nav(page){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
@@ -1381,7 +1417,7 @@ function nav(page){
   if(page==='settings')loadSettingsPage();
 }
 
-// â”€â”€ HELPERS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── HELPERS ───────────────────────────────────────────────────────────────────
 function onEmpChange(){const v=$('fEmp').value;$('otherNameWrap').style.display=v==='Other'?'block':'none';if(v!=='Other')$('fOtherName').value='';}
 function getSubmitter(){const v=$('fEmp').value;return v==='Other'?($('fOtherName').value.trim()||'Other'):v;}
 function todayLocal(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
@@ -1393,11 +1429,11 @@ function ymStr(d){return d.slice(0,7);}
 function monthShort(ym){const[y,m]=ym.split('-');return new Date(+y,+m-1,1).toLocaleString('default',{month:'short'});}
 function sum(rows){return rows.reduce((a,r)=>({sales:a.sales+r.sales,tax:a.tax+r.tax,cc:a.cc+r.cc,cash:a.cash+r.cash}),{sales:0,tax:0,cc:0,cash:0});}
 function rRow(r){return`<div class="rrow"><div class="dc">${shortDate(r.date)}<small>${dayAbbr(r.date)}</small></div><div class="amts"><div class="amt" style="color:#28a745">${fmt(r.sales)} <span>sales</span></div><div class="amt" style="color:#e09000">${fmt(r.tax)} <span>tax</span></div><div class="amt" style="color:#0498BC">${fmt(r.cc)} <span>cc</span></div><div class="amt" style="color:#7c3aed">${fmt(r.cash)} <span>cash</span></div></div><div class="by-badge">${(r.by||'?')[0].toUpperCase()}</div></div>`;}
-function toast(msg,type='ok',dur=3200){const el=$('toast');el.textContent={ok:'âœ… ',err:'âŒ ',warn:'âš ï¸ ',info:'â„¹ï¸ '}[type]+msg;el.className=`show ${type}`;clearTimeout(el._t);el._t=setTimeout(()=>el.className='',dur);}
-function showLoader(msg){$('loader').style.display='flex';$('lmsg').textContent=msg||'Loadingâ€¦';}
+function toast(msg,type='ok',dur=3200){const el=$('toast');el.textContent={ok:'✅ ',err:'âŒ ',warn:'⚠ï¸ ',info:'ℹï¸ '}[type]+msg;el.className=`show ${type}`;clearTimeout(el._t);el._t=setTimeout(()=>el.className='',dur);}
+function showLoader(msg){$('loader').style.display='flex';$('lmsg').textContent=msg||'Loading…';}
 function hideLoader(){$('loader').style.display='none';}
 
-// â”€â”€ BOOT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── BOOT ─────────────────────────────────────────────────────────────────────
 $('confirmOverlay').addEventListener('click',e=>{if(e.target===$('confirmOverlay'))closeConfirm();});
 if(!checkJoinParam()){showRole();}
 </script>
