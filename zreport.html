@@ -242,7 +242,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
     <div class="slbl" style="margin-top:16px">Other UPS Store</div>
     <div class="role-card guest" style="display:block;margin:0" onclick="startGuest()">
       <div style="display:flex;align-items:center;gap:12px">
-        <span style="font-size:28px">ðŸª</span>
+        <span style="font-size:28px">🏪</span>
         <div>
           <div class="rc-name" style="text-align:left">Other Store</div>
           <div class="rc-desc" style="text-align:left">Your store · Cloud or local</div>
@@ -272,7 +272,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
         <div class="key empty"></div><div class="key" onclick="kp(0)">0</div><div class="key del" onclick="kpDel()">⌫</div>
       </div>
       <div class="pin-error" id="pinErr"></div>
-      <div class="back-lnk" onclick="showRole()">â† Back</div>
+      <div class="back-lnk" onclick="showRole()">← Back</div>
     </div>
   </div>
 </div>
@@ -377,7 +377,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
         <div class="key empty"></div><div class="key" onclick="gkp(0)">0</div><div class="key del" onclick="gkpDel()">⌫</div>
       </div>
       <div class="pin-error" id="gPinErr"></div>
-      <div class="back-lnk" onclick="backFromGuestPin()">â† Back</div>
+      <div class="back-lnk" onclick="backFromGuestPin()">← Back</div>
     </div>
   </div>
 </div>
@@ -411,15 +411,15 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
       </div>
       <div class="card">
         <div class="ctitle">Select Date</div>
-        <div class="scroll-hint">â† scroll for older dates</div>
+        <div class="scroll-hint">← scroll for older dates</div>
         <div class="cal" id="cal"></div>
       </div>
       <div class="miss-b" id="missB">
-        <div class="t">⚠ï¸ Missing Entries (last 60 days)</div>
+        <div class="t">⚠️ Missing Entries (last 60 days)</div>
         <div class="chips" id="missChips"></div>
       </div>
       <div class="update-alert" id="updateAlert">
-        <div class="ua-title">⚠ï¸ Date already has entry — submitting will overwrite</div>
+        <div class="ua-title">⚠️ Date already has entry — submitting will overwrite</div>
         <div id="updateExisting"></div>
       </div>
       <div class="card">
@@ -633,7 +633,7 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 
 <div class="overlay" id="confirmOverlay">
   <div class="modal">
-    <h3>⚠ï¸ Overwrite Entry?</h3>
+    <h3>⚠️ Overwrite Entry?</h3>
     <p>This date already has a submitted Z Report. Replace with new values?</p>
     <div class="existing" id="confirmExisting"></div>
     <div class="mbts">
@@ -1285,7 +1285,7 @@ async function doSubmit(payload,isUpdate){
     selDate=null;isEditing=false;renderCal();renderMissBanner();
   }catch(e){toast(e.message,'err',6000);}
   const hasEx=datesMap[$('fDate').value];
-  btn.innerHTML=hasEx?'⚠ï¸ Update This Entry':'Submit Z Report';
+  btn.innerHTML=hasEx?'⚠️ Update This Entry':'Submit Z Report';
   btn.className=hasEx?'btn btn-warn':'btn btn-pri';btn.disabled=false;pendingPayload=null;
 }
 
@@ -1310,8 +1310,8 @@ function checkDateForExisting(date){
   const entry=datesMap[date],btn=$('subBtn');
   if(entry){
     $('updateExisting').innerHTML=`<div class="ua-row">Sales<span>${fmt(entry.sales)}</span></div><div class="ua-row">Tax<span>${fmt(entry.tax)}</span></div><div class="ua-row">CC<span>${fmt(entry.cc)}</span></div><div class="ua-row">Cash<span>${fmt(entry.cash)}</span></div><div class="ua-row">By<span>${entry.by}</span></div>${entry.notes?`<div class="ua-row">Notes<span>${entry.notes}</span></div>`:''}`;
-    $('updateAlert').classList.add('show');$('formTitle').textContent='âœï¸ Correct Existing Entry';
-    btn.innerHTML='⚠ï¸ Update This Entry';btn.className='btn btn-warn';
+    $('updateAlert').classList.add('show');$('formTitle').textContent='✏️ Correct Existing Entry';
+    btn.innerHTML='⚠️ Update This Entry';btn.className='btn btn-warn';
     $('fSales').value=entry.sales.toFixed(2);$('fTax').value=entry.tax.toFixed(2);$('fCC').value=entry.cc.toFixed(2);$('fCash').value=entry.cash.toFixed(2);$('fNotes').value=entry.notes;
     const empSel=$('fEmp'),opt=empSel.querySelector(`option[value="${entry.by}"]`);
     if(opt){empSel.value=entry.by;}else{empSel.value='Other';$('fOtherName').value=entry.by;}onEmpChange();
@@ -1409,6 +1409,24 @@ function deleteMonth(ym){
   renderCal();renderMissBanner();loadReports();
 }
 
+function deleteMonth(ym){
+  const rows=allRows.filter(r=>ymStr(r.date)===ym);
+  if(!rows.length){toast('No entries for this month','warn');return;}
+  const[y,m]=ym.split('-');
+  const mLabel=new Date(+y,+m-1,1).toLocaleString('default',{month:'long',year:'numeric'});
+  if(!confirm('Delete ALL '+rows.length+' entries for '+mLabel+'?\n\nThis cannot be undone.'))return;
+  if(mode==='admin'){
+    toast('Admin: go to Raw Log sheet and delete the rows for '+mLabel,'warn',7000);
+    return;
+  }
+  const remaining=getLocalReports().filter(r=>ymStr(r.date)!==ym);
+  saveLocalReports(remaining);
+  allRows=remaining.slice().sort((a,b)=>b.date.localeCompare(a.date));
+  datesMap={};allRows.forEach(r=>{datesMap[r.date]=r;});
+  toast('Deleted '+rows.length+' entr'+(rows.length===1?'y':'ies')+' from '+mLabel,'ok');
+  renderCal();renderMissBanner();loadReports();
+}
+
 function nav(page){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
@@ -1429,7 +1447,7 @@ function ymStr(d){return d.slice(0,7);}
 function monthShort(ym){const[y,m]=ym.split('-');return new Date(+y,+m-1,1).toLocaleString('default',{month:'short'});}
 function sum(rows){return rows.reduce((a,r)=>({sales:a.sales+r.sales,tax:a.tax+r.tax,cc:a.cc+r.cc,cash:a.cash+r.cash}),{sales:0,tax:0,cc:0,cash:0});}
 function rRow(r){return`<div class="rrow"><div class="dc">${shortDate(r.date)}<small>${dayAbbr(r.date)}</small></div><div class="amts"><div class="amt" style="color:#28a745">${fmt(r.sales)} <span>sales</span></div><div class="amt" style="color:#e09000">${fmt(r.tax)} <span>tax</span></div><div class="amt" style="color:#0498BC">${fmt(r.cc)} <span>cc</span></div><div class="amt" style="color:#7c3aed">${fmt(r.cash)} <span>cash</span></div></div><div class="by-badge">${(r.by||'?')[0].toUpperCase()}</div></div>`;}
-function toast(msg,type='ok',dur=3200){const el=$('toast');el.textContent={ok:'✅ ',err:'âŒ ',warn:'⚠ï¸ ',info:'ℹï¸ '}[type]+msg;el.className=`show ${type}`;clearTimeout(el._t);el._t=setTimeout(()=>el.className='',dur);}
+function toast(msg,type='ok',dur=3200){const el=$('toast');el.textContent={ok:'✅ ',err:'❌ ',warn:'⚠️ ',info:'ℹ️ '}[type]+msg;el.className=`show ${type}`;clearTimeout(el._t);el._t=setTimeout(()=>el.className='',dur);}
 function showLoader(msg){$('loader').style.display='flex';$('lmsg').textContent=msg||'Loading…';}
 function hideLoader(){$('loader').style.display='none';}
 
