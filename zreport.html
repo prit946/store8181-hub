@@ -1389,8 +1389,8 @@ function loadReports(){
         +'<div><span class="mname">'+mLabel+'</span>'
         +'<span class="msub">'+md.days+'d \xb7 '+fmtK(md.sales)+' \xb7 CC '+fmtK(md.cc)+' \xb7 Tax '+fmtK(md.tax)+' \xb7 Cash '+fmtK(md.cash)+'</span></div>'
         +'<span style="display:flex;align-items:center;gap:5px">'
-        +'<button class="btn-arch" onclick="event.stopPropagation();archiveMonth(\''+ym+'\')" title="Archive this month">\U0001f4e6</button>'
-        +'<button class="btn-delmth" onclick="event.stopPropagation();deleteMonth(\''+ym+'\')" title="Delete all entries for this month">\U0001f5d1</button>'
+        +'<button class="btn-arch" onclick="event.stopPropagation();archiveMonth(\''+ym+'\')" title="Archive this month">📦</button>'
+        +'<button class="btn-delmth" onclick="event.stopPropagation();deleteMonth(\''+ym+'\')" title="Delete all entries for this month">🗑</button>'
         +'<span class="ytog" id="mtog-'+ym+'">'+(isNow?'▼':'▶')+'</span></span></div>'
         +'<div class="month-body" id="mbody-'+ym+'" style="'+(isNow?'':'display:none')+'">'
         +'<div class="month-totals">'
@@ -1402,9 +1402,9 @@ function loadReports(){
     }).join('');
     return '<div class="year-sec">'
       +'<div class="shdr year-shdr" onclick="toggleYearSec(\''+y+'\')">'
-      +(past?'\U0001f5c2️':'📅')+' '+y
+      +(past?'🗂️':'📅')+' '+y+'<span style="font-size:11px;color:#aaa;font-weight:600;margin-left:6px">'+fmtK(byYear[y].sales)+' · '+byYear[y].days+'d</span>'
       +'<span style="display:flex;align-items:center;gap:6px">'
-      +'<button class="btn-arch" onclick="event.stopPropagation();archiveYear(\''+y+'\')" title="Archive entire '+y+'">\U0001f4e6 Archive</button>'
+      +'<button class="btn-arch" onclick="event.stopPropagation();archiveYear(\''+y+'\')" title="Archive entire '+y+'">📦 Archive</button>'
       +'<span class="ytog" id="ytog-'+y+'">'+(past?'▶':'▼')+'</span></span></div>'
       +'<div class="year-body" id="ybody-'+y+'" style="'+(past?'display:none':'')+'">'
       +(monthsHtml||'<div class="empty">No entries</div>')+'</div></div>';
@@ -1448,7 +1448,7 @@ function archiveMonth(ym){
   saveArchived(archived);saveLocalReports(remaining);
   allRows=remaining.slice().sort((a,b)=>b.date.localeCompare(a.date));
   datesMap={};allRows.forEach(r=>{datesMap[r.date]=r;});
-  toast('\U0001f4e6 Archived '+rows.length+' entr'+(rows.length===1?'y':'ies')+' from '+mLabel,'ok');
+  toast('📦 Archived '+rows.length+' entr'+(rows.length===1?'y':'ies')+' from '+mLabel,'ok');
   renderCal();renderMissBanner();loadReports();
 }
 
@@ -1463,7 +1463,7 @@ function archiveYear(y){
   saveArchived(archived);saveLocalReports(remaining);
   allRows=remaining.slice().sort((a,b)=>b.date.localeCompare(a.date));
   datesMap={};allRows.forEach(r=>{datesMap[r.date]=r;});
-  toast('\U0001f4e6 Archived '+rows.length+' entries from '+y,'ok');
+  toast('📦 Archived '+rows.length+' entries from '+y,'ok');
   renderCal();renderMissBanner();loadReports();
 }
 
@@ -1500,13 +1500,13 @@ function loadArchive(){
   });
   const years=Object.keys(byY).sort((a,b)=>+b-+a);
   archEl.innerHTML='<div class="arch-sec"><div class="arch-hdr2" onclick="toggleArchSec()">'
-    +'\U0001f4e6 Archive — '+archived.length+' entr'+(archived.length!==1?'ies':'y')
+    +'📦 Archive — '+archived.length+' entr'+(archived.length!==1?'ies':'y')
     +'<span class="ytog" id="arch-tog">▶</span></div>'
     +'<div id="arch-body" style="display:none">'
     +years.map(y=>{
       const months=Object.keys(byYM).filter(ym=>byYM[ym].year===y).sort((a,b)=>b.localeCompare(a));
       return '<div class="year-sec" style="margin-top:6px">'
-        +'<div class="shdr year-shdr arch-hdr" onclick="toggleYearSec(\'arch-'+y+'\')">\U0001f5c2️ '+y
+        +'<div class="shdr year-shdr arch-hdr" onclick="toggleYearSec(\'arch-'+y+'\')">🗂️ '+y
         +'<span class="ytog" id="ytog-arch-'+y+'">▶</span></div>'
         +'<div class="year-body" id="ybody-arch-'+y+'" style="display:none">'
         +months.map(ym=>{
