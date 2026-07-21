@@ -1335,7 +1335,7 @@ function renderMissBanner(){
     const mLabel=new Date(+y,+m-1,1).toLocaleString('default',{month:'long',year:'numeric'});
     const chips=byMonth[ym].map(d=>`<span class="chip" onclick="pickDate('${d}')">${shortDate(d)}</span>`).join('');
     const isOpen=ym===curYM||idx===0;
-    return `<div class="miss-month"><div class="miss-mhdr" onclick="toggleMissMonth('${ym}')"><span>${mLabel} \u2014 ${byMonth[ym].length} missing</span><span id="misstog-${ym}">${isOpen?'\u25be':'\u25b8'}</span></div><div class="miss-chips-row" id="missbody-${ym}" style="${isOpen?'':\'display:none'}">${chips}</div></div>`;
+    return `<div class="miss-month"><div class="miss-mhdr" onclick="toggleMissMonth('${ym}')"><span>${mLabel} \u2014 ${byMonth[ym].length} missing</span><span id="misstog-${ym}">${isOpen?'\u25be':'\u25b8'}</span></div><div class="miss-chips-row" id="missbody-${ym}" style="${isOpen?'':'display:none'}">${chips}</div></div>`;
   }).join('');
 }
 function toggleMissMonth(ym){const b=$('missbody-'+ym),t=$('misstog-'+ym);if(!b)return;const open=b.style.display!=='none';b.style.display=open?'none':'';t.textContent=open?'\u25b8':'\u25be';}
