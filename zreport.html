@@ -1350,7 +1350,7 @@ function loadReports(){
       const mLabel=new Date(yr,mo-1,1).toLocaleString('default',{month:'long'})+' '+yr;
       const rows=allRows.filter(r=>ymStr(r.date)===ym).sort((a,b)=>b.date.localeCompare(a.date)).map(r=>rRow(r)).join('');
       return '<div class="month-sec">'
-        +'<div class="month-hdr" onclick="toggleMonth(''+ym+'')">'
+        +'<div class="month-hdr" onclick="toggleMonth(\''+ym+'\')">'
         +'<div><span class="mname">'+mLabel+'</span><span class="msub">'+md.days+'d \xb7 '+fmtK(md.sales)+'</span></div>'
         +'<span class="ytog" id="mtog-'+ym+'">'+(isNow?'\u25bc':'\u25b6')+'</span></div>'
         +'<div class="month-body" id="mbody-'+ym+'" style="'+(isNow?'':'display:none')+'">'
@@ -1362,7 +1362,7 @@ function loadReports(){
         +'</div>'+(rows||'<div class="empty">No entries</div>')+'</div></div>';
     }).join('');
     return '<div class="year-sec">'
-      +'<div class="shdr year-shdr'+(past?' arch-hdr':'')+'" onclick="toggleYearSec(''+y+'')">'
+      +'<div class="shdr year-shdr'+(past?' arch-hdr':'')+'" onclick="toggleYearSec(\''+y+'\')">'
       +(past?'\U0001f5c2\ufe0f':'\U0001f4c5')+' '+y+(past?' \u2014 Archived':'')
       +(past?'<span class="arch-tag">Auto-archived</span>':'')
       +'<span class="ytog" id="ytog-'+y+'">'+(past?'\u25b6':'\u25bc')+'</span></div>'
