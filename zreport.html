@@ -214,6 +214,14 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 .arch-hdr2{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:9px 13px;background:#f4f6f9;border:1px solid #dde0e5;border-radius:6px;font-size:11px;font-weight:800;color:#6c757d;user-select:none;touch-action:manipulation;letter-spacing:.4px;text-transform:uppercase;}
 .arch-hdr2:active{background:#e8ecf2;}
 
+
+.chip-wrap{display:inline-flex;align-items:center;gap:0}
+.chip-x{font-size:13px;line-height:1;padding:3px 6px 3px 1px;cursor:pointer;color:#dc3545;opacity:.45;background:none;border:none;touch-action:manipulation;font-weight:700;}
+.chip-x:active{opacity:1}
+.miss-dism-row{display:flex;justify-content:flex-end;padding:4px 2px 0;width:100%}
+.btn-dism-all{font-size:10px;color:#dc3545;background:rgba(220,53,69,.07);border:1px solid rgba(220,53,69,.18);border-radius:4px;padding:2px 8px;cursor:pointer;touch-action:manipulation;}
+.day.dism{background:rgba(108,117,125,.06)!important;border-color:#ccc!important;color:#bbb!important;}
+
 .miss-month{margin-bottom:5px;}
 .miss-mhdr{display:flex;align-items:center;justify-content:space-between;padding:7px 11px;background:rgba(220,53,69,.07);border:1px solid rgba(220,53,69,.18);border-radius:5px;cursor:pointer;font-size:11px;font-weight:800;color:#dc3545;user-select:none;touch-action:manipulation;}
 .miss-mhdr:active{background:rgba(220,53,69,.14);}
@@ -1351,8 +1359,13 @@ function checkDateForExisting(date){
   }
 }
 function renderMissBanner(){
+  const dismissed=getDismissed();
   const missing=[];
-  for(let i=60;i>=1;i--){const d=new Date();d.setDate(d.getDate()-i);const ds=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;if(!datesMap[ds])missing.push(ds);}
+  for(let i=60;i>=1;i--){
+    const d=new Date();d.setDate(d.getDate()-i);
+    const ds=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    if(!datesMap[ds]&&!dismissed.has(ds))missing.push(ds);
+  }
   const banner=$('missB');
   if(!missing.length){banner.classList.remove('show');return;}
   banner.classList.add('show');
@@ -1363,11 +1376,25 @@ function renderMissBanner(){
   $('missChips').innerHTML=months.map((ym,idx)=>{
     const[y,m]=ym.split('-');
     const mLabel=new Date(+y,+m-1,1).toLocaleString('default',{month:'long',year:'numeric'});
-    const chips=byMonth[ym].map(d=>`<span class="chip" onclick="pickDate('${d}')">${shortDate(d)}</span>`).join('');
+    const datesJson=JSON.stringify(byMonth[ym]);
+    const chips=byMonth[ym].map(d=>
+      '<span class="chip-wrap">'
+      +'<span class="chip" data-d="'+d+'" onclick="pickDate(this.dataset.d)">'+shortDate(d)+'</span>'
+      +'<button class="chip-x" data-d="'+d+'" onclick="dismissDate(this.dataset.d)" title="Dismiss date">×</button>'
+      +'</span>'
+    ).join('');
     const isOpen=ym===curYM||idx===0;
-    return `<div class="miss-month"><div class="miss-mhdr" onclick="toggleMissMonth('${ym}')"><span>${mLabel} \u2014 ${byMonth[ym].length} missing</span><span id="misstog-${ym}">${isOpen?'\u25be':'\u25b8'}</span></div><div class="miss-chips-row" id="missbody-${ym}" style="${isOpen?'':'display:none'}">${chips}</div></div>`;
+    return '<div class="miss-month">'
+      +'<div class="miss-mhdr" onclick="toggleMissMonth(\''+ym+'\')">'  
+      +'<span>'+mLabel+' \u2014 '+byMonth[ym].length+' missing</span>'
+      +'<span id="misstog-'+ym+'">'+(isOpen?'\u25be':'\u25b8')+'</span></div>'
+      +'<div class="miss-chips-row" id="missbody-'+ym+'" style="'+(isOpen?'':'display:none')+'">'
+      +chips
+      +'<div class="miss-dism-row"><button class="btn-dism-all" data-dates="'+encodeURIComponent(datesJson)+'" data-ym="'+ym+'" onclick="dismissMonth(this.dataset.ym,JSON.parse(decodeURIComponent(this.dataset.dates)))">Dismiss all</button></div>'
+      +'</div></div>';
   }).join('');
 }
+
 function toggleMissMonth(ym){const b=$('missbody-'+ym),t=$('misstog-'+ym);if(!b)return;const open=b.style.display!=='none';b.style.display=open?'none':'';t.textContent=open?'\u25b8':'\u25be';}
 
 // ── DASHBOARD ─────────────────────────────────────────────────────────────────
@@ -1597,6 +1624,18 @@ function refreshEmpDropdown(){
   const cur=sel.value;
   sel.innerHTML=names.map(n=>'<option value="'+n+'">'+n+'</option>').join('')+'<option value="Other">Other</option>';
   if(names.includes(cur))sel.value=cur;
+}
+
+
+function getDismissedKey(){return 'zr_dism_'+storeKey();}
+function getDismissed(){try{return new Set(JSON.parse(localStorage.getItem(getDismissedKey())||'[]'));}catch(e){return new Set();}}
+function saveDismissed(s){localStorage.setItem(getDismissedKey(),JSON.stringify([...s]));}
+function dismissDate(d){const s=getDismissed();s.add(d);saveDismissed(s);renderMissBanner();renderCal();}
+function dismissMonth(ym,dates){
+  const s=getDismissed();
+  (dates||[]).forEach(d=>s.add(d));
+  saveDismissed(s);renderMissBanner();renderCal();
+  toast('All dismissed for that month','ok');
 }
 
 function nav(page){
