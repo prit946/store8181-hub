@@ -504,6 +504,16 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
       <!-- Admin block -->
       <div id="admin-settings-block" style="display:none">
 
+
+        <div class="card">
+          <div class="ctitle">Staff Names</div>
+          <p style="font-size:11px;color:#666;margin-bottom:10px;line-height:1.5">Names that appear in the "Submitted By" dropdown when logging a Z Report.</p>
+          <div id="staffNamesList" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px"></div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <input type="text" id="staffNameInput" placeholder="Add name…" style="flex:1;padding:8px 10px;border:1px solid #ccd;border-radius:6px;font-size:13px"/>
+            <button class="btn btn-pri btn-sm" onclick="addStaffName()">Add</button>
+          </div>
+        </div>
         <div class="card">
           <div class="ctitle">Employee Access — Store 8181</div>
           <p style="font-size:11px;color:#666;margin-bottom:12px;line-height:1.5">Employees log in with the Employee role using this PIN — they can only submit Z reports, no history or settings visible.</p>
@@ -597,7 +607,15 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
           <button class="btn-copy" onclick="copyJoinLink()">📋 Copy Employee Join Link</button>
           <div style="font-size:10px;color:#888;margin-bottom:4px">
             Current employee PIN: <strong id="currentEmpPin" style="font-size:14px;letter-spacing:3px">0000</strong>
+          
+          <div class="ctitle" style="margin-top:16px">Staff Names</div>
+          <p style="font-size:11px;color:#666;margin-bottom:10px;line-height:1.5">Names shown in "Submitted By" dropdown.</p>
+          <div id="guestStaffList" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px"></div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <input type="text" id="guestStaffInput" placeholder="Add name…" style="flex:1;padding:8px 10px;border:1px solid #ccd;border-radius:6px;font-size:13px"/>
+            <button class="btn btn-pri btn-sm" onclick="addGuestStaffName()">Add</button>
           </div>
+</div>
         </div>
 
         <div class="card">
@@ -723,7 +741,7 @@ function enterAdmin(){
   document.querySelectorAll('.nav-owner').forEach(el=>el.style.display='');
   $('settingsTab').style.display='';$('rolePill').style.display='none';
   $('gwPill').style.display='';
-  $('fEmp').innerHTML='<option value="Prit">Prit</option><option value="Jatin">Jatin</option><option value="Other">Other</option>';
+  refreshEmpDropdown();
   showScreen('main');renderStoreSelector();initApp();
 }
 function enterEmployee(){
@@ -735,7 +753,7 @@ function enterEmployee(){
   $('rolePill').textContent='Employee';$('rolePill').style.display='';
   $('gwPill').style.display='';
   $('adminStoreBanner').style.display='none';
-  $('fEmp').innerHTML='<option value="Prit">Prit</option><option value="Jatin">Jatin</option><option value="Other">Other</option>';
+  refreshEmpDropdown();
   showScreen('main');initApp();
 }
 
@@ -800,7 +818,7 @@ function enterGuest(cfg,role){
     document.querySelectorAll('.nav-owner').forEach(el=>el.style.display='');
     $('settingsTab').style.display='';
   }
-  $('fEmp').innerHTML='<option value="Me">Me</option><option value="Other">Other</option>';
+  refreshEmpDropdown();
   showScreen('main');initApp();
 }
 
@@ -921,6 +939,7 @@ function saveNotes(){localStorage.setItem(notesKey(),$('notesArea').value);toast
 
 // ── SETTINGS PAGE ─────────────────────────────────────────────────────────────
 function loadSettingsPage(){
+  renderStaffNames();
   const isAdmin=mode==='admin';
   $('admin-settings-block').style.display=isAdmin?'':'none';
   $('guest-settings-block').style.display=isAdmin?'none':'';
@@ -1052,9 +1071,7 @@ function switchStore(storeId){
   $('storeSub').textContent=store.name;
   $('adminStoreSelect').value=storeId;
   // Employee options: named staff for 8181, generic for other stores
-  $('fEmp').innerHTML=storeId==='store8181'
-    ?'<option value="Prit">Prit</option><option value="Jatin">Jatin</option><option value="Other">Other</option>'
-    :'<option value="Me">Me</option><option value="Other">Other</option>';
+  refreshEmpDropdown();
   onEmpChange();
   $('gwDot').className='dot y';$('gwTxt').textContent='…';
   initApp();
@@ -1533,6 +1550,54 @@ function loadArchive(){
 function toggleArchSec(){const b=document.getElementById('arch-body'),t=document.getElementById('arch-tog');if(!b)return;const open=b.style.display!=='none';b.style.display=open?'none':'';t.textContent=open?'▶':'▾';}
 
 
+
+
+function getStaffKey(){return 'zr_staff_'+storeKey();}
+function getStaffNames(){
+  try{const s=localStorage.getItem(getStaffKey());if(s)return JSON.parse(s);}catch(e){}
+  return mode==='admin'?['Prit','Jatin']:['Me'];
+}
+function saveStaffNames(arr){localStorage.setItem(getStaffKey(),JSON.stringify(arr));}
+function renderStaffNames(){
+  const names=getStaffNames();
+  const listId=mode==='admin'||mode==='guest-owner'?'staffNamesList':'guestStaffList';
+  const el=document.getElementById(listId);
+  if(!el)return;
+  el.innerHTML=names.map(n=>'<span style="display:flex;align-items:center;gap:4px;background:#f0f2f5;border:1px solid #dde0e5;border-radius:14px;padding:3px 10px;font-size:12px;font-weight:600">'
+    +n+'<button onclick="removeStaffName('+JSON.stringify(n)+')" style="background:none;border:none;cursor:pointer;color:#dc3545;font-size:14px;line-height:1;padding:0 0 0 4px">×</button></span>').join('');
+  refreshEmpDropdown();
+}
+function addStaffName(){
+  const inp=document.getElementById('staffNameInput')||document.getElementById('guestStaffInput');
+  const name=(inp?.value||'').trim();
+  if(!name){toast('Enter a name','warn');return;}
+  const names=getStaffNames();
+  if(names.includes(name)){toast('Already in list','warn');return;}
+  names.push(name);saveStaffNames(names);inp.value='';
+  renderStaffNames();toast(name+' added','ok');
+}
+function addGuestStaffName(){
+  const inp=document.getElementById('guestStaffInput');
+  const name=(inp?.value||'').trim();
+  if(!name){toast('Enter a name','warn');return;}
+  const names=getStaffNames();
+  if(names.includes(name)){toast('Already in list','warn');return;}
+  names.push(name);saveStaffNames(names);inp.value='';
+  renderStaffNames();toast(name+' added','ok');
+}
+function removeStaffName(name){
+  const names=getStaffNames().filter(n=>n!==name);
+  if(!names.length){toast('Must keep at least one name','warn');return;}
+  saveStaffNames(names);renderStaffNames();toast(name+' removed','ok');
+}
+function refreshEmpDropdown(){
+  const names=getStaffNames();
+  const sel=document.getElementById('fEmp');
+  if(!sel)return;
+  const cur=sel.value;
+  sel.innerHTML=names.map(n=>'<option value="'+n+'">'+n+'</option>').join('')+'<option value="Other">Other</option>';
+  if(names.includes(cur))sel.value=cur;
+}
 
 function nav(page){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
