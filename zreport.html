@@ -1273,6 +1273,11 @@ async function submitReport(){
   if(!salesV||!taxV||!ccV||!cashV){toast('All 4 amounts required','err');return;}
   const sales=+salesV,tax=+taxV,cc=+ccV,cash=+cashV;
   if([sales,tax,cc,cash].some(v=>isNaN(v)||v<0)){toast('Invalid amount','err');return;}
+  const balDiff=Math.abs((sales+tax)-(cc+cash));
+  if(balDiff>1){
+    const side1=fmt(sales+tax),side2=fmt(cc+cash),diff=fmt(balDiff);
+    if(!confirm('⚠️ Balance check failed\n\nSales+Tax: '+side1+'\nCC+Cash:   '+side2+'\nDifference: '+diff+'\n\nSubmit anyway?'))return;
+  }
   const payload={date,sales,tax,cc,cash,by,notes};
   if(datesMap[date]){pendingPayload=payload;showConfirm(date);return;}
   await doSubmit(payload,false);
