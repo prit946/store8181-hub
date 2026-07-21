@@ -1409,23 +1409,6 @@ function deleteMonth(ym){
   renderCal();renderMissBanner();loadReports();
 }
 
-function deleteMonth(ym){
-  const rows=allRows.filter(r=>ymStr(r.date)===ym);
-  if(!rows.length){toast('No entries for this month','warn');return;}
-  const[y,m]=ym.split('-');
-  const mLabel=new Date(+y,+m-1,1).toLocaleString('default',{month:'long',year:'numeric'});
-  if(!confirm('Delete ALL '+rows.length+' entries for '+mLabel+'?\n\nThis cannot be undone.'))return;
-  if(mode==='admin'){
-    toast('Admin: go to Raw Log sheet and delete the rows for '+mLabel,'warn',7000);
-    return;
-  }
-  const remaining=getLocalReports().filter(r=>ymStr(r.date)!==ym);
-  saveLocalReports(remaining);
-  allRows=remaining.slice().sort((a,b)=>b.date.localeCompare(a.date));
-  datesMap={};allRows.forEach(r=>{datesMap[r.date]=r;});
-  toast('Deleted '+rows.length+' entr'+(rows.length===1?'y':'ies')+' from '+mLabel,'ok');
-  renderCal();renderMissBanner();loadReports();
-}
 
 function nav(page){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
