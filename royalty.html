@@ -653,6 +653,13 @@ const SESS_KEY_ADMIN = 'ry_sess_admin_v1';
 const SESS_KEY_EMP   = 'ry_sess_employee_v1';
 const GUEST_CFG_KEY  = 'ry_guest_cfg_v1';
 const DEFAULT_PRICING = { bookCost: 16.40, coilCost: 82.00, updatedAt: null };
+const OLD_PRICING     = { bookCost: 15.60, coilCost: 78.00 };
+const PRICE_CHANGE_DATE = '2026-07-12';
+function unitCostForRow(r){
+  if(r.date && r.date < PRICE_CHANGE_DATE)
+    return r.product==='coil' ? OLD_PRICING.coilCost : OLD_PRICING.bookCost;
+  return r.product==='coil' ? pricing.coilCost : pricing.bookCost;
+}
 
 function makeDefaultSession(){
   return {
@@ -856,7 +863,7 @@ function removePurchaseRow(i){
 }
 function purchQtyChange(i,el){
   sess.purchases[i].qty=el.value;
-  const uc=sess.purchases[i].product==='coil'?pricing.coilCost:pricing.bookCost;
+  const uc=unitCostForRow(sess.purchases[i]);
   const auto=((parseFloat(el.value)||0)*uc).toFixed(2);
   const costEl=$('pc_'+i);
   if(costEl){ costEl.value=auto; sess.purchases[i].totalCost=auto; }
@@ -869,13 +876,14 @@ function purchProductChange(i,el){
 }
 function renderPurchases(){
   $('purchaseRows').innerHTML=sess.purchases.map((r,i)=>{
-    const uc=r.product==='coil'?pricing.coilCost:pricing.bookCost;
+    const uc=unitCostForRow(r);
     const auto=((parseFloat(r.qty)||0)*uc).toFixed(2);
+    const priceTag=r.date&&r.date<PRICE_CHANGE_DATE?' <span style="font-size:9px;color:#e67e22;font-weight:700">OLD PRICE</span>':'';
     return `<div class="log-card">
       <button class="log-del" onclick="removePurchaseRow(${i})">✕</button>
       <div class="log-fields">
-        <div class="field-mini"><label>Date</label>
-          <input type="date" value="${r.date||''}" onchange="sess.purchases[${i}].date=this.value;save()"></div>
+        <div class="field-mini"><label>Date${priceTag}</label>
+          <input type="date" value="${r.date||''}" onchange="sess.purchases[${i}].date=this.value;save();renderPurchases();calcAll()"></div>
         <div class="field-mini"><label>Product</label>
           <select onchange="purchProductChange(${i},this)">
             <option value="coil"${r.product==='coil'?' selected':''}>Coil of 100</option>
@@ -931,7 +939,7 @@ function calcStamps(){
     if(!isNaN(cost) && r.totalCost!==''){
       purchCost+=cost;
     } else {
-      purchCost+=qty*(r.product==='coil'?pricing.coilCost:pricing.bookCost);
+      purchCost+=qty*unitCostForRow(r);
     }
   });
   let booksQty=0, coilsQty=0;

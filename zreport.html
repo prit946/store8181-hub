@@ -848,7 +848,7 @@ function saveGuestSetup(){
 // ── JOIN LINK ─────────────────────────────────────────────────────────────────
 function buildJoinLink(){
   const cfg=getGuestCfg();if(!cfg)return '';
-  const encoded=btoa(unescape(encodeURIComponent(JSON.stringify({storeName:cfg.storeName}))));
+  const encoded=btoa(unescape(encodeURIComponent(JSON.stringify({storeName:cfg.storeName,ep:cfg.empPin||'0000'}))));
   return location.href.split('?')[0]+'?join='+encoded;
 }
 
@@ -869,13 +869,13 @@ function checkJoinParam(){
 function confirmJoin(){
   const pin=String($('joinPin').value||'').trim();
   if(!pin){toast('Enter employee PIN','err');return;}
-  // Check against existing cfg if already set up on this device
   const existing=getGuestCfg();
   if(existing&&existing.storeName===joinData.storeName){
     if(existing.empPin!==pin&&existing.pin!==pin){toast('Incorrect employee PIN','err');return;}
     enterGuest(existing,'employee');
   } else {
-    // New device — save minimal cfg (no owner PIN)
+    // New device — validate against PIN encoded in join link
+    if(joinData.ep&&pin!==joinData.ep){toast('Incorrect employee PIN','err');return;}
     const cfg={storeName:joinData.storeName,pin:'',empPin:pin};
     localStorage.setItem(GUEST_KEY,JSON.stringify(cfg));
     enterGuest(cfg,'employee');
