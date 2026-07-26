@@ -438,7 +438,7 @@
         </div>
 
         <p class="g-section">Ending Inventory — Right Side Table</p>
-        <div style="font-size:11px;color:#888;margin-bottom:8px">Unit costs ($15.60 / $78.00) are pre-filled by CM. Only enter the Qty for each row.</div>
+        <div style="font-size:11px;color:#888;margin-bottom:8px" id="g_unitCostNote">Unit costs are pre-filled by CM. Only enter the Qty for each row.</div>
         <div class="guide-row">
           <span class="g-lbl">Book Of Stamps 20 — Qty</span>
           <span class="g-tag">type in CM</span>
@@ -650,8 +650,9 @@
 const ADMIN_PIN      = '1997';
 const PRICING_KEY    = 'ry_pricing_v1';
 const SESS_KEY_ADMIN = 'ry_sess_admin_v1';
+const SESS_KEY_EMP   = 'ry_sess_employee_v1';
 const GUEST_CFG_KEY  = 'ry_guest_cfg_v1';
-const DEFAULT_PRICING = { bookCost: 15.60, coilCost: 78.00, updatedAt: null };
+const DEFAULT_PRICING = { bookCost: 16.40, coilCost: 82.00, updatedAt: null };
 
 function makeDefaultSession(){
   return {
@@ -700,7 +701,7 @@ function enterAdmin(){
 
 // ── EMPLOYEE AUTH ──────────────────────────────────────────────────────────
 function startEmployee(){
-  mode='guest-employee'; sessKey=SESS_KEY_ADMIN;
+  mode='guest-employee'; sessKey=SESS_KEY_EMP;
   $('storeTitle').textContent='Stamp Sales Log';
   $('storeSub').textContent='Log daily stamp sales';
   $('hdrBack').href='#'; $('hdrBack').onclick=e=>{e.preventDefault();showRole();};
@@ -1031,6 +1032,8 @@ function calcAll(){
 function updateGuide(st,me){
   if(!st){ st=calcStamps(); }
   if(!me){ me=calcMetered(); }
+  const gNote=$('g_unitCostNote');
+  if(gNote) gNote.textContent='Unit costs ($'+pricing.bookCost.toFixed(2)+' / $'+pricing.coilCost.toFixed(2)+') are pre-filled by CM. Only enter the Qty for each row.';
   tx('g_begin',   fmt(st.beginning));
   tx('g_purch',   fmt(st.purchCost));
   tx('g_endBook', st.endBook);

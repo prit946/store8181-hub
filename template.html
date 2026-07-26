@@ -658,6 +658,7 @@ function makeRow(label, value, field, acct) {
   inp.addEventListener("click", e => e.stopPropagation());
 
   if (field === "pass") {
+    inp.type = "password";
     // Wrap with show/hide toggle
     const wrap = document.createElement("div"); wrap.className = "pass-wrap";
     wrap.addEventListener("click", e => e.stopPropagation());
@@ -665,12 +666,12 @@ function makeRow(label, value, field, acct) {
     const eye = document.createElement("button");
     eye.className = "eye-btn"; eye.type = "button";
     eye.textContent = "Show"; eye.title = "Show / hide password";
-    let shown = true;
+    let shown = false;
     eye.addEventListener("click", e => {
       e.stopPropagation();
       shown = !shown;
       inp.type = shown ? "text" : "password";
-      eye.textContent = shown ? "Show" : "Hide";
+      eye.textContent = shown ? "Hide" : "Show";
     });
     wrap.appendChild(eye);
     row.appendChild(wrap);

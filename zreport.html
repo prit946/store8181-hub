@@ -930,6 +930,7 @@ function importJSON(input){
       const existDates=new Set(allRows.map(r=>r.date));let added=0;
       for(const r of data.reports){
         if(!r.date||existDates.has(r.date))continue;
+        existDates.add(r.date);
         added++;
         const reports=getLocalReports();reports.push(r);saveLocalReports(reports);
       }
@@ -1014,6 +1015,15 @@ function saveStoreConfig(){
   const n=$('sStoreName').value.trim();
   if(!n){toast('Enter a store name','err');return;}
   const cfg=getGuestCfg()||{};
+  const oldSlug=storeKey();
+  const newSlug=n.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
+  if(oldSlug!==newSlug){
+    // Migrate all slug-keyed data to new key before renaming
+    ['zr_data_','zr_arch_','zr_notes_','zr_staff_','zr_dism_'].forEach(pfx=>{
+      const v=localStorage.getItem(pfx+oldSlug);
+      if(v){localStorage.setItem(pfx+newSlug,v);localStorage.removeItem(pfx+oldSlug);}
+    });
+  }
   cfg.storeName=n;
   localStorage.setItem(GUEST_KEY,JSON.stringify(cfg));
   $('storeTitle').textContent=n;
