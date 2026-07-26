@@ -626,7 +626,8 @@ function buildCard(acct) {
   const tr = document.createElement("div"); tr.style.cssText = "display:flex;align-items:center;gap:8px;";
   const ti = document.createElement("input"); ti.className = "title-inp";
   ti.value = acct.label; ti.spellcheck = false; ti.autocomplete = "off";
-  ti.addEventListener("input", () => { acct.label = ti.value; saveState(); });
+  if (role === "o") { ti.addEventListener("input", () => { acct.label = ti.value; saveState(); }); }
+  else { ti.readOnly = true; ti.style.cursor = "default"; }
   tr.appendChild(ti);
   if (role === "o") {
     const db = document.createElement("button"); db.className = "del-btn"; db.textContent = "x";
@@ -697,7 +698,8 @@ function makeRow(label, value, field, acct) {
 
   const qw = document.createElement("div"); qw.className = "fr-qr";
   makeQR(qw, value, 72);
-  inp.addEventListener("input", () => { acct[field] = inp.value; saveState(); makeQR(qw, inp.value, 72); });
+  if (role === "o") { inp.addEventListener("input", () => { acct[field] = inp.value; saveState(); makeQR(qw, inp.value, 72); }); }
+  else { inp.readOnly = true; inp.style.cursor = "default"; }
   row.appendChild(qw);
 
   row.addEventListener("click", e => {
