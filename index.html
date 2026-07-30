@@ -18,6 +18,10 @@ input{font-family:inherit}
 header{background:#1b2d45;color:#fff;padding:0 20px;height:60px;display:flex;align-items:center;justify-content:center;position:sticky;top:0;z-index:100}
 header h1{font-size:16px;font-weight:700;letter-spacing:.3px}
 header small{font-size:11px;color:#7a9ab8;display:block;text-align:center;margin-top:2px}
+#hard-refresh-btn{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#7a9ab8;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent}
+#hard-refresh-btn:active{background:rgba(255,255,255,.25);color:#fff}
+#hard-refresh-btn.spinning{animation:spin .6s linear infinite;color:#fff}
+@keyframes spin{to{transform:translateY(-50%) rotate(360deg)}}
 
 /* ── SCREENS ── */
 #screen-role,#screen-pin,#screen-apps{display:none}
@@ -105,6 +109,7 @@ hr{border:none;border-top:1px solid #dde0e5;margin:16px 0}
     <h1>Store 8181 · Operations Hub</h1>
     <small>Joelton, TN · Heritage Travel Center</small>
   </div>
+  <button id="hard-refresh-btn" onclick="hardRefresh()" title="Hard Refresh — clears all caches">⟳</button>
 </header>
 
 <!-- Role Select -->
@@ -261,7 +266,7 @@ hr{border:none;border-top:1px solid #dde0e5;margin:16px 0}
       <div class="tool-arrow">›</div>
     </div>
 
-    <div class="tool-card" onclick="go('https://brain-os-phbz.onrender.com')">
+    <a class="tool-card" href="https://brain-os-phbz.onrender.com" target="_blank" rel="noopener">
       <div class="tool-ico ic-teal">🧠</div>
       <div class="tool-info">
         <div class="tool-name">Brain OS</div>
@@ -269,7 +274,7 @@ hr{border:none;border-top:1px solid #dde0e5;margin:16px 0}
       </div>
       <span class="tool-badge b-live">Live</span>
       <div class="tool-arrow">›</div>
-    </div>
+    </a>
 
     <hr>
     <div class="slbl">Admin</div>
@@ -333,8 +338,28 @@ function check() {
 }
 
 function signOut() { sessionStorage.removeItem(SK); showRole(); }
-function go(url) { window.open(url, '_blank'); }
 function $(id) { return document.getElementById(id); }
+
+async function hardRefresh() {
+  const btn = $('hard-refresh-btn');
+  if (btn) { btn.classList.add('spinning'); btn.disabled = true; }
+  try {
+    // Unregister any service workers (none exist now, but future-proof)
+    if ('serviceWorker' in navigator) {
+      const regs = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(regs.map(r => r.unregister()));
+    }
+    // Clear Cache API storage (separate from browser disk cache)
+    if ('caches' in window) {
+      const keys = await caches.keys();
+      await Promise.all(keys.map(k => caches.delete(k)));
+    }
+    // Clear session — will prompt PIN re-entry (credentials in localStorage are kept)
+    sessionStorage.clear();
+  } catch(e) {}
+  // ?v=timestamp forces browser to fetch fresh HTML/JS/CSS from server, bypassing disk cache
+  location.replace(location.pathname + '?v=' + Date.now());
+}
 </script>
 </body>
 </html>
