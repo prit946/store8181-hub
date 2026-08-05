@@ -471,6 +471,16 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
 
     <!-- THIS MONTH -->
     <div id="page-reports" class="page">
+      <!-- CASH VARIANCE CHECK -->
+      <div class="card" id="varianceCard">
+        <div class="ctitle" style="display:flex;justify-content:space-between;align-items:center">
+          <span>💵 Cash Variance Check</span>
+          <button class="btn-sm" onclick="loadVariance()" id="varBtn">Load</button>
+        </div>
+        <div id="varianceBody" style="margin-top:10px;font-size:13px;color:#7a9ab8">
+          Compares Cash Reported (Z tape) vs Cash On Hand (physical count). Tap Load to pull latest.
+        </div>
+      </div>
       <div id="rMTD"></div>
       <div id="rYears"></div>
       <div id="rArchive"></div>
@@ -1189,6 +1199,70 @@ async function checkGW(){
   catch(e){$('gwDot').className='dot r';$('gwTxt').textContent='Offline';return false;}
 }
 async function recheckGW(){$('gwDot').className='dot y';$('gwTxt').textContent='…';const ok=await checkGW();toast(ok?'Gateway live':'Gateway offline',ok?'ok':'err');}
+
+// ── VARIANCE CHECK ─────────────────────────────────────────────────────────────
+const VARIANCE_FILE_ID = '1a2wfttxrT8Xvchpz97R48DR_1jj4P4-t';
+async function loadVariance(){
+  const el=$('varianceBody'), btn=$('varBtn');
+  btn.textContent='Loading…'; btn.disabled=true;
+  el.innerHTML='<div style="color:#7a9ab8">Fetching from Drive…</div>';
+  try {
+    const d = await gw('gas.proxy', {gasAction:'dc.readXlsxAsSheet', params:{fileId:VARIANCE_FILE_ID}}, 30000);
+    if(!d.data) throw new Error('No data returned');
+    el.innerHTML = buildVarianceHTML(d.data);
+  } catch(e) {
+    el.innerHTML = `<div style="color:#e57373">Error: ${e.message}</div>`;
+  }
+  btn.textContent='Reload'; btn.disabled=false;
+}
+function buildVarianceHTML(sheetData){
+  const THRESHOLD_WARN=1, THRESHOLD_ALERT=5;
+  let html='';
+  for(const [sheetName, rows] of Object.entries(sheetData)){
+    if(!rows||rows.length<2) continue;
+    const dataRows=rows.slice(1).filter(r=>r[0]&&r[0]!==''&&r[1]&&r[1]!==0&&r[2]!==undefined&&r[2]!=='');
+    if(!dataRows.length){
+      html+=`<div style="margin-bottom:16px"><strong>${sheetName}</strong> — no cash-on-hand data yet.</div>`;
+      continue;
+    }
+    let shortDays=0, overDays=0, totalVar=0, consecShort=0, maxConsec=0, curConsec=0;
+    const rowsHTML = dataRows.map(r=>{
+      const day=r[0], reported=parseFloat(r[1])||0, onHand=parseFloat(r[2])||0;
+      const v=parseFloat((onHand-reported).toFixed(2));
+      totalVar+=v;
+      if(v<0){shortDays++;curConsec++;maxConsec=Math.max(maxConsec,curConsec);}
+      else{overDays++;curConsec=0;}
+      const abs=Math.abs(v);
+      const status=abs<0.01?'✅':(abs<THRESHOLD_WARN?'✅':(abs<THRESHOLD_ALERT?'⚠️':'🚨'));
+      const varColor=v<-THRESHOLD_ALERT?'#e57373':v<0?'#ffb74d':v>THRESHOLD_ALERT?'#81c784':'#aaa';
+      return `<tr><td style="padding:4px 8px;text-align:center">${day}</td><td style="padding:4px 8px;text-align:right">$${reported.toFixed(2)}</td><td style="padding:4px 8px;text-align:right">$${onHand.toFixed(2)}</td><td style="padding:4px 8px;text-align:right;color:${varColor}">${v>=0?'+':''}$${v.toFixed(2)}</td><td style="padding:4px 8px;text-align:center">${status}</td></tr>`;
+    }).join('');
+    const summary = [
+      shortDays>0?`${shortDays} day${shortDays>1?'s':''} short`:'',
+      overDays>0?`${overDays} day${overDays>1?'s':''} over`:'',
+      maxConsec>=3?`⚠️ ${maxConsec} consecutive short days — investigate`:'',
+    ].filter(Boolean).join(' · ')||'All clear';
+    const totColor=totalVar<-5?'#e57373':totalVar<0?'#ffb74d':totalVar>5?'#81c784':'#aaa';
+    html+=`
+      <div style="margin-bottom:20px">
+        <div style="font-weight:700;margin-bottom:6px">${sheetName}</div>
+        <div style="font-size:12px;color:#7a9ab8;margin-bottom:8px">${summary}</div>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:12px">
+            <thead><tr style="color:#7a9ab8;border-bottom:1px solid #1e2d3d">
+              <th style="padding:4px 8px">Day</th><th style="padding:4px 8px;text-align:right">Reported</th><th style="padding:4px 8px;text-align:right">On Hand</th><th style="padding:4px 8px;text-align:right">Variance</th><th style="padding:4px 8px">Status</th>
+            </tr></thead>
+            <tbody>${rowsHTML}</tbody>
+            <tfoot><tr style="border-top:1px solid #1e2d3d;font-weight:700">
+              <td style="padding:4px 8px">Total</td><td></td><td></td><td style="padding:4px 8px;text-align:right;color:${totColor}">${totalVar>=0?'+':''}$${totalVar.toFixed(2)}</td><td></td>
+            </tr></tfoot>
+          </table>
+        </div>
+      </div>`;
+  }
+  return html || '<div style="color:#7a9ab8">No monthly data found.</div>';
+}
+
 async function loadSheetData(){
   const d=await gw('sheets.read',{spreadsheetId:ADMIN_SID,range:'Raw Log!A2:G5000'});
   const raw=d.values||[];allRows=[];datesMap={};
