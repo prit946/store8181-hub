@@ -461,7 +461,15 @@ hr.sec{border:none;border-top:1px solid #dde0e5;margin:16px 0}
         </div>
         <div class="row2">
           <div class="ff"><label>Credit Card ($)</label><input type="number" id="fCC" inputmode="decimal" step="0.01" min="0" placeholder="0.00"/></div>
-          <div class="ff"><label>Cash ($)</label><input type="number" id="fCash" inputmode="decimal" step="0.01" min="0" placeholder="0.00"/></div>
+          <div class="ff"><label>Cash ($) <span style="font-size:10px;color:#7a9ab8">Z tape total</span></label><input type="number" id="fCash" inputmode="decimal" step="0.01" min="0" placeholder="0.00" oninput="updateVariance()"/></div>
+        </div>
+        <div class="row2">
+          <div class="ff"><label>Cash On Hand ($) <span style="font-size:10px;color:#7a9ab8">counted in drawer</span></label><input type="number" id="fCashOnHand" inputmode="decimal" step="0.01" min="0" placeholder="0.00" oninput="updateVariance()"/></div>
+          <div class="ff" style="display:flex;flex-direction:column;justify-content:center;align-items:center;padding:10px 6px;border-radius:6px;background:#0d1c2c;border:1px solid #1b2d45">
+            <div style="font-size:9px;font-weight:800;letter-spacing:1px;color:#7a9ab8;margin-bottom:4px">VARIANCE</div>
+            <div id="varBadge" style="font-size:17px;font-weight:800;color:#7a9ab8">—</div>
+            <div id="varLabel" style="font-size:9px;color:#7a9ab8;margin-top:2px"></div>
+          </div>
         </div>
         <div class="ff"><label>Notes (optional)</label>
           <input type="text" id="fNotes" placeholder="Discrepancies, corrections…"/></div>
@@ -1200,7 +1208,25 @@ async function checkGW(){
 }
 async function recheckGW(){$('gwDot').className='dot y';$('gwTxt').textContent='…';const ok=await checkGW();toast(ok?'Gateway live':'Gateway offline',ok?'ok':'err');}
 
-// ── VARIANCE CHECK ─────────────────────────────────────────────────────────────
+// ── LIVE VARIANCE BADGE ────────────────────────────────────────────────────────
+function updateVariance(){
+  const cash=parseFloat($('fCash').value)||0;
+  const onHand=parseFloat($('fCashOnHand').value)||0;
+  const badge=$('varBadge'),lbl=$('varLabel');
+  if(!$('fCash').value.trim()||!$('fCashOnHand').value.trim()){
+    badge.textContent='—';badge.style.color='#7a9ab8';lbl.textContent='';return;
+  }
+  const v=parseFloat((onHand-cash).toFixed(2));
+  if(Math.abs(v)<0.01){
+    badge.textContent='✅ Even';badge.style.color='#4caf50';lbl.textContent='';
+  } else if(v>0){
+    badge.textContent='+$'+v.toFixed(2);badge.style.color=v>5?'#81c784':'#aed581';lbl.textContent='OVER';lbl.style.color=badge.style.color;
+  } else {
+    badge.textContent='-$'+Math.abs(v).toFixed(2);badge.style.color=Math.abs(v)>5?'#e57373':'#ffb74d';lbl.textContent='SHORT';lbl.style.color=badge.style.color;
+  }
+}
+
+// ── VARIANCE CHECK (XLSX comparison) ──────────────────────────────────────────
 const VARIANCE_FILE_ID = '1a2wfttxrT8Xvchpz97R48DR_1jj4P4-t';
 async function loadVariance(){
   const el=$('varianceBody'), btn=$('varBtn');
@@ -1264,11 +1290,13 @@ function buildVarianceHTML(sheetData){
 }
 
 async function loadSheetData(){
-  const d=await gw('sheets.read',{spreadsheetId:ADMIN_SID,range:'Raw Log!A2:G5000'});
+  const d=await gw('sheets.read',{spreadsheetId:ADMIN_SID,range:'Raw Log!A2:I5000'});
   const raw=d.values||[];allRows=[];datesMap={};
   raw.forEach((r,i)=>{
     const date=(r[0]||'').trim();if(!date||!/^\d{4}-\d{2}-\d{2}$/.test(date))return;if(datesMap[date])return;
-    const row={rowNum:i+2,date,sales:parseFloat(r[1])||0,tax:parseFloat(r[2])||0,cc:parseFloat(r[3])||0,cash:parseFloat(r[4])||0,by:r[5]||'',notes:r[6]||''};
+    const cohRaw=r[7]!==undefined&&r[7]!==''?parseFloat(r[7]):null;
+    const varRaw=r[8]!==undefined&&r[8]!==''?parseFloat(r[8]):null;
+    const row={rowNum:i+2,date,sales:parseFloat(r[1])||0,tax:parseFloat(r[2])||0,cc:parseFloat(r[3])||0,cash:parseFloat(r[4])||0,by:r[5]||'',notes:r[6]||'',cashOnHand:cohRaw,variance:varRaw};
     allRows.push(row);datesMap[date]=row;
   });
   allRows.sort((a,b)=>b.date.localeCompare(a.date));
@@ -1354,24 +1382,29 @@ async function submitReport(){
   const date=$('fDate').value,by=getSubmitter();
   const salesV=$('fSales').value.trim(),taxV=$('fTax').value.trim(),ccV=$('fCC').value.trim(),cashV=$('fCash').value.trim();
   const notes=$('fNotes').value.trim();
+  const cashOnHandV=$('fCashOnHand').value.trim();
   if(!date){toast('Select a date','err');return;}
   if(!by){toast('Select submitter','err');return;}
   if($('fEmp').value==='Other'&&!$('fOtherName').value.trim()){toast('Enter employee name','err');return;}
   if(!salesV||!taxV||!ccV||!cashV){toast('All 4 amounts required','err');return;}
   const sales=+salesV,tax=+taxV,cc=+ccV,cash=+cashV;
   if([sales,tax,cc,cash].some(v=>isNaN(v)||v<0)){toast('Invalid amount','err');return;}
+  const cashOnHand=cashOnHandV?parseFloat(cashOnHandV):null;
+  const variance=cashOnHand!==null?parseFloat((cashOnHand-cash).toFixed(2)):null;
   const balDiff=Math.abs((sales+tax)-(cc+cash));
   if(balDiff>1){
     const side1=fmt(sales+tax),side2=fmt(cc+cash),diff=fmt(balDiff);
     if(!confirm('⚠️ Balance check failed\n\nSales+Tax: '+side1+'\nCC+Cash:   '+side2+'\nDifference: '+diff+'\n\nSubmit anyway?'))return;
   }
-  const payload={date,sales,tax,cc,cash,by,notes};
+  const payload={date,sales,tax,cc,cash,by,notes,cashOnHand,variance};
   if(datesMap[date]){pendingPayload=payload;showConfirm(date);return;}
   await doSubmit(payload,false);
 }
 function showConfirm(date){
   const ex=datesMap[date];
-  $('confirmExisting').innerHTML=`<div class="ef"><span>Sales</span>${fmt(ex.sales)}</div><div class="ef"><span>Tax</span>${fmt(ex.tax)}</div><div class="ef"><span>CC</span>${fmt(ex.cc)}</div><div class="ef"><span>Cash</span>${fmt(ex.cash)}</div><div class="ef"><span>By</span>${ex.by}</div><div class="ef"><span>Date</span>${date}</div>`;
+  const cohStr=ex.cashOnHand!==null&&ex.cashOnHand!==undefined?fmt(ex.cashOnHand):'—';
+  const varStr=ex.variance!==null&&ex.variance!==undefined?(ex.variance>=0?'+':'')+fmt(ex.variance):'—';
+  $('confirmExisting').innerHTML=`<div class="ef"><span>Sales</span>${fmt(ex.sales)}</div><div class="ef"><span>Tax</span>${fmt(ex.tax)}</div><div class="ef"><span>CC</span>${fmt(ex.cc)}</div><div class="ef"><span>Cash</span>${fmt(ex.cash)}</div><div class="ef"><span>On Hand</span>${cohStr}</div><div class="ef"><span>Variance</span>${varStr}</div><div class="ef"><span>By</span>${ex.by}</div><div class="ef"><span>Date</span>${date}</div>`;
   $('confirmOverlay').classList.add('show');
 }
 function closeConfirm(){$('confirmOverlay').classList.remove('show');pendingPayload=null;}
@@ -1388,28 +1421,31 @@ async function doSubmit(payload,isUpdate){
       if(idx>=0)reports[idx]={...reportData};else reports.push({...reportData});
       saveLocalReports(reports);
       toast(isUpdate?'Entry updated ✓':'Z Report saved ✓',isUpdate?'warn':'ok');
-      if(isUpdate){Object.assign(datesMap[payload.date],{sales:payload.sales,tax:payload.tax,cc:payload.cc,cash:payload.cash,by:payload.by,notes:payload.notes});}
+      if(isUpdate){Object.assign(datesMap[payload.date],{sales:payload.sales,tax:payload.tax,cc:payload.cc,cash:payload.cash,by:payload.by,notes:payload.notes,cashOnHand:payload.cashOnHand,variance:payload.variance});}
       else{const nr={...payload};allRows.unshift(nr);allRows.sort((a,b)=>b.date.localeCompare(a.date));datesMap[payload.date]=nr;}
     } else if(currentStore!=='store8181'){
       if(!adminCfg.fbUrl)throw new Error('Firebase URL not configured — add it in Settings → My Stores');
       const reportData={...payload,ts:new Date().toISOString()};
       await fbAdminSave(currentStore,payload.date,reportData);
-      if(isUpdate){Object.assign(datesMap[payload.date],{sales:payload.sales,tax:payload.tax,cc:payload.cc,cash:payload.cash,by:payload.by,notes:payload.notes});}
+      if(isUpdate){Object.assign(datesMap[payload.date],{sales:payload.sales,tax:payload.tax,cc:payload.cc,cash:payload.cash,by:payload.by,notes:payload.notes,cashOnHand:payload.cashOnHand,variance:payload.variance});}
       else{const nr={...payload};allRows.unshift(nr);allRows.sort((a,b)=>b.date.localeCompare(a.date));datesMap[payload.date]=nr;}
       toast(isUpdate?'Entry updated ✓':'Z Report submitted ✓',isUpdate?'warn':'ok');
     } else {
-      const row=[payload.date,payload.sales.toFixed(2),payload.tax.toFixed(2),payload.cc.toFixed(2),payload.cash.toFixed(2),payload.by,payload.notes];
+      const cohVal=payload.cashOnHand!==null?payload.cashOnHand.toFixed(2):'';
+      const varVal=payload.variance!==null?payload.variance.toFixed(2):'';
+      const row=[payload.date,payload.sales.toFixed(2),payload.tax.toFixed(2),payload.cc.toFixed(2),payload.cash.toFixed(2),payload.by,payload.notes,cohVal,varVal];
       if(isUpdate&&datesMap[payload.date]){
-        await gw('sheets.update',{spreadsheetId:ADMIN_SID,range:`Raw Log!A${datesMap[payload.date].rowNum}:G${datesMap[payload.date].rowNum}`,values:[row]});
-        Object.assign(datesMap[payload.date],{sales:payload.sales,tax:payload.tax,cc:payload.cc,cash:payload.cash,by:payload.by,notes:payload.notes});
+        await gw('sheets.update',{spreadsheetId:ADMIN_SID,range:`Raw Log!A${datesMap[payload.date].rowNum}:I${datesMap[payload.date].rowNum}`,values:[row]});
+        Object.assign(datesMap[payload.date],{sales:payload.sales,tax:payload.tax,cc:payload.cc,cash:payload.cash,by:payload.by,notes:payload.notes,cashOnHand:payload.cashOnHand,variance:payload.variance});
         toast('Entry updated ✓','warn');
       } else {
-        await gw('sheets.append',{spreadsheetId:ADMIN_SID,range:'Raw Log!A:G',values:[row]});
+        await gw('sheets.append',{spreadsheetId:ADMIN_SID,range:'Raw Log!A:I',values:[row]});
         const nr={...payload,rowNum:allRows.length+2};allRows.unshift(nr);allRows.sort((a,b)=>b.date.localeCompare(a.date));datesMap[payload.date]=nr;
         toast('Z Report submitted ✓','ok');
       }
     }
-    $('fSales').value='';$('fTax').value='';$('fCC').value='';$('fCash').value='';$('fNotes').value='';
+    $('fSales').value='';$('fTax').value='';$('fCC').value='';$('fCash').value='';$('fCashOnHand').value='';$('fNotes').value='';
+    $('varBadge').textContent='—';$('varBadge').style.color='#7a9ab8';$('varLabel').textContent='';
     $('fEmp').value=mode==='admin'?'Prit':'Me';onEmpChange();
     $('updateAlert').classList.remove('show');$('formTitle').textContent='New Z Report Entry';
     selDate=null;isEditing=false;renderCal();renderMissBanner();
@@ -1443,6 +1479,7 @@ function checkDateForExisting(date){
     $('updateAlert').classList.add('show');$('formTitle').textContent='✏️ Correct Existing Entry';
     btn.innerHTML='⚠️ Update This Entry';btn.className='btn btn-warn';
     $('fSales').value=entry.sales.toFixed(2);$('fTax').value=entry.tax.toFixed(2);$('fCC').value=entry.cc.toFixed(2);$('fCash').value=entry.cash.toFixed(2);$('fNotes').value=entry.notes;
+    $('fCashOnHand').value=entry.cashOnHand!==null&&entry.cashOnHand!==undefined?entry.cashOnHand.toFixed(2):'';updateVariance();
     const empSel=$('fEmp'),opt=empSel.querySelector(`option[value="${entry.by}"]`);
     if(opt){empSel.value=entry.by;}else{empSel.value='Other';$('fOtherName').value=entry.by;}onEmpChange();
   } else {
