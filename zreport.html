@@ -1298,9 +1298,11 @@ async function loadSheetData(){
     const mdy=/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(date);
     if(mdy) date=mdy[3]+'-'+mdy[1].padStart(2,'0')+'-'+mdy[2].padStart(2,'0');
     if(!date||!/^\d{4}-\d{2}-\d{2}$/.test(date))return;if(datesMap[date])return;
-    const cohRaw=r[7]!==undefined&&r[7]!==''?parseFloat(r[7]):null;
-    const varRaw=r[8]!==undefined&&r[8]!==''?parseFloat(r[8]):null;
-    const row={rowNum:i+2,date,sales:parseFloat(r[1])||0,tax:parseFloat(r[2])||0,cc:parseFloat(r[3])||0,cash:parseFloat(r[4])||0,by:r[5]||'',notes:r[6]||'',cashOnHand:cohRaw,variance:varRaw};
+    const pf=v=>parseFloat(String(v||'').replace(/[$,]/g,''))||0;
+    const pfn=v=>(v!==undefined&&v!=='')?parseFloat(String(v).replace(/[$,]/g,'')):null;
+    const cohRaw=pfn(r[7]);
+    const varRaw=pfn(r[8]);
+    const row={rowNum:i+2,date,sales:pf(r[1]),tax:pf(r[2]),cc:pf(r[3]),cash:pf(r[4]),by:r[5]||'',notes:r[6]||'',cashOnHand:cohRaw,variance:varRaw};
     allRows.push(row);datesMap[date]=row;
   });
   allRows.sort((a,b)=>b.date.localeCompare(a.date));
