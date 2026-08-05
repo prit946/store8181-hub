@@ -1471,6 +1471,7 @@ function renderCal(){
   cal.scrollLeft=cal.scrollWidth;
 }
 function pickDate(d){selDate=d;$('fDate').value=d;isEditing=true;renderCal();checkDateForExisting(d);}
+function editEntry(d){nav('submit');pickDate(d);}
 function onDateChange(){const d=$('fDate').value;if(!d)return;selDate=d;renderCal();checkDateForExisting(d);}
 function checkDateForExisting(date){
   const entry=datesMap[date],btn=$('subBtn');
@@ -1532,19 +1533,26 @@ function loadReports(){
   const byYear={},byYM={};
   allRows.forEach(r=>{
     const y=r.date.slice(0,4),ym=ymStr(r.date);
-    if(!byYear[y])byYear[y]={sales:0,tax:0,cc:0,cash:0,days:0};
+    if(!byYear[y])byYear[y]={sales:0,tax:0,cc:0,cash:0,coh:0,vari:0,days:0};
     byYear[y].sales+=r.sales;byYear[y].tax+=r.tax;byYear[y].cc+=r.cc;byYear[y].cash+=r.cash;byYear[y].days++;
-    if(!byYM[ym])byYM[ym]={sales:0,tax:0,cc:0,cash:0,days:0,year:y};
+    if(r.cashOnHand!=null){byYear[y].coh+=r.cashOnHand;byYear[y].vari+=r.variance||0;}
+    if(!byYM[ym])byYM[ym]={sales:0,tax:0,cc:0,cash:0,coh:0,vari:0,days:0,year:y};
     byYM[ym].sales+=r.sales;byYM[ym].tax+=r.tax;byYM[ym].cc+=r.cc;byYM[ym].cash+=r.cash;byYM[ym].days++;
+    if(r.cashOnHand!=null){byYM[ym].coh+=r.cashOnHand;byYM[ym].vari+=r.variance||0;}
   });
-  const mtd=byYM[curYM]||{sales:0,tax:0,cc:0,cash:0,days:0};
+  const mtd=byYM[curYM]||{sales:0,tax:0,cc:0,cash:0,coh:0,vari:0,days:0};
   const mn=new Date().toLocaleString('default',{month:'long'});
+  const varSign=v=>v>0?'+':'';
+  const varColor=v=>Math.abs(v)<0.01?'#7a9ab8':v>0?'#28a745':'#e74c3c';
   $('rMTD').innerHTML=mtd.days
     ?'<div class="mtd-bar"><span class="mtd-mn">'+mn+' '+curY+'</span>'
       +'<span class="mtd-i s">'+fmt(mtd.sales)+' sales</span>'
       +'<span class="mtd-i c">'+fmt(mtd.cc)+' cc</span>'
       +'<span class="mtd-i t">'+fmt(mtd.tax)+' tax</span>'
       +'<span class="mtd-i h">'+fmt(mtd.cash)+' cash</span>'
+      +(mtd.coh?'<span class="mtd-i" style="color:#00A8E0">'+fmt(mtd.coh)+' on hand</span>'
+        +'<span class="mtd-i" style="color:'+varColor(mtd.vari)+'">'+varSign(mtd.vari)+fmt(mtd.vari)+' var</span>'
+        :'')
       +'<span class="mtd-d">'+mtd.days+' entr'+(mtd.days!==1?'ies':'y')+'</span></div>'
     :'';
   const years=Object.keys(byYear).sort((a,b)=>+b-+a);
@@ -1560,7 +1568,7 @@ function loadReports(){
       return '<div class="month-sec">'
         +'<div class="month-hdr" onclick="toggleMonth(\''+ym+'\')">'
         +'<div><span class="mname">'+mLabel+'</span>'
-        +'<span class="msub">'+md.days+'d \xb7 '+fmtK(md.sales)+' \xb7 CC '+fmtK(md.cc)+' \xb7 Tax '+fmtK(md.tax)+' \xb7 Cash '+fmtK(md.cash)+'</span></div>'
+        +'<span class="msub">'+md.days+'d \xb7 '+fmtK(md.sales)+' \xb7 CC '+fmtK(md.cc)+' \xb7 Tax '+fmtK(md.tax)+' \xb7 Cash '+fmtK(md.cash)+(md.coh?' \xb7 <span style="color:#00A8E0">On Hand '+fmtK(md.coh)+'</span> \xb7 <span style="color:'+(md.vari>=0?'#28a745':'#e74c3c')+'">Var '+(md.vari>=0?'+':'')+fmtK(md.vari)+'</span>':'')+'</span></div>'
         +'<span style="display:flex;align-items:center;gap:5px">'
         +'<button class="btn-arch" onclick="event.stopPropagation();archiveMonth(\''+ym+'\')" title="Archive this month">📦</button>'
         +'<button class="btn-delmth" onclick="event.stopPropagation();deleteMonth(\''+ym+'\')" title="Delete all entries for this month">🗑</button>'
@@ -1786,7 +1794,15 @@ function shortDate(d){const[y,m,dy]=d.split('-').map(Number);return new Date(y,m
 function ymStr(d){return d.slice(0,7);}
 function monthShort(ym){const[y,m]=ym.split('-');return new Date(+y,+m-1,1).toLocaleString('default',{month:'short'});}
 function sum(rows){return rows.reduce((a,r)=>({sales:a.sales+r.sales,tax:a.tax+r.tax,cc:a.cc+r.cc,cash:a.cash+r.cash}),{sales:0,tax:0,cc:0,cash:0});}
-function rRow(r){return`<div class="rrow"><div class="dc">${shortDate(r.date)}<small>${dayAbbr(r.date)}</small></div><div class="amts"><div class="amt" style="color:#28a745">${fmt(r.sales)} <span>sales</span></div><div class="amt" style="color:#e09000">${fmt(r.tax)} <span>tax</span></div><div class="amt" style="color:#0498BC">${fmt(r.cc)} <span>cc</span></div><div class="amt" style="color:#7c3aed">${fmt(r.cash)} <span>cash</span></div></div><div class="by-badge">${(r.by||'?')[0].toUpperCase()}</div></div>`;}
+function rRow(r){
+  const hasV=r.cashOnHand!=null;
+  const vv=r.variance||0;
+  const vc=Math.abs(vv)<0.01?'#7a9ab8':vv>0?'#28a745':'#e74c3c';
+  const vs=vv>=0?'+':'';
+  const varChip=hasV?`<div class="amt" style="color:${vc}">${vs}${fmt(vv)} <span>var</span></div>`:'';
+  const cohChip=hasV?`<div class="amt" style="color:#00A8E0">${fmt(r.cashOnHand)} <span>on hand</span></div>`:'';
+  return`<div class="rrow" onclick="editEntry('${r.date}')" style="cursor:pointer"><div class="dc">${shortDate(r.date)}<small>${dayAbbr(r.date)}</small></div><div class="amts"><div class="amt" style="color:#28a745">${fmt(r.sales)} <span>sales</span></div><div class="amt" style="color:#e09000">${fmt(r.tax)} <span>tax</span></div><div class="amt" style="color:#0498BC">${fmt(r.cc)} <span>cc</span></div><div class="amt" style="color:#7c3aed">${fmt(r.cash)} <span>cash</span></div>${cohChip}${varChip}</div><div class="by-badge">${(r.by||'?')[0].toUpperCase()}</div></div>`;
+}
 function toast(msg,type='ok',dur=3200){const el=$('toast');el.textContent={ok:'✅ ',err:'❌ ',warn:'⚠️ ',info:'ℹ️ '}[type]+msg;el.className=`show ${type}`;clearTimeout(el._t);el._t=setTimeout(()=>el.className='',dur);}
 function showLoader(msg){$('loader').style.display='flex';$('lmsg').textContent=msg||'Loading…';}
 function hideLoader(){$('loader').style.display='none';}
