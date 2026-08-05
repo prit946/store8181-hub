@@ -1293,7 +1293,11 @@ async function loadSheetData(){
   const d=await gw('sheets.read',{spreadsheetId:ADMIN_SID,range:'Raw Log!A2:I5000'});
   const raw=d.values||[];allRows=[];datesMap={};
   raw.forEach((r,i)=>{
-    const date=(r[0]||'').trim();if(!date||!/^\d{4}-\d{2}-\d{2}$/.test(date))return;if(datesMap[date])return;
+    let date=(r[0]||'').trim();
+    // Normalise MM/DD/YYYY → YYYY-MM-DD (Google Sheets date serial format)
+    const mdy=/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(date);
+    if(mdy) date=mdy[3]+'-'+mdy[1].padStart(2,'0')+'-'+mdy[2].padStart(2,'0');
+    if(!date||!/^\d{4}-\d{2}-\d{2}$/.test(date))return;if(datesMap[date])return;
     const cohRaw=r[7]!==undefined&&r[7]!==''?parseFloat(r[7]):null;
     const varRaw=r[8]!==undefined&&r[8]!==''?parseFloat(r[8]):null;
     const row={rowNum:i+2,date,sales:parseFloat(r[1])||0,tax:parseFloat(r[2])||0,cc:parseFloat(r[3])||0,cash:parseFloat(r[4])||0,by:r[5]||'',notes:r[6]||'',cashOnHand:cohRaw,variance:varRaw};
