@@ -7,7 +7,7 @@
 <meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#1b2d45">
-<link rel="stylesheet" href="hub.css">
+<link rel="stylesheet" href="hub.css?v=20260813">
 <title>Royalty &amp; Stamps · Store Hub</title>
 <style>
 /* ── LOG CARDS ──────────────────────────────────────────────────────────── */
@@ -219,6 +219,7 @@
     </div>
     <div class="hub-hdr-right">
       <span class="role-pill" id="rolePill" style="display:none"></span>
+      <a href="https://prit946.github.io/ops-hub/" id="pritosBtn" style="display:none;font-size:10px;font-weight:700;color:var(--navy);background:#f4f6f9;border:1px solid var(--border);border-radius:5px;padding:5px 10px;text-decoration:none;white-space:nowrap;flex-shrink:0">🏠 OS</a>
       <button onclick="confirmReset()" style="font-size:10px;font-weight:700;padding:5px 10px;border-radius:5px;background:rgba(220,53,69,.08);border:1px solid rgba(220,53,69,.3);color:var(--danger);cursor:pointer;flex-shrink:0">↺ Reset</button>
     </div>
   </div>
@@ -534,26 +535,44 @@
 
       <button class="btn-copy-lg" onclick="copyCMGuide()">📋 Copy CM Entry Guide to Clipboard</button>
 
+      <div class="card" style="margin-top:16px">
+        <div class="ctitle">Royalty Fee Preview</div>
+        <div class="info-box" style="margin-bottom:10px;font-size:11px">After CM calculates your Total STR on the View &amp; Submit page, enter it here to see the fee breakdown.</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+          <label style="font-size:12px;font-weight:600;color:#555;white-space:nowrap">Total STR ($)</label>
+          <input type="text" inputmode="decimal" id="f_totalSTR" placeholder="e.g. 8626.90" oninput="calcRoyaltyPreview()" style="flex:1;padding:8px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:#111">
+        </div>
+        <div id="royaltyPreview"></div>
+      </div>
+
     </div><!-- /cmguide -->
 
     <!-- ═══════════════════════ SETTINGS TAB ═════════════════════════════ -->
     <div class="tab-panel" id="panel-settings">
 
-      <div class="slbl">Stamp Pricing (USPS Cost)</div>
+      <div class="slbl">USPS Stamp Pricing</div>
       <div class="card">
-        <div class="ctitle">USPS Cost per Unit &nbsp;<span id="priceAgeLbl" style="font-size:9px;font-weight:600;color:#888;text-transform:none;letter-spacing:0"></span></div>
+        <div class="ctitle">Cost &amp; Sell Price &nbsp;<span id="priceAgeLbl" style="font-size:9px;font-weight:600;color:#888;text-transform:none;letter-spacing:0"></span></div>
         <div id="priceWarnMsg"></div>
-        <div class="pricing-grid">
-          <div class="ph">Product</div><div class="ph">USPS Cost ($)</div>
+        <div style="display:grid;grid-template-columns:auto 1fr 1fr;gap:8px;align-items:center;margin-bottom:10px">
+          <div class="ph">Product</div><div class="ph">USPS Cost ($)</div><div class="ph">You Sell At ($)</div>
           <div class="pn">Book of 20</div>
-          <input type="text" inputmode="decimal" id="pr_bookCost" oninput="savePricing()">
+          <input type="text" inputmode="decimal" id="pr_bookCost" oninput="savePricing()" style="padding:8px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:#111;width:100%;box-sizing:border-box">
+          <input type="text" inputmode="decimal" id="pr_bookSell" oninput="savePricing()" style="padding:8px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:#111;width:100%;box-sizing:border-box">
           <div class="pn">Coil of 100</div>
-          <input type="text" inputmode="decimal" id="pr_coilCost" oninput="savePricing()">
+          <input type="text" inputmode="decimal" id="pr_coilCost" oninput="savePricing()" style="padding:8px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:#111;width:100%;box-sizing:border-box">
+          <input type="text" inputmode="decimal" id="pr_coilSell" oninput="savePricing()" style="padding:8px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:#111;width:100%;box-sizing:border-box">
         </div>
-        <div class="info-box" style="margin-top:4px;opacity:.85">
-          <strong>Upcoming prices after July 12, 2026</strong> (not yet active)<br>
-          Book of 20: $16.40 &nbsp;·&nbsp; Coil of 100: $82.00
-          <br><button onclick="useUpcomingPricing()" style="margin-top:6px;font-size:11px;font-weight:700;color:var(--teal);background:#e0f5fb;border:1px solid #b0dce8;border-radius:4px;padding:4px 12px;cursor:pointer">Use July 12 prices</button>
+        <div class="ph" style="margin-bottom:5px">Quick Set Sell Price</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+          <button onclick="applyMarkup(0)" class="add-btn">Face Value (0%)</button>
+          <button onclick="applyMarkup(0.10)" class="add-btn">+10%</button>
+          <button onclick="applyMarkup(0.35)" class="add-btn">+35%</button>
+        </div>
+        <div id="marginDisplay"></div>
+        <div class="info-box" style="margin-top:8px;font-size:11px;opacity:.85">
+          <strong>Current USPS prices (since July 12, 2026):</strong> Book $16.40 · Coil $82.00<br>
+          <button onclick="useUpcomingPricing()" style="margin-top:6px;font-size:11px;font-weight:700;color:var(--teal);background:#e0f5fb;border:1px solid #b0dce8;border-radius:4px;padding:4px 12px;cursor:pointer">Set to current USPS prices</button>
         </div>
       </div>
 
@@ -663,6 +682,19 @@
       </div>
 
       <hr class="sec">
+      <div class="slbl">App Version &amp; Cache</div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-size:12px;color:#555">Version <strong>v20260813</strong></span>
+          <button onclick="hardReload()" class="add-btn" style="font-size:11px;padding:5px 12px">Force Refresh</button>
+        </div>
+        <div class="info-box" style="font-size:11px">
+          <strong>iPhone not showing latest?</strong><br>
+          Safari → address bar → reload icon long-press → <em>Reload Without Content Blockers</em>, or open in Private tab.
+        </div>
+      </div>
+
+      <hr class="sec">
       <div class="slbl">Danger Zone</div>
       <button class="btn-danger" onclick="confirmReset()">↺ Reset / New Month — Clear All Entries</button>
       <p class="text-sm" style="margin-top:8px;text-align:center;color:#888">Stamp pricing is preserved. All other entries are cleared.</p>
@@ -686,13 +718,24 @@ const PRICING_KEY    = 'ry_pricing_v1';
 const SESS_KEY_ADMIN = 'ry_sess_admin_v1';
 const SESS_KEY_EMP   = 'ry_sess_employee_v1';
 const GUEST_CFG_KEY  = 'ry_guest_cfg_v1';
-const DEFAULT_PRICING = { bookCost: 16.40, coilCost: 82.00, updatedAt: null };
+const DEFAULT_PRICING = { bookCost: 16.40, coilCost: 82.00, bookSell: 16.40, coilSell: 82.00, updatedAt: null };
 const OLD_PRICING     = { bookCost: 15.60, coilCost: 78.00 };
 const PRICE_CHANGE_DATE = '2026-07-12';
 function unitCostForRow(r){
   if(r.date && r.date < PRICE_CHANGE_DATE)
     return r.product==='coil' ? OLD_PRICING.coilCost : OLD_PRICING.bookCost;
   return r.product==='coil' ? pricing.coilCost : pricing.bookCost;
+}
+// If all logged purchases are pre-price-change, use old pricing for ending inventory
+function activePricing(){
+  const dated=sess.purchases.filter(r=>r.date);
+  if(dated.length && dated.every(r=>r.date<PRICE_CHANGE_DATE)) return OLD_PRICING;
+  return pricing;
+}
+function pricingForSale(r){
+  if(r.date && r.date<PRICE_CHANGE_DATE) return OLD_PRICING;
+  if(r.date) return pricing;
+  return activePricing();
 }
 
 function makeDefaultSession(){
@@ -737,6 +780,7 @@ function enterAdmin(){
   document.querySelectorAll('.nav-owner').forEach(el=>el.style.display='');
   $('rolePill').style.display='none';
   $('guestCfgSection').style.display='none';
+  $('pritosBtn').style.display='';
   showScreen('main'); switchTab('stamps'); initApp();
 }
 
@@ -826,26 +870,41 @@ function loadPricing(){
     lsSet(PRICING_KEY,pricing);
   } else {
     pricing=Object.assign({},DEFAULT_PRICING,saved);
+    if(!pricing.bookSell) pricing.bookSell=pricing.bookCost;
+    if(!pricing.coilSell) pricing.coilSell=pricing.coilCost;
   }
 }
 function savePricing(){
   const bc=parseFloat($('pr_bookCost').value);
   const cc=parseFloat($('pr_coilCost').value);
+  const bs=parseFloat($('pr_bookSell').value);
+  const cs=parseFloat($('pr_coilSell').value);
   if(isNaN(bc)||isNaN(cc)){toast('Enter valid prices','err');return;}
-  pricing={bookCost:bc,coilCost:cc,updatedAt:todayLocal()};
+  pricing={bookCost:bc,coilCost:cc,bookSell:isNaN(bs)?bc:bs,coilSell:isNaN(cs)?cc:cs,updatedAt:todayLocal()};
   lsSet(PRICING_KEY,pricing);
   renderPricingUI(); calcAll();
   toast('Pricing saved','ok');
 }
-function useUpcomingPricing(){
-  pricing={bookCost:16.40,coilCost:82.00,updatedAt:todayLocal()};
+function applyMarkup(pct){
+  pricing.bookSell=+(pricing.bookCost*(1+pct)).toFixed(2);
+  pricing.coilSell=+(pricing.coilCost*(1+pct)).toFixed(2);
   lsSet(PRICING_KEY,pricing);
   renderPricingUI(); calcAll();
-  toast('Updated to July 12, 2026 prices','ok');
+  toast(pct===0?'Sell price set to face value':'Markup applied: +'+(pct*100)+'%','ok');
+}
+function useUpcomingPricing(){
+  pricing={bookCost:16.40,coilCost:82.00,bookSell:pricing.bookSell||16.40,coilSell:pricing.coilSell||82.00,updatedAt:todayLocal()};
+  lsSet(PRICING_KEY,pricing);
+  renderPricingUI(); calcAll();
+  toast('Updated to current USPS prices','ok');
 }
 function renderPricingUI(){
   $('pr_bookCost').value=pricing.bookCost.toFixed(2);
   $('pr_coilCost').value=pricing.coilCost.toFixed(2);
+  const bs=pricing.bookSell||pricing.bookCost;
+  const cs=pricing.coilSell||pricing.coilCost;
+  $('pr_bookSell').value=bs.toFixed(2);
+  $('pr_coilSell').value=cs.toFixed(2);
   let ageStr='';
   if(pricing.updatedAt) ageStr='Updated '+shortDate(pricing.updatedAt);
   $('priceAgeLbl').textContent=ageStr;
@@ -855,9 +914,30 @@ function renderPricingUI(){
     if(days>=45) warn='<div class="val-warn">⚠ Pricing was last updated '+days+' days ago. Verify USPS has not changed stamp prices.</div>';
   }
   $('priceWarnMsg').innerHTML=warn;
+  const bMargin=bs-pricing.bookCost, cMargin=cs-pricing.coilCost;
+  const bPct=pricing.bookCost>0?(bMargin/pricing.bookCost*100).toFixed(1):'0.0';
+  const cPct=pricing.coilCost>0?(cMargin/pricing.coilCost*100).toFixed(1):'0.0';
+  $('marginDisplay').innerHTML=(bMargin===0&&cMargin===0)?'':
+    '<div class="info-box teal" style="font-size:11px;margin-top:4px">'+
+    'Book: cost '+fmt(pricing.bookCost)+' → sell '+fmt(bs)+' → +'+fmt(bMargin)+' (+'+bPct+'%)<br>'+
+    'Coil: cost '+fmt(pricing.coilCost)+' → sell '+fmt(cs)+' → +'+fmt(cMargin)+' (+'+cPct+'%)</div>';
+  const sellNote=bMargin>0||cMargin>0?' · sell '+fmt(bs)+' / '+fmt(cs):'';
   $('pricingRef').innerHTML=
-    '<strong>Current USPS Stamp Pricing</strong> &nbsp;(what store pays USPS — not retail)<br>'+
-    'Book of 20: <strong>'+fmt(pricing.bookCost)+'</strong> &nbsp;·&nbsp; Coil of 100: <strong>'+fmt(pricing.coilCost)+'</strong>';
+    '<strong>USPS Cost</strong> Book of 20: <strong>'+fmt(pricing.bookCost)+'</strong> &nbsp;·&nbsp; Coil of 100: <strong>'+fmt(pricing.coilCost)+'</strong>'+sellNote;
+}
+function calcRoyaltyPreview(){
+  const str=parseFloat($('f_totalSTR').value)||0;
+  const el=$('royaltyPreview');
+  if(!str){el.innerHTML='';return;}
+  const r5=str*0.05, r1=str*0.01, r25=str*0.025, tot=str*0.085;
+  el.innerHTML='<div style="background:#e0f5fb;border:1.5px solid #b0dce8;border-radius:6px;padding:10px 14px;margin-top:6px">'+
+    '<div style="display:grid;grid-template-columns:1fr auto;gap:5px;align-items:baseline;font-size:13px">'+
+    '<span style="color:#555">Royalty Due (5%)</span><strong style="color:var(--navy)">'+fmt(r5)+'</strong>'+
+    '<span style="color:#555">Marketing Due (1%)</span><strong style="color:var(--navy)">'+fmt(r1)+'</strong>'+
+    '<span style="color:#555">NAF Due (2.5%)</span><strong style="color:var(--navy)">'+fmt(r25)+'</strong>'+
+    '<span style="font-weight:800;color:var(--navy);font-size:15px;padding-top:6px;border-top:2px solid var(--navy)">Total Due (8.5%)</span>'+
+    '<strong style="font-size:18px;color:var(--navy);padding-top:6px;border-top:2px solid var(--navy)">'+fmt(tot)+'</strong>'+
+    '</div></div>';
 }
 
 // ── SESSION PERSISTENCE ────────────────────────────────────────────────────
@@ -976,15 +1056,19 @@ function calcStamps(){
       purchCost+=qty*unitCostForRow(r);
     }
   });
-  let booksQty=0, coilsQty=0;
+  let booksQty=0, coilsQty=0, stampSalesRetail=0;
   sess.sales.forEach(r=>{
     const q=parseInt(r.qty)||0;
-    if(r.product==='book') booksQty+=q; else coilsQty+=q;
+    const sp=pricingForSale(r);
+    const sellBook=pricing.bookSell||sp.bookCost;
+    const sellCoil=pricing.coilSell||sp.coilCost;
+    if(r.product==='book'){ booksQty+=q; stampSalesRetail+=q*sellBook; }
+    else { coilsQty+=q; stampSalesRetail+=q*sellCoil; }
   });
-  const stampSalesRetail=booksQty*pricing.bookCost+coilsQty*pricing.coilCost;
   const endBook=parseInt(sess.endingBookQty)||0;
   const endCoil=parseInt(sess.endingCoilQty)||0;
-  const endingCost=endBook*pricing.bookCost+endCoil*pricing.coilCost;
+  const ep=activePricing();
+  const endingCost=endBook*ep.bookCost+endCoil*ep.coilCost;
   const beginning=parseFloat(sess.beginningStamps)||0;
   const costOfStampsSold=beginning+purchCost-endingCost;
   return {purchCost,purchUnits,booksQty,coilsQty,stampSalesRetail,endingCost,beginning,costOfStampsSold,endBook,endCoil};
@@ -1206,6 +1290,11 @@ function confirmReset(){
   populateForm(); renderPurchases(); renderSales(); renderCardTemplate(); calcAll();
   switchTab('stamps');
   toast('Reset complete — ready for next month','ok');
+}
+
+function hardReload(){
+  const url=location.href.split('?')[0]+'?v='+Date.now();
+  location.replace(url);
 }
 
 // ── BACKUP / RESTORE ───────────────────────────────────────────────────────
