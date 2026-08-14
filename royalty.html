@@ -552,22 +552,26 @@
 
       <div class="slbl">USPS Stamp Pricing</div>
       <div class="card">
-        <div class="ctitle">Cost &amp; Sell Price &nbsp;<span id="priceAgeLbl" style="font-size:9px;font-weight:600;color:#888;text-transform:none;letter-spacing:0"></span></div>
+        <div class="ctitle">Cost &amp; Suggested Sell Price &nbsp;<span id="priceAgeLbl" style="font-size:9px;font-weight:600;color:#888;text-transform:none;letter-spacing:0"></span></div>
         <div id="priceWarnMsg"></div>
-        <div style="display:grid;grid-template-columns:auto 1fr 1fr;gap:8px;align-items:center;margin-bottom:10px">
-          <div class="ph">Product</div><div class="ph">USPS Cost ($)</div><div class="ph">You Sell At ($)</div>
-          <div class="pn">Book of 20</div>
-          <input type="text" inputmode="decimal" id="pr_bookCost" oninput="savePricing()" style="padding:8px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:#111;width:100%;box-sizing:border-box">
-          <input type="text" inputmode="decimal" id="pr_bookSell" oninput="savePricing()" style="padding:8px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:#111;width:100%;box-sizing:border-box">
-          <div class="pn">Coil of 100</div>
-          <input type="text" inputmode="decimal" id="pr_coilCost" oninput="savePricing()" style="padding:8px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:#111;width:100%;box-sizing:border-box">
-          <input type="text" inputmode="decimal" id="pr_coilSell" oninput="savePricing()" style="padding:8px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:#111;width:100%;box-sizing:border-box">
-        </div>
-        <div class="ph" style="margin-bottom:5px">Quick Set Sell Price</div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
-          <button onclick="applyMarkup(0)" class="add-btn">Face Value (0%)</button>
+        <div class="ph" style="margin-bottom:6px">Markup % — applies to both products</div>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
+          <button onclick="applyMarkup(0)" class="add-btn">Face Value</button>
           <button onclick="applyMarkup(0.10)" class="add-btn">+10%</button>
           <button onclick="applyMarkup(0.35)" class="add-btn">+35%</button>
+          <div style="display:flex;align-items:center;gap:4px;margin-left:2px">
+            <input type="number" id="pr_markupPct" value="0" min="0" max="200" step="0.5" oninput="recalcAndSave()" style="width:56px;padding:7px 6px;border:1.5px solid var(--border);border-radius:5px;font-size:13px;font-weight:700;text-align:center">
+            <span style="font-size:12px;font-weight:600;color:#555">% custom</span>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:auto 1fr 1fr;gap:8px;align-items:center;margin-bottom:10px">
+          <div class="ph">Product</div><div class="ph">USPS Cost ($)</div><div class="ph">Suggested Sell ($) ←auto</div>
+          <div class="pn">Book of 20</div>
+          <input type="text" inputmode="decimal" id="pr_bookCost" oninput="recalcAndSave()" style="padding:8px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:#111;width:100%;box-sizing:border-box">
+          <input type="text" inputmode="decimal" id="pr_bookSell" readonly style="padding:8px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:#111;width:100%;box-sizing:border-box;background:#f4f6f9;cursor:default">
+          <div class="pn">Coil of 100</div>
+          <input type="text" inputmode="decimal" id="pr_coilCost" oninput="recalcAndSave()" style="padding:8px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:#111;width:100%;box-sizing:border-box">
+          <input type="text" inputmode="decimal" id="pr_coilSell" readonly style="padding:8px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:#111;width:100%;box-sizing:border-box;background:#f4f6f9;cursor:default">
         </div>
         <div id="marginDisplay"></div>
         <div class="info-box" style="margin-top:8px;font-size:11px;opacity:.85">
@@ -718,7 +722,7 @@ const PRICING_KEY    = 'ry_pricing_v1';
 const SESS_KEY_ADMIN = 'ry_sess_admin_v1';
 const SESS_KEY_EMP   = 'ry_sess_employee_v1';
 const GUEST_CFG_KEY  = 'ry_guest_cfg_v1';
-const DEFAULT_PRICING = { bookCost: 16.40, coilCost: 82.00, bookSell: 16.40, coilSell: 82.00, updatedAt: null };
+const DEFAULT_PRICING = { bookCost: 16.40, coilCost: 82.00, bookSell: 16.40, coilSell: 82.00, markupPct: 0, updatedAt: null };
 const OLD_PRICING     = { bookCost: 15.60, coilCost: 78.00 };
 const PRICE_CHANGE_DATE = '2026-07-12';
 function unitCostForRow(r){
@@ -872,35 +876,55 @@ function loadPricing(){
     pricing=Object.assign({},DEFAULT_PRICING,saved);
     if(!pricing.bookSell) pricing.bookSell=pricing.bookCost;
     if(!pricing.coilSell) pricing.coilSell=pricing.coilCost;
+    if(pricing.markupPct===undefined) pricing.markupPct=0;
   }
 }
-function savePricing(){
-  const bc=parseFloat($('pr_bookCost').value);
-  const cc=parseFloat($('pr_coilCost').value);
-  const bs=parseFloat($('pr_bookSell').value);
-  const cs=parseFloat($('pr_coilSell').value);
-  if(isNaN(bc)||isNaN(cc)){toast('Enter valid prices','err');return;}
-  pricing={bookCost:bc,coilCost:cc,bookSell:isNaN(bs)?bc:bs,coilSell:isNaN(cs)?cc:cs,updatedAt:todayLocal()};
+function recalcAndSave(){
+  const bc=parseFloat($('pr_bookCost').value)||0;
+  const cc=parseFloat($('pr_coilCost').value)||0;
+  const pct=parseFloat($('pr_markupPct').value)||0;
+  if(!bc||!cc) return;
+  const bs=+(bc*(1+pct/100)).toFixed(2);
+  const cs=+(cc*(1+pct/100)).toFixed(2);
+  $('pr_bookSell').value=bs.toFixed(2);
+  $('pr_coilSell').value=cs.toFixed(2);
+  pricing={bookCost:bc,coilCost:cc,bookSell:bs,coilSell:cs,markupPct:pct,updatedAt:todayLocal()};
   lsSet(PRICING_KEY,pricing);
-  renderPricingUI(); calcAll();
-  toast('Pricing saved','ok');
+  calcAll();
+  renderMarginDisplay();
 }
+function savePricing(){ recalcAndSave(); }
 function applyMarkup(pct){
-  pricing.bookSell=+(pricing.bookCost*(1+pct)).toFixed(2);
-  pricing.coilSell=+(pricing.coilCost*(1+pct)).toFixed(2);
-  lsSet(PRICING_KEY,pricing);
-  renderPricingUI(); calcAll();
-  toast(pct===0?'Sell price set to face value':'Markup applied: +'+(pct*100)+'%','ok');
+  $('pr_markupPct').value=(pct*100).toFixed(pct===0?0:1);
+  recalcAndSave();
+  toast(pct===0?'Set to face value (0% markup)':'Markup +'+Math.round(pct*100)+'% applied','ok');
 }
 function useUpcomingPricing(){
-  pricing={bookCost:16.40,coilCost:82.00,bookSell:pricing.bookSell||16.40,coilSell:pricing.coilSell||82.00,updatedAt:todayLocal()};
-  lsSet(PRICING_KEY,pricing);
-  renderPricingUI(); calcAll();
+  const pct=pricing.markupPct||0;
+  $('pr_bookCost').value='16.40';
+  $('pr_coilCost').value='82.00';
+  $('pr_markupPct').value=pct.toFixed(pct===0?0:1);
+  recalcAndSave();
   toast('Updated to current USPS prices','ok');
+}
+function renderMarginDisplay(){
+  const bs=pricing.bookSell||pricing.bookCost;
+  const cs=pricing.coilSell||pricing.coilCost;
+  const bMargin=bs-pricing.bookCost, cMargin=cs-pricing.coilCost;
+  const bPct=pricing.bookCost>0?(bMargin/pricing.bookCost*100).toFixed(1):'0.0';
+  const cPct=pricing.coilCost>0?(cMargin/pricing.coilCost*100).toFixed(1):'0.0';
+  $('marginDisplay').innerHTML=(bMargin===0&&cMargin===0)?'':
+    '<div class="info-box teal" style="font-size:11px;margin-top:4px">'+
+    'Book: cost '+fmt(pricing.bookCost)+' → sell '+fmt(bs)+' → +'+fmt(bMargin)+' (+'+bPct+'%)<br>'+
+    'Coil: cost '+fmt(pricing.coilCost)+' → sell '+fmt(cs)+' → +'+fmt(cMargin)+' (+'+cPct+'%)</div>';
+  const sellNote=bMargin>0||cMargin>0?' · sell '+fmt(bs)+' / '+fmt(cs):'';
+  $('pricingRef').innerHTML=
+    '<strong>USPS Cost</strong> Book of 20: <strong>'+fmt(pricing.bookCost)+'</strong> &nbsp;·&nbsp; Coil of 100: <strong>'+fmt(pricing.coilCost)+'</strong>'+sellNote;
 }
 function renderPricingUI(){
   $('pr_bookCost').value=pricing.bookCost.toFixed(2);
   $('pr_coilCost').value=pricing.coilCost.toFixed(2);
+  $('pr_markupPct').value=(pricing.markupPct||0).toFixed(pricing.markupPct===0?0:1);
   const bs=pricing.bookSell||pricing.bookCost;
   const cs=pricing.coilSell||pricing.coilCost;
   $('pr_bookSell').value=bs.toFixed(2);
@@ -914,16 +938,7 @@ function renderPricingUI(){
     if(days>=45) warn='<div class="val-warn">⚠ Pricing was last updated '+days+' days ago. Verify USPS has not changed stamp prices.</div>';
   }
   $('priceWarnMsg').innerHTML=warn;
-  const bMargin=bs-pricing.bookCost, cMargin=cs-pricing.coilCost;
-  const bPct=pricing.bookCost>0?(bMargin/pricing.bookCost*100).toFixed(1):'0.0';
-  const cPct=pricing.coilCost>0?(cMargin/pricing.coilCost*100).toFixed(1):'0.0';
-  $('marginDisplay').innerHTML=(bMargin===0&&cMargin===0)?'':
-    '<div class="info-box teal" style="font-size:11px;margin-top:4px">'+
-    'Book: cost '+fmt(pricing.bookCost)+' → sell '+fmt(bs)+' → +'+fmt(bMargin)+' (+'+bPct+'%)<br>'+
-    'Coil: cost '+fmt(pricing.coilCost)+' → sell '+fmt(cs)+' → +'+fmt(cMargin)+' (+'+cPct+'%)</div>';
-  const sellNote=bMargin>0||cMargin>0?' · sell '+fmt(bs)+' / '+fmt(cs):'';
-  $('pricingRef').innerHTML=
-    '<strong>USPS Cost</strong> Book of 20: <strong>'+fmt(pricing.bookCost)+'</strong> &nbsp;·&nbsp; Coil of 100: <strong>'+fmt(pricing.coilCost)+'</strong>'+sellNote;
+  renderMarginDisplay();
 }
 function calcRoyaltyPreview(){
   const str=parseFloat($('f_totalSTR').value)||0;
