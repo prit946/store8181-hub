@@ -737,6 +737,9 @@ const PRICING_KEY    = 'ry_pricing_v1';
 const SESS_KEY_ADMIN = 'ry_sess_admin_v1';
 const SESS_KEY_EMP   = 'ry_sess_employee_v1';
 const GUEST_CFG_KEY  = 'ry_guest_cfg_v1';
+const CF_URL         = 'https://spring-sea-ac0a.prit946.workers.dev';
+const CF_KV_KEY      = 'Store8181Prit2026';
+const PRICING_KV     = 'royalty_pricing';
 const DEFAULT_PRICING = { bookCost: 16.40, coilCost: 82.00, bookSell: 16.40, coilSell: 82.00, markupPct: 0, bookMarginPct: null, coilMarginPct: null, updatedAt: null };
 const OLD_PRICING     = { bookCost: 15.60, coilCost: 78.00 };
 const PRICE_CHANGE_DATE = '2026-07-12';
@@ -791,6 +794,25 @@ function startAdmin(){ aPS.reset(); showScreen('pin'); }
 const aPS = makePinState(['pd0','pd1','pd2','pd3'],'pinErr', v=>{
   if(v===ADMIN_PIN){ enterAdmin(); } else { aPS.shake('pinDots','Incorrect PIN'); }
 });
+async function cloudSavePricing(p){
+  if(mode!=='admin') return;
+  try{
+    await fetch(CF_URL,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'context.set',name:PRICING_KV,key:CF_KV_KEY,context:JSON.stringify(p)})});
+  }catch(e){}
+}
+async function syncPricingFromCloud(){
+  try{
+    const r=await fetch(CF_URL,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'context.get',name:PRICING_KV,key:CF_KV_KEY})});
+    const j=await r.json();
+    if(!j.context) return;
+    const cloudP=JSON.parse(j.context);
+    pricing=Object.assign({},DEFAULT_PRICING,cloudP);
+    lsSet(PRICING_KEY,pricing);
+    renderPricingUI(); calcAll();
+  }catch(e){}
+}
 function enterAdmin(){
   mode='admin'; sessKey=SESS_KEY_ADMIN;
   $('storeTitle').textContent='Royalty & Stamps';
@@ -801,6 +823,7 @@ function enterAdmin(){
   $('guestCfgSection').style.display='none';
   $('pritosBtn').style.display='';
   showScreen('main'); switchTab('stamps'); initApp();
+  syncPricingFromCloud();
 }
 
 // ── EMPLOYEE AUTH ──────────────────────────────────────────────────────────
@@ -905,10 +928,9 @@ function recalcAndSave(){
   const cs=+(cc*(1+pct/100)).toFixed(2);
   $('pr_bookSell').value=bs.toFixed(2);
   $('pr_coilSell').value=cs.toFixed(2);
-  pricing={bookCost:bc,coilCost:cc,bookSell:bs,coilSell:cs,markupPct:pct,updatedAt:todayLocal()};
-  lsSet(PRICING_KEY,pricing);
-  calcAll();
-  renderMarginDisplay();
+  pricing={bookCost:bc,coilCost:cc,bookSell:bs,coilSell:cs,markupPct:pct,bookMarginPct:pricing.bookMarginPct||null,coilMarginPct:pricing.coilMarginPct||null,updatedAt:todayLocal()};
+  lsSet(PRICING_KEY,pricing); cloudSavePricing(pricing);
+  calcAll(); renderMarginDisplay();
 }
 function savePricing(){
   const bc=parseFloat($('pr_bookCost').value)||0;
@@ -916,8 +938,8 @@ function savePricing(){
   const bs=parseFloat($('pr_bookSell').value)||0;
   const cs=parseFloat($('pr_coilSell').value)||0;
   if(!bc||!cc) return;
-  pricing={bookCost:bc,coilCost:cc,bookSell:bs||bc,coilSell:cs||cc,markupPct:pricing.markupPct||0,updatedAt:todayLocal()};
-  lsSet(PRICING_KEY,pricing);
+  pricing={bookCost:bc,coilCost:cc,bookSell:bs||bc,coilSell:cs||cc,markupPct:pricing.markupPct||0,bookMarginPct:pricing.bookMarginPct||null,coilMarginPct:pricing.coilMarginPct||null,updatedAt:todayLocal()};
+  lsSet(PRICING_KEY,pricing); cloudSavePricing(pricing);
   calcAll(); renderMarginDisplay();
 }
 function applyMarkup(pct){
@@ -967,7 +989,7 @@ function saveMyMargin(){
   const cs=pricing.coilSell||pricing.coilCost;
   pricing.bookMarginPct=pricing.bookCost>0?+((bs-pricing.bookCost)/pricing.bookCost*100).toFixed(2):0;
   pricing.coilMarginPct=pricing.coilCost>0?+((cs-pricing.coilCost)/pricing.coilCost*100).toFixed(2):0;
-  lsSet(PRICING_KEY,pricing);
+  lsSet(PRICING_KEY,pricing); cloudSavePricing(pricing);
   renderMarginDisplay();
   toast('Margin saved — '+pricing.bookMarginPct.toFixed(1)+'% book / '+pricing.coilMarginPct.toFixed(1)+'% coil','ok');
 }
@@ -978,7 +1000,7 @@ function applyMyMargin(){
   $('pr_bookSell').value=pricing.bookSell.toFixed(2);
   $('pr_coilSell').value=pricing.coilSell.toFixed(2);
   pricing.updatedAt=todayLocal();
-  lsSet(PRICING_KEY,pricing);
+  lsSet(PRICING_KEY,pricing); cloudSavePricing(pricing);
   calcAll(); renderMarginDisplay();
   toast('Sell prices updated from your saved margin','ok');
 }
