@@ -580,13 +580,13 @@
           </div>
         </div>
         <div style="display:grid;grid-template-columns:auto 1fr 1fr;gap:8px;align-items:center;margin-bottom:10px">
-          <div class="ph">Product</div><div class="ph">USPS Cost ($)</div><div class="ph">Suggested Sell ($) ←auto</div>
+          <div class="ph">Product</div><div class="ph">USPS Cost ($)</div><div class="ph">Your Sell Price ($)</div>
           <div class="pn">Book of 20</div>
-          <input type="text" inputmode="decimal" id="pr_bookCost" oninput="recalcAndSave()" style="padding:8px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:#111;width:100%;box-sizing:border-box">
-          <input type="text" inputmode="decimal" id="pr_bookSell" readonly style="padding:8px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:#111;width:100%;box-sizing:border-box;background:#f4f6f9;cursor:default">
+          <input type="text" inputmode="decimal" id="pr_bookCost" oninput="savePricing()" style="padding:8px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:#111;width:100%;box-sizing:border-box">
+          <input type="text" inputmode="decimal" id="pr_bookSell" oninput="savePricing()" style="padding:8px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:#111;width:100%;box-sizing:border-box">
           <div class="pn">Coil of 100</div>
-          <input type="text" inputmode="decimal" id="pr_coilCost" oninput="recalcAndSave()" style="padding:8px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:#111;width:100%;box-sizing:border-box">
-          <input type="text" inputmode="decimal" id="pr_coilSell" readonly style="padding:8px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:#111;width:100%;box-sizing:border-box;background:#f4f6f9;cursor:default">
+          <input type="text" inputmode="decimal" id="pr_coilCost" oninput="savePricing()" style="padding:8px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:#111;width:100%;box-sizing:border-box">
+          <input type="text" inputmode="decimal" id="pr_coilSell" oninput="savePricing()" style="padding:8px;border:1.5px solid var(--border);border-radius:5px;font-size:14px;color:#111;width:100%;box-sizing:border-box">
         </div>
         <div id="marginDisplay"></div>
         <div class="info-box" style="margin-top:8px;font-size:11px;opacity:.85">
@@ -908,7 +908,16 @@ function recalcAndSave(){
   calcAll();
   renderMarginDisplay();
 }
-function savePricing(){ recalcAndSave(); }
+function savePricing(){
+  const bc=parseFloat($('pr_bookCost').value)||0;
+  const cc=parseFloat($('pr_coilCost').value)||0;
+  const bs=parseFloat($('pr_bookSell').value)||0;
+  const cs=parseFloat($('pr_coilSell').value)||0;
+  if(!bc||!cc) return;
+  pricing={bookCost:bc,coilCost:cc,bookSell:bs||bc,coilSell:cs||cc,markupPct:pricing.markupPct||0,updatedAt:todayLocal()};
+  lsSet(PRICING_KEY,pricing);
+  calcAll(); renderMarginDisplay();
+}
 function applyMarkup(pct){
   $('pr_markupPct').value=(pct*100).toFixed(pct===0?0:1);
   recalcAndSave();
