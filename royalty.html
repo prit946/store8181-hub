@@ -737,7 +737,7 @@ const PRICING_KEY    = 'ry_pricing_v1';
 const SESS_KEY_ADMIN = 'ry_sess_admin_v1';
 const SESS_KEY_EMP   = 'ry_sess_employee_v1';
 const GUEST_CFG_KEY  = 'ry_guest_cfg_v1';
-const DEFAULT_PRICING = { bookCost: 16.40, coilCost: 82.00, bookSell: 16.40, coilSell: 82.00, markupPct: 0, updatedAt: null };
+const DEFAULT_PRICING = { bookCost: 16.40, coilCost: 82.00, bookSell: 16.40, coilSell: 82.00, markupPct: 0, bookMarginPct: null, coilMarginPct: null, updatedAt: null };
 const OLD_PRICING     = { bookCost: 15.60, coilCost: 78.00 };
 const PRICE_CHANGE_DATE = '2026-07-12';
 function unitCostForRow(r){
@@ -892,6 +892,8 @@ function loadPricing(){
     if(!pricing.bookSell) pricing.bookSell=pricing.bookCost;
     if(!pricing.coilSell) pricing.coilSell=pricing.coilCost;
     if(pricing.markupPct===undefined) pricing.markupPct=0;
+    if(pricing.bookMarginPct===undefined) pricing.bookMarginPct=null;
+    if(pricing.coilMarginPct===undefined) pricing.coilMarginPct=null;
   }
 }
 function recalcAndSave(){
@@ -937,13 +939,48 @@ function renderMarginDisplay(){
   const bMargin=bs-pricing.bookCost, cMargin=cs-pricing.coilCost;
   const bPct=pricing.bookCost>0?(bMargin/pricing.bookCost*100).toFixed(1):'0.0';
   const cPct=pricing.coilCost>0?(cMargin/pricing.coilCost*100).toFixed(1):'0.0';
-  $('marginDisplay').innerHTML=(bMargin===0&&cMargin===0)?'':
+  const hasSaved=pricing.bookMarginPct!==null&&pricing.coilMarginPct!==null;
+  let savedLine='';
+  if(hasSaved){
+    const bSavedPct=pricing.bookMarginPct.toFixed(1);
+    const cSavedPct=pricing.coilMarginPct.toFixed(1);
+    const bDrift=Math.abs(parseFloat(bPct)-pricing.bookMarginPct)>0.5;
+    const cDrift=Math.abs(parseFloat(cPct)-pricing.coilMarginPct)>0.5;
+    const warn=bDrift||cDrift;
+    savedLine='<div style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(0,0,0,.1);font-size:11px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">'
+      +(warn?'<span style="color:#dc2626;font-weight:700">⚠ Margin drifted from saved ('+bSavedPct+'% / '+cSavedPct+'%)</span>':'<span style="color:#16a34a;font-weight:600">✓ Saved margin: '+bSavedPct+'% book / '+cSavedPct+'% coil</span>')
+      +(warn?'<button onclick="applyMyMargin()" class="add-btn" style="font-size:10px;padding:3px 10px;background:#dc2626;color:#fff;border-color:#dc2626">Apply my margin</button>':'')
+      +'</div>';
+  }
+  $('marginDisplay').innerHTML=(bMargin===0&&cMargin===0&&!hasSaved)?'':
     '<div class="info-box teal" style="font-size:11px;margin-top:4px">'+
     'Book: cost '+fmt(pricing.bookCost)+' → sell '+fmt(bs)+' → +'+fmt(bMargin)+' (+'+bPct+'%)<br>'+
-    'Coil: cost '+fmt(pricing.coilCost)+' → sell '+fmt(cs)+' → +'+fmt(cMargin)+' (+'+cPct+'%)</div>';
+    'Coil: cost '+fmt(pricing.coilCost)+' → sell '+fmt(cs)+' → +'+fmt(cMargin)+' (+'+cPct+'%)'+
+    '<div style="margin-top:6px"><button onclick="saveMyMargin()" class="add-btn" style="font-size:10px;padding:3px 10px">💾 Save '+bPct+'% / '+cPct+'% as my margin</button></div>'+
+    savedLine+'</div>';
   const sellNote=bMargin>0||cMargin>0?' · sell '+fmt(bs)+' / '+fmt(cs):'';
   $('pricingRef').innerHTML=
     '<strong>USPS Cost</strong> Book of 20: <strong>'+fmt(pricing.bookCost)+'</strong> &nbsp;·&nbsp; Coil of 100: <strong>'+fmt(pricing.coilCost)+'</strong>'+sellNote;
+}
+function saveMyMargin(){
+  const bs=pricing.bookSell||pricing.bookCost;
+  const cs=pricing.coilSell||pricing.coilCost;
+  pricing.bookMarginPct=pricing.bookCost>0?+((bs-pricing.bookCost)/pricing.bookCost*100).toFixed(2):0;
+  pricing.coilMarginPct=pricing.coilCost>0?+((cs-pricing.coilCost)/pricing.coilCost*100).toFixed(2):0;
+  lsSet(PRICING_KEY,pricing);
+  renderMarginDisplay();
+  toast('Margin saved — '+pricing.bookMarginPct.toFixed(1)+'% book / '+pricing.coilMarginPct.toFixed(1)+'% coil','ok');
+}
+function applyMyMargin(){
+  if(pricing.bookMarginPct===null) return;
+  pricing.bookSell=+(pricing.bookCost*(1+pricing.bookMarginPct/100)).toFixed(2);
+  pricing.coilSell=+(pricing.coilCost*(1+pricing.coilMarginPct/100)).toFixed(2);
+  $('pr_bookSell').value=pricing.bookSell.toFixed(2);
+  $('pr_coilSell').value=pricing.coilSell.toFixed(2);
+  pricing.updatedAt=todayLocal();
+  lsSet(PRICING_KEY,pricing);
+  calcAll(); renderMarginDisplay();
+  toast('Sell prices updated from your saved margin','ok');
 }
 function renderPricingUI(){
   $('pr_bookCost').value=pricing.bookCost.toFixed(2);
