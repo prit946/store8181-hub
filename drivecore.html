@@ -15,9 +15,8 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#eaecef;color:#111;font-size:14px;min-height:100vh}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;-webkit-appearance:none}
-input,textarea{font-family:inherit}
+input,textarea,select{font-family:inherit}
 
-/* AUTH */
 #screen-pin,#screen-main{display:none}
 .auth-hdr{background:#1b2d45;color:#fff;height:56px;display:flex;align-items:center;justify-content:center;position:sticky;top:0;z-index:100}
 .auth-hdr h1{font-size:15px;font-weight:700;text-align:center}
@@ -39,7 +38,6 @@ input,textarea{font-family:inherit}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
 .shake{animation:shake .35s ease}
 
-/* MAIN */
 .hdr{background:#1b2d45;padding:0 14px;height:50px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100}
 .hdr-back{color:#7a9ab8;font-size:22px;text-decoration:none;padding:2px 4px;flex-shrink:0}
 .hdr-info{flex:1}
@@ -50,18 +48,16 @@ input,textarea{font-family:inherit}
 .dot.g{background:#28a745}.dot.r{background:#dc3545}.dot.y{background:#f0ad00}
 .nav{display:flex;background:#1b2d45;border-bottom:2px solid #111e2e;overflow-x:auto;scrollbar-width:none;position:sticky;top:50px;z-index:90}
 .nav::-webkit-scrollbar{display:none}
-.nav-btn{flex:1;min-width:60px;padding:10px 4px 8px;font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#7a9ab8;border-bottom:2.5px solid transparent;transition:all .15s;white-space:nowrap;touch-action:manipulation}
-.nav-btn .ico{font-size:15px;display:block;margin-bottom:2px}
+.nav-btn{flex:1;min-width:52px;padding:10px 3px 8px;font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#7a9ab8;border-bottom:2.5px solid transparent;transition:all .15s;white-space:nowrap;touch-action:manipulation}
+.nav-btn .ico{font-size:14px;display:block;margin-bottom:2px}
 .nav-btn.active{color:#fff;border-bottom-color:#0498BC}
-.tab{display:none;padding:14px 14px 60px;max-width:520px;margin:0 auto}
+.tab{display:none;padding:14px 14px 80px;max-width:520px;margin:0 auto}
 .tab.active{display:block}
 
-/* CARDS */
 .card{background:#fff;border:1px solid #dde0e5;border-radius:8px;padding:14px;margin-bottom:10px}
 .card h3{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:#888;margin-bottom:10px}
 .slbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#888;margin:14px 0 8px 2px}
 
-/* STAT GRID */
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
 .stat-box{background:#fff;border:1px solid #dde0e5;border-radius:8px;padding:12px;text-align:center}
 .stat-box .sv{font-size:26px;font-weight:800;color:#1b2d45;line-height:1;margin-bottom:2px}
@@ -72,15 +68,6 @@ input,textarea{font-family:inherit}
 .stat-box.teal .sv{color:#0498BC}
 .stat-box.loading .sv{color:#c0c8d4}
 
-/* COUNTS BAR */
-.count-bar{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
-.count-chip{padding:5px 10px;border-radius:20px;font-size:11px;font-weight:700;display:flex;align-items:center;gap:5px}
-.count-chip.bad{background:#fdecea;color:#7a1a14}
-.count-chip.warn{background:#fffbec;color:#6b4900}
-.count-chip.ok{background:#edfaf0;color:#1a6e31}
-.count-chip .cn{font-size:14px;font-weight:800}
-
-/* BUTTONS */
 .btn{display:block;width:100%;padding:13px 16px;border-radius:6px;font-size:14px;font-weight:700;text-align:center;transition:all .15s;touch-action:manipulation;margin-bottom:8px}
 .btn:active{transform:scale(.97)}
 .btn-primary{background:#1b2d45;color:#fff}
@@ -89,11 +76,11 @@ input,textarea{font-family:inherit}
 .btn-warn{background:#f0ad00;color:#111}
 .btn-danger{background:#dc3545;color:#fff}
 .btn-ghost{background:#fff;border:1.5px solid #dde0e5;color:#1b2d45}
+.btn-orange{background:#e07000;color:#fff}
 .btn:disabled{opacity:.4;pointer-events:none}
 .btn-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
 .btn-row .btn{margin-bottom:0}
 
-/* RESULT */
 .result-box{background:#f4f6f9;border:1px solid #dde0e5;border-radius:6px;padding:10px 12px;margin-top:8px;font-size:12px;color:#555;line-height:1.6;display:none}
 .result-box.show{display:block}
 .result-box.ok{border-color:#28a745;background:#edfaf0;color:#1a6e31}
@@ -103,7 +90,6 @@ input,textarea{font-family:inherit}
 .spinner{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:5px}
 .spinner-dark{display:inline-block;width:13px;height:13px;border:2px solid #dde0e5;border-top-color:#1b2d45;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:5px}
 
-/* STEPS */
 .step{border:1px solid #dde0e5;border-radius:8px;background:#fff;margin-bottom:10px;overflow:hidden}
 .step-hdr{padding:12px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
 .step-num{width:26px;height:26px;border-radius:50%;background:#eaecef;font-size:12px;font-weight:800;color:#888;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
@@ -116,7 +102,6 @@ input,textarea{font-family:inherit}
 .step-body{padding:0 14px 14px;display:none}
 .step-body.open{display:block}
 
-/* TO-DO */
 .todo-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
 .todo-col h3{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;padding:6px 8px;border-radius:6px}
 .todo-col.prit h3{background:#e0f5fb;color:#025d74}
@@ -132,9 +117,16 @@ input,textarea{font-family:inherit}
 .todo-item.done .ti-title{text-decoration:line-through;color:#888}
 .todo-check{position:absolute;top:8px;right:8px;width:18px;height:18px;border-radius:50%;border:2px solid #dde0e5;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .2s}
 .todo-check.done{background:#28a745;border-color:#28a745;color:#fff}
-.todo-loading{color:#c0c8d4;font-size:11px;text-align:center;padding:10px}
 
-/* EXCL */
+.rule-item{background:#fff;border:1px solid #dde0e5;border-radius:6px;padding:10px 12px;margin-bottom:6px;display:flex;align-items:flex-start;gap:8px}
+.rule-item .ri-body{flex:1;min-width:0}
+.rule-item .ri-pattern{font-size:12px;font-weight:700;color:#1b2d45;font-family:monospace;margin-bottom:2px}
+.rule-item .ri-dest{font-size:10px;color:#888;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rule-item .ri-badge{font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;flex-shrink:0;margin-top:2px}
+.ri-badge.built-in{background:#e0f5fb;color:#0498BC}
+.ri-badge.learned{background:#f4f0ff;color:#5b21b6}
+.rule-del{font-size:16px;color:#dc3545;padding:0 4px;flex-shrink:0;align-self:center}
+
 .excl-item{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#f4f6f9;border:1px solid #dde0e5;border-radius:6px;margin-bottom:6px;font-size:12px}
 .excl-id{font-family:monospace;font-size:10px;color:#888;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .excl-label{font-weight:700;color:#1b2d45;font-size:11px}
@@ -142,10 +134,9 @@ input,textarea{font-family:inherit}
 .excl-badge.built-in{background:#e0f5fb;color:#0498BC}
 .fg{margin-bottom:10px}
 .fg label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#888;margin-bottom:5px}
-.fg input{width:100%;padding:10px 12px;background:#f4f6f9;border:1.5px solid #dde0e5;border-radius:5px;color:#111;font-size:13px;transition:border-color .15s}
-.fg input:focus{border-color:#1b2d45;outline:none;background:#fff}
+.fg input,.fg select{width:100%;padding:10px 12px;background:#f4f6f9;border:1.5px solid #dde0e5;border-radius:5px;color:#111;font-size:13px;transition:border-color .15s}
+.fg input:focus,.fg select:focus{border-color:#1b2d45;outline:none;background:#fff}
 
-/* TOGGLE */
 .toggle-row{display:flex;align-items:center;gap:12px;padding:12px;background:#fff;border:1px solid #dde0e5;border-radius:8px;margin-bottom:8px}
 .toggle-info{flex:1}
 .toggle-info .tl{font-size:13px;font-weight:700;color:#1b2d45}
@@ -155,7 +146,6 @@ input,textarea{font-family:inherit}
 .toggle-switch::after{content:'';width:18px;height:18px;background:#fff;border-radius:50%;position:absolute;top:3px;left:3px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
 .toggle-switch.on::after{left:21px}
 
-/* TOAST */
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:#1b2d45;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:600;z-index:9999;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;max-width:90vw}
 #toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 #toast.ok{background:#28a745}
@@ -184,15 +174,16 @@ input,textarea{font-family:inherit}
 <div id="screen-main">
   <div class="hdr">
     <a href="index.html" class="hdr-back">‹</a>
-    <div class="hdr-info"><h1>DriveCore</h1><small>Google Drive Organizer</small></div>
+    <div class="hdr-info"><h1>DriveCore</h1><small>v84 · Google Drive Organizer</small></div>
     <div class="gw-pill"><div class="dot" id="gw-dot"></div><span id="gw-lbl">…</span></div>
   </div>
   <div class="nav">
     <button class="nav-btn active" onclick="showTab('dash',this)"><span class="ico">📊</span>Status</button>
     <button class="nav-btn" onclick="showTab('run',this)"><span class="ico">▶️</span>Run</button>
     <button class="nav-btn" onclick="showTab('todo',this)"><span class="ico">✅</span>To-Do</button>
-    <button class="nav-btn" onclick="showTab('excl',this)"><span class="ico">🚫</span>Protect</button>
+    <button class="nav-btn" onclick="showTab('rules',this);loadRules()"><span class="ico">📋</span>Rules</button>
     <button class="nav-btn" onclick="showTab('dedupe',this)"><span class="ico">🔁</span>Dedupe</button>
+    <button class="nav-btn" onclick="showTab('excl',this)"><span class="ico">🚫</span>Protect</button>
     <button class="nav-btn" onclick="showTab('settings',this)"><span class="ico">⚙️</span>Settings</button>
   </div>
 
@@ -218,7 +209,7 @@ input,textarea{font-family:inherit}
     <div class="toggle-row">
       <div class="toggle-info">
         <div class="tl">Weekly Auto-Run</div>
-        <div class="td" id="autorun-desc">Every Sunday 1am — Scan → Classify → Execute</div>
+        <div class="td" id="autorun-desc">Every Sunday 1am — Scan → Classify → Execute → Dedupe</div>
       </div>
       <div class="toggle-switch" id="autorun-toggle" onclick="toggleAutoRun()"></div>
     </div>
@@ -235,7 +226,7 @@ input,textarea{font-family:inherit}
         <span class="step-tag pending" id="stag1">Not run today</span>
       </div>
       <div class="step-body" id="sbody1">
-        <p style="font-size:12px;color:#888;margin-bottom:10px;line-height:1.5">Takes a full snapshot of all files. Takes 30–90 seconds — keep screen open.</p>
+        <p style="font-size:12px;color:#888;margin-bottom:10px;line-height:1.5">Full snapshot of all files. 30–90 sec — keep screen open.</p>
         <button class="btn btn-primary" id="btn-scan" onclick="runScan()">🔍 Run Scan</button>
         <div class="result-box" id="scan-result"></div>
       </div>
@@ -248,7 +239,7 @@ input,textarea{font-family:inherit}
         <span class="step-tag pending" id="stag2">Run Step 1 first</span>
       </div>
       <div class="step-body" id="sbody2">
-        <p style="font-size:12px;color:#888;margin-bottom:10px;line-height:1.5">Reads the scan, applies rules + AI, builds move plan. Up to 2 minutes.</p>
+        <p style="font-size:12px;color:#888;margin-bottom:10px;line-height:1.5">Applies rules + AI, builds move plan. Up to 2 minutes.</p>
         <button class="btn btn-teal" id="btn-classify" onclick="runClassify()">🧠 Classify</button>
         <div class="result-box" id="classify-result"></div>
       </div>
@@ -261,7 +252,7 @@ input,textarea{font-family:inherit}
         <span class="step-tag pending" id="stag3">Run Steps 1 &amp; 2 first</span>
       </div>
       <div class="step-body" id="sbody3">
-        <p style="font-size:12px;color:#888;margin-bottom:10px;line-height:1.5">Dry Run first — preview without moving anything. Then Execute Live.</p>
+        <p style="font-size:12px;color:#888;margin-bottom:10px;line-height:1.5">Dry Run first — preview without moving anything. Then Execute Live to commit.</p>
         <div class="btn-row">
           <button class="btn btn-ghost" onclick="runExecute(true)">👁 Dry Run</button>
           <button class="btn btn-danger" onclick="confirmExec()">⚡ Execute Live</button>
@@ -269,28 +260,140 @@ input,textarea{font-family:inherit}
         <div class="result-box" id="execute-result"></div>
       </div>
     </div>
+
+    <div class="slbl">Undo Last Run</div>
+    <div class="card">
+      <h3>Restore Last Execute</h3>
+      <p style="font-size:11px;color:#555;margin-bottom:10px;line-height:1.5">Moves every file from the last live Execute back to where it was. Preview first, then restore.</p>
+      <div class="btn-row">
+        <button class="btn btn-ghost" onclick="runRestore(true)">👁 Preview Restore</button>
+        <button class="btn btn-orange" onclick="confirmRestore()">↩ Restore</button>
+      </div>
+      <div class="result-box" id="restore-result"></div>
+    </div>
   </div>
 
   <!-- TO-DO -->
   <div class="tab" id="tab-todo">
-    <div style="font-size:11px;color:#888;margin-bottom:12px;line-height:1.5">Live status — checks actual Drive counts on load. Your tasks = decisions only you can make. Claude's tasks = code and automation I handle.</div>
+    <div style="font-size:11px;color:#888;margin-bottom:12px;line-height:1.5">Auto-updates from live Drive counts on load. Your column = decisions only you can make. Claude's column = code + automation handled for you.</div>
     <div class="todo-grid">
       <div class="todo-col prit">
-        <h3>👤 Your To-Do</h3>
-        <div id="todo-prit"><div class="todo-loading"><span class="spinner-dark"></span>Loading…</div></div>
+        <h3>👤 Your Tasks</h3>
+        <div id="todo-prit"><div style="font-size:11px;color:#c0c8d4;padding:8px"><span class="spinner-dark"></span> Loading…</div></div>
       </div>
       <div class="todo-col claude">
-        <h3>🤖 Claude's To-Do</h3>
+        <h3>🤖 Claude's Tasks</h3>
         <div id="todo-claude"></div>
       </div>
     </div>
     <button class="btn btn-ghost" style="margin-top:8px" onclick="loadTodo()">↻ Refresh</button>
-    <div class="result-box" id="todo-result"></div>
+  </div>
+
+  <!-- RULES -->
+  <div class="tab" id="tab-rules">
+    <div style="font-size:11px;color:#555;margin-bottom:12px;line-height:1.5">Custom rules run <strong>before</strong> built-in rules and AI. Pattern matches against the file name (case-insensitive). Add a rule to override how any file gets routed.</div>
+
+    <div class="slbl">Your Custom Rules</div>
+    <div id="rules-list"><div style="font-size:11px;color:#c0c8d4;padding:8px"><span class="spinner-dark"></span> Loading…</div></div>
+    <div class="result-box" id="rules-result"></div>
+
+    <div class="slbl">Add New Rule</div>
+    <div class="card">
+      <div class="fg">
+        <label>File name contains (pattern)</label>
+        <input type="text" id="rule-pattern" placeholder="e.g. royalty, ackermann, july payroll">
+      </div>
+      <div class="fg">
+        <label>Route to folder</label>
+        <select id="rule-dest">
+          <option value="">-- pick destination --</option>
+          <optgroup label="Store 8181">
+            <option value="Finance|1e0OH7Tjl5QkeKbnScqHjC6fLEdO60iFG">Finance (Z-Reports, banking, royalties)</option>
+            <option value="HR|1Pfgepxln-0oEdI8HyuOkDfJ6HnltvhVn">HR (staff, payroll, applications)</option>
+            <option value="Admin|18HXNQQ8jyE15Ngb-q_RbMs4Psfy3aqfS">Admin (franchise, lease, permits)</option>
+            <option value="Mailboxes|11Ma8kRc8i69MkX3PqJvby_FV7cKASRHF">Mailboxes</option>
+            <option value="Training|1ykYAVuBFd47w7tfn36cBm1-7JRYqpMuu">Training & Onboarding</option>
+            <option value="Store Forms|1tDpcHSfMJHEFEx8wkAhp6UMjm89b7pkT">Store Forms</option>
+            <option value="Store 8181 Root|11sKgqk_9LkhJqWiym2Dii4dW8M8CXGlM">Store 8181 Root</option>
+          </optgroup>
+          <optgroup label="Personal">
+            <option value="Personal Finance|1MAZPq1TI-4ttNtoce9YTwJl2EJeQA-lY">Personal Finance</option>
+            <option value="Personal Health|1AKPIu31VDO9byABRIEcxzGgc1znrDOop">Personal Health</option>
+            <option value="Personal Docs|1RVeWSZbRaDbyMUZJvaqiNuQHjswrQJ2o">Personal Docs</option>
+            <option value="Vehicles|1fOOpZnkl4wSDwl1M5TSDaSchFYARuMMd">Vehicles</option>
+          </optgroup>
+          <optgroup label="Other">
+            <option value="Dairy Queen|1hx4bPHWvsfZs0JgCx09T8A-B0FN95y-k">Dairy Queen</option>
+            <option value="Real Estate|1Pz4SkFx-VjEZ0iJZcZYWlFWF4_9ypt1-">Real Estate</option>
+            <option value="Family Pravin|1Vn1RuT7F8Rs8I2-AOIvuHJ_L6AaTk_2v">Family / Pravin</option>
+            <option value="Review|99_Please_Review">⚠️ Send to Review (unsure)</option>
+          </optgroup>
+        </select>
+      </div>
+      <button class="btn btn-primary" onclick="addRule()">+ Save Rule</button>
+      <div class="result-box" id="rule-add-result"></div>
+    </div>
+
+    <div class="slbl">Built-in Rules (read-only)</div>
+    <div class="card" style="padding:0;overflow:hidden">
+      <div style="font-size:10px;color:#888;padding:10px 12px;border-bottom:1px solid #f0f0f0">These run if no custom rule matches. Edit by telling Claude what to change.</div>
+      <div id="builtin-rules" style="max-height:260px;overflow-y:auto">
+        <div class="rule-item"><div class="ri-body"><div class="ri-pattern">z report, eod, zreport, daily report, cash report</div><div class="ri-dest">→ Store 8181 / Finance</div></div><span class="ri-badge built-in">Built-in</span></div>
+        <div class="rule-item"><div class="ri-body"><div class="ri-pattern">payroll, w-2, paystub, employment, i-9, staff, onboard</div><div class="ri-dest">→ Store 8181 / HR</div></div><span class="ri-badge built-in">Built-in</span></div>
+        <div class="rule-item"><div class="ri-body"><div class="ri-pattern">franchise agreement, lease agreement, ups license, store permit</div><div class="ri-dest">→ Store 8181 / Admin</div></div><span class="ri-badge built-in">Built-in</span></div>
+        <div class="rule-item"><div class="ri-body"><div class="ri-pattern">mailbox holder, mbr, box renewal, mailbox agreement</div><div class="ri-dest">→ Store 8181 / Mailboxes</div></div><span class="ri-badge built-in">Built-in</span></div>
+        <div class="rule-item"><div class="ri-body"><div class="ri-pattern">training guide, employee handbook, store policy</div><div class="ri-dest">→ Store 8181 / Training</div></div><span class="ri-badge built-in">Built-in</span></div>
+        <div class="rule-item"><div class="ri-body"><div class="ri-pattern">opening checklist, closing checklist, daily checklist</div><div class="ri-dest">→ Store 8181 / Store Forms</div></div><span class="ri-badge built-in">Built-in</span></div>
+        <div class="rule-item"><div class="ri-body"><div class="ri-pattern">royalt, royalty report, prp remit, eft remit</div><div class="ri-dest">→ Store 8181 / Finance</div></div><span class="ri-badge built-in">Built-in</span></div>
+        <div class="rule-item"><div class="ri-body"><div class="ri-pattern">ackermann, ackerman</div><div class="ri-dest">→ Store 8181 / Admin</div></div><span class="ri-badge built-in">Built-in</span></div>
+        <div class="rule-item"><div class="ri-body"><div class="ri-pattern">ups store, store 8181, 8181, store8181</div><div class="ri-dest">→ Store 8181 Root (catch-all)</div></div><span class="ri-badge built-in">Built-in</span></div>
+        <div class="rule-item"><div class="ri-body"><div class="ri-pattern">dairy queen, dq</div><div class="ri-dest">→ Dairy Queen</div></div><span class="ri-badge built-in">Built-in</span></div>
+        <div class="rule-item"><div class="ri-body"><div class="ri-pattern">mortgage statement, deed, closing disclosure, promissory note</div><div class="ri-dest">→ Real Estate</div></div><span class="ri-badge built-in">Built-in</span></div>
+        <div class="rule-item"><div class="ri-body"><div class="ri-pattern">bank statement, credit card statement, 1040, irs notice</div><div class="ri-dest">→ Personal Finance</div></div><span class="ri-badge built-in">Built-in</span></div>
+        <div class="rule-item"><div class="ri-body"><div class="ri-pattern">explanation of benefits, medical record, lab result, prescription</div><div class="ri-dest">→ Personal Health</div></div><span class="ri-badge built-in">Built-in</span></div>
+        <div class="rule-item"><div class="ri-body"><div class="ri-pattern">passport, driver license, social security, birth certificate</div><div class="ri-dest">→ Personal Docs</div></div><span class="ri-badge built-in">Built-in</span></div>
+        <div class="rule-item"><div class="ri-body"><div class="ri-pattern">car title, vehicle registration, auto insurance, dmv</div><div class="ri-dest">→ Vehicles</div></div><span class="ri-badge built-in">Built-in</span></div>
+        <div class="rule-item"><div class="ri-body"><div class="ri-pattern">pravin, schedule e, rental income, 1099 misc</div><div class="ri-dest">→ Family / Pravin</div></div><span class="ri-badge built-in">Built-in</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEDUPE -->
+  <div class="tab" id="tab-dedupe">
+    <div style="font-size:11px;color:#555;margin-bottom:12px;line-height:1.5">Finds exact duplicate files (same bytes in 2+ locations) and Drive shortcuts. Only archives copies created within 90 days of each other — older intentional copies are skipped. Protected folders never touched.</div>
+
+    <div class="slbl">Last Scan Results</div>
+    <div class="stat-grid">
+      <div class="stat-box loading" id="dsb-dupes"><div class="sv" id="dsv-dupes">?</div><div class="sl">True Dupes</div></div>
+      <div class="stat-box loading" id="dsb-shorts"><div class="sv" id="dsv-shorts">?</div><div class="sl">Shortcuts</div></div>
+      <div class="stat-box loading" id="dsb-conflicts"><div class="sv" id="dsv-conflicts">?</div><div class="sl">Same-folder</div></div>
+      <div class="stat-box loading" id="dsb-archived"><div class="sv" id="dsv-archived">?</div><div class="sl">Archived</div></div>
+    </div>
+
+    <div class="slbl">Run Dedupe</div>
+    <div class="card">
+      <p style="font-size:12px;color:#888;margin-bottom:10px;line-height:1.5">Dry Run shows what would be archived to <code style="background:#eaecef;padding:1px 4px;border-radius:3px">DriveCore/Dupes Review</code>. Nothing is deleted — you review and delete yourself.</p>
+      <div class="btn-row">
+        <button class="btn btn-ghost" id="btn-dedupe-dry" onclick="runDedupe(true)">👁 Dry Run</button>
+        <button class="btn btn-danger" id="btn-dedupe-live" onclick="confirmDedupe()">🗑 Archive Dupes</button>
+      </div>
+      <div class="result-box" id="dedupe-result"></div>
+    </div>
+
+    <div class="card">
+      <h3>What Gets Archived Where</h3>
+      <div style="font-size:11px;color:#555;line-height:1.9;margin-top:4px">
+        <div>📁 <strong>True Dupes/</strong> — exact copy in a different folder. Older one moved here.</div>
+        <div>📁 <strong>Conflicts/</strong> — same bytes, same folder. Older copy moved here.</div>
+        <div>📁 <strong>Shortcuts/</strong> — Drive shortcuts from PC sync. Always safe to delete.</div>
+        <div style="margin-top:6px;color:#aaa">Drag folder has 121 shortcuts — they auto-clean on next live dedupe run.</div>
+      </div>
+    </div>
   </div>
 
   <!-- PROTECT -->
   <div class="tab" id="tab-excl">
-    <div class="slbl">Protected Folders (Never Touched by DriveCore)</div>
+    <div class="slbl">Protected Folders — DriveCore Never Touches These</div>
     <div id="excl-list">
       <div class="excl-item"><div><div class="excl-label">Drag</div><div class="excl-id">1umOWieeITUVUZ-HYy9VgLLluNywtrKIY</div></div><span class="excl-badge built-in">Built-in</span></div>
       <div class="excl-item"><div><div class="excl-label">DriveCore</div><div class="excl-id">1iNc_JHtCh3IPW1LJsXXsx1bXwYQz3IDp</div></div><span class="excl-badge built-in">Built-in</span></div>
@@ -299,7 +402,7 @@ input,textarea{font-family:inherit}
     <button class="btn btn-ghost" style="margin-bottom:12px" onclick="loadExclusions()">↻ Load Custom Exclusions</button>
     <div class="result-box" id="excl-result"></div>
 
-    <div class="slbl">Add Folder to Protection List</div>
+    <div class="slbl">Protect a New Folder</div>
     <div class="card">
       <div class="fg"><label>Folder ID (from Drive URL)</label><input type="text" id="excl-id-input" placeholder="1umOWieeITUVUZ…"></div>
       <div class="fg"><label>Label</label><input type="text" id="excl-label-input" placeholder="e.g. PC Desktop shortcuts"></div>
@@ -308,50 +411,7 @@ input,textarea{font-family:inherit}
     </div>
     <div class="card">
       <h3>How to get a Folder ID</h3>
-      <div style="font-size:11px;color:#555;line-height:1.7">Open folder in Drive → URL: <code style="background:#eaecef;padding:1px 4px;border-radius:3px">drive.google.com/drive/folders/<strong>COPY THIS</strong></code></div>
-    </div>
-  </div>
-
-  <!-- DEDUPE -->
-  <div class="tab" id="tab-dedupe">
-    <div style="font-size:11px;color:#555;margin-bottom:12px;line-height:1.5">Finds exact duplicate files (same bytes in 2+ locations) and Drive shortcuts (junk left by PC sync). Dry Run first — always. Protected folders (Drag, DriveCore, 99_Please_Review) are never touched. Runs automatically every Sunday with auto-run.</div>
-
-    <div class="slbl">What Was Found Last Run</div>
-    <div class="stat-grid" id="dedupe-stats">
-      <div class="stat-box loading" id="dsb-dupes"><div class="sv" id="dsv-dupes">?</div><div class="sl">True Dupes</div></div>
-      <div class="stat-box loading" id="dsb-shorts"><div class="sv" id="dsv-shorts">?</div><div class="sl">Shortcuts</div></div>
-      <div class="stat-box loading" id="dsb-conflicts"><div class="sv" id="dsv-conflicts">?</div><div class="sl">Same-folder Dupes</div></div>
-      <div class="stat-box loading" id="dsb-archived"><div class="sv" id="dsv-archived">?</div><div class="sl">Archived Total</div></div>
-    </div>
-
-    <div class="slbl">Run Dedupe</div>
-    <div class="card">
-      <p style="font-size:12px;color:#888;margin-bottom:10px;line-height:1.5">Step 1: Dry Run to see what would be archived. Step 2: Live to actually move them to <code style="background:#eaecef;padding:1px 4px;border-radius:3px">DriveCore/Dupes Review</code> subfolders.</p>
-      <div class="btn-row">
-        <button class="btn btn-ghost" id="btn-dedupe-dry" onclick="runDedupe(true)">👁 Dry Run</button>
-        <button class="btn btn-danger" id="btn-dedupe-live" onclick="confirmDedupe()">🗑 Archive Dupes</button>
-      </div>
-      <div class="result-box" id="dedupe-result"></div>
-    </div>
-
-    <div class="slbl">What Gets Archived</div>
-    <div class="card">
-      <h3>Three buckets in DriveCore/Dupes Review</h3>
-      <div style="font-size:11px;color:#555;line-height:1.9;margin-top:4px">
-        <div>📁 <strong>True Dupes/</strong> — exact copy of a file already somewhere else in Drive. Older one moved here. Safe to delete after review.</div>
-        <div>📁 <strong>Conflicts/</strong> — same file twice in the same folder. Rare, from PC sync. Older copy moved here.</div>
-        <div>📁 <strong>Shortcuts/</strong> — Drive shortcuts created by Windows sync. These are never real files, always safe to delete.</div>
-        <div style="margin-top:6px;color:#aaa">Nothing is deleted. Everything lands in DriveCore/Dupes Review for your review before permanent removal.</div>
-      </div>
-    </div>
-
-    <div class="slbl">About the Drag Folder</div>
-    <div class="card">
-      <h3>What Drag actually has</h3>
-      <div style="font-size:11px;color:#555;line-height:1.7;margin-top:4px">
-        All <strong>121 files in Drag are Windows shortcuts</strong> — not real files. The actual documents are already in the correct Drive folders. DriveCore's auto-dedupe now detects and moves shortcuts automatically every Sunday.<br><br>
-        Drag is permanently protected — DriveCore will never move real files into or out of it.
-      </div>
+      <div style="font-size:11px;color:#555;line-height:1.7">Open folder in Drive → URL: <code style="background:#eaecef;padding:1px 4px;border-radius:3px">drive.google.com/drive/folders/<strong>COPY THIS PART</strong></code></div>
     </div>
   </div>
 
@@ -361,24 +421,27 @@ input,textarea{font-family:inherit}
     <div class="toggle-row">
       <div class="toggle-info">
         <div class="tl">Weekly Auto-Run</div>
-        <div class="td">Every Sunday 1am — Scan → Classify → Execute automatically</div>
+        <div class="td">Every Sunday 1am — Scan → Classify → Execute → Dedupe</div>
       </div>
       <div class="toggle-switch" id="autorun-toggle2" onclick="toggleAutoRun()"></div>
     </div>
     <div class="result-box" id="autorun-result"></div>
 
-    <div class="slbl">Manual Gateway Ping</div>
+    <div class="slbl">Gateway</div>
     <button class="btn btn-ghost" onclick="pingGW()">Ping GAS Gateway</button>
 
     <div class="slbl">About</div>
     <div class="card">
-      <h3>DriveCore v78</h3>
-      <div style="font-size:11px;color:#555;line-height:1.8">
+      <h3>DriveCore v84</h3>
+      <div style="font-size:11px;color:#555;line-height:1.9">
         <div>🔒 Exclusion list: Drag, DriveCore, 99_Please_Review</div>
-        <div>📸 Auto-manifest before every classify + execute</div>
+        <div>📸 Auto-manifest snapshot before every Execute</div>
+        <div>↩ Restore Last Run — full undo of any Execute batch</div>
+        <div>📋 Rule editor — add routing rules from this page</div>
+        <div>🔁 MD5 deduplication (petalo-pattern, 90-day window)</div>
         <div>🤖 Gemini AI classifies ambiguous files</div>
-        <div>📝 Full session logs saved to DriveCore folder</div>
-        <div style="margin-top:6px;color:#aaa">Tell Claude when you want changes — no code knowledge needed</div>
+        <div>🗂️ Royalty → Finance · Ackermann → Admin (no more catch-all routing)</div>
+        <div style="margin-top:6px;color:#aaa">Tell Claude what to change — no code knowledge needed</div>
       </div>
     </div>
   </div>
@@ -389,13 +452,10 @@ input,textarea{font-family:inherit}
 const GW  = 'https://spring-sea-ac0a.prit946.workers.dev';
 const KEY = 'Store8181Prit2026';
 const PIN = '1997';
-let pinVal = '';
-let liveStatus = null;
-let autoRunOn = false;
+let pinVal = '', liveStatus = null, autoRunOn = false;
 
-// ── AUTH ──
 window.addEventListener('DOMContentLoaded', () => {
-  if (sessionStorage.getItem('s8181_admin') === 'ok') { showMain(); }
+  if (sessionStorage.getItem('s8181_admin') === 'ok') showMain();
   else { document.getElementById('screen-pin').style.display = 'block'; buildKeypad(); }
 });
 
@@ -411,7 +471,7 @@ function buildKeypad() {
 }
 function pressKey(k) {
   if (k === 'del') { pinVal = pinVal.slice(0,-1); }
-  else if (pinVal.length < 4) { pinVal += k; if (pinVal.length === 4) setTimeout(checkPin, 80); }
+  else if (pinVal.length < 4) { pinVal += k; if (pinVal.length === 4) setTimeout(checkPin,80); }
   for (let i=0;i<4;i++) document.getElementById('d'+i).classList.toggle('on', i < pinVal.length);
 }
 function checkPin() {
@@ -419,7 +479,7 @@ function checkPin() {
   else {
     document.getElementById('pin-err').textContent = 'Wrong PIN';
     document.getElementById('pin-dots').classList.add('shake');
-    setTimeout(() => { document.getElementById('pin-dots').classList.remove('shake'); document.getElementById('pin-err').textContent = ''; pinVal=''; for(let i=0;i<4;i++) document.getElementById('d'+i).classList.remove('on'); }, 500);
+    setTimeout(()=>{ document.getElementById('pin-dots').classList.remove('shake'); document.getElementById('pin-err').textContent=''; pinVal=''; for(let i=0;i<4;i++) document.getElementById('d'+i).classList.remove('on'); },500);
   }
 }
 function showMain() {
@@ -428,33 +488,29 @@ function showMain() {
   pingGW(); loadStatus(); loadTodo();
 }
 
-// ── NAV ──
-function showTab(id, btn) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+function showTab(id,btn) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
   if (btn) btn.classList.add('active');
 }
 function toggleStep(n) { document.getElementById('sbody'+n).classList.toggle('open'); }
 
-// ── GATEWAY ──
 async function gas(gasAction, params={}, ms=90000) {
   const ctrl = new AbortController();
-  const t = setTimeout(() => ctrl.abort(), ms);
+  const t = setTimeout(()=>ctrl.abort(), ms);
   try {
     const r = await fetch(GW, {method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({key:KEY, action:'gas.proxy', gasAction, params}), signal:ctrl.signal});
-    clearTimeout(t);
-    return await r.json();
+    clearTimeout(t); return await r.json();
   } catch(e) {
     clearTimeout(t);
-    return {ok:false, error: e.name==='AbortError' ? 'Timed out — GAS may still be running. Refresh in 2 min.' : e.message};
+    return {ok:false, error: e.name==='AbortError' ? 'Timed out — GAS may still be running. Check back in 2 min.' : e.message};
   }
 }
 function showRes(id, msg, type) { const el=document.getElementById(id); el.className='result-box show '+(type||''); el.textContent=msg; }
 function toast(msg, type) { const t=document.getElementById('toast'); t.textContent=msg; t.className='show '+(type||''); setTimeout(()=>t.className='',3000); }
 
-// ── PING ──
 async function pingGW() {
   const dot=document.getElementById('gw-dot'), lbl=document.getElementById('gw-lbl');
   dot.className='dot y'; lbl.textContent='…';
@@ -463,7 +519,6 @@ async function pingGW() {
   lbl.textContent = r.ok ? 'Online' : 'Down';
 }
 
-// ── STATUS ──
 async function loadStatus() {
   const btn = document.getElementById('btn-refresh');
   if (btn) { btn.disabled=true; btn.innerHTML='<span class="spinner-dark"></span>Loading…'; }
@@ -471,217 +526,189 @@ async function loadStatus() {
   if (btn) { btn.disabled=false; btn.textContent='↻ Refresh Live Counts'; }
   if (!r.ok) { toast('Status check failed','err'); return; }
   liveStatus = r;
-
-  // Stat boxes
-  setStatBox('drag', r.drag, r.drag > 0 ? 'danger' : 'ok', r.drag + ' files');
-  setStatBox('sortme', r.sortMe, r.sortMe > 10 ? 'warn' : 'ok', r.sortMe + ' files');
-  setStatBox('review', r.review, r.review > 0 ? 'warn' : 'ok', r.review + ' files');
-  const scanOk = r.manifest && r.manifest.status === 'done';
-  setStatBox('scan', null, scanOk ? 'ok' : 'warn', scanOk ? '✓ Done' : 'Not yet');
-
-  // Auto-run toggle
-  autoRunOn = r.autoRunOn;
-  syncToggles();
-
-  // Step tags
-  if (scanOk) { markStep(1,'ok','✓ Today'); }
-
-  // Reload todo with live data
+  setStatBox('drag',r.drag,r.drag>0?'danger':'ok',r.drag+' files');
+  setStatBox('sortme',r.sortMe,r.sortMe>10?'warn':'ok',r.sortMe+' files');
+  setStatBox('review',r.review,r.review>0?'warn':'ok',r.review+' files');
+  const scanOk = r.manifest && r.manifest.status==='done';
+  setStatBox('scan',null,scanOk?'ok':'warn',scanOk?'✓ Done':'Not yet');
+  autoRunOn = r.autoRunOn; syncToggles();
+  if (scanOk) markStep(1,'ok','✓ Today');
   renderTodo(r);
 }
-
-function setStatBox(key, val, cls, text) {
-  const box = document.getElementById('sb-'+key);
-  const sv  = document.getElementById('sv-'+key);
-  box.className = 'stat-box ' + cls;
-  sv.textContent = text;
+function setStatBox(key,val,cls,text) {
+  document.getElementById('sb-'+key).className='stat-box '+cls;
+  document.getElementById('sv-'+key).textContent=text;
+}
+function markStep(n,state,label) {
+  document.getElementById('snum'+n).className='step-num '+(state==='ok'?'done':'active');
+  document.getElementById('stag'+n).className='step-tag '+state;
+  document.getElementById('stag'+n).textContent=label;
 }
 
-function markStep(n, state, label) {
-  document.getElementById('snum'+n).className = 'step-num ' + (state==='ok'?'done':'active');
-  document.getElementById('stag'+n).className = 'step-tag ' + state;
-  document.getElementById('stag'+n).textContent = label;
-}
-
-// ── TO-DO ──
 function loadTodo() { loadStatus(); }
-
 function renderTodo(s) {
   const prit = document.getElementById('todo-prit');
   const claude = document.getElementById('todo-claude');
-
-  // Prit's tasks — based on live counts
   const pritItems = [
-    {
-      title: 'Sort Drag folder manually',
-      desc: 'Files synced from PC with no Drive history — Claude can\'t auto-route these without your decision on each one.',
-      count: s.drag, countLabel: s.drag + ' files', done: s.drag === 0,
-      severity: s.drag > 0 ? 'bad' : 'ok'
-    },
-    {
-      title: 'Review SORT ME folder',
-      desc: 'Files DriveCore flagged as unclassifiable. Open Drive → Store 8181 → SORT ME and move each to the right subfolder.',
-      count: s.sortMe, countLabel: s.sortMe + ' files', done: s.sortMe < 5,
-      severity: s.sortMe > 10 ? 'warn' : 'ok'
-    },
-    {
-      title: 'Approve new routing rules',
-      desc: 'When Claude suggests tighter rules (e.g. "8181 invoice" → Finance), you just need to say yes or adjust the suggestion.',
-      done: false, alwaysOpen: true
-    },
-    {
-      title: '99_Please_Review folder',
-      desc: 'Files flagged by AI as uncertain. Claude can restore them once you confirm where they belong.',
-      count: s.review, countLabel: s.review + ' files', done: s.review === 0,
-      severity: s.review > 0 ? 'warn' : 'ok'
-    }
+    {title:'Sort Drag folder manually',desc:'121 Windows shortcuts — the real files are elsewhere. Sort or delete from Drive.',count:s.drag,countLabel:s.drag+' shortcuts',done:s.drag===0,severity:s.drag>0?'bad':'ok'},
+    {title:'Review SORT ME folder',desc:'Files DriveCore could not classify. Open Drive → Store 8181 → SORT ME and route each file.',count:s.sortMe,countLabel:s.sortMe+' files',done:s.sortMe<5,severity:s.sortMe>10?'warn':'ok'},
+    {title:'Approve routing rule changes',desc:'When Claude suggests pattern updates, just say yes or adjust the suggestion.',done:false,alwaysOpen:true},
+    {title:'Review 99_Please_Review',desc:'Files AI flagged as uncertain. Tell Claude where they belong.',count:s.review,countLabel:s.review+' files',done:s.review===0,severity:s.review>0?'warn':'ok'},
   ];
-
-  // Claude's tasks — hardcoded with known status
   const claudeItems = [
-    { title: 'Tighten 8181 catch-all rule', desc: 'Replace broad "8181" pattern with specific routes: invoice→Finance, employee→HR, checklist→Store Forms.', done: false },
-    { title: 'Scheduled auto-run', desc: 'Every Sunday 1am: Scan → Classify → Execute → Dedupe automatically.', done: s.autoRunOn },
-    { title: 'Live file counts on dashboard', desc: 'Real-time Drag/SORT ME/Review counts on every load.', done: true },
-    { title: 'Exclusion list (v77)', desc: 'Drag, DriveCore, 99_Please_Review permanently protected — never touched.', done: true },
-    { title: 'Deduplication (v82)', desc: 'MD5 true dupes + shortcuts detected and auto-archived to DriveCore/Dupes Review. Runs every Sunday.', done: true },
-    { title: 'Rule editor in UI', desc: 'Add/edit routing rules from this page without touching code.', done: false },
-    { title: 'Restore last run button', desc: 'One tap to undo the last Execute batch using manifest snapshot.', done: false },
-    { title: 'Move DriveCore → 05_Systems', desc: 'DriveCore working files should live inside 05_Systems/Claude, not Drive root.', done: false },
-    { title: 'Create 00_Inbox at Drive root', desc: 'Master drop zone — anything dragged there auto-routes on next run.', done: false },
+    {title:'Routing rules — royalty & Ackermann',desc:'Royalty docs now route to Finance. Ackermann routes to Admin. No more root catch-all.',done:true},
+    {title:'Restore Last Run button',desc:'Full undo of any Execute batch from the Run tab.',done:true},
+    {title:'Rule editor in UI',desc:'Add/delete routing rules from this page without touching code.',done:true},
+    {title:'Deduplication (v83+)',desc:'MD5 true dupes + shortcuts, 90-day window, auto-runs Sundays.',done:true},
+    {title:'Scheduled auto-run',desc:'Every Sunday 1am: Scan → Classify → Execute → Dedupe.',done:s.autoRunOn},
+    {title:'Live file counts on dashboard',desc:'Real-time Drag/SORT ME/Review counts on every load.',done:true},
+    {title:'Exclusion list',desc:'Drag, DriveCore, 99_Please_Review permanently protected.',done:true},
+    {title:'Tighten rule patterns further',desc:'As new file types appear, add patterns from the Rules tab.',done:false},
+    {title:'Move DriveCore → 05_Systems',desc:'Working files should live in 05_Systems/Claude, not Drive root.',done:false},
   ];
-
-  prit.innerHTML = pritItems.map(item => `
-    <div class="todo-item ${item.done ? 'done' : ''}">
-      <div class="ti-title">${item.title}</div>
-      <div class="ti-desc">${item.desc}</div>
-      ${item.count !== undefined ? `<div class="ti-count ${item.severity}">${item.countLabel}</div>` : ''}
-      <div class="todo-check ${item.done ? 'done' : ''}">${item.done ? '✓' : ''}</div>
-    </div>`).join('');
-
-  claude.innerHTML = claudeItems.map(item => `
-    <div class="todo-item ${item.done ? 'done' : ''}">
-      <div class="ti-title">${item.title}</div>
-      <div class="ti-desc">${item.desc}</div>
-      <div class="todo-check ${item.done ? 'done' : ''}">${item.done ? '✓' : ''}</div>
-    </div>`).join('');
+  prit.innerHTML = pritItems.map(item=>`<div class="todo-item ${item.done?'done':''}"><div class="ti-title">${item.title}</div><div class="ti-desc">${item.desc}</div>${item.count!==undefined?`<div class="ti-count ${item.severity}">${item.countLabel}</div>`:''}<div class="todo-check ${item.done?'done':''}">${item.done?'✓':''}</div></div>`).join('');
+  claude.innerHTML = claudeItems.map(item=>`<div class="todo-item ${item.done?'done':''}"><div class="ti-title">${item.title}</div><div class="ti-desc">${item.desc}</div><div class="todo-check ${item.done?'done':''}">${item.done?'✓':''}</div></div>`).join('');
 }
 
-// ── QUICK ACTIONS ──
-async function quickAction(action, resultId, loadingMsg, successPrefix, ms) {
-  showRes(resultId, '⏳ ' + loadingMsg, 'warn');
-  const r = await gas(action, {}, ms);
+async function quickAction(action,resultId,loadingMsg,successPrefix,ms) {
+  showRes(resultId,'⏳ '+loadingMsg,'warn');
+  const r = await gas(action,{},ms);
   if (r.ok) {
-    const detail = action === 'dc.manifest'
-      ? `${r.count} files · ${r.folderCount} folders`
-      : `${r.moves} moves · ${r.reviews} for review · ${r.keeps} already correct`;
-    showRes(resultId, '✓ ' + successPrefix + ' — ' + detail, 'ok');
+    const detail = action==='dc.manifest' ? `${r.count} files · ${r.folderCount} folders` : `${r.moves} moves · ${r.reviews} for review · ${r.keeps} already correct`;
+    showRes(resultId,'✓ '+successPrefix+' — '+detail,'ok');
     loadStatus();
-  } else {
-    showRes(resultId, '✗ ' + (r.error || 'Failed'), 'err');
-  }
+  } else { showRes(resultId,'✗ '+(r.error||'Failed'),'err'); }
 }
 
-// ── RUN TAB ──
 async function runScan() {
   const btn = document.getElementById('btn-scan');
   btn.disabled=true; btn.innerHTML='<span class="spinner"></span>Scanning…';
   showRes('scan-result','⏳ Scanning all Drive files — 30–90 seconds, keep screen open.','warn');
   const r = await gas('dc.manifest',{},120000);
   btn.disabled=false; btn.textContent='🔍 Run Scan';
-  if (r.ok) {
-    showRes('scan-result',`✓ ${r.count} files · ${r.folderCount} folders · saved as ${r.fileName}`,'ok');
-    markStep(1,'ok','✓ Done'); markStep(2,'active','Ready');
-    toast('Scan complete','ok'); loadStatus();
-  } else { showRes('scan-result','✗ '+(r.error||'Failed'),'err'); }
+  if (r.ok) { showRes('scan-result',`✓ ${r.count} files · ${r.folderCount} folders · saved as ${r.fileName}`,'ok'); markStep(1,'ok','✓ Done'); markStep(2,'active','Ready'); toast('Scan complete','ok'); loadStatus(); }
+  else { showRes('scan-result','✗ '+(r.error||'Failed'),'err'); }
 }
-
 async function runClassify() {
   const btn = document.getElementById('btn-classify');
   btn.disabled=true; btn.innerHTML='<span class="spinner"></span>Classifying…';
   showRes('classify-result','⏳ Building move plan — up to 2 minutes.','warn');
   const r = await gas('dc.taxonomy',{},150000);
   btn.disabled=false; btn.textContent='🧠 Classify';
-  if (r.ok) {
-    showRes('classify-result',`✓ Plan: ${r.moves} moves · ${r.reviews} for review · ${r.keeps} already correct`,'ok');
-    markStep(2,'ok','✓ Done'); markStep(3,'active','Ready');
-    toast('Plan ready — '+r.moves+' moves','ok');
-  } else { showRes('classify-result','✗ '+(r.error||'Failed'),'err'); }
+  if (r.ok) { showRes('classify-result',`✓ ${r.moves} moves · ${r.reviews} for review · ${r.keeps} already correct`,'ok'); markStep(2,'ok','✓ Done'); markStep(3,'active','Ready'); toast('Plan ready — '+r.moves+' moves','ok'); }
+  else { showRes('classify-result','✗ '+(r.error||'Failed'),'err'); }
 }
-
 async function runExecute(dryRun) {
-  showRes('execute-result','⏳ '+(dryRun?'Previewing moves (nothing will change)…':'Moving files — keep screen open…'),'warn');
-  const r = await gas('dc.execute',{dryRun, batchSize:50},120000);
+  showRes('execute-result','⏳ '+(dryRun?'Previewing moves…':'Moving files — keep screen open…'),'warn');
+  const r = await gas('dc.execute',{dryRun,batchSize:50},120000);
   if (r.ok) {
-    const msg = dryRun
-      ? `Preview: ${r.done} would move · ${r.errors} conflicts${r.hasMore?' · more batches pending':''}`
-      : `✓ ${r.done} moved · ${r.errors} errors${r.hasMore?' · run again for next batch':' · complete'}`;
-    showRes('execute-result', msg, r.errors>0?'warn':'ok');
+    const msg = dryRun ? `Preview: ${r.done} would move · ${r.errors} conflicts${r.hasMore?' · more batches pending':''}` : `✓ ${r.done} moved · ${r.errors} errors${r.hasMore?' · run again for next batch':' · complete'}`;
+    showRes('execute-result',msg,r.errors>0?'warn':'ok');
     if (!dryRun) { markStep(3,'ok','✓ Done'); toast(r.done+' files moved','ok'); loadStatus(); }
   } else { showRes('execute-result','✗ '+(r.error||'Failed'),'err'); }
 }
 function confirmExec() {
-  if (!confirm('Execute live? Files will be moved per the current plan.\n\nProtected folders (Drag, DriveCore, 99_Please_Review) will not be touched.')) return;
+  if (!confirm('Execute live? Files will move per the current plan.\n\nProtected folders are never touched.')) return;
   runExecute(false);
 }
 
-// ── AUTO-RUN TOGGLE ──
+async function runRestore(dryRun) {
+  showRes('restore-result','⏳ '+(dryRun?'Checking what would be restored…':'Restoring files to original locations…'),'warn');
+  const r = await gas('dc.restoreLastRun',{dryRun},60000);
+  if (r.ok) {
+    const msg = dryRun
+      ? `Preview: ${r.total} files would be moved back to original folders (source: ${r.sourceLog})`
+      : `✓ ${r.restored} files restored · ${r.errors} errors (source: ${r.sourceLog})`;
+    showRes('restore-result', msg, r.errors>0?'warn':'ok');
+    if (!dryRun) { toast(r.restored+' files restored','ok'); loadStatus(); }
+  } else { showRes('restore-result','✗ '+(r.error||'Failed'),'err'); }
+}
+function confirmRestore() {
+  if (!confirm('Restore all files from last Execute to their original locations?')) return;
+  runRestore(false);
+}
+
 function syncToggles() {
   ['autorun-toggle','autorun-toggle2'].forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.className = 'toggle-switch' + (autoRunOn ? ' on' : '');
+    if (el) el.className = 'toggle-switch'+(autoRunOn?' on':'');
   });
 }
 async function toggleAutoRun() {
   const newState = !autoRunOn;
-  const r = await gas('dc.installAutoRun', {disable: !newState}, 15000);
-  if (r.ok) {
-    autoRunOn = newState;
-    syncToggles();
-    showRes('autorun-result', r.msg, 'ok');
-    toast(newState ? 'Auto-run enabled' : 'Auto-run disabled', newState ? 'ok' : '');
-  } else {
-    showRes('autorun-result', '✗ '+(r.error||'Failed'), 'err');
-  }
+  const r = await gas('dc.installAutoRun',{disable:!newState},15000);
+  if (r.ok) { autoRunOn=newState; syncToggles(); showRes('autorun-result',r.msg,'ok'); toast(newState?'Auto-run enabled':'Auto-run disabled',newState?'ok':''); }
+  else { showRes('autorun-result','✗ '+(r.error||'Failed'),'err'); }
 }
 
-// ── EXCLUSIONS ──
-async function loadExclusions() {
-  showRes('excl-result','⏳ Loading…','warn');
-  const r = await gas('dc.getExclusions',{},10000);
-  if (r.ok) { showRes('excl-result',`${r.excluded.length} total protected folders (${r.excluded.length-3} custom)`,'ok'); }
-  else { showRes('excl-result','✗ '+(r.error||'Failed'),'err'); }
-}
-// ── DEDUPE ──
-async function runDedupe(dryRun) {
-  const dryBtn = document.getElementById('btn-dedupe-dry');
-  const liveBtn = document.getElementById('btn-dedupe-live');
-  dryBtn.disabled = liveBtn.disabled = true;
-  const label = dryRun ? '👁 Scanning for duplicates…' : '🗑 Archiving duplicates…';
-  showRes('dedupe-result', '⏳ ' + label + ' (up to 2 min)', 'warn');
-  const r = await gas('dc.dedupe', {dryRun}, 150000);
-  dryBtn.disabled = liveBtn.disabled = false;
-  if (r.ok) {
-    const action = dryRun ? 'would archive' : 'archived';
-    const msg = `${dryRun ? 'Preview' : '✓ Done'} — ${r.trueDupes} true dupes ${action}, ${r.shortcuts} shortcuts, ${r.conflicts} same-folder conflicts${dryRun ? '' : ' · Check DriveCore/Dupes Review in Drive'}`;
-    showRes('dedupe-result', msg, r.trueDupes + r.shortcuts + r.conflicts > 0 ? (dryRun ? 'warn' : 'ok') : 'ok');
-    // Update stat boxes
-    ['dupes','shorts','conflicts','archived'].forEach(k => {
-      document.getElementById('dsb-'+k).className = 'stat-box teal';
-    });
-    document.getElementById('dsv-dupes').textContent = r.trueDupes;
-    document.getElementById('dsv-shorts').textContent = r.shortcuts;
-    document.getElementById('dsv-conflicts').textContent = r.conflicts;
-    document.getElementById('dsv-archived').textContent = dryRun ? '-' : (r.archived + r.shortcutsMoved + r.conflictsMoved);
-    if (!dryRun) { toast('Duplicates archived — check DriveCore/Dupes Review', 'ok'); loadStatus(); }
-  } else {
-    showRes('dedupe-result', '✗ ' + (r.error || 'Failed'), 'err');
+async function loadRules() {
+  const list = document.getElementById('rules-list');
+  list.innerHTML = '<div style="font-size:11px;color:#c0c8d4;padding:8px"><span class="spinner-dark"></span> Loading…</div>';
+  const r = await gas('dc.getRules',{},10000);
+  if (!r.ok) { list.innerHTML = '<div style="font-size:11px;color:#dc3545;padding:8px">Failed to load</div>'; return; }
+  if (!r.rules || r.rules.length === 0) {
+    list.innerHTML = '<div style="font-size:11px;color:#888;padding:8px">No custom rules yet. Add one below — it runs before all built-in rules.</div>';
+    return;
   }
+  list.innerHTML = r.rules.map((rule,i) => `
+    <div class="rule-item" id="ri-${i}">
+      <div class="ri-body">
+        <div class="ri-pattern">${rule.pattern}</div>
+        <div class="ri-dest">→ ${rule.dest}</div>
+      </div>
+      <span class="ri-badge learned">Custom</span>
+      <button class="rule-del" onclick="deleteRule('${rule.pattern.replace(/'/g,"\\'")}',${i})" title="Remove">×</button>
+    </div>`).join('');
+}
+async function addRule() {
+  const pattern = document.getElementById('rule-pattern').value.trim();
+  const destRaw = document.getElementById('rule-dest').value;
+  if (!pattern || !destRaw) { toast('Fill in both fields','err'); return; }
+  const [dest, destId] = destRaw.split('|');
+  showRes('rule-add-result','⏳ Saving…','warn');
+  const r = await gas('dc.learnRule',{pattern, dest, destId: destId||null},10000);
+  if (r.ok) {
+    document.getElementById('rule-pattern').value='';
+    document.getElementById('rule-dest').value='';
+    showRes('rule-add-result',`✓ Rule saved — "${pattern}" → ${dest}`,'ok');
+    toast('Rule saved','ok'); loadRules();
+  } else { showRes('rule-add-result','✗ '+(r.error||'Failed'),'err'); }
+}
+async function deleteRule(pattern, idx) {
+  if (!confirm(`Remove rule: "${pattern}"?`)) return;
+  const r = await gas('dc.learnRule',{pattern, remove:true},10000);
+  if (r.ok) { toast('Rule removed','ok'); loadRules(); }
+  else { toast('Failed to remove','err'); }
+}
+
+async function runDedupe(dryRun) {
+  const dryBtn=document.getElementById('btn-dedupe-dry'), liveBtn=document.getElementById('btn-dedupe-live');
+  dryBtn.disabled=liveBtn.disabled=true;
+  showRes('dedupe-result','⏳ '+(dryRun?'Scanning for duplicates…':'Archiving duplicates…')+' (up to 2 min)','warn');
+  const r = await gas('dc.dedupe',{dryRun},150000);
+  dryBtn.disabled=liveBtn.disabled=false;
+  if (r.ok) {
+    const msg = `${dryRun?'Preview':'✓ Done'} — ${r.trueDupes} true dupes, ${r.shortcuts} shortcuts, ${r.conflicts} same-folder${dryRun?'':' archived to DriveCore/Dupes Review'}. ${r.skippedOldCopies} old intentional copies skipped.`;
+    showRes('dedupe-result',msg,'ok');
+    ['dupes','shorts','conflicts','archived'].forEach(k=>document.getElementById('dsb-'+k).className='stat-box teal');
+    document.getElementById('dsv-dupes').textContent=r.trueDupes;
+    document.getElementById('dsv-shorts').textContent=r.shortcuts;
+    document.getElementById('dsv-conflicts').textContent=r.conflicts;
+    document.getElementById('dsv-archived').textContent=dryRun?'-':(r.archived+r.shortcutsMoved+r.conflictsMoved);
+    if (!dryRun) { toast('Archived — check DriveCore/Dupes Review','ok'); loadStatus(); }
+  } else { showRes('dedupe-result','✗ '+(r.error||'Failed'),'err'); }
 }
 function confirmDedupe() {
   if (!confirm('Archive duplicates live?\n\nFiles move to DriveCore/Dupes Review — nothing is deleted.\nProtected folders are never touched.')) return;
   runDedupe(false);
 }
 
+async function loadExclusions() {
+  showRes('excl-result','⏳ Loading…','warn');
+  const r = await gas('dc.getExclusions',{},10000);
+  if (r.ok) showRes('excl-result',`${r.excluded.length} total protected folders`,'ok');
+  else showRes('excl-result','✗ '+(r.error||'Failed'),'err');
+}
 async function addExclusion() {
   const fid = document.getElementById('excl-id-input').value.trim();
   const lbl = document.getElementById('excl-label-input').value.trim() || fid.slice(0,14)+'…';
@@ -689,13 +716,11 @@ async function addExclusion() {
   showRes('excl-add-result','⏳ Adding…','warn');
   const r = await gas('dc.addExclusion',{folderId:fid},10000);
   if (r.ok) {
-    const el = document.createElement('div'); el.className='excl-item';
+    const el=document.createElement('div'); el.className='excl-item';
     el.innerHTML=`<div><div class="excl-label">${lbl}</div><div class="excl-id">${fid}</div></div><span class="excl-badge">Custom</span>`;
     document.getElementById('excl-list').appendChild(el);
-    document.getElementById('excl-id-input').value='';
-    document.getElementById('excl-label-input').value='';
-    showRes('excl-add-result','✓ Protected — DriveCore will never touch this folder','ok');
-    toast('Folder protected','ok');
+    document.getElementById('excl-id-input').value=''; document.getElementById('excl-label-input').value='';
+    showRes('excl-add-result','✓ Folder protected — DriveCore will never touch it','ok'); toast('Folder protected','ok');
   } else { showRes('excl-add-result','✗ '+(r.error||'Failed'),'err'); }
 }
 </script>
