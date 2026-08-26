@@ -192,6 +192,7 @@ input,textarea{font-family:inherit}
     <button class="nav-btn" onclick="showTab('run',this)"><span class="ico">▶️</span>Run</button>
     <button class="nav-btn" onclick="showTab('todo',this)"><span class="ico">✅</span>To-Do</button>
     <button class="nav-btn" onclick="showTab('excl',this)"><span class="ico">🚫</span>Protect</button>
+    <button class="nav-btn" onclick="showTab('dedupe',this)"><span class="ico">🔁</span>Dedupe</button>
     <button class="nav-btn" onclick="showTab('settings',this)"><span class="ico">⚙️</span>Settings</button>
   </div>
 
@@ -308,6 +309,49 @@ input,textarea{font-family:inherit}
     <div class="card">
       <h3>How to get a Folder ID</h3>
       <div style="font-size:11px;color:#555;line-height:1.7">Open folder in Drive → URL: <code style="background:#eaecef;padding:1px 4px;border-radius:3px">drive.google.com/drive/folders/<strong>COPY THIS</strong></code></div>
+    </div>
+  </div>
+
+  <!-- DEDUPE -->
+  <div class="tab" id="tab-dedupe">
+    <div style="font-size:11px;color:#555;margin-bottom:12px;line-height:1.5">Finds exact duplicate files (same bytes in 2+ locations) and Drive shortcuts (junk left by PC sync). Dry Run first — always. Protected folders (Drag, DriveCore, 99_Please_Review) are never touched. Runs automatically every Sunday with auto-run.</div>
+
+    <div class="slbl">What Was Found Last Run</div>
+    <div class="stat-grid" id="dedupe-stats">
+      <div class="stat-box loading" id="dsb-dupes"><div class="sv" id="dsv-dupes">?</div><div class="sl">True Dupes</div></div>
+      <div class="stat-box loading" id="dsb-shorts"><div class="sv" id="dsv-shorts">?</div><div class="sl">Shortcuts</div></div>
+      <div class="stat-box loading" id="dsb-conflicts"><div class="sv" id="dsv-conflicts">?</div><div class="sl">Same-folder Dupes</div></div>
+      <div class="stat-box loading" id="dsb-archived"><div class="sv" id="dsv-archived">?</div><div class="sl">Archived Total</div></div>
+    </div>
+
+    <div class="slbl">Run Dedupe</div>
+    <div class="card">
+      <p style="font-size:12px;color:#888;margin-bottom:10px;line-height:1.5">Step 1: Dry Run to see what would be archived. Step 2: Live to actually move them to <code style="background:#eaecef;padding:1px 4px;border-radius:3px">DriveCore/Dupes Review</code> subfolders.</p>
+      <div class="btn-row">
+        <button class="btn btn-ghost" id="btn-dedupe-dry" onclick="runDedupe(true)">👁 Dry Run</button>
+        <button class="btn btn-danger" id="btn-dedupe-live" onclick="confirmDedupe()">🗑 Archive Dupes</button>
+      </div>
+      <div class="result-box" id="dedupe-result"></div>
+    </div>
+
+    <div class="slbl">What Gets Archived</div>
+    <div class="card">
+      <h3>Three buckets in DriveCore/Dupes Review</h3>
+      <div style="font-size:11px;color:#555;line-height:1.9;margin-top:4px">
+        <div>📁 <strong>True Dupes/</strong> — exact copy of a file already somewhere else in Drive. Older one moved here. Safe to delete after review.</div>
+        <div>📁 <strong>Conflicts/</strong> — same file twice in the same folder. Rare, from PC sync. Older copy moved here.</div>
+        <div>📁 <strong>Shortcuts/</strong> — Drive shortcuts created by Windows sync. These are never real files, always safe to delete.</div>
+        <div style="margin-top:6px;color:#aaa">Nothing is deleted. Everything lands in DriveCore/Dupes Review for your review before permanent removal.</div>
+      </div>
+    </div>
+
+    <div class="slbl">About the Drag Folder</div>
+    <div class="card">
+      <h3>What Drag actually has</h3>
+      <div style="font-size:11px;color:#555;line-height:1.7;margin-top:4px">
+        All <strong>121 files in Drag are Windows shortcuts</strong> — not real files. The actual documents are already in the correct Drive folders. DriveCore's auto-dedupe now detects and moves shortcuts automatically every Sunday.<br><br>
+        Drag is permanently protected — DriveCore will never move real files into or out of it.
+      </div>
     </div>
   </div>
 
@@ -496,9 +540,10 @@ function renderTodo(s) {
   // Claude's tasks — hardcoded with known status
   const claudeItems = [
     { title: 'Tighten 8181 catch-all rule', desc: 'Replace broad "8181" pattern with specific routes: invoice→Finance, employee→HR, checklist→Store Forms.', done: false },
-    { title: 'Scheduled auto-run', desc: 'Every Sunday 1am: Scan → Classify → Execute automatically.', done: s.autoRunOn },
+    { title: 'Scheduled auto-run', desc: 'Every Sunday 1am: Scan → Classify → Execute → Dedupe automatically.', done: s.autoRunOn },
     { title: 'Live file counts on dashboard', desc: 'Real-time Drag/SORT ME/Review counts on every load.', done: true },
-    { title: 'Exclusion list (v77)', desc: 'Drag, DriveCore, 99_Please_Review permanently protected.', done: true },
+    { title: 'Exclusion list (v77)', desc: 'Drag, DriveCore, 99_Please_Review permanently protected — never touched.', done: true },
+    { title: 'Deduplication (v82)', desc: 'MD5 true dupes + shortcuts detected and auto-archived to DriveCore/Dupes Review. Runs every Sunday.', done: true },
     { title: 'Rule editor in UI', desc: 'Add/edit routing rules from this page without touching code.', done: false },
     { title: 'Restore last run button', desc: 'One tap to undo the last Execute batch using manifest snapshot.', done: false },
     { title: 'Move DriveCore → 05_Systems', desc: 'DriveCore working files should live inside 05_Systems/Claude, not Drive root.', done: false },
@@ -606,6 +651,37 @@ async function loadExclusions() {
   if (r.ok) { showRes('excl-result',`${r.excluded.length} total protected folders (${r.excluded.length-3} custom)`,'ok'); }
   else { showRes('excl-result','✗ '+(r.error||'Failed'),'err'); }
 }
+// ── DEDUPE ──
+async function runDedupe(dryRun) {
+  const dryBtn = document.getElementById('btn-dedupe-dry');
+  const liveBtn = document.getElementById('btn-dedupe-live');
+  dryBtn.disabled = liveBtn.disabled = true;
+  const label = dryRun ? '👁 Scanning for duplicates…' : '🗑 Archiving duplicates…';
+  showRes('dedupe-result', '⏳ ' + label + ' (up to 2 min)', 'warn');
+  const r = await gas('dc.dedupe', {dryRun}, 150000);
+  dryBtn.disabled = liveBtn.disabled = false;
+  if (r.ok) {
+    const action = dryRun ? 'would archive' : 'archived';
+    const msg = `${dryRun ? 'Preview' : '✓ Done'} — ${r.trueDupes} true dupes ${action}, ${r.shortcuts} shortcuts, ${r.conflicts} same-folder conflicts${dryRun ? '' : ' · Check DriveCore/Dupes Review in Drive'}`;
+    showRes('dedupe-result', msg, r.trueDupes + r.shortcuts + r.conflicts > 0 ? (dryRun ? 'warn' : 'ok') : 'ok');
+    // Update stat boxes
+    ['dupes','shorts','conflicts','archived'].forEach(k => {
+      document.getElementById('dsb-'+k).className = 'stat-box teal';
+    });
+    document.getElementById('dsv-dupes').textContent = r.trueDupes;
+    document.getElementById('dsv-shorts').textContent = r.shortcuts;
+    document.getElementById('dsv-conflicts').textContent = r.conflicts;
+    document.getElementById('dsv-archived').textContent = dryRun ? '-' : (r.archived + r.shortcutsMoved + r.conflictsMoved);
+    if (!dryRun) { toast('Duplicates archived — check DriveCore/Dupes Review', 'ok'); loadStatus(); }
+  } else {
+    showRes('dedupe-result', '✗ ' + (r.error || 'Failed'), 'err');
+  }
+}
+function confirmDedupe() {
+  if (!confirm('Archive duplicates live?\n\nFiles move to DriveCore/Dupes Review — nothing is deleted.\nProtected folders are never touched.')) return;
+  runDedupe(false);
+}
+
 async function addExclusion() {
   const fid = document.getElementById('excl-id-input').value.trim();
   const lbl = document.getElementById('excl-label-input').value.trim() || fid.slice(0,14)+'…';
