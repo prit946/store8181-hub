@@ -196,6 +196,11 @@ input,textarea,select{font-family:inherit}
       <div class="stat-box loading" id="sb-review"><div class="sv" id="sv-review">…</div><div class="sl">Please Review</div></div>
       <div class="stat-box loading" id="sb-scan"><div class="sv" id="sv-scan">…</div><div class="sl">Today's Scan</div></div>
     </div>
+    <div class="card" id="run-id-card" style="display:none">
+      <h3>Last Execute — Tracking ID</h3>
+      <div style="font-family:monospace;font-size:12px;color:#1b2d45;word-break:break-all;margin-bottom:6px" id="last-run-id">—</div>
+      <div style="font-size:10px;color:#888">Use this ID to undo the last batch from the Run tab → Restore Last Run. Each run has a unique ID so you can track exactly what moved.</div>
+    </div>
 
     <div class="slbl">Quick Actions</div>
     <div class="btn-row">
@@ -533,6 +538,10 @@ async function loadStatus() {
   setStatBox('scan',null,scanOk?'ok':'warn',scanOk?'✓ Done':'Not yet');
   autoRunOn = r.autoRunOn; syncToggles();
   if (scanOk) markStep(1,'ok','✓ Today');
+  if (r.lastRunId) {
+    document.getElementById('last-run-id').textContent = r.lastRunId;
+    document.getElementById('run-id-card').style.display = 'block';
+  }
   renderTodo(r);
 }
 function setStatBox(key,val,cls,text) {
