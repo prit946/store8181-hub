@@ -432,12 +432,31 @@ input,textarea,select{font-family:inherit}
     </div>
     <div class="result-box" id="autorun-result"></div>
 
+    <div class="slbl">Property Addresses (Pravin's Properties)</div>
+    <div class="card" id="addresses-card">
+      <div style="font-size:12px;color:var(--fg2);margin-bottom:10px">Files containing a house number + billing/utility context route here automatically.</div>
+      <div id="addr-list" style="margin-bottom:12px"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 2fr auto;gap:8px;align-items:end">
+        <div><div style="font-size:10px;color:var(--fg2);margin-bottom:3px">ADDRESS #</div><input id="addr-num" class="rule-input" style="width:100%;box-sizing:border-box" placeholder="e.g. 1106"></div>
+        <div><div style="font-size:10px;color:var(--fg2);margin-bottom:3px">TYPE</div>
+          <select id="addr-type" class="rule-input" style="width:100%;box-sizing:border-box">
+            <option value="home">home</option>
+            <option value="rental">rental</option>
+          </select>
+        </div>
+        <div><div style="font-size:10px;color:var(--fg2);margin-bottom:3px">NOTE (optional)</div><input id="addr-note" class="rule-input" style="width:100%;box-sizing:border-box" placeholder="e.g. 1106 Woodmont Blvd"></div>
+        <button class="btn btn-primary" onclick="addAddress()" style="white-space:nowrap">+ Add</button>
+      </div>
+      <div style="font-size:10px;color:var(--fg2);margin-top:6px">home → Pravin/03_Home &nbsp;|&nbsp; rental → Pravin/04_Income</div>
+    </div>
+    <div class="result-box" id="addr-result"></div>
+
     <div class="slbl">Gateway</div>
     <button class="btn btn-ghost" onclick="pingGW()">Ping GAS Gateway</button>
 
     <div class="slbl">About</div>
     <div class="card">
-      <h3>DriveCore v84</h3>
+      <h3>DriveCore v87</h3>
       <div style="font-size:11px;color:#555;line-height:1.9">
         <div>🔒 Exclusion list: Drag, DriveCore, 99_Please_Review</div>
         <div>📸 Auto-manifest snapshot before every Execute</div>
@@ -490,7 +509,7 @@ function checkPin() {
 function showMain() {
   document.getElementById('screen-pin').style.display = 'none';
   document.getElementById('screen-main').style.display = 'block';
-  pingGW(); loadStatus(); loadTodo();
+  pingGW(); loadStatus(); loadTodo(); loadAddresses();
 }
 
 function showTab(id,btn) {
@@ -688,6 +707,48 @@ async function deleteRule(pattern, idx) {
   const r = await gas('dc.learnRule',{pattern, remove:true},10000);
   if (r.ok) { toast('Rule removed','ok'); loadRules(); }
   else { toast('Failed to remove','err'); }
+}
+
+// ── Property Address Management ───────────────────────────────────────────────
+const ADDR_HOME_DEST = { dest: '04_Family (Pravin)/Pravin/03_Home', destId: '1jzbVpchw-Vwkf5kTZEbERH6OiPB9Cp2X' };
+const ADDR_RENTAL_DEST = { dest: '04_Family (Pravin)/Pravin/04_Income', destId: '1FDyZToJMg2a6JLffOliEbHUPbYvYVR8G' };
+let cachedAddresses = [];
+
+async function loadAddresses() {
+  const r = await gas('dc.getAddresses',{},10000);
+  if (!r.ok) return;
+  cachedAddresses = r.addresses || [];
+  renderAddresses();
+}
+function renderAddresses() {
+  const el = document.getElementById('addr-list');
+  if (!cachedAddresses.length) { el.innerHTML = '<div style="font-size:12px;color:var(--fg2)">No addresses configured yet. Add one below.</div>'; return; }
+  el.innerHTML = cachedAddresses.map((a,i) => `
+    <div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border)">
+      <span style="font-family:monospace;font-weight:700;font-size:14px">${a.address}</span>
+      <span class="badge">${a.type}</span>
+      <span style="flex:1;font-size:11px;color:var(--fg2)">${a.note||''}</span>
+      <button class="btn btn-ghost" style="padding:2px 8px;font-size:11px" onclick="removeAddress(${i})">✕</button>
+    </div>`).join('');
+}
+async function addAddress() {
+  const num = document.getElementById('addr-num').value.trim();
+  const type = document.getElementById('addr-type').value;
+  const note = document.getElementById('addr-note').value.trim();
+  if (!num) { toast('Enter an address number','err'); return; }
+  const dest = type === 'home' ? ADDR_HOME_DEST : ADDR_RENTAL_DEST;
+  cachedAddresses = cachedAddresses.filter(a => a.address !== num);
+  cachedAddresses.push({ address: num, type, ...dest, note });
+  const r = await gas('dc.setAddresses',{addresses: cachedAddresses},10000);
+  if (r.ok) { toast('Address saved','ok'); document.getElementById('addr-num').value=''; document.getElementById('addr-note').value=''; renderAddresses(); }
+  else { toast('Failed to save','err'); }
+}
+async function removeAddress(idx) {
+  if (!confirm(`Remove address "${cachedAddresses[idx].address}"?`)) return;
+  cachedAddresses.splice(idx,1);
+  const r = await gas('dc.setAddresses',{addresses: cachedAddresses},10000);
+  if (r.ok) { toast('Removed','ok'); renderAddresses(); }
+  else { toast('Failed','err'); }
 }
 
 async function runDedupe(dryRun) {
