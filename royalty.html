@@ -91,6 +91,16 @@
 .err-tbl td{padding:6px 8px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.4}
 .err-tbl tr:last-child td{border-bottom:none}
 
+/* ── LEDGER TABLE ────────────────────────────────────────────────────────── */
+.ldg-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:4px}
+.ldg-tbl th{text-align:right;padding:6px 10px;background:var(--navy);color:#fff;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+.ldg-tbl th:first-child{text-align:left}
+.ldg-tbl td{padding:7px 10px;border-bottom:1px solid var(--border);text-align:right;font-weight:600;color:var(--navy);white-space:nowrap}
+.ldg-tbl td:first-child{text-align:left;font-weight:700;color:#333;white-space:nowrap}
+.ldg-tbl tr:last-child td{border-bottom:none}
+.ldg-tbl tr.ldg-sub td{background:#edfaf0}
+.ldg-sub-check{color:var(--success);font-size:15px;font-weight:800}
+
 /* ── PRINT ───────────────────────────────────────────────────────────────── */
 @media print{body>*{display:none!important}#printCard{display:block!important;font-family:'Courier New',monospace;font-size:10pt;line-height:1.6;white-space:pre;padding:4mm}}
 #printCard{display:none}
@@ -232,6 +242,7 @@
     <button class="nav-tab nav-owner" data-tab="metered" onclick="switchTab('metered')">Metered</button>
     <button class="nav-tab nav-owner" data-tab="cmguide" onclick="switchTab('cmguide')">CM Guide</button>
     <button class="nav-tab nav-owner" data-tab="settings" onclick="switchTab('settings')">Settings</button>
+    <button class="nav-tab nav-owner" data-tab="ledger" onclick="switchTab('ledger')">Ledger</button>
   </nav>
   <div id="staleWarn" style="display:none;margin:8px 16px 0;padding:10px 14px;background:#fff3cd;border:1.5px solid #ffc107;border-radius:7px;font-size:12px;font-weight:600;color:#7a4f00;display:flex;align-items:center;justify-content:space-between;gap:8px"></div>
 
@@ -269,6 +280,7 @@
             <label>$ — carries from last month's ending. To verify: count what you had on hand at start of month × USPS cost. Override here if the number looks wrong.</label>
             <input type="text" inputmode="decimal" id="f_beginStamps" placeholder="0.00"
               oninput="sess.beginningStamps=this.value;calcAll()">
+            <div id="ledgerBeginWarn"></div>
           </div>
         </div>
       </div>
@@ -322,7 +334,7 @@
           </div>
           <div class="info-box" style="margin-top:10px;font-size:11px">
             <strong>Next month's Beginning Stamps Inventory: <span id="s_nextBegin" style="color:var(--navy)">$0.00</span></strong><br>
-            <span style="color:#888">Write this down — it carries into next month's beginning. If it doesn't match your physical count × USPS cost, something is off this month.</span>
+            <span style="color:#888">Auto-carries to next month when you Reset. Full monthly record in the <strong>Ledger tab</strong>.</span>
           </div>
         </div>
 
@@ -723,6 +735,36 @@
 
     </div><!-- /settings -->
 
+    <!-- ══════════════════════ LEDGER TAB ════════════════════════════ -->
+    <div class="tab-panel" id="panel-ledger">
+
+      <div class="info-box teal" style="margin-bottom:12px">
+        <strong>Monthly stamp record</strong> — auto-carries ending → next month's beginning. Locks in automatically when you Reset.
+      </div>
+
+      <div style="overflow-x:auto">
+        <table class="ldg-tbl">
+          <thead>
+            <tr>
+              <th style="text-align:left">Month</th>
+              <th>Beginning $</th>
+              <th>Purchases $</th>
+              <th>Stamp Sales $</th>
+              <th>Ending $</th>
+              <th>✓</th>
+            </tr>
+          </thead>
+          <tbody id="ledgerBody">
+            <tr><td colspan="6" style="text-align:center;color:#aaa;font-size:12px;padding:16px">No months recorded yet. Records lock in automatically when you Reset for a new month.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <button onclick="clearLedger()" class="btn-danger" style="margin-top:16px">Clear Year — Wipe Ledger</button>
+      <p class="text-sm" style="margin-top:8px;text-align:center;color:#888">Clears this record only. Pricing and current entries are not affected.</p>
+
+    </div><!-- /ledger -->
+
   </div><!-- /hub-wrap -->
 </div><!-- /screen-main -->
 
@@ -739,6 +781,7 @@ const ADMIN_PIN      = '1997';
 const PRICING_KEY    = 'ry_pricing_v1';
 const SESS_KEY_ADMIN = 'ry_sess_admin_v1';
 const SESS_KEY_EMP   = 'ry_sess_employee_v1';
+const LEDGER_KEY_PFX = 'ry_ledger_';
 const GUEST_CFG_KEY  = 'ry_guest_cfg_v1';
 const CF_URL         = 'https://spring-sea-ac0a.prit946.workers.dev';
 const CF_KV_KEY      = 'Store8181Prit2026';
@@ -783,6 +826,8 @@ let guestAuthRole = 'owner';
 let sess = makeDefaultSession();
 let pricing = Object.assign({}, DEFAULT_PRICING);
 let sessKey = SESS_KEY_ADMIN;
+let ledger = [];
+let ledgerKey = LEDGER_KEY_PFX+'admin_v1';
 
 // ── SCREEN MANAGEMENT ──────────────────────────────────────────────────────
 function showScreen(n){
@@ -817,7 +862,7 @@ async function syncPricingFromCloud(){
   }catch(e){}
 }
 function enterAdmin(){
-  mode='admin'; sessKey=SESS_KEY_ADMIN;
+  mode='admin'; sessKey=SESS_KEY_ADMIN; ledgerKey=LEDGER_KEY_PFX+'admin_v1';
   $('storeTitle').textContent='Royalty & Stamps';
   $('storeSub').textContent='Store 8181 · Joelton TN';
   $('hdrBack').href='index.html'; $('hdrBack').onclick=null;
@@ -876,7 +921,7 @@ function saveGuestSetup(){
 function enterGuest(cfg,role){
   mode=role==='employee'?'guest-employee':'guest-owner';
   const slug=(cfg.name||'store').toLowerCase().replace(/[^a-z0-9]+/g,'_');
-  sessKey='ry_sess_g_'+slug+'_v1';
+  sessKey='ry_sess_g_'+slug+'_v1'; ledgerKey=LEDGER_KEY_PFX+'g_'+slug+'_v1';
   $('storeTitle').textContent=cfg.name||'Royalty Tool';
   $('storeSub').textContent='Local data · '+role;
   $('hdrBack').href='#'; $('hdrBack').onclick=e=>{e.preventDefault();showRole();};
@@ -1253,6 +1298,18 @@ function calcAll(){
 
   updateGuide(st,me);
   save();
+  // Ledger carry mismatch check
+  const lbw=$('ledgerBeginWarn');
+  if(lbw){
+    const carry=getLastLedgerEnding();
+    if(carry!==null && sess.beginningStamps!==''){
+      const entered=parseFloat(sess.beginningStamps)||0;
+      const diff=Math.abs(entered-carry);
+      lbw.innerHTML=diff>0.02
+        ?'<div class="val-warn" style="margin-top:6px;font-size:11px">⚠ Doesn\'t match ledger carry ('+fmt(carry)+'). Difference: '+fmt(diff)+'</div>'
+        :'<div class="val-ok" style="margin-top:6px;font-size:11px">✓ Matches ledger carry ('+fmt(carry)+')</div>';
+    } else { lbw.innerHTML=''; }
+  }
 }
 
 // ── CM GUIDE UPDATES ───────────────────────────────────────────────────────
@@ -1387,15 +1444,60 @@ function populateForm(){
 // ── RESET ──────────────────────────────────────────────────────────────────
 function confirmReset(){
   if(!confirm('Clear all entries for this month?\n\nStamp pricing will be saved. This cannot be undone.'))return;
-  sess=makeDefaultSession(); lsSet(sessKey,sess);
+  lockMonthToLedger();
+  const carry=getLastLedgerEnding();
+  sess=makeDefaultSession();
+  if(carry!==null) sess.beginningStamps=carry.toFixed(2);
+  lsSet(sessKey,sess);
   populateForm(); renderPurchases(); renderSales(); renderCardTemplate(); calcAll();
+  renderLedger();
   switchTab('stamps');
-  toast('Reset complete — ready for next month','ok');
+  const msg=carry!==null?'Reset complete — beginning inventory carried ($'+carry.toFixed(2)+')':'Reset complete — ready for next month';
+  toast(msg,'ok');
 }
 
 function hardReload(){
   const url=location.href.split('?')[0]+'?v='+Date.now();
   location.replace(url);
+}
+
+// ── STAMP LEDGER ───────────────────────────────────────────────────────────
+function loadLedger(){ ledger=lsGet(ledgerKey,[]); if(!Array.isArray(ledger)) ledger=[]; }
+function saveLedger(){ lsSet(ledgerKey,ledger); }
+function renderLedger(){
+  const tbody=$('ledgerBody'); if(!tbody) return;
+  if(!ledger.length){
+    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#aaa;font-size:12px;padding:16px">No months recorded yet. Records lock in automatically when you Reset for a new month.</td></tr>';
+    return;
+  }
+  tbody.innerHTML=ledger.map(r=>
+    `<tr class="${r.submitted?'ldg-sub':''}">
+      <td>${r.month||'—'}</td>
+      <td>${fmt(r.beginning||0)}</td>
+      <td>${fmt(r.purchases||0)}</td>
+      <td>${fmt(r.stampSales||0)}</td>
+      <td>${fmt(r.ending||0)}</td>
+      <td style="text-align:center">${r.submitted?'<span class="ldg-sub-check">✓</span>':''}</td>
+    </tr>`).join('');
+}
+function lockMonthToLedger(){
+  const month=sess.period||priorMonthLabel();
+  if(!month) return;
+  const st=calcStamps();
+  const entry={month,beginning:parseFloat(sess.beginningStamps)||0,purchases:st.purchCost,stampSales:st.stampSalesRetail,ending:st.endingCost,submitted:true};
+  const idx=ledger.findIndex(r=>r.month===month);
+  if(idx>=0) ledger[idx]=entry; else ledger.push(entry);
+  saveLedger();
+}
+function getLastLedgerEnding(){
+  for(let i=ledger.length-1;i>=0;i--){
+    if(ledger[i].submitted) return ledger[i].ending;
+  }
+  return null;
+}
+function clearLedger(){
+  if(!confirm('Wipe the entire stamp ledger for this store?\n\nThis only clears the record — pricing and current entries are not affected.'))return;
+  ledger=[]; saveLedger(); renderLedger(); toast('Ledger cleared','ok');
 }
 
 // ── BACKUP / RESTORE ───────────────────────────────────────────────────────
@@ -1460,6 +1562,11 @@ function checkPOSMatch(){
 function initApp(){
   loadPricing();
   loadSess();
+  loadLedger();
+  if(!sess.beginningStamps){
+    const carry=getLastLedgerEnding();
+    if(carry!==null){ sess.beginningStamps=carry.toFixed(2); save(); }
+  }
   renderPricingUI();
   renderPurchases();
   renderSales();
@@ -1468,6 +1575,7 @@ function initApp(){
   calcAll();
   autoFillPeriod();
   checkStaleSession();
+  renderLedger();
 }
 
 // ── BOOT — always show role ────────────────────────────────────────────────
