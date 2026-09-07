@@ -460,9 +460,14 @@
       <div class="card">
         <p class="g-section">Stamps Inventory — Left Side</p>
         <div class="guide-row">
-          <span class="g-lbl">Beginning Stamps Inventory</span>
-          <span class="g-tag">type in CM</span>
+          <span class="g-lbl">Beginning Stamps Inventory<br><span style="font-size:10px;color:#888;font-weight:400">CM pre-fills from your last submission — verify it matches</span></span>
+          <span class="g-tag-auto">verify matches</span>
           <span class="g-val" id="g_begin">$0.00</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:8px 10px;background:#f9fafb;border-radius:6px;border:1px solid var(--border)">
+          <span style="font-size:11px;font-weight:700;color:#555;white-space:nowrap;flex-shrink:0">CM shows:</span>
+          <input type="text" inputmode="decimal" id="f_cmBeginCheck" placeholder="0.00" oninput="checkCMBeginMatch()" style="width:90px;padding:6px 8px;border:1.5px solid var(--border);border-radius:5px;font-size:13px;color:#111;flex-shrink:0">
+          <span id="cmBeginMatchBadge" style="font-size:11px;font-weight:700"></span>
         </div>
         <div class="guide-row">
           <span class="g-lbl">Stamps Purchases</span>
@@ -1549,6 +1554,16 @@ function checkStaleSession(){
   sw.style.display='flex';
   sw.innerHTML='⚠ Tool has data from <strong style="margin:0 4px">'+sess.period+'</strong>. Starting '+expected+'? '+
     '<button onclick="confirmReset()" style="margin-left:auto;font-size:11px;font-weight:700;padding:4px 10px;border-radius:4px;background:#ffc107;border:1px solid #e0a800;color:#3d2800;cursor:pointer;white-space:nowrap">Reset for '+expected+'</button>';
+}
+function checkCMBeginMatch(){
+  const tool=parseFloat(($('g_begin')||{}).textContent.replace(/[^0-9.]/g,''))||0;
+  const cm=parseFloat(($('f_cmBeginCheck')||{}).value)||0;
+  const badge=$('cmBeginMatchBadge');
+  if(!badge) return;
+  if(!cm){badge.textContent='';return;}
+  const diff=Math.abs(tool-cm);
+  if(diff<0.02){badge.textContent='✓ Match'; badge.style.color='#16a34a';}
+  else{badge.textContent='⚠ Off by $'+diff.toFixed(2); badge.style.color='#dc2626';}
 }
 function checkPOSMatch(){
   const tool=parseFloat($('g_stampSales').textContent.replace(/[^0-9.]/g,''))||0;
