@@ -755,12 +755,11 @@
               <th>Beginning $</th>
               <th>Purchases $</th>
               <th>Stamp Sales $</th>
-              <th>Ending $</th>
               <th>✓</th>
             </tr>
           </thead>
           <tbody id="ledgerBody">
-            <tr><td colspan="6" style="text-align:center;color:#aaa;font-size:12px;padding:16px">No months recorded yet. Records lock in automatically when you Reset for a new month.</td></tr>
+            <tr><td colspan="5" style="text-align:center;color:#aaa;font-size:12px;padding:16px">No months recorded yet. Records lock in automatically when you Reset for a new month.</td></tr>
           </tbody>
         </table>
       </div>
@@ -1481,7 +1480,6 @@ function renderLedger(){
       <td>${fmt(r.beginning||0)}</td>
       <td>${fmt(r.purchases||0)}</td>
       <td>${fmt(r.stampSales||0)}</td>
-      <td>${fmt(r.ending||0)}</td>
       <td style="text-align:center">${r.submitted?'<span class="ldg-sub-check">✓</span>':''}</td>
     </tr>`).join('');
 }
