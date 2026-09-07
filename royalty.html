@@ -255,29 +255,21 @@
       <div class="nav-owner">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
           <div class="fg" style="margin:0"><label>Store #</label>
-            <input type="text" id="f_storeNum" placeholder="8181" oninput="sess.storeNum=this.value;save();renderCardTemplate()"></div>
+            <input type="text" id="f_storeNum" placeholder="8181" oninput="sess.storeNum=this.value;save()"></div>
           <div class="fg" style="margin:0"><label>Royalty Period</label>
-            <input type="text" id="f_period" placeholder="e.g. Jul 2026" oninput="sess.period=this.value;save();renderCardTemplate()"></div>
+            <input type="text" id="f_period" placeholder="e.g. Aug 2026" oninput="sess.period=this.value;save()"></div>
         </div>
       </div>
 
       <!-- Pricing quick-ref -->
       <div class="info-box" id="pricingRef"></div>
 
-      <!-- Physical stamps only note (owner/admin) -->
-      <div class="nav-owner">
-        <div class="info-box" style="margin-top:10px">
-          <strong>Physical stamps only</strong> — Book of 20 &amp; Coil of 100.<br>
-          Stamps.com / postage meter → <strong>Metered tab</strong>.
-        </div>
-      </div>
-
       <!-- Beginning Inventory (owner/admin) -->
       <div class="nav-owner">
         <div class="card" style="margin-top:10px">
           <div class="ctitle">Beginning Stamps Inventory</div>
           <div class="fg" style="margin:0">
-            <label>$ — carries from last month's ending. To verify: count what you had on hand at start of month × USPS cost. Override here if the number looks wrong.</label>
+            <label>$ — auto-carried from last month's ending. Override only if incorrect.</label>
             <input type="text" inputmode="decimal" id="f_beginStamps" placeholder="0.00"
               oninput="sess.beginningStamps=this.value;calcAll()">
             <div id="ledgerBeginWarn"></div>
@@ -285,32 +277,60 @@
         </div>
       </div>
 
-      <!-- Purchases Log (owner/admin) -->
+      <!-- Purchases (owner/admin) -->
       <div class="nav-owner">
-        <div class="section-hdr" style="margin-top:16px">
-          <h3>Stamp Purchases</h3>
-          <button class="add-btn" onclick="addPurchaseRow()">+ Add Row</button>
-        </div>
-        <div class="info-box" style="margin-bottom:8px;font-size:11px">
-          Source: USPS delivery email or paper receipt included with each stamp order.
-        </div>
-        <div id="purchaseRows"></div>
-        <div class="card">
-          <div class="sum-row"><span class="lbl">Total Units Purchased</span><span class="val" id="s_purchUnits">0</span></div>
-          <div class="sum-row total"><span class="lbl">Total Purchases Cost → enter in CM</span><span class="val" id="s_purchCost">$0.00</span></div>
+        <div class="card" style="margin-top:8px">
+          <div class="ctitle">Stamp Purchases</div>
+          <div class="fg" style="margin:0">
+            <label>Total cost paid to USPS this month ($) — from receipt or delivery email</label>
+            <input type="text" inputmode="decimal" id="f_purchasesCost" placeholder="0.00"
+              oninput="sess.purchasesCost=this.value;calcAll()">
+          </div>
         </div>
       </div>
 
-      <!-- Sales Log (all roles) -->
-      <div class="section-hdr" style="margin-top:16px">
-        <h3>Daily Stamp Sales</h3>
-        <button class="add-btn" onclick="addSaleRow()">+ Add Row</button>
+      <!-- Stamp Sales (all roles) -->
+      <div class="card" style="margin-top:8px">
+        <div class="ctitle">Stamp Sales (Retail)</div>
+        <div class="fg" style="margin:0">
+          <label>Total retail stamp sales this month ($) — from POS or FRS Profit Center Report</label>
+          <input type="text" inputmode="decimal" id="f_stampSales" placeholder="0.00"
+            oninput="sess.stampSales=this.value;calcAll()">
+        </div>
       </div>
-      <div id="saleRows"></div>
-      <div class="card">
-        <div class="sum-row"><span class="lbl">Books of 20 sold</span><span class="val" id="s_bookQty">0</span></div>
-        <div class="sum-row"><span class="lbl">Coils of 100 sold</span><span class="val" id="s_coilQty">0</span></div>
-        <div class="sum-row total"><span class="lbl">Stamp Sales (retail) → verify in CM Products tab</span><span class="val" id="s_stampSalesRetail">$0.00</span></div>
+
+      <!-- Qty Calculator (owner/admin) -->
+      <div class="nav-owner">
+        <div class="card" style="margin-top:8px">
+          <div class="ctitle">Ending Inventory — Qty Calculator</div>
+          <div class="info-box" style="margin-bottom:12px">
+            Enter from POS / receipt — tool calculates ending qty so you don't have to count shelves.
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div class="fg" style="margin:0"><label>Books on Hand — Begin of Month</label>
+              <input type="text" inputmode="numeric" id="f_beginBook" placeholder="0"
+                oninput="sess.beginBookQty=this.value;renderQtyCalc();save()"></div>
+            <div class="fg" style="margin:0"><label>Coils on Hand — Begin of Month</label>
+              <input type="text" inputmode="numeric" id="f_beginCoil" placeholder="0"
+                oninput="sess.beginCoilQty=this.value;renderQtyCalc();save()"></div>
+            <div class="fg" style="margin:0"><label>Books Purchased This Month</label>
+              <input type="text" inputmode="numeric" id="f_purchBook" placeholder="0"
+                oninput="sess.purchBookQty=this.value;renderQtyCalc();save()"></div>
+            <div class="fg" style="margin:0"><label>Coils Purchased This Month</label>
+              <input type="text" inputmode="numeric" id="f_purchCoil" placeholder="0"
+                oninput="sess.purchCoilQty=this.value;renderQtyCalc();save()"></div>
+            <div class="fg" style="margin:0"><label>Books Sold (from POS)</label>
+              <input type="text" inputmode="numeric" id="f_soldBook" placeholder="0"
+                oninput="sess.soldBookQty=this.value;renderQtyCalc();save()"></div>
+            <div class="fg" style="margin:0"><label>Coils Sold (from POS)</label>
+              <input type="text" inputmode="numeric" id="f_soldCoil" placeholder="0"
+                oninput="sess.soldCoilQty=this.value;renderQtyCalc();save()"></div>
+          </div>
+          <div style="margin-top:12px;display:flex;align-items:center;gap:12px">
+            <span class="auto-lbl" id="qtyCalcResult" style="flex:1">→ Ending: — books, — coils</span>
+            <button class="btn-sm" onclick="applyQtyCalc()">Apply →</button>
+          </div>
+        </div>
       </div>
 
       <!-- Ending Inventory + Summary (owner/admin) -->
@@ -318,7 +338,7 @@
         <div class="card" style="margin-top:8px">
           <div class="ctitle">Ending Inventory — Physical Count</div>
           <div class="info-box warn" style="margin-bottom:12px">
-            Count what's physically on hand at month end. Enter quantities — cost auto-calculates at USPS price.
+            Count what's physically on hand at month end. Enter quantities — cost auto-calculates.
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
             <div class="fg" style="margin:0"><label>Book of 20 — Qty on Hand</label>
@@ -333,8 +353,8 @@
             <span class="auto-field" id="s_endingCost">$0.00</span>
           </div>
           <div class="info-box" style="margin-top:10px;font-size:11px">
-            <strong>Next month's Beginning Stamps Inventory: <span id="s_nextBegin" style="color:var(--navy)">$0.00</span></strong><br>
-            <span style="color:#888">Auto-carries to next month when you Reset. Full monthly record in the <strong>Ledger tab</strong>.</span>
+            <strong>Next month's beginning: <span id="s_nextBegin" style="color:var(--navy)">$0.00</span></strong><br>
+            <span style="color:#888">Auto-carries when you Reset. Full record in the Ledger tab.</span>
           </div>
         </div>
 
@@ -346,26 +366,6 @@
           <div class="sum-row total"><span class="lbl">= Cost of Stamps Sold (CM calculates — verify)</span><span class="val" id="s_stampCost">$0.00</span></div>
           <div id="stampValMsg"></div>
         </div>
-
-        <div class="card">
-          <div class="ctitle">FRS Cross-Check <span style="font-size:10px;font-weight:400;color:#888;text-transform:none;letter-spacing:0">optional · recommended</span></div>
-          <div class="fg" style="margin-bottom:0">
-            <label>Stamp Sales from FRS Profit Center Report <span style="font-weight:400;font-size:11px;color:#888">(Discounted Income column)</span></label>
-            <input type="text" inputmode="decimal" id="f_frsStampSales" placeholder="0.00"
-              oninput="sess.frsStampSales=this.value;calcAll()">
-          </div>
-          <div id="frsValMsg" style="margin-top:4px"></div>
-        </div>
-
-        <!-- Monthly Activity Card Template -->
-        <div class="section-hdr" style="margin-top:16px">
-          <h3>Monthly Activity Card</h3>
-          <button onclick="printCard()" style="font-size:11px;font-weight:700;color:var(--navy);background:#fff;border:1.5px solid var(--border);border-radius:5px;padding:5px 12px;cursor:pointer">🖨 Print 4×6</button>
-        </div>
-        <div class="info-box" style="margin-bottom:8px;font-size:11px">
-          Print on 4×6 index card. Fill out throughout the month, then type into this tool at royalty time.
-        </div>
-        <div class="card-tpl" id="cardTpl"></div>
       </div>
 
     </div><!-- /stamps -->
@@ -793,33 +793,30 @@ const PRICING_KV     = 'royalty_pricing';
 const DEFAULT_PRICING = { bookCost: 16.40, coilCost: 82.00, bookSell: 16.40, coilSell: 82.00, markupPct: 0, bookMarginPct: null, coilMarginPct: null, updatedAt: null };
 const OLD_PRICING     = { bookCost: 15.60, coilCost: 78.00 };
 const PRICE_CHANGE_DATE = '2026-07-12';
-function unitCostForRow(r){
-  if(r.date && r.date < PRICE_CHANGE_DATE)
-    return r.product==='coil' ? OLD_PRICING.coilCost : OLD_PRICING.bookCost;
-  return r.product==='coil' ? pricing.coilCost : pricing.bookCost;
-}
-// If all logged purchases are pre-price-change, use old pricing for ending inventory
-function activePricing(){
-  const dated=sess.purchases.filter(r=>r.date);
-  if(dated.length && dated.every(r=>r.date<PRICE_CHANGE_DATE)) return OLD_PRICING;
-  return pricing;
-}
-function pricingForSale(r){
-  if(r.date && r.date<PRICE_CHANGE_DATE) return OLD_PRICING;
-  if(r.date) return pricing;
-  return activePricing();
+// Qty-based ending calculator: beginning + purchased - sold = ending
+function calcEndingQty(){
+  const bBook=parseInt(sess.beginBookQty)||0;
+  const bCoil=parseInt(sess.beginCoilQty)||0;
+  const pBook=parseInt(sess.purchBookQty)||0;
+  const pCoil=parseInt(sess.purchCoilQty)||0;
+  const sBook=parseInt(sess.soldBookQty)||0;
+  const sCoil=parseInt(sess.soldCoilQty)||0;
+  return {endBook:bBook+pBook-sBook, endCoil:bCoil+pCoil-sCoil};
 }
 
 function makeDefaultSession(){
   return {
     storeNum:'', period:'',
     beginningStamps:'',
-    purchases:[{date:'',product:'coil',qty:'',totalCost:''}],
-    sales:[{date:'',product:'book',qty:''}],
+    // qty tracker for ending calc
+    beginBookQty:'', beginCoilQty:'',
+    purchBookQty:'', purchCoilQty:'',
+    soldBookQty:'', soldCoilQty:'',
+    purchasesCost:'',
+    stampSales:'',
     endingBookQty:'', endingCoilQty:'',
     mtrBegin:'', mtrFundsAdded:'', mtrFundsDeducted:'', mtrEnding:'',
     mtrExclusion:'',
-    frsStampSales:'',
     notes:''
   };
 }
@@ -1096,132 +1093,48 @@ function loadSess(){
   const saved=lsGet(sessKey,null);
   if(!saved){ sess=makeDefaultSession(); return; }
   sess=Object.assign(makeDefaultSession(),saved);
-  // Migrate purchases: old {costOverride} → new {totalCost}
-  if(Array.isArray(sess.purchases)){
-    sess.purchases=sess.purchases.map(p=>({
-      date:p.date||'', product:p.product||'coil', qty:p.qty||'',
-      totalCost:p.totalCost!==undefined?p.totalCost:(p.costOverride!=null?String(p.costOverride):'')
-    }));
-  }
-  // Migrate metered field names
+  // Migrate metered field names from older versions
   if(!sess.mtrBegin && saved.beginningMetered) sess.mtrBegin=saved.beginningMetered;
   if(!sess.mtrFundsAdded && saved.meterFills) sess.mtrFundsAdded=saved.meterFills;
   if(!sess.mtrEnding && saved.endingMetered) sess.mtrEnding=saved.endingMetered;
   if(!sess.mtrExclusion && saved.meterExclusion) sess.mtrExclusion=saved.meterExclusion;
-  // Migrate sales: remove initials
-  if(Array.isArray(sess.sales)){
-    sess.sales=sess.sales.map(s=>({date:s.date||'',product:s.product||'book',qty:s.qty||''}));
+  // Migrate old purchases array → total cost
+  if(Array.isArray(saved.purchases) && !sess.purchasesCost){
+    const total=saved.purchases.reduce((s,r)=>s+(parseFloat(r.totalCost)||0),0);
+    if(total>0) sess.purchasesCost=total.toFixed(2);
   }
-  if(!sess.purchases.length) sess.purchases=[{date:'',product:'coil',qty:'',totalCost:''}];
-  if(!sess.sales.length) sess.sales=[{date:'',product:'book',qty:''}];
+  // Migrate old sales array → stamp sales total
+  if(Array.isArray(saved.sales) && !sess.stampSales){
+    // can't reliably recalc retail without pricing context — leave blank for user to fill
+  }
 }
 
-// ── PURCHASE ROWS ──────────────────────────────────────────────────────────
-function addPurchaseRow(){
-  sess.purchases.push({date:'',product:'coil',qty:'',totalCost:''});
-  save(); renderPurchases();
-}
-function removePurchaseRow(i){
-  if(sess.purchases.length<=1){toast('Need at least one row','warn');return;}
-  sess.purchases.splice(i,1); save(); renderPurchases(); calcAll();
-}
-function purchQtyChange(i,el){
-  sess.purchases[i].qty=el.value;
-  const uc=unitCostForRow(sess.purchases[i]);
-  const auto=((parseFloat(el.value)||0)*uc).toFixed(2);
-  const costEl=$('pc_'+i);
-  if(costEl){ costEl.value=auto; sess.purchases[i].totalCost=auto; }
+// ── QTY CALCULATOR ─────────────────────────────────────────────────────────
+function applyQtyCalc(){
+  const eq=calcEndingQty();
+  sess.endingBookQty=Math.max(0,eq.endBook).toString();
+  sess.endingCoilQty=Math.max(0,eq.endCoil).toString();
+  sv('f_endBook',sess.endingBookQty);
+  sv('f_endCoil',sess.endingCoilQty);
   save(); calcAll();
+  toast('Ending qty applied — '+sess.endingBookQty+' books, '+sess.endingCoilQty+' coils','ok');
 }
-function purchProductChange(i,el){
-  sess.purchases[i].product=el.value;
-  sess.purchases[i].totalCost='';
-  save(); renderPurchases(); calcAll();
-}
-function renderPurchases(){
-  $('purchaseRows').innerHTML=sess.purchases.map((r,i)=>{
-    const uc=unitCostForRow(r);
-    const auto=((parseFloat(r.qty)||0)*uc).toFixed(2);
-    const priceTag=r.date&&r.date<PRICE_CHANGE_DATE?' <span style="font-size:9px;color:#e67e22;font-weight:700">OLD PRICE</span>':'';
-    return `<div class="log-card">
-      <button class="log-del" onclick="removePurchaseRow(${i})">✕</button>
-      <div class="log-fields">
-        <div class="field-mini"><label>Date${priceTag}</label>
-          <input type="date" value="${r.date||''}" onchange="sess.purchases[${i}].date=this.value;save();renderPurchases();calcAll()"></div>
-        <div class="field-mini"><label>Product</label>
-          <select onchange="purchProductChange(${i},this)">
-            <option value="coil"${r.product==='coil'?' selected':''}>Coil of 100</option>
-            <option value="book"${r.product==='book'?' selected':''}>Book of 20</option>
-          </select></div>
-        <div class="field-mini"><label>Qty Purchased</label>
-          <input type="text" inputmode="numeric" value="${r.qty||''}" placeholder="0"
-            oninput="purchQtyChange(${i},this)"></div>
-        <div class="field-mini"><label>Total Cost Paid ($)</label>
-          <input type="text" inputmode="decimal" id="pc_${i}" value="${r.totalCost||''}" placeholder="${auto}"
-            oninput="sess.purchases[${i}].totalCost=this.value;save();calcAll()"></div>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-// ── SALE ROWS ──────────────────────────────────────────────────────────────
-function addSaleRow(){
-  sess.sales.push({date:'',product:'book',qty:''});
-  save(); renderSales();
-}
-function removeSaleRow(i){
-  if(sess.sales.length<=1){toast('Need at least one row','warn');return;}
-  sess.sales.splice(i,1); save(); renderSales(); calcAll();
-}
-function renderSales(){
-  $('saleRows').innerHTML=sess.sales.map((r,i)=>
-    `<div class="log-card">
-      <button class="log-del" onclick="removeSaleRow(${i})">✕</button>
-      <div class="log-fields-3">
-        <div class="field-mini"><label>Date</label>
-          <input type="date" value="${r.date||''}" onchange="sess.sales[${i}].date=this.value;save()"></div>
-        <div class="field-mini"><label>Product</label>
-          <select onchange="sess.sales[${i}].product=this.value;save();calcAll()">
-            <option value="book"${r.product==='book'?' selected':''}>Book of 20</option>
-            <option value="coil"${r.product==='coil'?' selected':''}>Coil of 100</option>
-          </select></div>
-        <div class="field-mini"><label>Qty Sold</label>
-          <input type="text" inputmode="numeric" value="${r.qty||''}" placeholder="0"
-            oninput="sess.sales[${i}].qty=this.value;save();calcAll()"></div>
-      </div>
-    </div>`
-  ).join('');
+function renderQtyCalc(){
+  const eq=calcEndingQty();
+  const el=$('qtyCalcResult');
+  if(el) el.textContent='→ Ending: '+Math.max(0,eq.endBook)+' books, '+Math.max(0,eq.endCoil)+' coils';
 }
 
 // ── CALCULATIONS ───────────────────────────────────────────────────────────
 function calcStamps(){
-  let purchCost=0, purchUnits=0;
-  sess.purchases.forEach(r=>{
-    const qty=parseFloat(r.qty)||0;
-    purchUnits+=qty;
-    const cost=parseFloat(r.totalCost);
-    if(!isNaN(cost) && r.totalCost!==''){
-      purchCost+=cost;
-    } else {
-      purchCost+=qty*unitCostForRow(r);
-    }
-  });
-  let booksQty=0, coilsQty=0, stampSalesRetail=0;
-  sess.sales.forEach(r=>{
-    const q=parseInt(r.qty)||0;
-    const sp=pricingForSale(r);
-    const sellBook=pricing.bookSell||sp.bookCost;
-    const sellCoil=pricing.coilSell||sp.coilCost;
-    if(r.product==='book'){ booksQty+=q; stampSalesRetail+=q*sellBook; }
-    else { coilsQty+=q; stampSalesRetail+=q*sellCoil; }
-  });
+  const beginning=parseFloat(sess.beginningStamps)||0;
+  const purchCost=parseFloat(sess.purchasesCost)||0;
+  const stampSalesRetail=parseFloat(sess.stampSales)||0;
   const endBook=parseInt(sess.endingBookQty)||0;
   const endCoil=parseInt(sess.endingCoilQty)||0;
-  const ep=activePricing();
-  const endingCost=endBook*ep.bookCost+endCoil*ep.coilCost;
-  const beginning=parseFloat(sess.beginningStamps)||0;
+  const endingCost=endBook*pricing.bookCost+endCoil*pricing.coilCost;
   const costOfStampsSold=beginning+purchCost-endingCost;
-  return {purchCost,purchUnits,booksQty,coilsQty,stampSalesRetail,endingCost,beginning,costOfStampsSold,endBook,endCoil};
+  return {beginning,purchCost,stampSalesRetail,endBook,endCoil,endingCost,costOfStampsSold};
 }
 function calcMetered(){
   const begin=parseFloat(sess.mtrBegin)||0;
@@ -1238,63 +1151,44 @@ function calcAll(){
   const me=calcMetered();
 
   // Stamps tab DOM
-  tx('s_purchUnits',st.purchUnits);
-  tx('s_purchCost',fmt(st.purchCost));
-  tx('s_bookQty',st.booksQty);
-  tx('s_coilQty',st.coilsQty);
-  tx('s_stampSalesRetail',fmt(st.stampSalesRetail));
   tx('s_endingCost',fmt(st.endingCost));
-  tx('s_nextBegin', fmt(st.endingCost));
+  tx('s_nextBegin',fmt(st.endingCost));
   tx('s_sumBegin',fmt(st.beginning));
   tx('s_sumPurch',fmt(st.purchCost));
   tx('s_sumEnd',fmt(st.endingCost));
   tx('s_stampCost',fmt(Math.max(0,st.costOfStampsSold)));
 
+  // Qty calc live preview
+  renderQtyCalc();
+
   // Stamp validation
   let sv='';
   if(st.costOfStampsSold<0){
-    sv='<div class="val-err">⚠ Cost of Stamps Sold is negative ('+fmt(st.costOfStampsSold)+'). Check that Beginning + Purchases ≥ Ending Inventory.</div>';
+    sv='<div class="val-err">⚠ Cost of Stamps Sold is negative. Check Beginning + Purchases ≥ Ending.</div>';
   } else if(st.stampSalesRetail>0 && st.costOfStampsSold>st.stampSalesRetail){
-    sv='<div class="val-err">⚠ Stamp Cost ('+fmt(st.costOfStampsSold)+') exceeds Stamp Sales ('+fmt(st.stampSalesRetail)+'). CM will block submission. Verify all entries use USPS cost, not retail price.</div>';
+    sv='<div class="val-err">⚠ Stamp Cost ('+fmt(st.costOfStampsSold)+') exceeds Stamp Sales ('+fmt(st.stampSalesRetail)+'). CM will block submission.</div>';
   } else if(st.stampSalesRetail>0 && st.costOfStampsSold>0){
     sv='<div class="val-ok">✓ Stamp Cost ≤ Stamp Sales — valid for CM submission</div>';
   }
   $('stampValMsg').innerHTML=sv;
 
-  // FRS cross-check
-  let fv='';
-  const frs=parseFloat(sess.frsStampSales);
-  if(!isNaN(frs)&&frs>0){
-    const diff=Math.abs(frs-st.stampSalesRetail);
-    if(diff<0.02){
-      fv='<div class="val-ok">✓ FRS matches your log — Stamp Sales '+fmt(frs)+'</div>';
-    } else {
-      fv='<div class="val-warn">⚠ FRS shows '+fmt(frs)+' but your log calculates '+fmt(st.stampSalesRetail)+'. Check for unlogged sales or non-standard transactions. Use the FRS figure when entering CM.</div>';
-    }
-  }
-  $('frsValMsg').innerHTML=fv;
-
   // Metered tab DOM
   tx('s_mtrCostUsed',fmt(me.costUsed));
-  // Verify badge
   let badge='';
   if(me.deducted>0){
     const diff=Math.abs(me.costUsed-me.deducted);
-    if(diff<0.02){
-      badge='<span class="vbadge vb-ok">✓ Matches Funds Deducted ('+fmt(me.deducted)+')</span>';
-    } else {
-      badge='<span class="vbadge vb-warn">⚠ Mismatch — Cost Used '+fmt(me.costUsed)+' vs Funds Deducted '+fmt(me.deducted)+'. Check entries.</span>';
-    }
+    badge=diff<0.02
+      ?'<span class="vbadge vb-ok">✓ Matches Funds Deducted ('+fmt(me.deducted)+')</span>'
+      :'<span class="vbadge vb-warn">⚠ Mismatch — Cost Used '+fmt(me.costUsed)+' vs Deducted '+fmt(me.deducted)+'</span>';
   } else {
     badge='<span class="vbadge vb-none">Enter Funds Deducted above to verify</span>';
   }
   $('mtrVerifyBadge').innerHTML=badge;
-  // Metered exclusion validation
   let mv='';
   if(me.costUsed<0){
     mv='<div class="val-err">⚠ Cost of Metered Mail Used is negative. Check your entries.</div>';
   } else if(me.exclusion>0 && me.exclusion>me.costUsed){
-    mv='<div class="val-err">⚠ Metered Mail Exclusion ('+fmt(me.exclusion)+') exceeds Cost Used ('+fmt(me.costUsed)+'). CM will block submission.</div>';
+    mv='<div class="val-err">⚠ Metered Mail Exclusion ('+fmt(me.exclusion)+') exceeds Cost Used ('+fmt(me.costUsed)+'). CM will block.</div>';
   } else if(me.exclusion>0){
     mv='<div class="val-ok">✓ Metered Exclusion ≤ Cost Used — valid</div>';
   }
@@ -1346,7 +1240,7 @@ function copyCMGuide(){
     'CM → My Center → Royalty → Submit Royalty → '+period+' → Stamps and Metered Mail',
     '',
     '═══ STAMPS INVENTORY (left side) ═══════════',
-    'Beginning Stamps Inventory:    '+fmt(st.beginning),
+    'Beginning Stamps Inventory:    '+fmt(st.beginning)+' (CM pre-fills — verify)',
     'Stamps Purchases:              '+fmt(st.purchCost),
     '',
     '═══ ENDING INVENTORY (right side) ══════════',
@@ -1373,76 +1267,27 @@ function copyCMGuide(){
   hubCopy(lines,'CM Guide copied to clipboard');
 }
 
-// ── CARD TEMPLATE ──────────────────────────────────────────────────────────
-function renderCardTemplate(){
-  const store=sess.storeNum?'Store: '+sess.storeNum:'Store: ______';
-  const month=sess.period||'__________';
-  const tpl=
-'STAMP ACTIVITY LOG\n'+
-'Month: '+month+'    '+store+'\n'+
-'────────────────────────────── FRONT ─────\n'+
-'\n'+
-'DAILY SALES  (B = Book of 20  ·  C = Coil of 100)\n'+
-'──────────────────────────────────────────\n'+
-'Date       │ Product  │ Qty Sold\n'+
-'───────────┼──────────┼──────────────────\n'+
-'           │  B / C   │\n'+
-'           │  B / C   │\n'+
-'           │  B / C   │\n'+
-'           │  B / C   │\n'+
-'           │  B / C   │\n'+
-'           │  B / C   │\n'+
-'           │  B / C   │\n'+
-'           │  B / C   │\n'+
-'           │  B / C   │\n'+
-'           │  B / C   │\n'+
-'──────────────────────────────────────────\n'+
-'\n'+
-'─────────────────────────────── BACK ─────\n'+
-'\n'+
-'STAMP PURCHASES  (source: USPS receipt)\n'+
-'──────────────────────────────────────────\n'+
-'Date       │ Product  │ Qty  │ Total Cost $\n'+
-'───────────┼──────────┼──────┼─────────────\n'+
-'           │  B / C   │      │\n'+
-'           │  B / C   │      │\n'+
-'           │  B / C   │      │\n'+
-'           │  B / C   │      │\n'+
-'──────────────────────────────────────────\n'+
-'\n'+
-'STAMPS.COM BALANCE SUMMARY — '+month+'\n'+
-'or.stamps.com → Reports → Balances → Summary\n'+
-'(Funds Credited = always $0.00, skip it)\n'+
-'──────────────────────────────────────────\n'+
-'Beginning Balance  $ ____________\n'+
-'Funds Added        $ ____________\n'+
-'Funds Deducted     $ ____________\n'+
-'Ending Balance     $ ____________\n'+
-'──────────────────────────────────────────';
-  const el=$('cardTpl'); if(el) el.textContent=tpl;
-}
-function printCard(){
-  const el=$('cardTpl');
-  const content=el?el.textContent:'';
-  $('printCard').textContent=content;
-  window.print();
-  setTimeout(()=>{ $('printCard').textContent=''; },500);
-}
-
 // ── POPULATE FORM ──────────────────────────────────────────────────────────
 function populateForm(){
-  sv('f_storeNum',  sess.storeNum);
-  // period intentionally not restored — user always types the month fresh
-  sv('f_beginStamps',sess.beginningStamps);
-  sv('f_endBook',   sess.endingBookQty);
-  sv('f_endCoil',   sess.endingCoilQty);
-  sv('f_mtrBegin',  sess.mtrBegin);
-  sv('f_mtrFundsAdded', sess.mtrFundsAdded);
+  sv('f_storeNum',      sess.storeNum);
+  sv('f_beginStamps',   sess.beginningStamps);
+  sv('f_purchasesCost', sess.purchasesCost);
+  sv('f_stampSales',    sess.stampSales);
+  sv('f_endBook',       sess.endingBookQty);
+  sv('f_endCoil',       sess.endingCoilQty);
+  // qty calculator fields
+  sv('f_beginBook', sess.beginBookQty);
+  sv('f_beginCoil', sess.beginCoilQty);
+  sv('f_purchBook', sess.purchBookQty);
+  sv('f_purchCoil', sess.purchCoilQty);
+  sv('f_soldBook',  sess.soldBookQty);
+  sv('f_soldCoil',  sess.soldCoilQty);
+  sv('f_mtrBegin',       sess.mtrBegin);
+  sv('f_mtrFundsAdded',  sess.mtrFundsAdded);
   sv('f_mtrFundsDeducted', sess.mtrFundsDeducted);
-  sv('f_mtrEnding', sess.mtrEnding);
-  sv('f_mtrExcl',   sess.mtrExclusion);
-  sv('f_frsStampSales', sess.frsStampSales);
-  sv('f_notes',     sess.notes);
+  sv('f_mtrEnding',      sess.mtrEnding);
+  sv('f_mtrExcl',        sess.mtrExclusion);
+  sv('f_notes',          sess.notes);
 }
 
 // ── RESET ──────────────────────────────────────────────────────────────────
@@ -1453,8 +1298,7 @@ function confirmReset(){
   sess=makeDefaultSession();
   if(carry!==null) sess.beginningStamps=carry.toFixed(2);
   lsSet(sessKey,sess);
-  populateForm(); renderPurchases(); renderSales(); renderCardTemplate(); calcAll();
-  renderLedger();
+  populateForm(); calcAll(); renderLedger();
   switchTab('stamps');
   const msg=carry!==null?'Reset complete — beginning inventory carried ($'+carry.toFixed(2)+')':'Reset complete — ready for next month';
   toast(msg,'ok');
@@ -1537,7 +1381,7 @@ function autoFillPeriod(){
   const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   sess.period=mo[d.getMonth()]+' '+d.getFullYear();
   $('f_period').value=sess.period;
-  save(); renderCardTemplate();
+  save();
 }
 function priorMonthLabel(){
   const d=new Date(); d.setMonth(d.getMonth()-1);
@@ -1581,10 +1425,7 @@ function initApp(){
     if(carry!==null){ sess.beginningStamps=carry.toFixed(2); save(); }
   }
   renderPricingUI();
-  renderPurchases();
-  renderSales();
   populateForm();
-  renderCardTemplate();
   calcAll();
   autoFillPeriod();
   checkStaleSession();
