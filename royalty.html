@@ -128,7 +128,7 @@
     </div>
     <div style="margin-top:12px">
       <div class="role-card emp" onclick="startEmployee()" style="display:block;text-align:center;cursor:pointer">
-        <div class="rc-ico">👤</div><div class="rc-name" style="color:var(--success)">Employee</div><div class="rc-desc">Log daily stamp sales</div>
+        <div class="rc-ico">👤</div><div class="rc-name" style="color:var(--success)">Employee</div><div class="rc-desc">Enter stamp sales</div>
       </div>
     </div>
   </div>
@@ -172,7 +172,7 @@
       <div class="fg"><label>Store Name or Number</label><input type="text" id="gStoreName" placeholder="e.g. UPS Store 1234" autocomplete="off"/></div>
       <div class="fg"><label>Owner PIN (4 digits)</label><input type="number" id="gPin" inputmode="numeric" placeholder="Choose a 4-digit PIN" style="font-size:22px;letter-spacing:6px"/></div>
       <div class="fg"><label>Employee PIN <span class="opt-lbl">default 0000</span></label><input type="number" id="gEmpPin" inputmode="numeric" placeholder="0000" style="font-size:22px;letter-spacing:6px"/></div>
-      <div class="info-box"><strong>About PINs</strong> — Owner PIN gives full access. Employee PIN shows sales log only.</div>
+      <div class="info-box"><strong>About PINs</strong> — Owner PIN gives full access. Employee PIN shows Stamps tab only.</div>
       <button class="btn btn-teal" onclick="saveGuestSetup()" style="margin-top:8px">Save &amp; Continue →</button>
     </div>
   </div>
@@ -336,7 +336,7 @@
       <!-- Ending Inventory + Summary (owner/admin) -->
       <div class="nav-owner">
         <div class="card" style="margin-top:8px">
-          <div class="ctitle">Ending Inventory — Physical Count</div>
+          <div class="ctitle">Ending Inventory — Verify / Override</div>
           <div class="info-box warn" style="margin-bottom:12px">
             Count what's physically on hand at month end. Enter quantities — cost auto-calculates.
           </div>
@@ -879,7 +879,7 @@ function enterAdmin(){
 function startEmployee(){
   mode='guest-employee'; sessKey=SESS_KEY_EMP;
   $('storeTitle').textContent='Stamp Sales Log';
-  $('storeSub').textContent='Log daily stamp sales';
+  $('storeSub').textContent='Enter stamp sales';
   $('hdrBack').href='#'; $('hdrBack').onclick=e=>{e.preventDefault();showRole();};
   $('rolePill').textContent='Employee'; $('rolePill').style.display='';
   document.querySelectorAll('.nav-owner').forEach(el=>el.style.display='none');
