@@ -618,8 +618,8 @@
       <div class="slbl">How to Use</div>
       <div class="card">
         <div class="ctitle">Monthly Process — 3 Steps</div>
-        <div class="guide-step"><div class="guide-num">1</div><div><strong>Throughout month</strong> — keep the 4×6 Stamp Activity Card handy. Front: log each sale (Date · B or C · Qty). Back: log each USPS order as it arrives (Date · B or C · Qty · Total Cost). At month end, open Stamps.com → Reports → Balances → Summary → select the month. Copy the 4 dollar amounts to the back of the card (Beginning, Funds Added, Funds Deducted, Ending — skip Funds Credited, it's always $0).</div></div>
-        <div class="guide-step"><div class="guide-num">2</div><div><strong>Royalty time</strong> — open this tool and type in your card. Stamps tab: beginning inventory, purchases, daily sales, ending count. Metered tab: the 4 Stamps.com dollar amounts. Exclusion: only enter an amount if you printed USPS labels through the meter this month (run Endicia Appendix A report) — otherwise leave $0. CM Guide tab shows exact values to enter in CM.</div></div>
+        <div class="guide-step"><div class="guide-num">1</div><div><strong>End of month</strong> — pull two numbers from your systems. From POS/FRS: total stamp sales $ and how many books/coils you sold. From Stamps.com (or.stamps.com → Reports → Balances → Summary → select the month): Beginning, Funds Added, Funds Deducted, Ending balance.</div></div>
+        <div class="guide-step"><div class="guide-num">2</div><div><strong>Royalty time</strong> — open this tool. Stamps tab: beginning auto-fills from last month. Enter purchases $, stamp sales $, then use the Qty Calculator (books/coils sold from POS) to auto-fill ending inventory — no shelf counting needed. Metered tab: the 4 Stamps.com dollar amounts. Exclusion: only enter an amount if you printed USPS labels through the meter this month (run Endicia Appendix A report) — otherwise leave $0. CM Guide tab shows exact values to enter in CM.</div></div>
         <div class="guide-step"><div class="guide-num">3</div><div><strong>Submit in CM</strong> — Center Management → My Center → Royalty → Submit Royalty → select month → Stamps and Metered Mail. Enter each value from the CM Guide tab and click Save. Exclusions tab: iShip auto-fills from POS (verify it), Other 1 Adjustment is almost always $0. Commissions tab: Other 1 (PRP) is pre-filled by HQ, Other 2 Adjustment is almost always $0. Products/Services tab auto-populates from POS — leave it. View &amp; Submit Royalty: review and submit.</div></div>
       </div>
 
@@ -1165,6 +1165,8 @@ function calcAll(){
   let sv='';
   if(st.costOfStampsSold<0){
     sv='<div class="val-err">⚠ Cost of Stamps Sold is negative. Check Beginning + Purchases ≥ Ending.</div>';
+  } else if(st.stampSalesRetail===0 && st.costOfStampsSold>0 && (parseInt(sess.endingBookQty)||0)===0 && (parseInt(sess.endingCoilQty)||0)===0){
+    sv='<div class="val-err">⚠ Ending inventory is blank — if no stamps were sold, enter ending qty above (same as beginning). Use the Qty Calculator to fill it in.</div>';
   } else if(st.stampSalesRetail>0 && st.costOfStampsSold>st.stampSalesRetail){
     sv='<div class="val-err">⚠ Stamp Cost ('+fmt(st.costOfStampsSold)+') exceeds Stamp Sales ('+fmt(st.stampSalesRetail)+'). CM will block submission.</div>';
   } else if(st.stampSalesRetail>0 && st.costOfStampsSold>0){
