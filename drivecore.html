@@ -276,6 +276,13 @@ input,textarea,select{font-family:inherit}
       </div>
       <div class="result-box" id="restore-result"></div>
     </div>
+
+    <div class="slbl">Run History — Restore Any Past Run</div>
+    <div class="card">
+      <p style="font-size:11px;color:#555;margin-bottom:10px;line-height:1.5">Every execute and sortInbox run is logged. If a mistake is caught late, pick the bad run and restore it — even weeks later.</p>
+      <button class="btn btn-ghost" style="margin-bottom:10px" onclick="loadRunHistory()">↻ Load Run History</button>
+      <div id="run-history-list"><div style="font-size:11px;color:#888">Press Load to fetch all past runs.</div></div>
+    </div>
   </div>
 
   <!-- TO-DO -->
@@ -654,6 +661,61 @@ async function runRestore(dryRun) {
 function confirmRestore() {
   if (!confirm('Restore all files from last Execute to their original locations?')) return;
   runRestore(false);
+}
+
+async function loadRunHistory() {
+  const el = document.getElementById('run-history-list');
+  el.innerHTML = '<span class="spinner-dark"></span> Loading…';
+  const r = await gas('dc.listRuns', {}, 30000);
+  if (!r.ok || !r.runs) { el.innerHTML = '<div style="color:#f87171;font-size:11px">Failed to load runs.</div>'; return; }
+  if (!r.runs.length) { el.innerHTML = '<div style="font-size:11px;color:#888">No run logs found.</div>'; return; }
+  el.innerHTML = r.runs.map(run => {
+    const d = new Date(run.generated);
+    const dateStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+    const tag = run.dryRun
+      ? `<span style="background:rgba(148,163,184,.15);color:#94a3b8;font-size:9px;padding:2px 6px;border-radius:4px;font-weight:700">DRY RUN</span>`
+      : `<span style="background:rgba(251,191,36,.12);color:#fbbf24;font-size:9px;padding:2px 6px;border-radius:4px;font-weight:700">LIVE</span>`;
+    const restoreTag = run.restorable
+      ? `<span style="background:rgba(52,211,153,.12);color:#34d399;font-size:9px;padding:2px 6px;border-radius:4px;font-weight:700">✓ RESTORABLE</span>`
+      : `<span style="background:rgba(248,113,113,.1);color:#f87171;font-size:9px;padding:2px 6px;border-radius:4px;font-weight:700">LEGACY — no parentId</span>`;
+    const typeStr = run.type === 'sortInbox' ? '📥 SortInbox' : '⚙️ Execute';
+    const restoreBtn = run.restorable && !run.dryRun
+      ? `<div style="display:flex;gap:6px;margin-top:8px">
+           <button class="btn btn-ghost" style="font-size:10px;padding:4px 8px" onclick="previewRunRestore('${run.runId}')">👁 Preview</button>
+           <button class="btn btn-orange" style="font-size:10px;padding:4px 8px" onclick="doRunRestore('${run.runId}')">↩ Restore This Run</button>
+         </div>`
+      : '';
+    return `<div style="border:1px solid var(--bd,#2a2f3a);border-radius:8px;padding:10px 12px;margin-bottom:8px">
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px">
+        <span style="font-size:12px;font-weight:700;color:var(--fg,#e2e8f0)">${typeStr}</span>
+        ${tag} ${restoreTag}
+      </div>
+      <div style="font-size:10px;color:#94a3b8;margin-bottom:2px">${dateStr} · ${run.total} file${run.total!==1?'s':''} moved · ${run.errors} errors</div>
+      <div style="font-size:9px;color:#64748b;word-break:break-all">${run.runId}</div>
+      ${restoreBtn}
+    </div>`;
+  }).join('');
+}
+
+async function previewRunRestore(runId) {
+  const r = await gas('dc.restoreLastRun', {runId, dryRun: true}, 60000);
+  const msg = r.ok
+    ? `Preview: ${r.total} files would be restored, ${r.errors} errors. Run ID: ${r.runId}`
+    : `Error: ${r.error}`;
+  alert(msg);
+}
+
+async function doRunRestore(runId) {
+  if (!confirm('Restore all files from run ' + runId + ' to their original locations?\n\nThis moves them back — it cannot be undone automatically.')) return;
+  const el = document.getElementById('run-history-list');
+  const r = await gas('dc.restoreLastRun', {runId, dryRun: false}, 90000);
+  if (r.ok) {
+    toast(`↩ ${r.restored} files restored from ${runId}`, 'ok');
+    loadRunHistory();
+    loadStatus();
+  } else {
+    toast('Restore failed: ' + (r.error || 'unknown error'), 'err');
+  }
 }
 
 function syncToggles() {
