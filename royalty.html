@@ -351,6 +351,7 @@
           <div style="margin-top:12px">
             <span class="auto-lbl">Ending Stamps Inventory Cost → enter in CM (right side)</span>
             <span class="auto-field" id="s_endingCost">$0.00</span>
+            <div id="endingUnitValMsg"></div>
           </div>
           <div class="info-box" style="margin-top:10px;font-size:11px">
             <strong>Next month's beginning: <span id="s_nextBegin" style="color:var(--navy)">$0.00</span></strong><br>
@@ -365,6 +366,18 @@
           <div class="sum-row"><span class="lbl">− Ending Stamps Inventory</span><span class="val" id="s_sumEnd">$0.00</span></div>
           <div class="sum-row total"><span class="lbl">= Cost of Stamps Sold (CM calculates — verify)</span><span class="val" id="s_stampCost">$0.00</span></div>
           <div id="stampValMsg"></div>
+        </div>
+      </div>
+
+      <!-- Stamps Tips -->
+      <div class="card nav-owner" style="margin-top:8px">
+        <div class="ctitle">Stamps Tips</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div class="info-box" style="font-size:12px"><strong>Ending Inventory — enter every month.</strong> Enter qty on hand for each product. Cost auto-calculates. If nothing was bought or sold, qty should match last month's ending exactly.</div>
+          <div class="info-box" style="font-size:12px"><strong>Stamps Purchases</strong> — only update if you bought stamps this month. If nothing was bought, leave $0.</div>
+          <div class="info-box" style="font-size:12px"><strong>Cost of Stamps Sold = $0 is normal.</strong> Any month you don't sell stamps this will be $0. Not an error.</div>
+          <div class="info-box" style="font-size:12px"><strong>Always use USPS cost, never retail price.</strong> Book of 20 = $16.40. Coil of 100 = $82.00. Entering retail instead of cost is the #1 cause of CM submission errors.</div>
+          <div class="info-box teal" style="font-size:12px"><strong>Complete Stamps &amp; Metered Mail between the 1st and 4th.</strong> CM does not block this step early. These entries save and carry into your royalty submission automatically.</div>
         </div>
       </div>
 
@@ -447,6 +460,17 @@
         <div id="meteredValMsg"></div>
       </div>
 
+      <!-- Metered Tips -->
+      <div class="card" style="margin-top:8px">
+        <div class="ctitle">Metered Mail Tips</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div class="info-box" style="font-size:12px"><strong>Meter Fills</strong> — only update if you reloaded Endicia/Stamps.com this month. If nothing was loaded, leave $0.</div>
+          <div class="info-box" style="font-size:12px"><strong>Funds Deducted</strong> — for verification only. Do not enter it in CM. CM calculates this itself as Beginning + Fills − Ending. Confirm CM's result matches the report.</div>
+          <div class="info-box" style="font-size:12px"><strong>USPS First Class exclusion (right box)</strong> — only enter an amount if you physically printed a USPS label at the counter for a customer through the meter. Most months this is $0.</div>
+          <div class="info-box" style="font-size:12px"><strong>Funds Credited on the Stamps.com report</strong> — always $0. Ignore it every month.</div>
+        </div>
+      </div>
+
     </div><!-- /metered -->
 
     <!-- ═══════════════════════ CM GUIDE TAB ═════════════════════════════ -->
@@ -455,6 +479,18 @@
       <div class="info-box teal" style="margin-bottom:12px">
         <strong>CM → My Center → Royalty → Submit Royalty → select month → Stamps and Metered Mail</strong><br>
         <span style="font-size:11px">Enter each value below. Click Save before leaving the page.</span>
+      </div>
+
+      <div class="card" style="margin-bottom:12px">
+        <div class="ctitle">Submission Notes</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div class="info-box warn" style="font-size:12px"><strong>Submit Royalty opens on the 5th.</strong> CM blocks before the 5th: "Royalty reports must be created after the 4th day of a new month." Complete Stamps &amp; Metered Mail on the 1st–4th, submit royalty on the 5th.</div>
+          <div class="info-box warn" style="font-size:12px"><strong>CM requires Google Chrome.</strong> Will not load in any other browser.</div>
+          <div class="info-box" style="font-size:12px"><strong>CM submit order:</strong> Stamps &amp; Metered Mail (save first) → Submit Royalty → Products → Exclusions → Commissions → View &amp; Submit.</div>
+          <div class="info-box" style="font-size:12px"><strong>Products/Services tab</strong> — auto-fills from POS. Do not touch it.</div>
+          <div class="info-box" style="font-size:12px"><strong>Other 1 in Commissions tab</strong> — pre-populated by UPS Store HQ (PRP). Do not touch it.</div>
+          <div class="info-box warn" style="font-size:12px"><strong>Other 2 in Commissions tab</strong> — if non-zero, find out what it is before submitting. Non-zero Other 2 increases your royalty base and Total Due. Contact your area rep if unknown. You can resubmit within 12 months to correct.</div>
+        </div>
       </div>
 
       <div class="card">
@@ -747,19 +783,22 @@
         <strong>Monthly stamp record</strong> — auto-carries ending → next month's beginning. Locks in automatically when you Reset.
       </div>
 
-      <div style="overflow-x:auto">
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
         <table class="ldg-tbl">
           <thead>
             <tr>
               <th style="text-align:left">Month</th>
-              <th>Beginning $</th>
-              <th>Purchases $</th>
-              <th>Stamp Sales $</th>
+              <th>Books</th>
+              <th>Coils</th>
+              <th>Stamps Start $</th>
+              <th>Stamps End $</th>
+              <th>Mtr Start $</th>
+              <th>Mtr End $</th>
               <th>✓</th>
             </tr>
           </thead>
           <tbody id="ledgerBody">
-            <tr><td colspan="5" style="text-align:center;color:#aaa;font-size:12px;padding:16px">No months recorded yet. Records lock in automatically when you Reset for a new month.</td></tr>
+            <tr><td colspan="8" style="text-align:center;color:#aaa;font-size:12px;padding:16px">No months recorded yet. Records lock in automatically when you Reset for a new month.</td></tr>
           </tbody>
         </table>
       </div>
@@ -817,7 +856,8 @@ function makeDefaultSession(){
     endingBookQty:'', endingCoilQty:'',
     mtrBegin:'', mtrFundsAdded:'', mtrFundsDeducted:'', mtrEnding:'',
     mtrExclusion:'',
-    notes:''
+    notes:'',
+    _carryBooksQty: null, _carryCoilsQty: null
   };
 }
 
@@ -1174,6 +1214,26 @@ function calcAll(){
   }
   $('stampValMsg').innerHTML=sv;
 
+  // Unit count validation
+  const unitMsgEl=$('endingUnitValMsg');
+  if(unitMsgEl){
+    const carryB=sess._carryBooksQty, carryC=sess._carryCoilsQty;
+    const hasB=sess.endingBookQty!=='', hasC=sess.endingCoilQty!=='';
+    if((carryB!==null&&carryB!==undefined)&&(hasB||hasC)){
+      const pBook=parseInt(sess.purchBookQty)||0, pCoil=parseInt(sess.purchCoilQty)||0;
+      const sBook=parseInt(sess.soldBookQty)||0, sCoil=parseInt(sess.soldCoilQty)||0;
+      const entB=parseInt(sess.endingBookQty)||0, entC=parseInt(sess.endingCoilQty)||0;
+      const expB=carryB+pBook-sBook, expC=carryC+pCoil-sCoil;
+      const bOff=hasB&&entB!==expB, cOff=hasC&&entC!==expC;
+      if(bOff||cOff){
+        const parts=[];
+        if(bOff) parts.push('books: counted '+entB+', expected '+expB);
+        if(cOff) parts.push('coils: counted '+entC+', expected '+expC);
+        unitMsgEl.innerHTML='<div class="val-warn" style="margin-top:6px;font-size:11px">⚠ Physical count differs from expected — '+parts.join('; ')+'. Override only if count is certain.</div>';
+      } else { unitMsgEl.innerHTML=''; }
+    } else { unitMsgEl.innerHTML=''; }
+  }
+
   // Metered tab DOM
   tx('s_mtrCostUsed',fmt(me.costUsed));
   let badge='';
@@ -1296,13 +1356,20 @@ function populateForm(){
 function confirmReset(){
   if(!confirm('Clear all entries for this month?\n\nStamp pricing will be saved. This cannot be undone.'))return;
   lockMonthToLedger();
-  const carry=getLastLedgerEnding();
+  const carry=getLedgerCarry();
   sess=makeDefaultSession();
-  if(carry!==null) sess.beginningStamps=carry.toFixed(2);
+  if(carry){
+    sess.beginningStamps=carry.stamps.toFixed(2);
+    sess.mtrBegin=carry.metered.toFixed(2);
+    sess._carryBooksQty=carry.books_qty;
+    sess._carryCoilsQty=carry.coils_qty;
+    sess.beginBookQty=carry.books_qty.toString();
+    sess.beginCoilQty=carry.coils_qty.toString();
+  }
   lsSet(sessKey,sess);
   populateForm(); calcAll(); renderLedger();
   switchTab('stamps');
-  const msg=carry!==null?'Reset complete — beginning inventory carried ($'+carry.toFixed(2)+')':'Reset complete — ready for next month';
+  const msg=carry?'Reset complete — beginning inventory carried ($'+carry.stamps.toFixed(2)+')':'Reset complete — ready for next month';
   toast(msg,'ok');
 }
 
@@ -1314,35 +1381,74 @@ function hardReload(){
 // ── STAMP LEDGER ───────────────────────────────────────────────────────────
 function loadLedger(){ ledger=lsGet(ledgerKey,[]); if(!Array.isArray(ledger)) ledger=[]; }
 function saveLedger(){ lsSet(ledgerKey,ledger); }
+function getLedgerCarry(){
+  for(let i=ledger.length-1;i>=0;i--){
+    if(ledger[i].submitted){
+      const r=ledger[i];
+      return {
+        stamps: r.stamps_end!=null ? r.stamps_end : (r.ending||0),
+        metered: r.metered_end||0,
+        books_qty: r.books_qty||0,
+        coils_qty: r.coils_qty||0
+      };
+    }
+  }
+  return null;
+}
+function getLastLedgerEnding(){
+  const c=getLedgerCarry(); return c?c.stamps:null;
+}
 function renderLedger(){
   const tbody=$('ledgerBody'); if(!tbody) return;
   if(!ledger.length){
-    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#aaa;font-size:12px;padding:16px">No months recorded yet. Records lock in automatically when you Reset for a new month.</td></tr>';
+    tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:#aaa;font-size:12px;padding:16px">No months recorded yet. Records lock in automatically when you Reset for a new month.</td></tr>';
     return;
   }
-  tbody.innerHTML=ledger.map(r=>
-    `<tr class="${r.submitted?'ldg-sub':''}">
-      <td>${r.month||'—'}</td>
-      <td>${fmt(r.beginning||0)}</td>
-      <td>${fmt(r.purchases||0)}</td>
-      <td>${fmt(r.stampSales||0)}</td>
-      <td style="text-align:center">${r.submitted?'<span class="ldg-sub-check">✓</span>':''}</td>
-    </tr>`).join('');
+  const byYear={};
+  ledger.forEach(r=>{
+    const yr=r.year||(r.month?r.month.split(' ').pop():new Date().getFullYear());
+    if(!byYear[yr]) byYear[yr]=[];
+    byYear[yr].push(r);
+  });
+  const years=Object.keys(byYear).sort((a,b)=>b-a);
+  let html='';
+  years.forEach(yr=>{
+    html+=`<tr><td colspan="8" style="background:var(--navy);color:#fff;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;padding:6px 10px">${yr}</td></tr>`;
+    byYear[yr].forEach(r=>{
+      const se=r.stamps_end!=null?r.stamps_end:(r.ending||0);
+      const ss=r.stamps_start!=null?r.stamps_start:(r.beginning||0);
+      html+=`<tr class="${r.submitted?'ldg-sub':''}">
+        <td>${r.month||'—'}</td>
+        <td style="text-align:right">${r.books_qty!=null?r.books_qty:'—'}</td>
+        <td style="text-align:right">${r.coils_qty!=null?r.coils_qty:'—'}</td>
+        <td>${fmt(ss)}</td>
+        <td>${fmt(se)}</td>
+        <td>${fmt(r.metered_start||0)}</td>
+        <td>${fmt(r.metered_end||0)}</td>
+        <td style="text-align:center">${r.submitted?'<span class="ldg-sub-check">✓</span>':''}</td>
+      </tr>`;
+    });
+  });
+  tbody.innerHTML=html;
 }
 function lockMonthToLedger(){
   const month=sess.period||priorMonthLabel();
   if(!month) return;
   const st=calcStamps();
-  const entry={month,beginning:parseFloat(sess.beginningStamps)||0,purchases:st.purchCost,stampSales:st.stampSalesRetail,ending:st.endingCost,submitted:true};
+  const d=new Date(); const yr=d.getFullYear();
+  const entry={
+    month, year: yr,
+    stamps_start: parseFloat(sess.beginningStamps)||0,
+    stamps_end: st.endingCost,
+    metered_start: parseFloat(sess.mtrBegin)||0,
+    metered_end: parseFloat(sess.mtrEnding)||0,
+    books_qty: parseInt(sess.endingBookQty)||0,
+    coils_qty: parseInt(sess.endingCoilQty)||0,
+    submitted: true
+  };
   const idx=ledger.findIndex(r=>r.month===month);
   if(idx>=0) ledger[idx]=entry; else ledger.push(entry);
   saveLedger();
-}
-function getLastLedgerEnding(){
-  for(let i=ledger.length-1;i>=0;i--){
-    if(ledger[i].submitted) return ledger[i].ending;
-  }
-  return null;
 }
 function clearLedger(){
   if(!confirm('Wipe the entire stamp ledger for this store?\n\nThis only clears the record — pricing and current entries are not affected.'))return;
@@ -1423,8 +1529,19 @@ function initApp(){
   loadSess();
   loadLedger();
   if(!sess.beginningStamps){
-    const carry=getLastLedgerEnding();
-    if(carry!==null){ sess.beginningStamps=carry.toFixed(2); save(); }
+    const carry=getLedgerCarry();
+    if(carry){
+      sess.beginningStamps=carry.stamps.toFixed(2);
+      sess._carryBooksQty=carry.books_qty;
+      sess._carryCoilsQty=carry.coils_qty;
+      if(!sess.mtrBegin) sess.mtrBegin=carry.metered.toFixed(2);
+      if(!sess.beginBookQty) sess.beginBookQty=carry.books_qty.toString();
+      if(!sess.beginCoilQty) sess.beginCoilQty=carry.coils_qty.toString();
+      save();
+    }
+  } else if(sess._carryBooksQty===null||sess._carryBooksQty===undefined){
+    const carry=getLedgerCarry();
+    if(carry){ sess._carryBooksQty=carry.books_qty; sess._carryCoilsQty=carry.coils_qty; }
   }
   renderPricingUI();
   populateForm();
