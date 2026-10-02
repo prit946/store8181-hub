@@ -257,7 +257,8 @@
           <div class="fg" style="margin:0"><label>Store #</label>
             <input type="text" id="f_storeNum" placeholder="8181" oninput="sess.storeNum=this.value;save()"></div>
           <div class="fg" style="margin:0"><label>Royalty Period</label>
-            <input type="text" id="f_period" placeholder="e.g. Aug 2026" oninput="sess.period=this.value;save()"></div>
+            <input type="text" id="f_period" placeholder="e.g. Aug 2026" oninput="sess.period=this.value;save();renderPeriodStatus()">
+            <div id="periodStatus" style="margin-top:4px"></div></div>
         </div>
       </div>
 
@@ -803,8 +804,9 @@
         </table>
       </div>
 
-      <button onclick="clearLedger()" class="btn-danger" style="margin-top:16px">Clear Year — Wipe Ledger</button>
-      <p class="text-sm" style="margin-top:8px;text-align:center;color:#888">Clears this record only. Pricing and current entries are not affected.</p>
+      <div style="margin-top:14px;display:flex;justify-content:flex-end">
+        <button onclick="exportLedgerCSV()" class="add-btn" style="font-size:12px;padding:8px 16px">📥 Export Ledger CSV</button>
+      </div>
 
     </div><!-- /ledger -->
 
@@ -1350,6 +1352,7 @@ function populateForm(){
   sv('f_mtrEnding',      sess.mtrEnding);
   sv('f_mtrExcl',        sess.mtrExclusion);
   sv('f_notes',          sess.notes);
+  renderPeriodStatus();
 }
 
 // ── RESET ──────────────────────────────────────────────────────────────────
@@ -1430,6 +1433,7 @@ function renderLedger(){
     });
   });
   tbody.innerHTML=html;
+  renderPeriodStatus();
 }
 function lockMonthToLedger(){
   const month=sess.period||priorMonthLabel();
@@ -1450,9 +1454,32 @@ function lockMonthToLedger(){
   if(idx>=0) ledger[idx]=entry; else ledger.push(entry);
   saveLedger();
 }
-function clearLedger(){
-  if(!confirm('Wipe the entire stamp ledger for this store?\n\nThis only clears the record — pricing and current entries are not affected.'))return;
-  ledger=[]; saveLedger(); renderLedger(); toast('Ledger cleared','ok');
+function exportLedgerCSV(){
+  if(!ledger.length){ toast('No ledger data to export','err'); return; }
+  const cols=['Year','Month','Books of 20','Coils of 100','Stamps Start $','Stamps End $','Metered Start $','Metered End $','Submitted'];
+  const rows=[cols.join(',')];
+  ledger.forEach(r=>{
+    const yr=r.year||(r.month?r.month.split(' ').pop():'');
+    const se=r.stamps_end!=null?r.stamps_end:(r.ending||0);
+    const ss=r.stamps_start!=null?r.stamps_start:(r.beginning||0);
+    rows.push([yr, r.month||'', r.books_qty||0, r.coils_qty||0,
+      ss.toFixed(2), se.toFixed(2),
+      (r.metered_start||0).toFixed(2), (r.metered_end||0).toFixed(2),
+      r.submitted?'Yes':'No'].join(','));
+  });
+  const blob=new Blob([rows.join('\n')],{type:'text/csv'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='stamp-ledger-'+(new Date().getFullYear())+'.csv'; a.click();
+  toast('Ledger exported','ok');
+}
+function renderPeriodStatus(){
+  const el=$('periodStatus'); if(!el||!sess.period) return;
+  const match=ledger.find(r=>r.month===sess.period&&r.submitted);
+  if(match){
+    el.innerHTML='<span class="vbadge vb-ok" style="font-size:10px;padding:3px 8px">✓ Recorded in ledger</span>';
+  } else {
+    el.innerHTML='<span class="vbadge vb-none" style="font-size:10px;padding:3px 8px">Not yet in ledger — locks when you Reset</span>';
+  }
 }
 
 // ── BACKUP / RESTORE ───────────────────────────────────────────────────────
